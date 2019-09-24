@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.android.android.fragments.ActivitiesHomeFragment">
+
+    <data></data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/loginConstraint"
+        android:orientation="vertical"
+        android:background="@color/colorWhiteSmoke"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/locationContainer"
+            android:orientation="vertical"
+            android:paddingTop="30dp"
+            android:paddingBottom="30dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/travel_text"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="parent"
+                android:textColor="@color/colorBlack"
+                android:layout_marginStart="15dp"
+                android:textSize="18sp"
+                android:text="Mi viaje a:" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/travel_location"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/travel_text"
+                android:textColor="@color/colorBlack"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:textSize="25sp"
+                android:text="Location" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="5dp"
+                android:id="@+id/travel_date">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_date_range_black_24dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPlaceholder"
+                    android:textSize="18sp"
+                    android:layout_marginStart="5dp"
+                    android:text="dd/mm/aaaa a dd/mm/aaaa" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="5dp"
+                android:id="@+id/travel_budget">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_attach_money_black_24dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPlaceholder"
+                    android:textSize="18sp"
+                    android:layout_marginStart="5dp"
+                    android:text="$$$$" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/default_itrip_button"
+            android:id="@+id/activityButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="@string/create_activity"
+            app:layout_constraintTop_toBottomOf="@+id/locationContainer" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="30dp"
+            android:padding="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/activityButton">
+
+            <ImageView
+                android:id="@+id/travel_img"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="#AAA"
+                app:layout_constraintBaseline_toBaselineOf="parent" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/activity_description"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/travel_img"
+                android:textColor="@color/colorBlack"
+                android:layout_margin="12dp"
+                android:textSize="18sp"
+                android:text="Lorem Ipsum" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/default_itrip_button"
+                android:id="@+id/modifyTravelButton"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="30dp"
+                android:text="@string/travel_modify"
+                app:layout_constraintTop_toBottomOf="@+id/activity_description"
+                android:layout_marginTop="15dp" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

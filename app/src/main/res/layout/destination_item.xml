@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:layout_margin="16dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/destination_img"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="#AAA"
+        app:layout_constraintBaseline_toBaselineOf="parent" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/destination_img"
+        android:textColor="#000"
+        android:layout_margin="15dp"
+        android:textSize="30sp"
+        android:id="@+id/travel_name"
+        tools:text="Country - City" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/destiny_description"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/travel_name"
+        android:textColor="@color/colorBlack"
+        android:layout_margin="15dp"
+        android:textSize="18sp"
+        tools:text="Destiny Description"
+
+        />
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/default_itrip_button"
+        android:id="@+id/modify_button"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="30dp"
+        android:text="@string/select_destiny"
+        app:layout_constraintTop_toBottomOf="@+id/destiny_description"
+        android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

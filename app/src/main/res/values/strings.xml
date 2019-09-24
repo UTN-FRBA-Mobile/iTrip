@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">iTrip</string>
+    <string name="login">Ingresar</string>
+    <string name="name">Nombre</string>
+    <string name="sign_up">Registrarse</string>
+    <string name="sign_up_me">Registrarme!</string>
+    <string name="email">Email</string>
+    <string name="back">Volver</string>
+    <string name="password">Contraseña</string>
+    <string name="password_recovery">Recuperar contraseña</string>
+    <string name="recovery">Recuperar</string>
+    <string name="email_alert">Su email es privado y no lo compartiremos con nadie</string>
+    <string name="password_recovery_text">Ingrese su email para poder enviarle un link de recuperación de contraseña
+    </string>
+    <string name="password_recovery_email_sent">Hemos enviado un email a su correo, por favor verifique su bandeja de
+        entrada o carpeta de spam para poder recuperar su contraseña
+    </string>
+    <string name="quiz_end_description">Gracias por completar el cuestionario, sabemos que fue un poco largo pero eso
+        nos ayuda mucho para poder ofrecerte las mejores oportunidades de viaje y asi puedas construir hermosas
+        experiencias
+    </string>
+    <string name="quiz_intro_description">El siguiente cuestionario es para que podamos conocerte mejor y asi ofrecerte
+        las mejores oportunidades de viajes.
+    </string>
+    <string name="destination_create_description">Estos son los mínimos datos necesarios para que podamos armar tu
+        próximo viaje!
+    </string>
+    <string name="quiz_intro_title">Cuestionario</string>
+    <string name="quiz_questions_quantity">Preguntas: 12</string>
+    <string name="tou_alert">Acepto los términos y condiciones de uso</string>
+    <string name="cancel">Cancelar</string>
+    <string name="create_travel">Armar viaje!</string>
+    <string name="take_quiz">Completar cuestionario</string>
+    <string name="quiz_end_title">Cuestionario finalizado</string>
+    <string name="select_destiny">Seleccionar destino</string>
+    <string name="select_activities">Seleccionar actividades</string>
+    <string name="add_activity">Agregar</string>
+    <string name="travel_modify">Modificar viaje</string>
+    <string name="create_activity">Crear itinerario</string>
+    <string name="quiz_next">Siguiente</string>
+    <string name="modify">Modificar</string>
+    <string name="start">Comenzar</string>
+    <string name="create">Crear!</string>
+    <string name="fromDate">Fecha desde</string>
+    <string name="untilDate">Fecha hasta</string>
+    <string name="budget">Presupuesto estimado</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--<string name=""></string>-->
+</resources>
