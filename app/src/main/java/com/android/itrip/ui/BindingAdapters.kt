@@ -17,12 +17,12 @@
 package com.android.itrip.ui
 
 import android.content.Context
-import androidx.databinding.BindingAdapter
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
+import androidx.databinding.BindingAdapter
 
 
 /**

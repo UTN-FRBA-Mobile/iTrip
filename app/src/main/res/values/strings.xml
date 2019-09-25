@@ -45,7 +45,8 @@
     <string name="untilDate">Fecha hasta</string>
     <string name="budget">Presupuesto estimado</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <!--<string name=""></string>-->
+    <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
+    <string name="facebook_application_id" translatable="false">399355764046745</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb399355764046745</string>
+    <string name="com_facebook_loginview_logged_in_using_facebook_f1gender">Logged in using Facebook</string>
 </resources>
