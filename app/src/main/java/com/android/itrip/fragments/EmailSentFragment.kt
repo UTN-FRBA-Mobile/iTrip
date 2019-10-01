@@ -20,7 +20,8 @@ class EmailSentFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentEmailSentBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_email_sent, container, false)
+            inflater, R.layout.fragment_email_sent, container, false
+        )
         return binding.root
     }
 

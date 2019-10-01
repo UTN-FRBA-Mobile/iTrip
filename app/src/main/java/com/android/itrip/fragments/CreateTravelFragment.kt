@@ -21,12 +21,15 @@ class CreateTravelFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentCreateTravelBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_create_travel, container, false)
+            inflater, R.layout.fragment_create_travel, container, false
+        )
         binding.createTravel.setOnClickListener { view: View ->
-            view.findNavController().navigate(CreateTravelFragmentDirections.actionCreateTravelFragmentToActivitiesHomeFragment())
+            view.findNavController()
+                .navigate(CreateTravelFragmentDirections.actionCreateTravelFragmentToActivitiesHomeFragment())
         }
         binding.selectDestiny.setOnClickListener { view: View ->
-            view.findNavController().navigate(CreateTravelFragmentDirections.actionCreateTravelFragmentToDestinationListFragment())
+            view.findNavController()
+                .navigate(CreateTravelFragmentDirections.actionCreateTravelFragmentToDestinationListFragment())
         }
         return binding.root
     }

@@ -20,7 +20,8 @@ class ActivitiesListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentActivitiesListBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_activities_list, container, false)
+            inflater, R.layout.fragment_activities_list, container, false
+        )
         return binding.root
     }
 

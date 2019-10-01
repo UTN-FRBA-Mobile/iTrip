@@ -24,10 +24,12 @@ class QuizEndFragment : Fragment() {
             inflater, R.layout.fragment_quiz_end, container, false
         )
         binding.backQuiz.setOnClickListener { view: View ->
-            view.findNavController().navigate(QuizEndFragmentDirections.actionQuizEndFragmentToHomeFragment())
+            view.findNavController()
+                .navigate(QuizEndFragmentDirections.actionQuizEndFragmentToHomeFragment())
         }
         binding.cancelButton.setOnClickListener { view: View ->
-            view.findNavController().navigate(QuizEndFragmentDirections.actionQuizEndFragmentToQuizHomeFragment())
+            view.findNavController()
+                .navigate(QuizEndFragmentDirections.actionQuizEndFragmentToQuizHomeFragment())
         }
         return binding.root
     }

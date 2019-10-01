@@ -62,13 +62,13 @@ interface DestinationDatabaseDao {
      * sorted by start time in descending order.
      */
     @Query("SELECT * FROM destination_table ORDER BY destinationId DESC")
-    fun getAllNights(): LiveData<List<Destination>>
+    fun getAll(): LiveData<List<Destination>>
 
     /**
      * Selects and returns the latest night.
      */
     @Query("SELECT * FROM destination_table ORDER BY destinationId DESC LIMIT 1")
-    fun getTonight(): Destination?
+    fun getLast(): Destination?
 
 }
 

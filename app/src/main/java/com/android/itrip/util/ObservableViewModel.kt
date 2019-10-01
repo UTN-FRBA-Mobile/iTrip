@@ -40,7 +40,7 @@ open class ObservableViewModel : ViewModel(), Observable {
      */
     @Suppress("unused")
     fun notifyChange() {
-            callbacks.notifyCallbacks(this, 0, null)
+        callbacks.notifyCallbacks(this, 0, null)
     }
 
 }

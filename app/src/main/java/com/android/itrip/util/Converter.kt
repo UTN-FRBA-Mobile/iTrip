@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 @file:JvmName("Converter")
+
 package com.android.itrip.util
 
 import kotlin.math.round
 
-fun fromTenthsToSeconds(tenths: Int) : String {
+fun fromTenthsToSeconds(tenths: Int): String {
     return if (tenths < 600) {
         String.format("%.1f", tenths / 10.0)
     } else {

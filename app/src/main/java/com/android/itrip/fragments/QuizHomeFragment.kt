@@ -24,7 +24,8 @@ class QuizHomeFragment : Fragment() {
             inflater, R.layout.fragment_quiz_home, container, false
         )
         binding.startQuiz.setOnClickListener { view: View ->
-            view.findNavController().navigate(QuizHomeFragmentDirections.actionQuizHomeFragmentToQuizFragment())
+            view.findNavController()
+                .navigate(QuizHomeFragmentDirections.actionQuizHomeFragmentToQuizFragment())
         }
         return binding.root
     }

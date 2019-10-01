@@ -59,7 +59,8 @@ object BindingAdapters {
      * @see [clearTextOnFocus] for a version without a listener.
      */
     @BindingAdapter("clearOnFocusAndDispatch")
-    @JvmStatic fun clearOnFocusAndDispatch(view: EditText, listener: View.OnFocusChangeListener?) {
+    @JvmStatic
+    fun clearOnFocusAndDispatch(view: EditText, listener: View.OnFocusChangeListener?) {
         view.onFocusChangeListener = View.OnFocusChangeListener { focusedView, hasFocus ->
             val textView = focusedView as TextView
             if (hasFocus) {
@@ -80,7 +81,8 @@ object BindingAdapters {
      * ```
      */
     @BindingAdapter("clearTextOnFocus")
-    @JvmStatic fun EditText.clearTextOnFocus(enabled: Boolean) {
+    @JvmStatic
+    fun EditText.clearTextOnFocus(enabled: Boolean) {
         if (enabled) {
             clearOnFocusAndDispatch(this, null)
         } else {
@@ -95,7 +97,8 @@ object BindingAdapters {
      * this [BindingAdapter] sets it.
      */
     @BindingAdapter("hideKeyboardOnInputDone")
-    @JvmStatic fun hideKeyboardOnInputDone(view: EditText, enabled: Boolean) {
+    @JvmStatic
+    fun hideKeyboardOnInputDone(view: EditText, enabled: Boolean) {
         if (!enabled) return
         val listener = TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {

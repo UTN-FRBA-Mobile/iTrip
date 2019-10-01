@@ -40,7 +40,7 @@ class LoginViewModel : ObservableViewModel() {
     val enableLogin: LiveData<Boolean>
         get() = _enableLogin
 
-    private fun enableLogin() :Boolean{
+    private fun enableLogin(): Boolean {
         _enableLogin.value = !email.get().isNullOrBlank() && !password.get().isNullOrBlank()
         return _enableLogin.value!!
     }

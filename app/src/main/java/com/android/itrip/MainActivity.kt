@@ -6,19 +6,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.android.itrip.databinding.ActivityMainBinding
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
-import org.json.JSONObject
 import java.util.logging.Logger
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import com.android.itrip.util.NukeSSLCerts
 
 
 class MainActivity : AppCompatActivity() {
@@ -31,7 +21,6 @@ class MainActivity : AppCompatActivity() {
             DataBindingUtil.setContentView(this, R.layout.activity_main)
         val currentUser =
             intent.getParcelableExtra<com.google.firebase.auth.FirebaseUser>("CurrentUser")
-
 
         currentUser?.providerData?.forEach {
             logger.info("Sign-in provider: " + it.providerId)
@@ -59,29 +48,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, LogInActivity::class.java))
             finish()
         }
-//        binding.logOutButton.setOnClickListener {
-//            getApiToken(null)
-//        }
 
         binding.currentUser = currentUser
     }
 
-//    fun getApiToken(auth: FirebaseAuth?) {
-//        val queue = Volley.newRequestQueue(this)
-//        val base_api_url = resources.getString(R.string.base_api_url)
-//        val url = base_api_url + "token/"
-//
-//        val updateJsonobj = JSONObject()
-//        updateJsonobj.put("username", "admin")
-//        updateJsonobj.put("password", "SlaidTeam123")
-//
-//        val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, url, updateJsonobj,
-//            Response.Listener { response ->
-//                logger.info("Response: %s".format(response.toString()))
-//            },
-//            Response.ErrorListener { response -> logger.info("That didn't work! " + response.message) })
-//
-//        queue.add(jsonObjectRequest)
-//    }
 
 }

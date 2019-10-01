@@ -82,16 +82,16 @@ abstract class DestinationDatabase : RoomDatabase() {
                 // If instance is `null` make a new database instance.
                 if (instance == null) {
                     instance = Room.databaseBuilder(
-                            context.applicationContext,
-                            DestinationDatabase::class.java,
-                            "destination_database"
+                        context.applicationContext,
+                        DestinationDatabase::class.java,
+                        "destination_database"
                     )
-                            // Wipes and rebuilds instead of migrating if no Migration object.
-                            // Migration is not part of this lesson. You can learn more about
-                            // migration with Room in this blog post:
-                            // https://medium.com/androiddevelopers/understanding-migrations-with-room-f01e04b07929
-                            .fallbackToDestructiveMigration()
-                            .build()
+                        // Wipes and rebuilds instead of migrating if no Migration object.
+                        // Migration is not part of this lesson. You can learn more about
+                        // migration with Room in this blog post:
+                        // https://medium.com/androiddevelopers/understanding-migrations-with-room-f01e04b07929
+                        .fallbackToDestructiveMigration()
+                        .build()
                     // Assign INSTANCE to the newly created database.
                     INSTANCE = instance
                 }

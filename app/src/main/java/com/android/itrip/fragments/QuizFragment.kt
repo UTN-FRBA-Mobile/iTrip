@@ -20,7 +20,8 @@ class QuizFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentCreateTravelBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_quiz, container, false)
+            inflater, R.layout.fragment_quiz, container, false
+        )
         return binding.root
     }
 

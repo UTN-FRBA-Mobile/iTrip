@@ -5,15 +5,10 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.itrip.util.NukeSSLCerts
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
+import com.android.itrip.util.VolleyController
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
-import org.json.JSONObject
 import java.util.logging.Logger
 
 
@@ -26,37 +21,20 @@ class LogInActivity : AppCompatActivity() {
 //        AuthUI.IdpConfig.FacebookBuilder().build(),
         AuthUI.IdpConfig.GoogleBuilder().build()
     )
-    val logger = Logger.getLogger(LogInActivity::class.java.name)
-
-    fun getApiToken(auth: FirebaseAuth?) {
-        val queue = Volley.newRequestQueue(this)
-        val base_api_url = resources.getString(R.string.base_api_url)
-        val url = base_api_url + "token/"
-        var accessToken = ""
-        var refreshToken = ""
-        val updateJsonobj = JSONObject()
-        updateJsonobj.put("username", "admin")
-        updateJsonobj.put("password", "SlaidTeam123")
-
-        val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, url, updateJsonobj,
-            Response.Listener { response ->
-                logger.info("Response: %s".format(response.toString()))
-                refreshToken = response.getString("refresh")
-                accessToken = response.getString("access")
-                auth?.signInWithCustomToken(accessToken)
-            },
-            Response.ErrorListener { response -> logger.info("That didn't work! " + response.message) })
-
-        queue.add(jsonObjectRequest)
-    }
+    private val logger = Logger.getLogger(LogInActivity::class.java.name)
+    private lateinit var queue: VolleyController
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         NukeSSLCerts().nuke()
+        queue = VolleyController.getInstance(this)
+
         val auth = FirebaseAuth.getInstance()
-        getApiToken(auth)
+//        val jsonRequest = AuthenticationService.requestToken(auth)
+//        AuthenticationService.validateAndRefreshToken(queue)
+//        queue.addToRequestQueue(jsonRequest)
         if (auth.currentUser != null) {
             // already signed in
             val intent = Intent(this, MainActivity::class.java).apply {
@@ -68,7 +46,25 @@ class LogInActivity : AppCompatActivity() {
             // not signed in
             showSignInOptions()
         }
+        //verifyUser(auth.currentUser)
     }
+
+//    private fun verifyUser(auth: FirebaseUser?) {
+//        var aasd = OnCompleteListener<GetTokenResult>{onComplete()}
+//        auth!!.getIdToken(true).addOnCanceledListener { aasd }
+//
+//    }
+
+//    private fun onComplete() {
+//        lateinit  var task : Task<GetTokenResult>
+//        if (task.isSuccessful()) {
+//            val idToken = task.getResult()?.getToken()
+//            // Send token to your backend via HTTPS
+//            // ...
+//        } else {
+//            // Handle error -> task.getException();
+//        }
+//    }
 
     private fun showSignInOptions() {
         startActivityForResult(

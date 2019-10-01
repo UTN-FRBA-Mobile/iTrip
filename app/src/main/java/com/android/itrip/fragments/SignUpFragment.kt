@@ -24,7 +24,8 @@ class SignUpFragment : Fragment() {
             inflater, R.layout.fragment_sign_up, container, false
         )
         binding.signUpButton.setOnClickListener { view: View ->
-            view.findNavController().navigate(SignUpFragmentDirections.actionSignUpToEmailSentFragment())
+            view.findNavController()
+                .navigate(SignUpFragmentDirections.actionSignUpToEmailSentFragment())
         }
         return binding.root
     }

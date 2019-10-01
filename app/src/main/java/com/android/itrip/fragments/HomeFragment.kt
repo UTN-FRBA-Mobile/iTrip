@@ -21,12 +21,15 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentHomeBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_home, container, false)
+            inflater, R.layout.fragment_home, container, false
+        )
         binding.createTravel.setOnClickListener { view: View ->
-            view.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCreateTravelFragment())
+            view.findNavController()
+                .navigate(HomeFragmentDirections.actionHomeFragmentToCreateTravelFragment())
         }
         binding.quiz.setOnClickListener { view: View ->
-            view.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToQuizHomeFragment())
+            view.findNavController()
+                .navigate(HomeFragmentDirections.actionHomeFragmentToQuizHomeFragment())
         }
         return binding.root
     }

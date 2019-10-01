@@ -23,17 +23,14 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "destination_table")
 data class Destination(
     @PrimaryKey(autoGenerate = true)
-        var destinationId: Long = 0L,
+    var destinationId: Long = 0L,
 
     @ColumnInfo(name = "name")
     val name: String = "",
 
-    @ColumnInfo(name = "start_time_milli")
-        val startTimeMilli: Long = System.currentTimeMillis(),
+    @ColumnInfo(name = "latitude")
+    val latitude: Double = 0.0,
 
-    @ColumnInfo(name = "end_time_milli")
-        var endTimeMilli: Long = startTimeMilli,
-
-    @ColumnInfo(name = "quality_rating")
-        var sleepQuality: Int = -1
+    @ColumnInfo(name = "longitude")
+    var longitude: Double = 0.0
 )
