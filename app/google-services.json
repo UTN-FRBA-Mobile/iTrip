@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "215930379239",
+    "firebase_url": "https://itrip-30ecc.firebaseio.com",
+    "project_id": "itrip-30ecc",
+    "storage_bucket": "itrip-30ecc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:215930379239:android:5744d22b2fee528e19fb42",
+        "android_client_info": {
+          "package_name": "com.android.itrip"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "215930379239-kstr9og4b6dbrroi4ba42h3sg2p5m73m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.itrip",
+            "certificate_hash": "9c8916aaefd5b1b6bf780055428d4a800c9f1eb2"
+          }
+        },
+        {
+          "client_id": "215930379239-2qmcrducq0g2d7hqg6t24ais9qi02o9n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-vY7UEF2tzzDPnrS5XT7JUC7UxMtbZtg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "215930379239-2qmcrducq0g2d7hqg6t24ais9qi02o9n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
