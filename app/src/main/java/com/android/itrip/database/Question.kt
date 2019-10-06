@@ -29,7 +29,8 @@ data class Question(
     val question: String = "",
 
     @ColumnInfo(name = "answer")
-    val answer: List<String> = listOf()
+    //val answer: List<String> = listOf()
+    val answer: String = ""
 
 
 )
