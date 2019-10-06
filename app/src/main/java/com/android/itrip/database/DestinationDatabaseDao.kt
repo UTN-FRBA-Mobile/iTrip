@@ -29,21 +29,21 @@ import androidx.room.Update
 interface DestinationDatabaseDao {
 
     @Insert
-    fun insert(night: Destination)
+    fun insert(destination: Destination)
 
     /**
      * When updating a row with a value already set in a column,
      * replaces the old value with the new one.
      *
-     * @param night new value to write
+     * @param destination new value to write
      */
     @Update
-    fun update(night: Destination)
+    fun update(destination: Destination)
 
     /**
      * Selects and returns the row that matches the supplied start time, which is our key.
      *
-     * @param key startTimeMilli to match
+     * @param key to match
      */
     @Query("SELECT * from destination_table WHERE destinationId = :key")
     fun get(key: Long): Destination?
@@ -59,16 +59,16 @@ interface DestinationDatabaseDao {
     /**
      * Selects and returns all rows in the table,
      *
-     * sorted by start time in descending order.
+     * sorted by name in descending order.
      */
-    @Query("SELECT * FROM destination_table ORDER BY destinationId DESC")
+    @Query("SELECT * FROM destination_table ORDER BY name DESC")
     fun getAll(): LiveData<List<Destination>>
 
     /**
-     * Selects and returns the latest night.
+     * Selects and returns the matched destinations.
      */
-    @Query("SELECT * FROM destination_table ORDER BY destinationId DESC LIMIT 1")
-    fun getLast(): Destination?
+    @Query("SELECT name FROM destination_table WHERE :query ORDER BY name DESC")
+    fun getDestinationsByName(query:String?): LiveData<List<String>>
 
 }
 
