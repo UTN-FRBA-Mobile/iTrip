@@ -38,7 +38,7 @@ interface QuestionDatabaseDao {
      * @param destination new value to write
      */
     @Update
-    fun update(destination: Destination)
+    fun update(question: Question)
 
     /**
      * Selects and returns the row that matches the supplied start time, which is our key.
