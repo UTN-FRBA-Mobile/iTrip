@@ -45,7 +45,6 @@ class DestinationViewModel(
             insert(Destination(3, "Tucuman", -26.82414, -65.2226))
             insert(Destination(4, "Trelew", -43.24895, -65.30505))
         }
-
         destinations = Transformations.switchMap(query) { query -> updateLiveData(query) }
     }
 

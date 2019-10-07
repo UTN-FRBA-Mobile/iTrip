@@ -9,18 +9,25 @@ import android.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.R
+import com.android.itrip.adapters.DestinationAdapter
 import com.android.itrip.database.DestinationDatabase
 import com.android.itrip.databinding.FragmentDestinationListBinding
 import com.android.itrip.viewModels.DestinationViewModel
 import com.android.itrip.viewModels.DestinationViewModelFactory
 import java.util.logging.Logger
 
+
 /**
  * A simple [Fragment] subclass.
  */
 class DestinationListFragment : Fragment() {
 
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    private lateinit var viewManager: RecyclerView.LayoutManager
 
     private val logger = Logger.getLogger(DestinationListFragment::class.java.name)
 
@@ -74,6 +81,17 @@ class DestinationListFragment : Fragment() {
                 return true
             }
         })
+
+
+//        //RECYCLERVIEW logic
+        recyclerView = binding.myRecyclerView
+        viewManager = LinearLayoutManager(application)
+        recyclerView.layoutManager = viewManager
+
+        viewAdapter = DestinationAdapter(destinationsViewModel.destinations)
+        recyclerView.adapter = viewAdapter
+
+
 
         binding.lifecycleOwner = this
         return binding.root
