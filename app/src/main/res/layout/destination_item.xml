@@ -51,15 +51,15 @@
 
         <!--            />-->
 
-<!--        <com.google.android.material.button.MaterialButton-->
-<!--            android:id="@+id/modify_button"-->
-<!--            style="@style/default_itrip_button"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="60dp"-->
-<!--            android:layout_marginTop="30dp"-->
-<!--            android:layout_marginBottom="30dp"-->
-<!--            android:text="@string/select_destiny"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent" />-->
+        <!--        <com.google.android.material.button.MaterialButton-->
+        <!--            android:id="@+id/modify_button"-->
+        <!--            style="@style/default_itrip_button"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="60dp"-->
+        <!--            android:layout_marginTop="30dp"-->
+        <!--            android:layout_marginBottom="30dp"-->
+        <!--            android:text="@string/select_destiny"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

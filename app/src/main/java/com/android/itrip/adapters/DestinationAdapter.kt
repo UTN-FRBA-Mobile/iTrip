@@ -21,7 +21,7 @@ class DestinationAdapter(destinations: LiveData<List<Destination>>) :
 
     val logger = Logger.getLogger(DestinationListFragment::class.java.name)
 
-    private val _destinations: LiveData<List<Destination>> = destinations
+    private var _destinations: LiveData<List<Destination>> = destinations
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

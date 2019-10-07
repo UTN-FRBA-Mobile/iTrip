@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,10 +27,12 @@ import java.util.logging.Logger
 class DestinationListFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    private lateinit var viewAdapter: DestinationAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
 
     private val logger = Logger.getLogger(DestinationListFragment::class.java.name)
+
+    lateinit var destinationsViewModel: DestinationViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +49,7 @@ class DestinationListFragment : Fragment() {
 
         val viewModelFactory = DestinationViewModelFactory(dataSource, application)
 
-        val destinationsViewModel =
+        destinationsViewModel =
             ViewModelProviders.of(
                 this, viewModelFactory
             ).get(DestinationViewModel::class.java)
@@ -91,11 +94,20 @@ class DestinationListFragment : Fragment() {
         viewAdapter = DestinationAdapter(destinationsViewModel.destinations)
         recyclerView.adapter = viewAdapter
 
-
-
         binding.lifecycleOwner = this
+        subscribeUi(viewAdapter)
+
         return binding.root
     }
 
+    private fun subscribeUi(adapter: DestinationAdapter) {
+        destinationsViewModel.destinations.observe(viewLifecycleOwner, Observer { destinations ->
+            try {
+                adapter.notifyDataSetChanged()
+            } catch (e: Exception) {
+                logger.info(e.toString())
+            }
+        })
+    }
 
 }

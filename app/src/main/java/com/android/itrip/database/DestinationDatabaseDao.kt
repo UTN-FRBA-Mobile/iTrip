@@ -68,7 +68,7 @@ interface DestinationDatabaseDao {
      * Selects and returns the matched destinations.
      */
     @Query("SELECT * FROM destination_table WHERE name LIKE :query ORDER BY name ASC")
-    fun getDestinationsByName(query:String?): LiveData<List<Destination>>
+    fun getDestinationsByName(query: String?): LiveData<List<Destination>>
 
 }
 
