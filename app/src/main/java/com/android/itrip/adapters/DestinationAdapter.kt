@@ -13,13 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.R
 import com.android.itrip.database.Destination
 import com.android.itrip.databinding.DestinationItemBinding
-import com.android.itrip.fragments.DestinationListFragment
-import java.util.logging.Logger
 
 class DestinationAdapter(destinations: LiveData<List<Destination>>) :
     ListAdapter<Destination, RecyclerView.ViewHolder>(DestinationDiffCallback()) {
-
-    val logger = Logger.getLogger(DestinationListFragment::class.java.name)
 
     private var _destinations: LiveData<List<Destination>> = destinations
 
@@ -30,15 +26,14 @@ class DestinationAdapter(destinations: LiveData<List<Destination>>) :
     }
 
     override fun getItem(position: Int): Destination {
-        val item = _destinations.value!![position]
-        logger.info("DestinationItem: " + item.name)
-        return item
+        return _destinations.value!![position]
     }
 
     override fun getItemCount(): Int {
         var size = 0
-        if (_destinations.value != null) size = _destinations.value!!.size
-        logger.info("DestinationSize: " + size.toString())
+        _destinations.value?.let {
+            size = _destinations.value!!.size
+        }
         return size
     }
 
@@ -63,6 +58,7 @@ class DestinationAdapter(destinations: LiveData<List<Destination>>) :
 
         fun bind(item: Destination) {
             binding.apply {
+                travelName.text = item.name
                 destination = item
             }
         }
