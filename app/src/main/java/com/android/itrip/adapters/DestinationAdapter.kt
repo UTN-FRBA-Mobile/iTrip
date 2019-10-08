@@ -1,18 +1,23 @@
 package com.android.itrip.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.LiveData
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.R
 import com.android.itrip.database.Destination
 import com.android.itrip.databinding.DestinationItemBinding
+import com.android.itrip.fragments.DestinationListFragmentDirections
+import com.android.itrip.util.DestinationWrapper
 
 class DestinationAdapter(destinations: LiveData<List<Destination>>) :
     ListAdapter<Destination, RecyclerView.ViewHolder>(DestinationDiffCallback()) {
@@ -43,6 +48,16 @@ class DestinationAdapter(destinations: LiveData<List<Destination>>) :
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context), R.layout.destination_item, parent, false
             )
+
+
+        binding.travelName.setOnClickListener { view: View ->
+            val bundle = bundleOf("destination" to DestinationWrapper(binding.destination!!))
+            view.findNavController()
+                .navigate(
+                    DestinationListFragmentDirections.actionDestinationListFragmentToMapsFragment().actionId
+                    , bundle
+                )
+        }
         val viewHolder = DestinationHolder(binding)
         binding.lifecycleOwner = viewHolder
         return viewHolder

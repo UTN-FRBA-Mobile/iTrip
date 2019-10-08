@@ -112,7 +112,11 @@
         android:id="@+id/destinationListFragment"
         android:name="com.android.itrip.fragments.DestinationListFragment"
         android:label="fragment_destination_list"
-        tools:layout="@layout/fragment_destination_list" />
+        tools:layout="@layout/fragment_destination_list" >
+        <action
+            android:id="@+id/action_destinationListFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/activitiesHomeFragment"
         android:name="com.android.itrip.fragments.ActivitiesHomeFragment"
@@ -135,4 +139,9 @@
         android:name="com.android.itrip.fragments.TravelListFragment"
         android:label="fragment_travel_list"
         tools:layout="@layout/fragment_travel_list" />
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.android.itrip.fragments.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps"/>
 </navigation>
