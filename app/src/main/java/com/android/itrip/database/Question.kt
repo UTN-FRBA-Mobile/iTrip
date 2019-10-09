@@ -18,19 +18,33 @@ package com.android.itrip.database
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "questions_table")
 data class Question(
+
+
     @PrimaryKey(autoGenerate = true)
     var questionId: Long = 0L,
 
     @ColumnInfo(name = "question")
-    val question: String = "",
+    val question: String = ""
 
-    @ColumnInfo(name = "answer")
-    //val answer: List<String> = listOf()
-    val answer: String = ""
 
 
 )
+
+@Entity(foreignKeys = arrayOf(ForeignKey(entity = Question::class,
+    parentColumns = arrayOf("questionId"),
+    childColumns = arrayOf("qId"),
+    onDelete = ForeignKey.CASCADE)))
+data class Answer(
+    @PrimaryKey(autoGenerate = true) val id: Long,
+    val qId: Long,
+    @ColumnInfo(name = "answer")
+    val answer: String,
+    @ColumnInfo(name = "chosenByUser")
+    var chosenByUser: Boolean =false
+
+    )
