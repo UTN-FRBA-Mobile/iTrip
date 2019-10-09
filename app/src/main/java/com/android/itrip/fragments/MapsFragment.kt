@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.android.itrip.R
 import com.android.itrip.database.Destination
-import com.android.itrip.util.DestinationWrapper
+import com.android.itrip.wrappers.DestinationWrapper
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback

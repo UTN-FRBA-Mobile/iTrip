@@ -17,12 +17,15 @@ import com.android.itrip.R
 import com.android.itrip.database.Destination
 import com.android.itrip.databinding.DestinationItemBinding
 import com.android.itrip.fragments.DestinationListFragmentDirections
-import com.android.itrip.util.DestinationWrapper
+import com.android.itrip.wrappers.DestinationWrapper
+import java.util.logging.Logger
 
 class DestinationAdapter(destinations: LiveData<List<Destination>>) :
     ListAdapter<Destination, RecyclerView.ViewHolder>(DestinationDiffCallback()) {
 
     private var _destinations: LiveData<List<Destination>> = destinations
+    var checkedDestinations: MutableList<Destination> = mutableListOf()
+    private val logger = Logger.getLogger(this::class.java.name)
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -50,8 +53,21 @@ class DestinationAdapter(destinations: LiveData<List<Destination>>) :
             )
 
 
-        binding.travelName.setOnClickListener { view: View ->
-            val bundle = bundleOf("destination" to DestinationWrapper(binding.destination!!))
+            binding.addRemoveSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                binding.destination?.let {
+                    val dest = binding.destination!!
+                    if (isChecked) {checkedDestinations.add(dest)
+                        logger.info("destination.name: " + dest.name)
+                    } else checkedDestinations.remove(dest)
+                }
+            }
+
+        binding.mapButton.setOnClickListener { view: View ->
+            val bundle = bundleOf(
+                "destination" to DestinationWrapper(
+                    binding.destination!!
+                )
+            )
             view.findNavController()
                 .navigate(
                     DestinationListFragmentDirections.actionDestinationListFragmentToMapsFragment().actionId
@@ -73,7 +89,7 @@ class DestinationAdapter(destinations: LiveData<List<Destination>>) :
 
         fun bind(item: Destination) {
             binding.apply {
-                travelName.text = item.name
+                destinationNameTextView.text = item.name
                 destination = item
             }
         }

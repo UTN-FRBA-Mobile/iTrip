@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.R
@@ -18,6 +20,7 @@ import com.android.itrip.database.DestinationDatabase
 import com.android.itrip.databinding.FragmentDestinationListBinding
 import com.android.itrip.viewModels.DestinationViewModel
 import com.android.itrip.viewModels.DestinationViewModelFactory
+import com.android.itrip.wrappers.DestinationsWrapper
 import java.util.logging.Logger
 
 
@@ -93,6 +96,24 @@ class DestinationListFragment : Fragment() {
 
         viewAdapter = DestinationAdapter(destinationsViewModel.destinations)
         recyclerView.adapter = viewAdapter
+
+
+        binding.addDestinations.setOnClickListener { view: View ->
+
+            viewAdapter.checkedDestinations.forEach {
+                logger.info("destination.name: " + it.name)
+            }
+            val bundle = bundleOf(
+                "destinations" to DestinationsWrapper(
+                    viewAdapter.checkedDestinations
+                )
+            )
+            view.findNavController()
+                .navigate(
+                    DestinationListFragmentDirections.actionDestinationListFragmentToCreateTravelFragment().actionId
+                    , bundle
+                )
+        }
 
         binding.lifecycleOwner = this
         subscribeUi(viewAdapter)

@@ -1,4 +1,4 @@
-package com.android.itrip.util
+package com.android.itrip.wrappers
 
 import com.android.itrip.database.Destination
 import java.io.Serializable
