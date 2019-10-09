@@ -35,15 +35,15 @@ interface QuestionDatabaseDao {
     @Delete
     fun deleteQuestion(question: Question)
 
- /*   @Insert
+   @Insert
     fun insertAnswer(answer: Answer)
 
     @Update
-    fun UpdateAnswer(answer: Answer)
+    fun updateAnswer(answer: Answer)
 
     @Delete
-    fun DeleteAnswer(answer: Answer)
-*/
+    fun deleteAnswer(answer: Answer)
+
     @Query("SELECT * from questions_table WHERE questionId = :key")
     fun get(key: Long): Question?
 
@@ -60,7 +60,7 @@ interface QuestionDatabaseDao {
      *
      * sorted by name in descending order.
      */
-   /* @Query("SELECT * FROM questions_table ORDER BY questionId DESC")
+    @Query("SELECT * FROM questions_table ORDER BY questionId DESC")
     fun getAllQuestions(): LiveData<List<Question>>
 
     @Query("SELECT * FROM Answer where qId = :questionId ORDER BY id DESC")
@@ -68,7 +68,7 @@ interface QuestionDatabaseDao {
 
     @Query("SELECT * FROM Answer where qId = :questionId AND chosenByUser=1 ORDER BY id DESC")
     fun getAllAnswersChosenByUser(questionId:Long): List<Answer>
-*/
+
 
 
 }
