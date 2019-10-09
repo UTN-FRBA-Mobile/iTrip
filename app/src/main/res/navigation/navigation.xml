@@ -91,10 +91,9 @@
         tools:layout="@layout/fragment_quiz_end" >
         <action
             android:id="@+id/action_quizEndFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-        <action
-            android:id="@+id/action_quizEndFragment_to_quizHomeFragment"
-            app:destination="@id/quizHomeFragment" />
+            app:destination="@+id/createTravelFragment"
+            app:popUpTo="@+id/homeFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/createTravelFragment"

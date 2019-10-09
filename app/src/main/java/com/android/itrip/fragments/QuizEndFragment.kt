@@ -23,13 +23,9 @@ class QuizEndFragment : Fragment() {
         val binding: FragmentQuizEndBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_quiz_end, container, false
         )
-        binding.backQuiz.setOnClickListener { view: View ->
+        binding.armarViajeButton.setOnClickListener { view: View ->
             view.findNavController()
                 .navigate(QuizEndFragmentDirections.actionQuizEndFragmentToHomeFragment())
-        }
-        binding.cancelButton.setOnClickListener { view: View ->
-            view.findNavController()
-                .navigate(QuizEndFragmentDirections.actionQuizEndFragmentToQuizHomeFragment())
         }
         return binding.root
     }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.android.itrip.R
 import com.android.itrip.databinding.FragmentQuizBinding
 
@@ -22,6 +23,10 @@ class QuizFragment : Fragment() {
         val binding: FragmentQuizBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_quiz, container, false
         )
+        binding.nextQuiz.setOnClickListener { view: View ->
+            view.findNavController()
+                .navigate(QuizFragmentDirections.actionQuizFragmentToQuizEndFragment())
+        }
         return binding.root
     }
 

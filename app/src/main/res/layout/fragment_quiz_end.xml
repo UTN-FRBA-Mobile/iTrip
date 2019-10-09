@@ -53,28 +53,11 @@
 
         <com.google.android.material.button.MaterialButton
             style="@style/default_itrip_button"
-            android:id="@+id/back_quiz"
+            android:id="@+id/armar_viaje_button"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="@string/create_travel"
             app:layout_constraintTop_toBottomOf="@+id/quizEndDescription"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="30dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancel_button"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/back"
-            android:backgroundTint="@android:color/transparent"
-            android:textColor="@color/colorPrimary"
-            android:textAllCaps="false"
-            android:paddingStart="30dp"
-            android:paddingEnd="30dp"
-            android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@+id/back_quiz"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="30dp" />

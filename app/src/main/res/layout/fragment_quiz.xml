@@ -8,125 +8,97 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/loginConstraint"
-        android:background="@color/colorWhiteSmoke"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorWhiteSmoke">
 
         <TextView
             android:id="@+id/quizQuestion"
             android:layout_width="match_parent"
-            android:layout_marginEnd="15dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="30dp"
+            android:layout_marginEnd="15dp"
+            android:text="Question"
             android:textColor="#000"
             android:textSize="30sp"
             android:textStyle="bold"
-            android:text="Question"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="15dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/quizQuestionPosition"
             android:layout_width="match_parent"
-            android:layout_marginEnd="15dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:text="Pregunta N de N"
+            android:textColor="@color/colorPlaceholder"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/colorPlaceholder"
-            android:text="Pregunta N de N"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/quizQuestion"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="15dp" />
+            app:layout_constraintTop_toBottomOf="@+id/quizQuestion" />
 
         <RadioGroup
+            android:id="@+id/answers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/answers"
-            android:orientation="vertical"
             android:layout_marginTop="15dp"
-            app:layout_constraintTop_toBottomOf="@+id/quizQuestionPosition"
-            android:checkedButton="@id/first">
+            android:checkedButton="@id/first"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/quizQuestionPosition">
 
             <RadioButton
-                android:theme="@style/radioButtonStyle"
-                android:textColor="@color/colorBlack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/first"
-                android:textSize="18sp"
-                android:text="Respuesta 1" />
-
-            <RadioButton
-                android:theme="@style/radioButtonStyle"
-                android:textColor="@color/colorBlack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Respuesta 1"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                android:theme="@style/radioButtonStyle" />
+
+            <RadioButton
                 android:id="@+id/second"
-                android:textSize="18sp"
-                android:text="Respuesta 2" />
-
-            <RadioButton
-                android:theme="@style/radioButtonStyle"
-                android:textColor="@color/colorBlack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Respuesta 2"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                android:theme="@style/radioButtonStyle" />
+
+            <RadioButton
                 android:id="@+id/third"
-                android:textSize="18sp"
-                android:text="Respuesta 3" />
-
-            <RadioButton
-                android:theme="@style/radioButtonStyle"
-                android:textColor="@color/colorBlack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/fourth"
+                android:text="Respuesta 3"
+                android:textColor="@color/colorBlack"
                 android:textSize="18sp"
-                android:text="Respuesta 4" />
+                android:theme="@style/radioButtonStyle" />
+
+            <RadioButton
+                android:id="@+id/fourth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Respuesta 4"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                android:theme="@style/radioButtonStyle" />
 
         </RadioGroup>
 
         <com.google.android.material.button.MaterialButton
-            style="@style/default_itrip_button"
             android:id="@+id/next_quiz"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="@string/start"
-            app:layout_constraintTop_toBottomOf="@+id/answers"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="30dp" />
-
-        <com.google.android.material.button.MaterialButton
             style="@style/default_itrip_button"
-            android:id="@+id/back_quiz"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:layout_marginTop="30dp"
             android:text="@string/quiz_next"
-            app:layout_constraintTop_toBottomOf="@+id/answers"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="30dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancel_button"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/back"
-            android:backgroundTint="@android:color/transparent"
-            android:textColor="@color/colorPrimary"
-            android:textAllCaps="false"
-            android:paddingStart="30dp"
-            android:paddingEnd="30dp"
-            android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@+id/back_quiz"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="30dp" />
+            app:layout_constraintTop_toBottomOf="@+id/answers" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
