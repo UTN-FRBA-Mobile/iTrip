@@ -30,9 +30,6 @@ data class Question(
 
     @ColumnInfo(name = "question")
     val question: String = ""
-
-
-
 )
 
 @Entity(foreignKeys = arrayOf(ForeignKey(entity = Question::class,
@@ -45,6 +42,6 @@ data class Answer(
     @ColumnInfo(name = "answer")
     val answer: String,
     @ColumnInfo(name = "chosenByUser")
-    var chosenByUser: Boolean =false
+    var chosenByUser: Boolean = false
 
     )

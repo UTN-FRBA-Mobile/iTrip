@@ -17,10 +17,7 @@
 package com.android.itrip.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 
 /**
  * Defines methods for using the SleepNight class with Room.
@@ -29,22 +26,24 @@ import androidx.room.Update
 interface QuestionDatabaseDao {
 
     @Insert
-    fun insert(question: Question)
+    fun insertQuestion(question: Question)
 
-    /**
-     * When updating a row with a value already set in a column,
-     * replaces the old value with the new one.
-     *
-     * @param destination new value to write
-     */
+
     @Update
-    fun update(question: Question)
+    fun updateQuestion(question: Question)
 
-    /**
-     * Selects and returns the row that matches the supplied start time, which is our key.
-     *
-     * @param key to match
-     */
+    @Delete
+    fun deleteQuestion(question: Question)
+
+    @Insert
+    fun insertAnswer(answer: Answer)
+
+    @Update
+    fun UpdateAnswer(answer: Answer)
+
+    @Delete
+    fun DeleteAnswer(answer: Answer)
+
     @Query("SELECT * from questions_table WHERE questionId = :key")
     fun get(key: Long): Question?
 
@@ -63,6 +62,12 @@ interface QuestionDatabaseDao {
      */
     @Query("SELECT * FROM questions_table ORDER BY questionId DESC")
     fun getAllQuestions(): LiveData<List<Question>>
+
+    @Query("SELECT * FROM Answer where qId = :questionId ORDER BY id DESC")
+    fun getAllPossibleAnswers(questionId:Long): List<Answer>
+
+    @Query("SELECT * FROM Answer where qId = :questionId AND chosenByUser=1 ORDER BY id DESC")
+    fun getAllAnswersChosenByUser(questionId:Long): List<Answer>
 
 
 
