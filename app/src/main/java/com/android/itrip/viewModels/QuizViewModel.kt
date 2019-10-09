@@ -6,7 +6,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import com.android.itrip.database.Answer
 import com.android.itrip.database.Question
 import com.android.itrip.database.QuestionDatabaseDao
 import com.android.itrip.fragments.QuizHomeFragment
@@ -32,7 +31,7 @@ class QuizViewModel(
 
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    val questions: LiveData<List<Question>>
+  //  val questions: LiveData<List<Question>>
 
     private var _query = MutableLiveData<String>()
     private val query: LiveData<String>
@@ -49,7 +48,7 @@ class QuizViewModel(
             insert(Answer(1,1,"no",false))
 */
         }
-            questions = Transformations.switchMap(query) { query -> updateLiveData(query) }
+     //       questions = Transformations.switchMap(query) { query -> updateLiveData(query) }
     }
 
    /* private suspend fun insert(destination: Destination) {
@@ -76,7 +75,8 @@ class QuizViewModel(
         }
     }*/
 
+    /*
     private fun updateLiveData(query: String?): LiveData<List<Question>>? {
         return database.getAllQuestions()
-    }
+    }*/
 }
