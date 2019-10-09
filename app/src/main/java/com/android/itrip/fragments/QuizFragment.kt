@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.android.itrip.R
-import com.android.itrip.databinding.FragmentCreateTravelBinding
+import com.android.itrip.databinding.FragmentQuizBinding
 
 /**
  * A simple [Fragment] subclass.
@@ -19,7 +19,7 @@ class QuizFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentCreateTravelBinding = DataBindingUtil.inflate(
+        val binding: FragmentQuizBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_quiz, container, false
         )
         return binding.root
