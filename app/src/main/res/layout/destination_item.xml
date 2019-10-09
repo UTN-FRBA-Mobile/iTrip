@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="destination"
             type="com.android.itrip.database.Destination" />
@@ -12,15 +11,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
-
-        <!--        <ImageView-->
-        <!--            android:id="@+id/destination_img"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="200dp"-->
-        <!--            app:layout_constraintBaseline_toBaselineOf="parent" />-->
 
         <TextView
             android:id="@+id/destination_name_textView"

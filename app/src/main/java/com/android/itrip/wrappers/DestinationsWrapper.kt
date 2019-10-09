@@ -3,13 +3,13 @@ package com.android.itrip.wrappers
 import com.android.itrip.database.Destination
 import java.io.Serializable
 
-class DestinationWrapper : Serializable {
+class DestinationsWrapper : Serializable {
 
 
-    constructor(destination: Destination) {
-        this.destination = destination
+    constructor(destinations: List<Destination>) {
+        this.destinations = destinations
     }
 
-    val destination: Destination
+    val destinations: List<Destination>
     // GETTERS AND SETTERS
 }

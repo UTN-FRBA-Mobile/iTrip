@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -35,9 +36,16 @@ class CreateTravelFragment : Fragment() {
         this.arguments!!.get("destinations")?.let {
             val destinationWrapper = this.arguments!!.get("destinations") as DestinationsWrapper
             destinations = destinationWrapper.destinations
+            var textMessage = ""
             destinations.forEach {
-                logger.info("destination.name: " + it.name)
+                textMessage = textMessage + it.name + ", "
             }
+            textMessage += "agregadas."
+            if (destinations.isNotEmpty()) Toast.makeText(
+                context,
+                textMessage,
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
         binding.createTravel.setOnClickListener { view: View ->
