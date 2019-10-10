@@ -6,15 +6,19 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import com.android.itrip.database.Answer
 import com.android.itrip.database.Question
 import com.android.itrip.database.QuestionDatabaseDao
 import com.android.itrip.fragments.QuizHomeFragment
 import kotlinx.coroutines.*
 import java.util.logging.Logger
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+
+
 
 
 class QuizViewModel(
-    val database: QuestionDatabaseDao,
+    var database: QuestionDatabaseDao,
     application: Application
 ) : AndroidViewModel(application) {
 
@@ -31,24 +35,26 @@ class QuizViewModel(
 
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-  //  val questions: LiveData<List<Question>>
+  val questions: LiveData<List<Question>>
 
     private var _query = MutableLiveData<String>()
     private val query: LiveData<String>
         get() = _query
 
     init {
+
+
         _query.value = ""
         uiScope.launch {
             clear()
             //TODO get questions from DB (API)
-            /*
-            insert(Question(1, "vamos a llegar a hacer el TP?"))
-            insert(Answer(1,1,"si",false))
-            insert(Answer(1,1,"no",false))
-*/
+
+            database.insertQuestion(Question(1, "vamos a llegar a hacer el TP?"))
+            database.insertAnswer(Answer(1,1,"si",false))
+            database.insertAnswer(Answer(1,1,"no",false))
+
         }
-     //       questions = Transformations.switchMap(query) { query -> updateLiveData(query) }
+            questions = Transformations.switchMap(query) { query -> updateLiveData(query) }
     }
 
    /* private suspend fun insert(destination: Destination) {
@@ -75,8 +81,8 @@ class QuizViewModel(
         }
     }*/
 
-    /*
+
     private fun updateLiveData(query: String?): LiveData<List<Question>>? {
         return database.getAllQuestions()
-    }*/
+    }
 }

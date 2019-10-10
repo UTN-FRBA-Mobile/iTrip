@@ -26,7 +26,7 @@ import androidx.room.*
 interface QuestionDatabaseDao {
 
     @Insert
-    fun insertQuestion(question: Question)
+   public fun insertQuestion(question: Question)
 
 
     @Update
