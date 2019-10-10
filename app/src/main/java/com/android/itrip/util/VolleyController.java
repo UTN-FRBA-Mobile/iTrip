@@ -6,6 +6,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+import javax.annotation.Nullable;
+
+import kotlin.jvm.Synchronized;
+
 public class VolleyController {
     private static VolleyController mInstance;
     private static Context mCtx;
@@ -33,8 +37,9 @@ public class VolleyController {
         return mRequestQueue;
     }
 
-    public void addToRequestQueue(Request req) {
-        getRequestQueue().add(req);
+    @Synchronized
+    public void addToRequestQueue(@Nullable Request req) {
+        if (req != null) getRequestQueue().add(req);
     }
 
 }
