@@ -8,151 +8,151 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/loginConstraint"
-        android:background="@color/colorWhiteSmoke"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorWhiteSmoke"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/destinationCreateTitle"
             android:layout_width="match_parent"
-            android:layout_marginEnd="15dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="30dp"
+            android:layout_marginEnd="15dp"
+            android:text="@string/create_travel"
             android:textColor="#000"
             android:textSize="30sp"
             android:textStyle="bold"
-            android:text="@string/create_travel"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="15dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/destinationCreateDescription"
             android:layout_width="match_parent"
-            android:layout_marginEnd="15dp"
-            android:layout_marginTop="15dp"
-            android:textSize="18sp"
-            android:text="@string/destination_create_description"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/destinationCreateTitle"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:text="@string/destination_create_description"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="15dp" />
+            app:layout_constraintTop_toBottomOf="@+id/destinationCreateTitle" />
 
         <com.google.android.material.button.MaterialButton
-            style="@style/default_itrip_button"
             android:id="@+id/selectDestiny"
+            style="@style/default_itrip_button"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:layout_marginTop="30dp"
             android:text="@string/select_destiny"
-            app:layout_constraintTop_toBottomOf="@+id/destinationCreateDescription"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="30dp" />
+            app:layout_constraintTop_toBottomOf="@+id/destinationCreateDescription" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fromDate"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="@string/fromDate"
-            app:boxStrokeColor="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="15dp"
             android:layout_marginTop="50dp"
-            app:layout_constraintTop_toBottomOf="@+id/selectDestiny"
+            android:layout_marginEnd="15dp"
+            android:hint="@string/fromDate"
+            app:boxStrokeColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="15dp">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/selectDestiny">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="date"
                 android:maxLines="1"
-                app:boxBackgroundColor="#fff"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                app:boxBackgroundColor="#fff" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/untilDate"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="@string/untilDate"
-            app:boxStrokeColor="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="15dp"
             android:layout_marginTop="30dp"
-            app:layout_constraintTop_toBottomOf="@+id/fromDate"
+            android:layout_marginEnd="15dp"
+            android:hint="@string/untilDate"
+            app:boxStrokeColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="15dp">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fromDate">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="date"
                 android:maxLines="1"
-                app:boxBackgroundColor="#fff"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                app:boxBackgroundColor="#fff" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/budget"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="@string/budget"
-            app:boxStrokeColor="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="15dp"
-            app:layout_constraintTop_toBottomOf="@+id/untilDate"
-            android:layout_marginTop="30dp">
+            android:hint="@string/budget"
+            app:boxStrokeColor="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/untilDate">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="number"
                 android:maxLines="1"
-                app:boxBackgroundColor="#fff"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                app:boxBackgroundColor="#fff" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/createTravel"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="15dp"
             android:background="@color/colorPrimary"
             android:text="@string/create"
-            android:textColor="#fff"
             android:textAllCaps="false"
+            android:textColor="#fff"
             android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@+id/budget"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginTop="30dp" />
+            app:layout_constraintTop_toBottomOf="@+id/budget" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/cancel_button"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/cancel"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="15dp"
             android:backgroundTint="@android:color/transparent"
-            android:textColor="@color/colorPrimary"
+            android:text="@string/cancel"
             android:textAllCaps="false"
+            android:textColor="@color/colorPrimary"
             android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@+id/createTravel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginTop="30dp" />
+            app:layout_constraintTop_toBottomOf="@+id/createTravel" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

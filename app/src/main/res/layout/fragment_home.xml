@@ -8,10 +8,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/homeConstraintLayout"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorWhiteSmoke">
+        android:background="@color/colorWhiteSmoke"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/mainLogo"

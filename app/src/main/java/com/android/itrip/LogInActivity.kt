@@ -35,7 +35,7 @@ class LogInActivity : AppCompatActivity() {
         val auth = FirebaseAuth.getInstance()
 
         if (auth.currentUser != null) {
-            AuthenticationService.verifyUser(auth.currentUser,queue)
+            AuthenticationService.verifyUser(auth.currentUser, queue)
             val intent = Intent(this, MainActivity::class.java).apply {
                 putExtra("CurrentUser", auth.currentUser)
             }
@@ -66,7 +66,7 @@ class LogInActivity : AppCompatActivity() {
             // Successfully signed in
             if (resultCode == RESULT_OK) {
                 val user = FirebaseAuth.getInstance().currentUser
-                AuthenticationService.verifyUser(user,queue)
+                AuthenticationService.verifyUser(user, queue)
                 val intent = Intent(this, MainActivity::class.java).apply {
                     putExtra("CurrentUser", user)
                 }
