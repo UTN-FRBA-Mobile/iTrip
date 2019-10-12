@@ -6,7 +6,7 @@ import android.content.Intent
 import android.os.IBinder
 import com.android.itrip.database.Destination
 import com.android.itrip.database.Trip
-import com.android.itrip.models.Pais
+import com.android.itrip.models.Continente
 import com.android.itrip.util.VolleySingleton
 import com.android.volley.AuthFailureError
 import com.android.volley.Request.Method.GET
@@ -16,6 +16,7 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.logging.Logger
@@ -37,21 +38,15 @@ object TravelService : Service() {
     }
 
     fun getDestinations(
-        responseHandler: (List<Pais>) -> Unit,
+        responseHandler: (List<Continente>) -> Unit,
         errorHandler: (VolleyError) -> Unit
     ) {
         logger.info("getDestinations.")
         val url = "destinos/"
         getArray(url, {
-            val paisesList: MutableList<Pais> = arrayListOf(Pais())
-            val paises = it.getJSONObject(0).getJSONArray("paises")
-            for (i in 0 until paises.length()) {
-                val pais =
-                    gson.fromJson(paises.getJSONObject(i).toString(), Pais::class.java)
-                paisesList.add(pais)
-                logger.info("Destino: " + pais.nombre)
-            }
-            responseHandler(paisesList)
+            val listType = object : TypeToken<List<Continente>>() {}.type
+            val continentes: List<Continente> = gson.fromJson(it.toString(), listType)
+            responseHandler(continentes)
         }, errorHandler)
     }
 

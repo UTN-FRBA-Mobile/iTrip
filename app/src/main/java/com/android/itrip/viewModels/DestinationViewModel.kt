@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.android.itrip.database.Destination
 import com.android.itrip.database.DestinationDatabaseDao
-import com.android.itrip.models.Pais
+import com.android.itrip.models.Continente
 import com.android.itrip.services.TravelService
 import kotlinx.coroutines.*
 import java.util.logging.Logger
@@ -37,8 +37,8 @@ class DestinationViewModel(
 
 
     init {
-        TravelService.getDestinations({ paises ->
-            getDestinationsCallback(paises)
+        TravelService.getDestinations({ continentes ->
+            getDestinationsCallback(continentes)
         }, {}
         )
 
@@ -46,13 +46,17 @@ class DestinationViewModel(
         destinations = Transformations.switchMap(query) { query -> updateLiveData(query) }
     }
 
-    private fun getDestinationsCallback(paises: List<Pais>) {
-        logger.info("Cantidad de Paises: " + paises.size.toString())
+    private fun getDestinationsCallback(continentes: List<Continente>) {
+        logger.info("Cantidad de Continentes: " + continentes.size.toString())
         uiScope.launch {
             clear()
-            paises.forEach {
-                logger.info("Pais: " + it.nombre)
-                it.ciudades.forEach { ciudad -> insert(Destination(ciudad.id, ciudad.nombre)) }
+            continentes.forEach {
+                logger.info("Continente: " + it.nombre)
+                it.paises.forEach { pais ->
+                    pais.ciudades.forEach { ciudad ->
+                        insert(Destination(ciudad.id, ciudad.nombre))
+                    }
+                }
             }
         }
     }
