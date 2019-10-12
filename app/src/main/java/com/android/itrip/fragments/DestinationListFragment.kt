@@ -20,7 +20,6 @@ import com.android.itrip.database.DestinationDatabase
 import com.android.itrip.databinding.FragmentDestinationListBinding
 import com.android.itrip.viewModels.DestinationViewModel
 import com.android.itrip.viewModels.DestinationViewModelFactory
-import com.android.itrip.wrappers.DestinationsWrapper
 import java.util.logging.Logger
 
 
@@ -104,9 +103,7 @@ class DestinationListFragment : Fragment() {
                 logger.info("destination.name: " + it.name)
             }
             val bundle = bundleOf(
-                "destinations" to DestinationsWrapper(
-                    viewAdapter.checkedDestinations
-                )
+                "destinations" to viewAdapter.checkedDestinations
             )
             view.findNavController()
                 .navigate(

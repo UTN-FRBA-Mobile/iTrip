@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.android.itrip.R
 import com.android.itrip.database.Destination
-import com.android.itrip.wrappers.DestinationWrapper
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -27,13 +26,13 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         super.onCreate(savedInstanceState)
 
-        val destinationWrapper = this.arguments!!.get("destination") as DestinationWrapper
-        destination = destinationWrapper.destination
+        destination = this.arguments!!.get("destination") as Destination
         logger.info("destinationWrapper.destination.name: " + destination.name)
 
 

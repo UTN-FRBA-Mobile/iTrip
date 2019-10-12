@@ -17,7 +17,6 @@ import com.android.itrip.R
 import com.android.itrip.database.Destination
 import com.android.itrip.databinding.DestinationItemBinding
 import com.android.itrip.fragments.DestinationListFragmentDirections
-import com.android.itrip.wrappers.DestinationWrapper
 import java.util.logging.Logger
 
 class DestinationAdapter(destinations: LiveData<List<Destination>>) :
@@ -53,20 +52,19 @@ class DestinationAdapter(destinations: LiveData<List<Destination>>) :
             )
 
 
-            binding.addRemoveSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
-                binding.destination?.let {
-                    val dest = binding.destination!!
-                    if (isChecked) {checkedDestinations.add(dest)
-                        logger.info("destination.name: " + dest.name)
-                    } else checkedDestinations.remove(dest)
-                }
+        binding.addRemoveSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            binding.destination?.let {
+                val dest = binding.destination!!
+                if (isChecked) {
+                    checkedDestinations.add(dest)
+                    logger.info("destination.name: " + dest.name)
+                } else checkedDestinations.remove(dest)
             }
+        }
 
         binding.mapButton.setOnClickListener { view: View ->
             val bundle = bundleOf(
-                "destination" to DestinationWrapper(
-                    binding.destination!!
-                )
+                "destination" to binding.destination
             )
             view.findNavController()
                 .navigate(

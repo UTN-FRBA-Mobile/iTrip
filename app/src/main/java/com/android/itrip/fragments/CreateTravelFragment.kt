@@ -12,7 +12,6 @@ import androidx.navigation.findNavController
 import com.android.itrip.R
 import com.android.itrip.database.Destination
 import com.android.itrip.databinding.FragmentCreateTravelBinding
-import com.android.itrip.wrappers.DestinationsWrapper
 import java.util.logging.Logger
 
 /**
@@ -34,8 +33,7 @@ class CreateTravelFragment : Fragment() {
         )
 
         this.arguments!!.get("destinations")?.let {
-            val destinationWrapper = this.arguments!!.get("destinations") as DestinationsWrapper
-            destinations = destinationWrapper.destinations
+            destinations = this.arguments!!.get("destinations") as List<Destination>
             var textMessage = ""
             destinations.forEach {
                 textMessage = textMessage + it.name + ", "

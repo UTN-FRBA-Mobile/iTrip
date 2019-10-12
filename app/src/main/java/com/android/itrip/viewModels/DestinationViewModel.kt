@@ -9,6 +9,7 @@ import com.android.itrip.database.Destination
 import com.android.itrip.database.DestinationDatabaseDao
 import com.android.itrip.fragments.DestinationListFragment
 import kotlinx.coroutines.*
+import java.util.*
 import java.util.logging.Logger
 
 
@@ -40,10 +41,10 @@ class DestinationViewModel(
         _query.value = ""
         uiScope.launch {
             clear()
-            insert(Destination(1, "Buenos Aires", -34.61315, -58.37723))
-            insert(Destination(2, "Mendoza", -32.89084, -68.82717))
-            insert(Destination(3, "Tucuman", -26.82414, -65.2226))
-            insert(Destination(4, "Trelew", -43.24895, -65.30505))
+            insert(Destination(1, "Buenos Aires", -34.61315, -58.37723, Date(), Date()))
+            insert(Destination(2, "Mendoza", -32.89084, -68.82717, Date(), Date()))
+            insert(Destination(3, "Tucuman", -26.82414, -65.2226, Date(), Date()))
+            insert(Destination(4, "Trelew", -43.24895, -65.30505, Date(), Date()))
         }
         destinations = Transformations.switchMap(query) { query -> updateLiveData(query) }
     }
