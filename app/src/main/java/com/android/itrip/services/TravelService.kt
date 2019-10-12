@@ -54,6 +54,19 @@ object TravelService : Service() {
         }, errorHandler)
     }
 
+
+    fun getTrip( id: Long,
+        responseHandler: (Viaje) -> Unit,
+        errorHandler: (VolleyError) -> Unit
+    ) {
+        logger.info("getTrips.")
+        val url = "viajes/$id"
+        ApiService.get(url, {
+            val viaje: Viaje = gson.fromJson(it.toString(), Viaje::class.java)
+            responseHandler(viaje)
+        }, errorHandler)
+    }
+
     fun getTripDetails(id: Long): JsonObjectRequest? {
         if (!AuthenticationService.accessToken.value.isNullOrEmpty()) {
             logger.info("getTripDetails.")
