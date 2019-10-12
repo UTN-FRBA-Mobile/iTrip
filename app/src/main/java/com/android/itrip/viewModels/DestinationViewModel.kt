@@ -7,9 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.android.itrip.database.Destination
 import com.android.itrip.database.DestinationDatabaseDao
-import com.android.itrip.fragments.DestinationListFragment
+import com.android.itrip.models.Pais
+import com.android.itrip.services.TravelService
 import kotlinx.coroutines.*
-import java.util.*
 import java.util.logging.Logger
 
 
@@ -18,8 +18,7 @@ class DestinationViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 
-    private val logger = Logger.getLogger(DestinationListFragment::class.java.name)
-
+    private val logger = Logger.getLogger(this::class.java.name)
 
     private var viewModelJob = Job()
 
@@ -38,15 +37,24 @@ class DestinationViewModel(
 
 
     init {
+        TravelService.getDestinations({ paises ->
+            getDestinationsCallback(paises)
+        }, {}
+        )
+
         _query.value = ""
+        destinations = Transformations.switchMap(query) { query -> updateLiveData(query) }
+    }
+
+    private fun getDestinationsCallback(paises: List<Pais>) {
+        logger.info("Cantidad de Paises: " + paises.size.toString())
         uiScope.launch {
             clear()
-            insert(Destination(1, "Buenos Aires", -34.61315, -58.37723, Date(), Date()))
-            insert(Destination(2, "Mendoza", -32.89084, -68.82717, Date(), Date()))
-            insert(Destination(3, "Tucuman", -26.82414, -65.2226, Date(), Date()))
-            insert(Destination(4, "Trelew", -43.24895, -65.30505, Date(), Date()))
+            paises.forEach {
+                logger.info("Pais: " + it.nombre)
+                it.ciudades.forEach { ciudad -> insert(Destination(ciudad.id, ciudad.nombre)) }
+            }
         }
-        destinations = Transformations.switchMap(query) { query -> updateLiveData(query) }
     }
 
     private suspend fun insert(destination: Destination) {
@@ -62,15 +70,7 @@ class DestinationViewModel(
     }
 
     fun updateResults(query: String) {
-        logger.info("Query: " + query)
-        this._query.value = query
-        logger.info("Query livedata: " + this.query.value!!)
-        try {
-            if (destinations != null)
-                logger.info("destinations: " + destinations.value)
-        } catch (e: Exception) {
-            logger.info(e.toString())
-        }
+        _query.value = query
     }
 
     private fun updateLiveData(query: String?): LiveData<List<Destination>>? {

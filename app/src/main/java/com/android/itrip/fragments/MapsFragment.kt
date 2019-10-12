@@ -61,7 +61,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         logger.info("Map Ready!!")
 
 
-        val destinationLatLng = LatLng(destination.latitude, destination.longitude)
+        val destinationLatLng = LatLng(destination.latitude ?: 0.0, destination.longitude ?: 0.0)
 
         mMap.addMarker(MarkerOptions().position(destinationLatLng).title("Marker in " + destination.name))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(destinationLatLng))

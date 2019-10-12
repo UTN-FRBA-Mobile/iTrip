@@ -34,14 +34,14 @@ data class Destination(
     val name: String = "",
 
     @ColumnInfo(name = "latitude")
-    val latitude: Double = 0.0,
+    val latitude: Double? = 0.0,
 
     @ColumnInfo(name = "longitude")
-    var longitude: Double = 0.0,
+    var longitude: Double? = 0.0,
 
     @ColumnInfo(name = "startDate")
-    var startDate: Date?,
+    var startDate: Date? = Date(),
 
     @ColumnInfo(name = "endDate")
-    var endDate: Date?
+    var endDate: Date? = Date()
 ) : Serializable

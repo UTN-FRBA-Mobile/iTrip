@@ -5,8 +5,8 @@ import java.util.*
 
 
 class CreateTravelViewModel() : ViewModel() {
-    val from : Date = Date()
-    val to : Date = Date()
+    val from: Date = Date()
+    val to: Date = Date()
 }
 
 
