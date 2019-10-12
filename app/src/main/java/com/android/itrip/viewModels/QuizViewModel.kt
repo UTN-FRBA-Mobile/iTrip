@@ -35,8 +35,9 @@ class QuizViewModel(
 
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-  val questions: LiveData<List<Question>>
-
+    val questions: LiveData<List<Question>>
+    var question: Question = Question(3,"vamos a terminar el tp")
+    var answer:Answer = Answer(1,3,"si",false)
     private var _query = MutableLiveData<String>()
     private val query: LiveData<String>
         get() = _query
@@ -44,24 +45,29 @@ class QuizViewModel(
     init {
 
 
-        _query.value = ""
+       _query.value = ""
         uiScope.launch {
             clear()
             //TODO get questions from DB (API)
 
-            database.insertQuestion(Question(1, "vamos a llegar a hacer el TP?"))
-            database.insertAnswer(Answer(1,1,"si",false))
-            database.insertAnswer(Answer(1,1,"no",false))
+            insertQ(Question(1, "vamos a llegar a hacer el TP?"))
+            insertA(Answer(1,1,"si",false))
+            insertA(Answer(2,1,"no",false))
 
         }
             questions = Transformations.switchMap(query) { query -> updateLiveData(query) }
     }
 
-   /* private suspend fun insert(destination: Destination) {
+    private suspend fun insertQ(question: Question) {
         withContext(Dispatchers.IO) {
-            database.insert(destination)
+            database.insertQuestion(question)
         }
-    }*/
+    }
+    private suspend fun insertA(answer: Answer) {
+        withContext(Dispatchers.IO) {
+            database.insertAnswer(answer)
+        }
+    }
 
     private suspend fun clear() {
         withContext(Dispatchers.IO) {
@@ -80,7 +86,6 @@ class QuizViewModel(
             logger.info(e.toString())
         }
     }*/
-
 
     private fun updateLiveData(query: String?): LiveData<List<Question>>? {
         return database.getAllQuestions()

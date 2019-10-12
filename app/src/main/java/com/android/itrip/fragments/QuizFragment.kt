@@ -9,9 +9,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.android.itrip.R
+import com.android.itrip.database.QuestionDatabase
 import com.android.itrip.databinding.FragmentQuizBinding
+import com.android.itrip.viewModels.DestinationViewModel
+import com.android.itrip.viewModels.QuizViewModel
+import com.android.itrip.viewModels.QuizViewModelFactory
 
 /**
  * A simple [Fragment] subclass.
@@ -49,6 +54,7 @@ class QuizFragment : Fragment() {
 
     lateinit var currentQuestion: Question
     lateinit var answers: MutableList<String>
+    lateinit var questionsViewModel: QuizViewModel
     var questionIndex = 0
     val numQuestions = Math.min((questions.size + 1) / 2, 3)
 
@@ -59,11 +65,19 @@ class QuizFragment : Fragment() {
         val binding: FragmentQuizBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_quiz, container, false
         )
-        // Shuffles the questions and sets the question index to the first question.
-        randomizeQuestions()
 
+        val application = requireNotNull(this.activity).application
+
+        val dataSource = QuestionDatabase.getInstance(application).questionDao
         // Bind this fragment class to the layout
-        binding.game = this
+        val viewModelFactory = QuizViewModelFactory(dataSource, application)
+
+        questionsViewModel=
+            ViewModelProviders.of(
+                this, viewModelFactory
+            ).get(QuizViewModel::class.java)
+
+        binding.quizViewModel = questionsViewModel
 
         // Set the onClickListener for the submitButton
         binding.nextQuiz.setOnClickListener { view: View ->
@@ -78,26 +92,20 @@ class QuizFragment : Fragment() {
                 }
                 // The first answer in the original question is always the correct one, so if our
                 // answer matches, we have the correct answer.
-                if (answers[answerIndex] == currentQuestion.answers[0]) {
+
                     questionIndex++
                     // Advance to the next question
                     if (questionIndex < numQuestions) {
                         currentQuestion = questions[questionIndex]
                         setQuestion()
                         binding.invalidateAll()
-                        Toast.makeText(context,"Great Answer!",Toast.LENGTH_SHORT).show()
-
                     } else {
                         // We've won!  Navigate to the gameWonFragment.
                         view.findNavController().navigate(QuizFragmentDirections.actionQuizFragmentToQuizEndFragment())
                     }
-                } else {
-                    // Game over! A wrong answer sends us to the gameOverFragment.
-                    Toast.makeText(context,"Wrong Answer!",Toast.LENGTH_SHORT).show()
 
-//                    view.findNavController().navigate(GameFragmentDirections.actionGameFragmentToGameOverFragment())
                 }
-            }
+
         }
 
 //        binding.nextQuiz.setOnClickListener { view: View ->
