@@ -7,8 +7,8 @@
     <data>
 
         <variable
-            name="game"
-            type="com.android.itrip.fragments.QuizFragment" />
+            name="quizViewModel"
+            type="com.android.itrip.viewModels.QuizViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +24,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="15dp"
-            android:text="@{game.currentQuestion.text}"
+            android:text="@{quizViewModel.question.question}"
             android:textColor="#000"
             android:textSize="30sp"
             android:textStyle="bold"
@@ -39,7 +39,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="15dp"
-            android:text='@{"Pregunta "+game.questionIndex+" of "+game.numQuestions}'
+            android:text='@{"Pregunta Test"}'
             android:textColor="@color/colorPlaceholder"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -60,7 +60,7 @@
                 android:id="@+id/first"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{game.answers[0]}"
+                android:text="@{quizViewModel.answer.answer}"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp"
                 android:theme="@style/radioButtonStyle" />
@@ -69,7 +69,7 @@
                 android:id="@+id/second"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{game.answers[1]}"
+                android:text="@{quizViewModel.answer.answer}"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp"
                 android:theme="@style/radioButtonStyle" />
@@ -78,7 +78,7 @@
                 android:id="@+id/third"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{game.answers[2]}"
+                android:text="@{quizViewModel.answer.answer}"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp"
                 android:theme="@style/radioButtonStyle" />
@@ -87,7 +87,7 @@
                 android:id="@+id/fourth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{game.answers[3]}"
+                android:text="@{quizViewModel.answer.answer}"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp"
                 android:theme="@style/radioButtonStyle" />
