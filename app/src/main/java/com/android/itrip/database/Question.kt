@@ -32,10 +32,16 @@ data class Question(
     val question: String = ""
 )
 
-@Entity(foreignKeys = arrayOf(ForeignKey(entity = Question::class,
-    parentColumns = arrayOf("questionId"),
-    childColumns = arrayOf("qId"),
-    onDelete = ForeignKey.CASCADE)))
+@Entity(
+    foreignKeys = arrayOf(
+        ForeignKey(
+            entity = Question::class,
+            parentColumns = arrayOf("questionId"),
+            childColumns = arrayOf("qId"),
+            onDelete = ForeignKey.CASCADE
+        )
+    )
+)
 data class Answer(
     @PrimaryKey(autoGenerate = true) val id: Long,
     val qId: Long,
@@ -44,4 +50,4 @@ data class Answer(
     @ColumnInfo(name = "chosenByUser")
     var chosenByUser: Boolean = false
 
-    )
+)

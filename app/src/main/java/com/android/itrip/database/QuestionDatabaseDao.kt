@@ -26,7 +26,7 @@ import androidx.room.*
 interface QuestionDatabaseDao {
 
     @Insert
-   public fun insertQuestion(question: Question)
+    public fun insertQuestion(question: Question)
 
 
     @Update
@@ -35,7 +35,7 @@ interface QuestionDatabaseDao {
     @Delete
     fun deleteQuestion(question: Question)
 
-   @Insert
+    @Insert
     fun insertAnswer(answer: Answer)
 
     @Update
@@ -64,11 +64,10 @@ interface QuestionDatabaseDao {
     fun getAllQuestions(): LiveData<List<Question>>
 
     @Query("SELECT * FROM Answer where qId = :questionId ORDER BY id DESC")
-    fun getAllPossibleAnswers(questionId:Long): List<Answer>
+    fun getAllPossibleAnswers(questionId: Long): List<Answer>
 
     @Query("SELECT * FROM Answer where qId = :questionId AND chosenByUser=1 ORDER BY id DESC")
-    fun getAllAnswersChosenByUser(questionId:Long): List<Answer>
-
+    fun getAllAnswersChosenByUser(questionId: Long): List<Answer>
 
 
 }

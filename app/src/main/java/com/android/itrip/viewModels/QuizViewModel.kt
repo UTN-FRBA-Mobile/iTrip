@@ -1,7 +1,6 @@
 package com.android.itrip.viewModels
 
 import android.app.Application
-import android.provider.SyncStateContract.Helpers.insert
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,9 +11,6 @@ import com.android.itrip.database.QuestionDatabaseDao
 import com.android.itrip.fragments.QuizHomeFragment
 import kotlinx.coroutines.*
 import java.util.logging.Logger
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
-
 
 
 class QuizViewModel(
@@ -55,7 +51,7 @@ class QuizViewModel(
             insertA(Answer(2,1,"no",false))
 
         }
-            questions = Transformations.switchMap(query) { query -> updateLiveData(query) }
+        questions = Transformations.switchMap(query) { query -> updateLiveData(query) }
     }
 
     private suspend fun insertQ(question: Question) {
@@ -75,17 +71,17 @@ class QuizViewModel(
         }
     }
 
- /*   fun updateResults(query: String) {
-        logger.info("Query: " + query)
-        this._query.value = query
-        logger.info("Query livedata: " + this.query.value!!)
-        try {
-            if (destinations != null)
-                logger.info("destinations: " + destinations.value)
-        } catch (e: Exception) {
-            logger.info(e.toString())
-        }
-    }*/
+    /*   fun updateResults(query: String) {
+           logger.info("Query: " + query)
+           this._query.value = query
+           logger.info("Query livedata: " + this.query.value!!)
+           try {
+               if (destinations != null)
+                   logger.info("destinations: " + destinations.value)
+           } catch (e: Exception) {
+               logger.info(e.toString())
+           }
+       }*/
 
     private fun updateLiveData(query: String?): LiveData<List<Question>>? {
         return database.getAllQuestions()
