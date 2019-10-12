@@ -55,7 +55,8 @@ object TravelService : Service() {
     }
 
 
-    fun getTrip( id: Long,
+    fun getTrip(
+        id: Long,
         responseHandler: (Viaje) -> Unit,
         errorHandler: (VolleyError) -> Unit
     ) {
@@ -67,67 +68,18 @@ object TravelService : Service() {
         }, errorHandler)
     }
 
-    fun getTripDetails(id: Long): JsonObjectRequest? {
-        if (!AuthenticationService.accessToken.value.isNullOrEmpty()) {
-            logger.info("getTripDetails.")
-            val url = AuthenticationService.base_api_url + "viaje/" + id
-            return object : JsonObjectRequest(
-                Method.GET, url, null,
-                Response.Listener {
-                    logger.info("getTripDetails: $it")
-                },
-                Response.ErrorListener {
-                    logger.info("Error in getTripDetails(): $it")
-                }) {
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): Map<String, String> {
-                    val headers = HashMap<String, String>()
-                    val accessToken: String = AuthenticationService.accessToken.value!!
-                    headers["Authorization"] = "Bearer $accessToken"
-                    headers["Content-Type"] = "application/json"
-                    headers.forEach {
-                        logger.info(it.key + ": " + it.value)
-                    }
-                    return headers
-                }
-            }
-        }
-        return null
-    }
-
-
-    fun createTrip(trip: Trip): JsonObjectRequest? {
-        if (!AuthenticationService.accessToken.value.isNullOrEmpty()) {
-
-            val params = HashMap<String, String>()
-            params["nombre"] = trip.name
-            params["inicio"] = trip.startDate.toString()
-            params["fin"] = trip.endDate.toString()
-
-            logger.info("createTrip.")
-            val url = AuthenticationService.base_api_url + "viaje/"
-            return object : JsonObjectRequest(
-                Method.POST, url, JSONObject(params),
-                Response.Listener {
-                    logger.info("createTrip: $it")
-                },
-                Response.ErrorListener {
-                    logger.info("Error in createTrip(): $it")
-                }) {
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): Map<String, String> {
-                    val headers = HashMap<String, String>()
-                    val accessToken: String = AuthenticationService.accessToken.value!!
-                    headers["Authorization"] = "Bearer $accessToken"
-                    headers["Content-Type"] = "application/json"
-                    headers.forEach {
-                        logger.info(it.key + ": " + it.value)
-                    }
-                    return headers
-                }
-            }
-        }
-        return null
+    fun createTrip(
+        viajeParam: Viaje,
+        responseHandler: (Viaje) -> Unit,
+        errorHandler: (VolleyError) -> Unit
+    ) {
+        logger.info("createTrip.")
+        val url = "viajes/"
+        val json: JSONObject = JSONObject().getJSONObject(gson.toJson(viajeParam))
+        ApiService.post(url, json, {
+            val viaje: Viaje = gson.fromJson(it.toString(), Viaje::class.java)
+            responseHandler(viaje)
+        }, errorHandler)
     }
 
     fun updateTrip(trip: Trip): JsonObjectRequest? {
