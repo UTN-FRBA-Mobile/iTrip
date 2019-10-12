@@ -7,10 +7,10 @@ import com.android.itrip.database.Destination
 import com.android.itrip.database.Trip
 import com.android.itrip.models.Actividad
 import com.android.itrip.models.Continente
+import com.android.itrip.models.Viaje
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.VolleyError
-import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -41,34 +41,17 @@ object TravelService : Service() {
         }, errorHandler)
     }
 
-    fun getTrip(): JsonArrayRequest? {
-        if (!AuthenticationService.accessToken.value.isNullOrEmpty()) {
-            var trip: Trip
-            logger.info("getTrip.")
-            val url = AuthenticationService.base_api_url + "viaje/"
-            return object : JsonArrayRequest(
-                Method.GET, url, null,
-                Response.Listener {
-                    logger.info("Viajes: $it")
-//                    trip = it
-                },
-                Response.ErrorListener {
-                    logger.info("Error in getTrip(): $it")
-                }) {
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): Map<String, String> {
-                    val headers = HashMap<String, String>()
-                    val accessToken: String = AuthenticationService.accessToken.value!!
-                    headers["Authorization"] = "Bearer $accessToken"
-                    headers["Content-Type"] = "application/json"
-                    headers.forEach {
-                        logger.info(it.key + ": " + it.value)
-                    }
-                    return headers
-                }
-            }
-        }
-        return null
+    fun getTrips(
+        responseHandler: (List<Viaje>) -> Unit,
+        errorHandler: (VolleyError) -> Unit
+    ) {
+        logger.info("getTrips.")
+        val url = "viajes/"
+        ApiService.getArray(url, {
+            val listType = object : TypeToken<List<Viaje>>() {}.type
+            val viajes: List<Viaje> = gson.fromJson(it.toString(), listType)
+            responseHandler(viajes)
+        }, errorHandler)
     }
 
     fun getTripDetails(id: Long): JsonObjectRequest? {
@@ -208,7 +191,6 @@ object TravelService : Service() {
             val actividades: List<Actividad> = gson.fromJson(it.toString(), listType)
             responseHandler(actividades)
         }, errorHandler)
-
     }
 
 
