@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.android.itrip.databinding.ActivityMainBinding
-import com.android.itrip.services.TravelService
+import com.android.itrip.services.ApiService
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import java.util.logging.Logger
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         val currentUser =
             intent.getParcelableExtra<com.google.firebase.auth.FirebaseUser>("CurrentUser")
 
-        TravelService.setContext(this)
+        ApiService.setContext(this)
 
         currentUser?.providerData?.forEach {
             logger.info("Sign-in provider: " + it.providerId)

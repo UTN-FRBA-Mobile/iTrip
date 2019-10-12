@@ -35,6 +35,7 @@
             android:value="@string/google_maps_key" />
         <service android:name=".services.AuthenticationService" />
         <service android:name=".services.TravelService" />
+        <service android:name=".services.ApiService" />
 
         <activity android:name=".LogInActivity">
             <intent-filter>
