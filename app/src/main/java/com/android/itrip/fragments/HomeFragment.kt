@@ -10,20 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.android.itrip.R
 import com.android.itrip.databinding.FragmentHomeBinding
-import com.android.itrip.util.VolleyController
-import com.android.volley.Response
-import com.android.volley.toolbox.ImageRequest
-import java.util.logging.Logger
+import com.android.itrip.fragments.HomeFragmentDirections.Companion.actionHomeFragmentToCreateTravelFragment
+import com.android.itrip.fragments.HomeFragmentDirections.Companion.actionHomeFragmentToQuizHomeFragment
+import com.squareup.picasso.Picasso
 
-/**
- * A simple [Fragment] subclass.
- */
 class HomeFragment : Fragment() {
-
-    private val logger = Logger.getLogger(this::class.java.name)
-
-    private lateinit var queue: VolleyController
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,30 +24,29 @@ class HomeFragment : Fragment() {
             inflater, R.layout.fragment_home, container, false
         )
 
-        queue = VolleyController.getInstance(context)
-
-        val url = "https://proyecto.brazilsouth.cloudapp.azure.com/media/45.jpg"
-        val request = ImageRequest(url,
-            Response.Listener { bitmap ->
-                logger.info("Image downloaded")
-                binding.mainLogo.setImageBitmap(bitmap)
-            }, 0, 0, null,
-            Response.ErrorListener { error ->
-                logger.info("Image failed: " + error.toString())
-            })
-        queue.addToRequestQueue(request)
-
+        Picasso.get()
+            .load("http://proyecto.brazilsouth.cloudapp.azure.com/media/45.jpg")
+            .placeholder(R.drawable.logo)
+            .error(R.drawable.logo)
+            .resize(150, 150)
+            .centerCrop()
+            .into(binding.mainLogo)
 
         binding.createTravel.setOnClickListener { view: View ->
             view.findNavController()
-                .navigate(HomeFragmentDirections.actionHomeFragmentToCreateTravelFragment())
+                .navigate(actionHomeFragmentToCreateTravelFragment())
         }
+
+        binding.getTravels.setOnClickListener { view: View ->
+            // TODO
+        }
+
         binding.quiz.setOnClickListener { view: View ->
             view.findNavController()
-                .navigate(HomeFragmentDirections.actionHomeFragmentToQuizHomeFragment())
+                .navigate(actionHomeFragmentToQuizHomeFragment())
         }
+
         return binding.root
     }
-
 
 }

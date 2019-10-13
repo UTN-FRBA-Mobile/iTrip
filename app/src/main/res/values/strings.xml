@@ -30,6 +30,7 @@
     <string name="tou_alert">Acepto los términos y condiciones de uso</string>
     <string name="cancel">Cancelar</string>
     <string name="create_travel">Armar viaje!</string>
+    <string name="travels">Mis viajes</string>
     <string name="take_quiz">Completar cuestionario</string>
     <string name="quiz_end_title">Cuestionario finalizado</string>
     <string name="select_destiny">Seleccionar destino</string>
