@@ -19,14 +19,11 @@ import com.android.itrip.fragments.ActivitiesListFragmentDirections
 import com.android.itrip.models.Actividad
 import com.android.itrip.models.MapDestination
 import com.squareup.picasso.Picasso
-import java.util.logging.Logger
 
 class ActivitiesAdapter(actividades: LiveData<List<Actividad>>) :
     ListAdapter<Actividad, RecyclerView.ViewHolder>(ActivitiesDiffCallback()) {
 
     private var _actividades: LiveData<List<Actividad>> = actividades
-    private val logger = Logger.getLogger(this::class.java.name)
-
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val actividad = getItem(position)
@@ -51,7 +48,7 @@ class ActivitiesAdapter(actividades: LiveData<List<Actividad>>) :
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context), R.layout.activities_item, parent, false
             )
-        binding.mapButton.setOnClickListener { view: View ->
+        binding.mapImageView.setOnClickListener { view: View ->
             val mapDestination = MapDestination(
                 binding.actividadModel!!.nombre,
                 binding.actividadModel!!.latitud,
@@ -88,9 +85,8 @@ class ActivitiesAdapter(actividades: LiveData<List<Actividad>>) :
                         .load(item.imagen)
                         .placeholder(R.drawable.logo)
                         .error(R.drawable.logo)
-                        .resize(150, 150)
-                        .centerCrop()
-                        .into(binding.activityImageView)
+                        .fit()
+                        .into(activityImageView)
                 }
             }
         }

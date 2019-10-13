@@ -55,6 +55,9 @@ data class Actividad(
     @ColumnInfo(name = "disponibilidad_tarde")
     var disponibilidad_tarde: Boolean = false,
 
+    @ColumnInfo(name = "disponibilidad_noche")
+    var disponibilidad_noche: Boolean = false,
+
     @ColumnInfo(name = "imagen")
     var imagen: String? = "",
 

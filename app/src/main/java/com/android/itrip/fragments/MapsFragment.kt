@@ -66,5 +66,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         mMap.addMarker(MarkerOptions().position(destinationLatLng).title("Marker in " + mapDestination.name))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(destinationLatLng))
+        mMap.setMinZoomPreference(12.0f)
     }
 }
