@@ -34,7 +34,7 @@ abstract class ActivityDatabase : RoomDatabase() {
     /**
      * Connects the database to the DAO.
      */
-    abstract val activityDatabaseDao : ActivityDatabaseDao
+    abstract val activityDatabaseDao: ActivityDatabaseDao
 
     /**
      * Define a companion object, this allows us to add functions on the SleepDatabase class.

@@ -25,14 +25,6 @@ class HomeFragment : Fragment() {
             inflater, R.layout.fragment_home, container, false
         )
 
-        Picasso.get()
-            .load("http://proyecto.brazilsouth.cloudapp.azure.com/media/45.jpg")
-            .placeholder(R.drawable.logo)
-            .error(R.drawable.logo)
-            .resize(150, 150)
-            .centerCrop()
-            .into(binding.mainLogo)
-
         binding.createTravel.setOnClickListener { view: View ->
             view.findNavController()
                 .navigate(actionHomeFragmentToCreateTravelFragment())
