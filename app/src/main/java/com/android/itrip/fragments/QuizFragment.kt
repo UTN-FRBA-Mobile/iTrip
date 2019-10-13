@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -14,7 +13,6 @@ import androidx.navigation.findNavController
 import com.android.itrip.R
 import com.android.itrip.database.QuestionDatabase
 import com.android.itrip.databinding.FragmentQuizBinding
-import com.android.itrip.viewModels.DestinationViewModel
 import com.android.itrip.viewModels.QuizViewModel
 import com.android.itrip.viewModels.QuizViewModelFactory
 
@@ -30,7 +28,7 @@ class QuizFragment : Fragment() {
     var questionIndex = 0
     private lateinit var questions: MutableList<QuizViewModel.Question>
     //numquestions will is initialized in Oncreate method
-    private val numQuestions : Int = 0
+    private val numQuestions: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,8 +43,9 @@ class QuizFragment : Fragment() {
         val viewModelFactory = QuizViewModelFactory(dataSource, application)
 
         // Bind this fragment class to the layout
-        questionsViewModel=ViewModelProviders.of(this, viewModelFactory
-            ).get(QuizViewModel::class.java)
+        questionsViewModel = ViewModelProviders.of(
+            this, viewModelFactory
+        ).get(QuizViewModel::class.java)
 
         binding.quizViewModel = questionsViewModel
 
@@ -88,7 +87,6 @@ class QuizFragment : Fragment() {
 //        }
         return binding.root
     }
-
 
 
     // Sets the question and randomizes the answers.  This only changes the data, not the UI.

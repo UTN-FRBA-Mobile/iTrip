@@ -43,7 +43,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/destination_name_textView" />
 
-        <Switch
+        <ToggleButton
             android:id="@+id/add_remove_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,34 +52,13 @@
             android:layout_marginTop="9dp"
             android:checked="false"
             android:scrollbarSize="8dp"
-            android:text="Agregar Ciudad"
+            android:text="Agregar"
+            android:textOff="Agregar"
+            android:textOn="Agregar"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/destination_name_textView" />
-
-
-        <!--        <TextView-->
-        <!--            android:id="@+id/destiny_description"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_margin="15dp"-->
-        <!--            android:textColor="@color/colorBlack"-->
-        <!--            android:textSize="18sp"-->
-        <!--            app:layout_constraintTop_toBottomOf="@+id/travel_name"-->
-        <!--            tools:text="@{destination.latitude}"-->
-
-        <!--            />-->
-
-        <!--        <com.google.android.material.button.MaterialButton-->
-        <!--            android:id="@+id/modify_button"-->
-        <!--            style="@style/default_itrip_button"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="60dp"-->
-        <!--            android:layout_marginTop="30dp"-->
-        <!--            android:layout_marginBottom="30dp"-->
-        <!--            android:text="@string/select_destiny"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

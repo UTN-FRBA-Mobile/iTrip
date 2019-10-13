@@ -53,20 +53,20 @@ fun fromModelDaysToStringDays(actividad: Actividad): String {
         if (disponibilidad_sabado) str.append(", Sab")
         if (disponibilidad_domingo) str.append(", Dom")
 
-        str.delete(0,2)
-        str.replace(str.lastIndexOf(", "), str.lastIndexOf(", ")+1, " y")
+        str.delete(0, 2)
+        str.replace(str.lastIndexOf(", "), str.lastIndexOf(", ") + 1, " y")
         return str.toString()
     }
 }
 
 fun fromModelTimeToStringTime(actividad: Actividad): String {
     actividad.apply {
-        if(disponibilidad_manana && disponibilidad_tarde && disponibilidad_noche) return "Todo el día"
-        if(disponibilidad_manana && !disponibilidad_tarde && !disponibilidad_noche) return "Solo por la mañana"
-        if(!disponibilidad_manana && disponibilidad_tarde && !disponibilidad_noche) return "Solo por la tarde"
-        if(!disponibilidad_manana && disponibilidad_tarde && disponibilidad_noche) return "Tarde y noche"
-        if(disponibilidad_manana && disponibilidad_tarde && !disponibilidad_noche) return "Mañana y tarde"
-        if(disponibilidad_manana && !disponibilidad_tarde && disponibilidad_noche) return "Mañana y noche"
+        if (disponibilidad_manana && disponibilidad_tarde && disponibilidad_noche) return "Todo el día"
+        if (disponibilidad_manana && !disponibilidad_tarde && !disponibilidad_noche) return "Solo por la mañana"
+        if (!disponibilidad_manana && disponibilidad_tarde && !disponibilidad_noche) return "Solo por la tarde"
+        if (!disponibilidad_manana && disponibilidad_tarde && disponibilidad_noche) return "Tarde y noche"
+        if (disponibilidad_manana && disponibilidad_tarde && !disponibilidad_noche) return "Mañana y tarde"
+        if (disponibilidad_manana && !disponibilidad_tarde && disponibilidad_noche) return "Mañana y noche"
     }
     return "Cerrado"
 }
