@@ -69,10 +69,6 @@ class TravelAdapter :
         private fun setImage(viaje: Viaje) {
             viaje.imagen?.let {
                 Picasso.get()
-                    .load(R.drawable.logo)
-                    .into(binding.travelImg)
-            } ?: run {
-                Picasso.get()
                     .load(viaje.imagen)
                     .placeholder(R.drawable.logo)
                     .error(R.drawable.logo)
