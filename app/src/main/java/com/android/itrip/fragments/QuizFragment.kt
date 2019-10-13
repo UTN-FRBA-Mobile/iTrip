@@ -28,6 +28,8 @@ class QuizFragment : Fragment() {
         val answers: List<String>
     )
 
+
+
     // The first answer is the correct one.  We randomize the answers before showing the text.
     // All questions must have four answers.  We'd want these to contain references to string
     // resources so we could internationalize. (or better yet, not define the questions in code...)
@@ -82,6 +84,8 @@ class QuizFragment : Fragment() {
             text = "Mark a layout for Data Binding?",
             answers = listOf("<layout>", "<binding>", "<data-binding>", "<dbinding>")
         )
+
+
     )
 
     lateinit var currentQuestion: Question

@@ -86,6 +86,17 @@
 
         </RadioGroup>
 
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id = "@+id/spinner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/quizQuestionPosition"
+
+            />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/next_quiz"
             style="@style/default_itrip_button"
@@ -96,6 +107,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/answers" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
