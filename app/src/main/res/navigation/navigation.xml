@@ -140,7 +140,11 @@
         android:id="@+id/activitiesListFragment"
         android:name="com.android.itrip.fragments.ActivitiesListFragment"
         android:label="fragment_activities_list"
-        tools:layout="@layout/fragment_activities_list" />
+        tools:layout="@layout/fragment_activities_list" >
+        <action
+            android:id="@+id/action_activitiesListFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/travelListFragment"
         android:name="com.android.itrip.fragments.TravelListFragment"

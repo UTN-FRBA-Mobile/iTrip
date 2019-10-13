@@ -1,11 +1,10 @@
 package com.android.itrip.models
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Ignore
-import androidx.room.PrimaryKey
+import androidx.room.*
+import com.android.itrip.util.Converters
 import java.io.Serializable
 
+@TypeConverters(Converters::class)
 @Entity(tableName = "actividades_table")
 data class Actividad(
     @PrimaryKey(autoGenerate = true)
@@ -60,9 +59,9 @@ data class Actividad(
     var imagen: String? = "",
 
     @ColumnInfo(name = "latitud")
-    var latitud: Boolean? = false,
+    var latitud: String = "",
 
     @ColumnInfo(name = "longitud")
-    var longitud: Boolean? = false
+    var longitud: String = ""
 
 ) : Serializable
