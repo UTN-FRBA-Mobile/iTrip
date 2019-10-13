@@ -66,11 +66,15 @@ class DestinationAdapter(destinations: LiveData<List<Destination>>) :
             val bundle = bundleOf(
                 "destination" to binding.destination
             )
-            view.findNavController()
-                .navigate(
-                    DestinationListFragmentDirections.actionDestinationListFragmentToMapsFragment().actionId
-                    , bundle
-                )
+            view.findNavController().navigate(
+                DestinationListFragmentDirections.actionDestinationListFragmentToActivitiesListFragment().actionId,
+                bundle
+            )
+//            view.findNavController()
+//                .navigate(
+//                    DestinationListFragmentDirections.actionDestinationListFragmentToMapsFragment().actionId
+//                    , bundle
+//                )
         }
         val viewHolder = DestinationHolder(binding)
         binding.lifecycleOwner = viewHolder

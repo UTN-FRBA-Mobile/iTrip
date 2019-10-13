@@ -4,85 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.android.android.fragments.ActivitiesListFragment">
 
-    <data></data>
+    <data>
 
-    <ScrollView
+        <import type="java.util.List" />
+
+        <variable
+            name="activitiesViewModel"
+            type="com.android.itrip.viewModels.ActivitiesViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/activities_list_constraintlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@color/colorWhiteSmoke">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/loginConstraint"
+
+        <SearchView
+            android:id="@+id/simpleSearchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhiteSmoke">
+            android:layout_marginTop="8dp"
+            android:hint="Search"
+            android:label="@string/app_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/destinationListTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="15dp"
-                android:text="@string/select_activities"
-                android:textColor="#000"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:text='@{"Resultados: " + activitiesViewModel.actividades.size}'
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/simpleSearchView" />
 
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/searchbar"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="15dp"
-                android:hint="Busqueda"
-                app:boxStrokeColor="@color/colorPrimary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/destinationListTitle">
-
-                <AutoCompleteTextView
-                    android:id="@+id/searchsbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:imeOptions="actionSearch"
-                    android:inputType="textAutoComplete|textAutoCorrect"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="60dp"
-                    android:textColor="#000"
-                    app:layout_constraintTop_toBottomOf="@+id/destinationListTitle"></AutoCompleteTextView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/my_recycler_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:listitem="@layout/activities_item" />
 
 
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <ImageButton
-                android:id="@+id/searchButton"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="60dp"
-                android:layout_height="65dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="30dp"
-                android:backgroundTint="@android:color/transparent"
-                android:drawableTint="@color/colorPrimary"
-                android:src="@drawable/ic_search_black_24dp"
-                app:layout_constraintEnd_toEndOf="@+id/searchbar"
-                app:layout_constraintTop_toBottomOf="@+id/destinationListTitle" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/destination_container"
-                style="none"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:background="@color/colorWhiteSmoke"
-                app:layout_constraintTop_toBottomOf="@+id/searchbar" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

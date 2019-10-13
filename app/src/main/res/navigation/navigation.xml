@@ -120,6 +120,9 @@
             app:destination="@id/createTravelFragment"
             app:popUpTo="@+id/homeFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_destinationListFragment_to_activitiesListFragment"
+            app:destination="@id/activitiesListFragment" />
     </fragment>
     <fragment
         android:id="@+id/activitiesHomeFragment"
