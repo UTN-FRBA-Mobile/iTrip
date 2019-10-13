@@ -33,7 +33,7 @@ class DestinationListFragment : Fragment() {
     private lateinit var viewAdapter: DestinationAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
 
-    private val logger = Logger.getLogger(DestinationListFragment::class.java.name)
+    private val logger = Logger.getLogger(this::class.java.name)
 
     lateinit var destinationsViewModel: DestinationViewModel
     val queue = VolleyController.getInstance(context)!!
@@ -125,7 +125,7 @@ class DestinationListFragment : Fragment() {
     }
 
     private fun subscribeUi(adapter: DestinationAdapter) {
-        destinationsViewModel.destinations.observe(viewLifecycleOwner, Observer { destinations ->
+        destinationsViewModel.destinations.observe(viewLifecycleOwner, Observer {
             try {
                 adapter.notifyDataSetChanged()
             } catch (e: Exception) {

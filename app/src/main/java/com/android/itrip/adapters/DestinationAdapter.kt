@@ -62,15 +62,14 @@ class DestinationAdapter(destinations: LiveData<List<Destination>>) :
             }
         }
 
-        binding.mapButton.setOnClickListener { view: View ->
+        binding.activitiesButton.setOnClickListener { view: View ->
             val bundle = bundleOf(
                 "destination" to binding.destination
             )
-            view.findNavController()
-                .navigate(
-                    DestinationListFragmentDirections.actionDestinationListFragmentToMapsFragment().actionId
-                    , bundle
-                )
+            view.findNavController().navigate(
+                DestinationListFragmentDirections.actionDestinationListFragmentToActivitiesListFragment().actionId,
+                bundle
+            )
         }
         val viewHolder = DestinationHolder(binding)
         binding.lifecycleOwner = viewHolder

@@ -23,72 +23,14 @@ import com.android.itrip.viewModels.QuizViewModelFactory
  */
 class QuizFragment : Fragment() {
 
-    data class Question(
-        val text: String,
-        val answers: List<String>
-    )
 
-    // The first answer is the correct one.  We randomize the answers before showing the text.
-    // All questions must have four answers.  We'd want these to contain references to string
-    // resources so we could internationalize. (or better yet, not define the questions in code...)
-    private val questions: MutableList<Question> = mutableListOf(
-        Question(
-            text = "What is Android Jetpack?",
-            answers = listOf("all of these", "tools", "documentation", "libraries")
-        ),
-        Question(
-            text = "Base class for Layout?",
-            answers = listOf("ViewGroup", "ViewSet", "ViewCollection", "ViewRoot")
-        ),
-        Question(
-            text = "Layout for complex Screens?",
-            answers = listOf("ConstraintLayout", "GridLayout", "LinearLayout", "FrameLayout")
-        ),
-        Question(
-            text = "Pushing structured data into a Layout?",
-            answers = listOf("Data Binding", "Data Pushing", "Set Text", "OnClick")
-        ),
-        Question(
-            text = "Inflate layout in fragments?",
-            answers = listOf(
-                "onCreateView",
-                "onActivityCreated",
-                "onCreateLayout",
-                "onInflateLayout"
-            )
-        ),
-        Question(
-            text = "Build system for Android?",
-            answers = listOf("Gradle", "Graddle", "Grodle", "Groyle")
-        ),
-        Question(
-            text = "Android vector format?",
-            answers = listOf(
-                "VectorDrawable",
-                "AndroidVectorDrawable",
-                "DrawableVector",
-                "AndroidVector"
-            )
-        ),
-        Question(
-            text = "Android Navigation Component?",
-            answers = listOf("NavController", "NavCentral", "NavMaster", "NavSwitcher")
-        ),
-        Question(
-            text = "Registers app with launcher?",
-            answers = listOf("intent-filter", "app-registry", "launcher-registry", "app-launcher")
-        ),
-        Question(
-            text = "Mark a layout for Data Binding?",
-            answers = listOf("<layout>", "<binding>", "<data-binding>", "<dbinding>")
-        )
-    )
-
-    lateinit var currentQuestion: Question
+    lateinit var currentQuestion: QuizViewModel.Question
     lateinit var answers: MutableList<String>
     lateinit var questionsViewModel: QuizViewModel
     var questionIndex = 0
-    val numQuestions = Math.min((questions.size + 1) / 2, 3)
+    private lateinit var questions: MutableList<QuizViewModel.Question>
+    //numquestions will is initialized in Oncreate method
+    private val numQuestions : Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -99,19 +41,19 @@ class QuizFragment : Fragment() {
         )
 
         val application = requireNotNull(this.activity).application
-
         val dataSource = QuestionDatabase.getInstance(application).questionDao
-        // Bind this fragment class to the layout
         val viewModelFactory = QuizViewModelFactory(dataSource, application)
 
-        questionsViewModel=
-            ViewModelProviders.of(
-                this, viewModelFactory
+        // Bind this fragment class to the layout
+        questionsViewModel=ViewModelProviders.of(this, viewModelFactory
             ).get(QuizViewModel::class.java)
 
         binding.quizViewModel = questionsViewModel
 
+        questions = questionsViewModel.questions.toMutableList()
+        val numQuestions = questionsViewModel.questions.size
         // Set the onClickListener for the submitButton
+
         binding.nextQuiz.setOnClickListener { view: View ->
             val checkedId = binding.answers.checkedRadioButtonId
             // Do nothing if nothing is checked (id == -1)
@@ -124,19 +66,19 @@ class QuizFragment : Fragment() {
                 // The first answer in the original question is always the correct one, so if our
                 // answer matches, we have the correct answer.
 
-                    questionIndex++
-                    // Advance to the next question
-                    if (questionIndex < numQuestions) {
-                        currentQuestion = questions[questionIndex]
-                        setQuestion()
-                        binding.invalidateAll()
-                    } else {
-                        // We've won!  Navigate to the gameWonFragment.
-                        view.findNavController()
-                            .navigate(QuizFragmentDirections.actionQuizFragmentToQuizEndFragment())
-                    }
-
+                questionIndex++
+                // Advance to the next question
+                if (questionIndex < numQuestions) {
+                    currentQuestion = questions[questionIndex]
+                    setQuestion()
+                    binding.invalidateAll()
+                } else {
+                    // We've won!  Navigate to the gameWonFragment.
+                    view.findNavController()
+                        .navigate(QuizFragmentDirections.actionQuizFragmentToQuizEndFragment())
                 }
+
+            }
 
         }
 
@@ -147,12 +89,7 @@ class QuizFragment : Fragment() {
         return binding.root
     }
 
-    // randomize the questions and set the first question
-    private fun randomizeQuestions() {
-        questions.shuffle()
-        questionIndex = 0
-        setQuestion()
-    }
+
 
     // Sets the question and randomizes the answers.  This only changes the data, not the UI.
     // Calling invalidateAll on the FragmentGameBinding updates the data.
@@ -160,8 +97,6 @@ class QuizFragment : Fragment() {
         currentQuestion = questions[questionIndex]
         // randomize the answers into a copy of the array
         answers = currentQuestion.answers.toMutableList()
-        // and shuffle them
-        answers.shuffle()
         (activity as AppCompatActivity).supportActionBar?.title =
             "Q: " + (questionIndex + 1) + " of " + numQuestions
     }

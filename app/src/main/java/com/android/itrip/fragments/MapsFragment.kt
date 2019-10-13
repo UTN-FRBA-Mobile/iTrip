@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.android.itrip.R
-import com.android.itrip.database.Destination
+import com.android.itrip.models.MapDestination
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -20,7 +20,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var mapFragment: SupportMapFragment
-    private lateinit var destination: Destination
+    private lateinit var mapDestination: MapDestination
 
     private val logger = Logger.getLogger(this::class.java.name)
 
@@ -32,8 +32,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     ): View? {
         super.onCreate(savedInstanceState)
 
-        destination = this.arguments!!.get("destination") as Destination
-        logger.info("destinationWrapper.destination.name: " + destination.name)
+        mapDestination = this.arguments!!.get("mapDestination") as MapDestination
+        logger.info("destinationWrapper.destination.name: " + mapDestination.name)
 
 
         val view = inflater.inflate(R.layout.fragment_maps, container, false)
@@ -61,9 +61,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         logger.info("Map Ready!!")
 
 
-        val destinationLatLng = LatLng(destination.latitude ?: 0.0, destination.longitude ?: 0.0)
+        val destinationLatLng =
+            LatLng(mapDestination.latitude ?: 0.0, mapDestination.longitude ?: 0.0)
 
-        mMap.addMarker(MarkerOptions().position(destinationLatLng).title("Marker in " + destination.name))
+        mMap.addMarker(MarkerOptions().position(destinationLatLng).title("Marker in " + mapDestination.name))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(destinationLatLng))
+        mMap.setMinZoomPreference(12.0f)
     }
 }
