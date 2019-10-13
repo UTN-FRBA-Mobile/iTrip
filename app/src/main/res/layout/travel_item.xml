@@ -1,81 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="16dp"
     android:background="#fff">
 
-    <ImageView
-        android:id="@+id/travel_img"
+    <data></data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:src="#AAA"
-        app:layout_constraintBaseline_toBaselineOf="parent" />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/destination_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:textColor="#000"
-        android:textSize="30sp"
-        app:layout_constraintTop_toBottomOf="@+id/travel_img"
-        tools:text="Viaje" />
+        <ImageView
+            android:id="@+id/travel_img"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="#AAA"
+            app:layout_constraintBaseline_toBaselineOf="parent" />
 
-    <ImageView
-        android:layout_width="23dp"
-        android:layout_height="23dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/ic_date_range_black_24dp"
-        app:layout_constraintEnd_toStartOf="@+id/travel_date"
-        app:layout_constraintTop_toBottomOf="@+id/destination_name" />
+        <TextView
+            android:id="@+id/destination_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:textColor="#000"
+            android:textSize="30sp"
+            app:layout_constraintTop_toBottomOf="@+id/travel_img"
+            tools:text="Viaje" />
 
-    <TextView
-        android:id="@+id/travel_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:textColor="@color/colorPlaceholder"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/destination_name"
-        tools:text="dd/mm/aaaa a dd/mm/aaaa"
+        <ImageView
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/travel_date"
+            app:layout_constraintTop_toBottomOf="@+id/destination_name"
+            app:srcCompat="@drawable/ic_date_range_black_24dp" />
 
-        />
+        <TextView
+            android:id="@+id/travel_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:text="@string/travels_date"
+            android:textColor="@color/colorPlaceholder"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@+id/destination_name" />
 
-    <ImageView
-        android:layout_width="23dp"
-        android:layout_height="23dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/ic_pin_drop_black_24dp"
-        app:layout_constraintEnd_toStartOf="@+id/travel_country"
-        app:layout_constraintTop_toBottomOf="@+id/travel_date" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/modify_button"
+            style="@style/default_itrip_button"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/travels_watch"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/travel_date" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/travel_country"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:textColor="@color/colorPlaceholder"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/travel_date"
-        tools:text="País - Ciudad" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/modify_button"
-        style="@style/default_itrip_button"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="60dp"
-        android:text="@string/modify"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/travel_country" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

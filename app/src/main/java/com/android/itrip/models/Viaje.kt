@@ -22,7 +22,10 @@ data class Viaje(
     @ColumnInfo(name = "fin")
     var fin: String = "",
 
-//    @ColumnInfo(name = "ciudades_a_visitar")
+    @ColumnInfo(name = "imagen")
+    var imagen: String? = null,
+
+    //@ColumnInfo(name = "ciudades_a_visitar")
     val ciudades_a_visitar: List<Ciudad> = emptyList()
 
 ) : Serializable

@@ -37,11 +37,10 @@ object TravelService : Service() {
         }, errorHandler)
     }
 
-    fun getTrips(
+    fun getTravels(
         responseHandler: (List<Viaje>) -> Unit,
         errorHandler: (VolleyError) -> Unit
     ) {
-        logger.info("getTrips.")
         val url = "viajes/"
         ApiService.getArray(url, {
             val listType = object : TypeToken<List<Viaje>>() {}.type

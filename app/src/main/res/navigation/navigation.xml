@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
     app:startDestination="@id/homeFragment">
@@ -8,7 +8,7 @@
         android:id="@+id/login"
         android:name="com.android.itrip.fragments.LoginFragment"
         android:label="Login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_login_to_passwordRecoveryFragment"
             app:destination="@id/passwordRecoveryFragment" />
@@ -32,7 +32,7 @@
         android:id="@+id/signUp"
         android:name="com.android.itrip.fragments.SignUpFragment"
         android:label="SignUp"
-        tools:layout="@layout/fragment_sign_up" >
+        tools:layout="@layout/fragment_sign_up">
         <action
             android:id="@+id/action_signUp_to_emailSentFragment"
             app:destination="@id/emailSentFragment" />
@@ -41,19 +41,22 @@
         android:id="@+id/homeFragment"
         android:name="com.android.itrip.fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_createTravelFragment"
             app:destination="@id/createTravelFragment" />
         <action
             android:id="@+id/action_homeFragment_to_quizHomeFragment"
             app:destination="@id/quizHomeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_travelsFragment"
+            app:destination="@id/travelsFragment" />
     </fragment>
     <fragment
         android:id="@+id/passwordRecoveryFragment"
         android:name="com.android.itrip.fragments.PasswordRecoveryFragment"
         android:label="fragment_password_recovery"
-        tools:layout="@layout/fragment_password_recovery" >
+        tools:layout="@layout/fragment_password_recovery">
         <action
             android:id="@+id/action_passwordRecoveryFragment_to_emailSentFragment"
             app:destination="@id/emailSentFragment" />
@@ -70,7 +73,7 @@
         android:id="@+id/quizHomeFragment"
         android:name="com.android.itrip.fragments.QuizHomeFragment"
         android:label="fragment_quiz_home"
-        tools:layout="@layout/fragment_quiz_home" >
+        tools:layout="@layout/fragment_quiz_home">
         <action
             android:id="@+id/action_quizHomeFragment_to_quizFragment"
             app:destination="@id/quizFragment" />
@@ -79,7 +82,7 @@
         android:id="@+id/quizFragment"
         android:name="com.android.itrip.fragments.QuizFragment"
         android:label="fragment_quiz"
-        tools:layout="@layout/fragment_quiz" >
+        tools:layout="@layout/fragment_quiz">
         <action
             android:id="@+id/action_quizFragment_to_quizEndFragment"
             app:destination="@id/quizEndFragment" />
@@ -88,7 +91,7 @@
         android:id="@+id/quizEndFragment"
         android:name="com.android.itrip.fragments.QuizEndFragment"
         android:label="fragment_quiz_end"
-        tools:layout="@layout/fragment_quiz_end" >
+        tools:layout="@layout/fragment_quiz_end">
         <action
             android:id="@+id/action_quizEndFragment_to_homeFragment"
             app:destination="@+id/createTravelFragment"
@@ -99,7 +102,7 @@
         android:id="@+id/createTravelFragment"
         android:name="com.android.itrip.fragments.CreateTravelFragment"
         android:label="fragment_create_travel"
-        tools:layout="@layout/fragment_create_travel" >
+        tools:layout="@layout/fragment_create_travel">
         <action
             android:id="@+id/action_createTravelFragment_to_destinationListFragment"
             app:destination="@id/destinationListFragment" />
@@ -111,7 +114,7 @@
         android:id="@+id/destinationListFragment"
         android:name="com.android.itrip.fragments.DestinationListFragment"
         android:label="fragment_destination_list"
-        tools:layout="@layout/fragment_destination_list" >
+        tools:layout="@layout/fragment_destination_list">
         <action
             android:id="@+id/action_destinationListFragment_to_mapsFragment"
             app:destination="@id/mapsFragment" />
@@ -125,7 +128,7 @@
         android:id="@+id/activitiesHomeFragment"
         android:name="com.android.itrip.fragments.ActivitiesHomeFragment"
         android:label="fragment_activities_home"
-        tools:layout="@layout/fragment_activities_home" >
+        tools:layout="@layout/fragment_activities_home">
         <action
             android:id="@+id/action_activitiesHomeFragment_to_activitiesListFragment"
             app:destination="@id/activitiesListFragment" />
@@ -147,5 +150,9 @@
         android:id="@+id/mapsFragment"
         android:name="com.android.itrip.fragments.MapsFragment"
         android:label="fragment_maps"
-        tools:layout="@layout/fragment_maps"/>
+        tools:layout="@layout/fragment_maps" />
+    <fragment
+        android:id="@+id/travelsFragment"
+        android:name="com.android.itrip.fragments.TravelsFragment"
+        android:label="TravelsFragment" />
 </navigation>

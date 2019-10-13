@@ -12,6 +12,7 @@ import com.android.itrip.R
 import com.android.itrip.databinding.FragmentHomeBinding
 import com.android.itrip.fragments.HomeFragmentDirections.Companion.actionHomeFragmentToCreateTravelFragment
 import com.android.itrip.fragments.HomeFragmentDirections.Companion.actionHomeFragmentToQuizHomeFragment
+import com.android.itrip.fragments.HomeFragmentDirections.Companion.actionHomeFragmentToTravelsFragment
 import com.squareup.picasso.Picasso
 
 class HomeFragment : Fragment() {
@@ -38,7 +39,8 @@ class HomeFragment : Fragment() {
         }
 
         binding.getTravels.setOnClickListener { view: View ->
-            // TODO
+            view.findNavController()
+                .navigate(actionHomeFragmentToTravelsFragment())
         }
 
         binding.quiz.setOnClickListener { view: View ->
