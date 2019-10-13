@@ -16,12 +16,12 @@ class QuizViewModel(
         val text: String,
         val answers: List<String>)
 
-    var questions: List<Question>
+    val questions: List<Question>
     var ages  = (1..100).toList()
 
     init {
 
-        questions = mutableListOf(
+        questions = listOf(
             Question(text = "Genero",
                 answers = listOf("Masculino", "Femenino", "Otros")),
             Question(text = "Edad",
