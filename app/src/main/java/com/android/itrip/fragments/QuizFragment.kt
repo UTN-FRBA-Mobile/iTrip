@@ -120,7 +120,6 @@ class QuizFragment : Fragment() {
                 when (checkedId) {
                     R.id.second -> answerIndex = 1
                     R.id.third -> answerIndex = 2
-                    R.id.fourth -> answerIndex = 3
                 }
                 // The first answer in the original question is always the correct one, so if our
                 // answer matches, we have the correct answer.

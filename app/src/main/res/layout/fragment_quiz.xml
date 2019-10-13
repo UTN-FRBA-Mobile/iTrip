@@ -24,7 +24,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="15dp"
-            android:text="@{quizViewModel.question.question}"
+            android:text="@{quizViewModel.questions[0].text}"
             android:textColor="#000"
             android:textSize="30sp"
             android:textStyle="bold"
@@ -39,7 +39,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="15dp"
-            android:text='@{"Pregunta Test"}'
+            android:text='@{""}'
             android:textColor="@color/colorPlaceholder"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -60,7 +60,7 @@
                 android:id="@+id/first"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{quizViewModel.answer.answer}"
+                android:text="@{quizViewModel.Questions[0].answers[0]}"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp"
                 android:theme="@style/radioButtonStyle" />
@@ -69,7 +69,7 @@
                 android:id="@+id/second"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{quizViewModel.answer.answer}"
+                android:text="@{quizViewModel.Questions[0].answers[1]}"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp"
                 android:theme="@style/radioButtonStyle" />
@@ -78,19 +78,11 @@
                 android:id="@+id/third"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{quizViewModel.answer.answer}"
+                android:text="@{quizViewModel.Questions[0].answers[2]}"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp"
                 android:theme="@style/radioButtonStyle" />
 
-            <RadioButton
-                android:id="@+id/fourth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{quizViewModel.answer.answer}"
-                android:textColor="@color/colorBlack"
-                android:textSize="18sp"
-                android:theme="@style/radioButtonStyle" />
 
         </RadioGroup>
 

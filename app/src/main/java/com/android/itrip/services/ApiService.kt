@@ -55,6 +55,59 @@ object ApiService : Service() {
         queue.addToRequestQueue(request, initialTimeoutMs)
     }
 
+    fun patch(
+        uri: String,
+        body: JSONObject,
+        responseHandler: (JSONObject) -> Unit,
+        errorHandler: (VolleyError) -> Unit,
+        initialTimeoutMs: Int? = null
+    ) {
+        val request =
+            object : JsonObjectRequest(
+                Method.PATCH, AuthenticationService.base_api_url + uri, body,
+                Response.Listener { response -> responseHandler(response) },
+                Response.ErrorListener { error -> errorHandler(error) }) {
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val headers = HashMap<String, String>()
+                    val accessToken: String = AuthenticationService.accessToken.value!!
+                    headers["Authorization"] = "Bearer $accessToken"
+                    headers["Content-Type"] = "application/json"
+                    headers.forEach {
+                        logger.info(it.key + ": " + it.value)
+                    }
+                    return headers
+                }
+            }
+        queue.addToRequestQueue(request, initialTimeoutMs)
+    }
+
+    fun delete(
+        uri: String,
+        responseHandler: (JSONObject) -> Unit,
+        errorHandler: (VolleyError) -> Unit,
+        initialTimeoutMs: Int? = null
+    ) {
+        val request =
+            object : JsonObjectRequest(
+                Method.DELETE, AuthenticationService.base_api_url + uri, null,
+                Response.Listener { response -> responseHandler(response) },
+                Response.ErrorListener { error -> errorHandler(error) }) {
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val headers = HashMap<String, String>()
+                    val accessToken: String = AuthenticationService.accessToken.value!!
+                    headers["Authorization"] = "Bearer $accessToken"
+                    headers["Content-Type"] = "application/json"
+                    headers.forEach {
+                        logger.info(it.key + ": " + it.value)
+                    }
+                    return headers
+                }
+            }
+        queue.addToRequestQueue(request, initialTimeoutMs)
+    }
+
 
     fun get(
         uri: String,

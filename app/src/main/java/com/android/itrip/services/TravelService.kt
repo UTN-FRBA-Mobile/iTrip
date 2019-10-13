@@ -4,14 +4,11 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import com.android.itrip.database.Destination
-import com.android.itrip.database.Trip
 import com.android.itrip.models.Actividad
+import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.models.Continente
 import com.android.itrip.models.Viaje
-import com.android.volley.AuthFailureError
-import com.android.volley.Response
 import com.android.volley.VolleyError
-import com.android.volley.toolbox.JsonObjectRequest
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
@@ -22,7 +19,6 @@ object TravelService : Service() {
 
     private val logger = Logger.getLogger(this::class.java.name)
     private val gson = Gson()
-
 
     override fun onBind(intent: Intent?): IBinder? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -54,13 +50,12 @@ object TravelService : Service() {
         }, errorHandler)
     }
 
-
     fun getTrip(
         id: Long,
         responseHandler: (Viaje) -> Unit,
         errorHandler: (VolleyError) -> Unit
     ) {
-        logger.info("getTrips.")
+        logger.info("getTrip.")
         val url = "viajes/$id"
         ApiService.get(url, {
             val viaje: Viaje = gson.fromJson(it.toString(), Viaje::class.java)
@@ -82,73 +77,37 @@ object TravelService : Service() {
         }, errorHandler)
     }
 
-    fun updateTrip(trip: Trip): JsonObjectRequest? {
-        if (!AuthenticationService.accessToken.value.isNullOrEmpty()) {
-
-            val params = HashMap<String, String>()
-            params["nombre"] = trip.name
-            params["inicio"] = trip.startDate.toString()
-            params["fin"] = trip.endDate.toString()
-
-            logger.info("updateTrip.")
-            val url = """${AuthenticationService.base_api_url}viaje/${trip.tripId}/"""
-            return object : JsonObjectRequest(
-                Method.PATCH, url, JSONObject(params),
-                Response.Listener {
-                    logger.info("updateTrip: $it")
-                },
-                Response.ErrorListener {
-                    logger.info("Error in updateTrip(): $it")
-                }) {
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): Map<String, String> {
-                    val headers = HashMap<String, String>()
-                    val accessToken: String = AuthenticationService.accessToken.value!!
-                    headers["Authorization"] = "Bearer $accessToken"
-                    headers["Content-Type"] = "application/json"
-                    headers.forEach {
-                        logger.info(it.key + ": " + it.value)
-                    }
-                    return headers
-                }
-            }
-        }
-        return null
+    fun updateTrip(
+        viajeParam: Viaje,
+        responseHandler: (Viaje) -> Unit,
+        errorHandler: (VolleyError) -> Unit
+    ) {
+        logger.info("updateTrip.")
+        val url = """viaje/${viajeParam.id}/"""
+        val json: JSONObject = JSONObject().getJSONObject(gson.toJson(viajeParam))
+        ApiService.patch(url, json, {
+            val viaje: Viaje = gson.fromJson(it.toString(), Viaje::class.java)
+            responseHandler(viaje)
+        }, errorHandler)
     }
 
-    fun deleteTrip(trip: Trip): JsonObjectRequest? {
-        if (!AuthenticationService.accessToken.value.isNullOrEmpty()) {
-            logger.info("deleteTrip.")
-            val url = """${AuthenticationService.base_api_url}viaje/${trip.tripId}/"""
-            return object : JsonObjectRequest(
-                Method.DELETE, url, null,
-                Response.Listener {
-                    logger.info("deleteTrip: $it")
-                },
-                Response.ErrorListener {
-                    logger.info("Error in deleteTrip(): $it")
-                }) {
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): Map<String, String> {
-                    val headers = HashMap<String, String>()
-                    val accessToken: String = AuthenticationService.accessToken.value!!
-                    headers["Authorization"] = "Bearer $accessToken"
-                    headers["Content-Type"] = "application/json"
-                    headers.forEach {
-                        logger.info(it.key + ": " + it.value)
-                    }
-                    return headers
-                }
-            }
-        }
-        return null
+    fun deleteTrip(
+        viajeParam: Viaje,
+        responseHandler: () -> Unit,
+        errorHandler: (VolleyError) -> Unit
+    ) {
+        logger.info("deleteTrip.")
+        val url = """viaje/${viajeParam.id}/"""
+        val json: JSONObject = JSONObject().getJSONObject(gson.toJson(viajeParam))
+        ApiService.delete(url, {
+            responseHandler()
+        }, errorHandler)
     }
 
     fun getActivities(
         destination: Destination, responseHandler: (List<Actividad>) -> Unit,
         errorHandler: (VolleyError) -> Unit
     ) {
-
         logger.info("getActivities.")
         val url = """destinos/${destination.destinationId}/actividades/"""
         ApiService.getArray(url, {
@@ -158,101 +117,52 @@ object TravelService : Service() {
         }, errorHandler)
     }
 
-
-    fun postDestination(destination: Destination): JsonObjectRequest? {
-        if (!AuthenticationService.accessToken.value.isNullOrEmpty()) {
-
-            val params = HashMap<String, String>()
-            params["ciudad"] = destination.name
-            params["inicio"] = destination.startDate.toString()
-            params["fin"] = destination.endDate.toString()
-            logger.info("postDestination.")
-            val url =
-                """${AuthenticationService.base_api_url}viaje/${destination.destinationId}/add_destination/"""
-            return object : JsonObjectRequest(
-                Method.GET, url, JSONObject(params),
-                Response.Listener {
-                    logger.info("postDestination: $it")
-                },
-                Response.ErrorListener {
-                    logger.info("Error in postDestination(): $it")
-                }) {
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): Map<String, String> {
-                    val headers = HashMap<String, String>()
-                    val accessToken: String = AuthenticationService.accessToken.value!!
-                    headers["Authorization"] = "Bearer $accessToken"
-                    headers["Content-Type"] = "application/json"
-                    headers.forEach {
-                        logger.info(it.key + ": " + it.value)
-                    }
-                    return headers
-                }
-            }
-        }
-        return null
+    fun postDestination(
+        viajeParam: Viaje,
+        ciudad_a_visitarParam: CiudadAVisitar,
+        responseHandler: (CiudadAVisitar) -> Unit,
+        errorHandler: (VolleyError) -> Unit
+    ) {
+        logger.info("postDestination.")
+        val url = """viajes/${viajeParam.id}/add_destination/"""
+        val json = JSONObject()
+        json.put("ciudad", ciudad_a_visitarParam.ciudad.id)
+        json.put("inicio", ciudad_a_visitarParam.inicio)
+        json.put("fin", ciudad_a_visitarParam.fin)
+        ApiService.post(url, json, {
+            val ciudad_a_visitar: CiudadAVisitar =
+                gson.fromJson(it.toString(), CiudadAVisitar::class.java)
+            responseHandler(ciudad_a_visitar)
+        }, errorHandler)
     }
 
-    fun updateDestination(destination: Destination): JsonObjectRequest? {
-        if (!AuthenticationService.accessToken.value.isNullOrEmpty()) {
-            val params = HashMap<String, String>()
-            params["ciudad"] = destination.name
-            params["inicio"] = destination.startDate.toString()
-            params["fin"] = destination.endDate.toString()
-            logger.info("updateDestination.")
-            val url =
-                """${AuthenticationService.base_api_url}ciudad-a-visitar/${destination.destinationId}/"""
-            return object : JsonObjectRequest(
-                Method.PATCH, url, JSONObject(params),
-                Response.Listener {
-                    logger.info("updateDestination: $it")
-                },
-                Response.ErrorListener {
-                    logger.info("Error in updateDestination(): $it")
-                }) {
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): Map<String, String> {
-                    val headers = HashMap<String, String>()
-                    val accessToken: String = AuthenticationService.accessToken.value!!
-                    headers["Authorization"] = "Bearer $accessToken"
-                    headers["Content-Type"] = "application/json"
-                    headers.forEach {
-                        logger.info(it.key + ": " + it.value)
-                    }
-                    return headers
-                }
-            }
-        }
-        return null
+
+    fun updateDestination(
+        ciudad_a_visitarParam: CiudadAVisitar,
+        responseHandler: (CiudadAVisitar) -> Unit,
+        errorHandler: (VolleyError) -> Unit
+    ) {
+        logger.info("updateDestination.")
+        val url = """ciudad-a-visitar/${ciudad_a_visitarParam.id}/"""
+        val json: JSONObject = JSONObject().getJSONObject(gson.toJson(ciudad_a_visitarParam))
+        ApiService.patch(url, json, {
+            val ciudad_a_visitar: CiudadAVisitar =
+                gson.fromJson(it.toString(), CiudadAVisitar::class.java)
+            responseHandler(ciudad_a_visitar)
+        }, errorHandler)
     }
 
-    fun deleteDestination(destination: Destination): JsonObjectRequest? {
-        if (!AuthenticationService.accessToken.value.isNullOrEmpty()) {
-            logger.info("deleteDestination.")
-            val url =
-                """${AuthenticationService.base_api_url}ciudad-a-visitar/${destination.destinationId}/"""
-            return object : JsonObjectRequest(
-                Method.DELETE, url, null,
-                Response.Listener {
-                    logger.info("deleteDestination: $it")
-                },
-                Response.ErrorListener {
-                    logger.info("Error in deleteDestination(): $it")
-                }) {
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): Map<String, String> {
-                    val headers = HashMap<String, String>()
-                    val accessToken: String = AuthenticationService.accessToken.value!!
-                    headers["Authorization"] = "Bearer $accessToken"
-                    headers["Content-Type"] = "application/json"
-                    headers.forEach {
-                        logger.info(it.key + ": " + it.value)
-                    }
-                    return headers
-                }
-            }
-        }
-        return null
+    fun deleteDestination(
+        ciudad_a_visitarParam: CiudadAVisitar,
+        responseHandler: () -> Unit,
+        errorHandler: (VolleyError) -> Unit
+    ) {
+        logger.info("deleteDestination.")
+        val url =
+            """ciudad-a-visitar/${ciudad_a_visitarParam.id}/"""
+        ApiService.delete(url, {
+            responseHandler()
+        }, errorHandler)
     }
 
 }
