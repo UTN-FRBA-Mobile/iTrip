@@ -30,8 +30,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
-            <!--                tools:src="@{currentUser.photoUrl}"-->
+                />
 
             <TextView
                 android:id="@+id/userName"
@@ -48,7 +47,7 @@
                 android:id="@+id/logOutButton"
                 android:layout_width="115dp"
                 android:layout_height="45dp"
-                android:text="Log Out"
+                android:text="Salir"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

@@ -61,7 +61,7 @@ interface DestinationDatabaseDao {
      *
      * sorted by name in descending order.
      */
-    @Query("SELECT * FROM destination_table ORDER BY name DESC")
+    @Query("SELECT * FROM destination_table ORDER BY name ASC")
     fun getAll(): LiveData<List<Destination>>
 
     /**

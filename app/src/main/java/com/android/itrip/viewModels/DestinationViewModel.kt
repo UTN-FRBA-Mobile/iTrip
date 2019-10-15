@@ -31,19 +31,12 @@ class DestinationViewModel(
 
     val destinations: LiveData<List<Destination>>
 
-    private var _query = MutableLiveData<String>()
-    private val query: LiveData<String>
-        get() = _query
-
-
     init {
         TravelService.getDestinations({ continentes ->
             getDestinationsCallback(continentes)
         }, {}
         )
-
-        _query.value = ""
-        destinations = Transformations.switchMap(query) { query -> updateLiveData(query) }
+        destinations = database.getAll()
     }
 
     private fun getDestinationsCallback(continentes: List<Continente>) {
@@ -73,11 +66,4 @@ class DestinationViewModel(
         }
     }
 
-    fun updateResults(query: String) {
-        _query.value = query
-    }
-
-    private fun updateLiveData(query: String?): LiveData<List<Destination>>? {
-        return database.getDestinationsByName("$query%")
-    }
 }

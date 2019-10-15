@@ -5,39 +5,6 @@
     android:id="@+id/navigation"
     app:startDestination="@id/homeFragment">
     <fragment
-        android:id="@+id/login"
-        android:name="com.android.itrip.fragments.LoginFragment"
-        android:label="Login"
-        tools:layout="@layout/fragment_login">
-        <action
-            android:id="@+id/action_login_to_passwordRecoveryFragment"
-            app:destination="@id/passwordRecoveryFragment" />
-        <action
-            android:id="@+id/action_login_to_homeFragment"
-            app:destination="@id/homeFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/main"
-        android:name="com.android.itrip.fragments.MainFragment"
-        android:label="Main"
-        tools:layout="@layout/fragment_main">
-        <action
-            android:id="@+id/action_main_to_login"
-            app:destination="@id/login" />
-        <action
-            android:id="@+id/action_main_to_signUp"
-            app:destination="@id/signUp" />
-    </fragment>
-    <fragment
-        android:id="@+id/signUp"
-        android:name="com.android.itrip.fragments.SignUpFragment"
-        android:label="SignUp"
-        tools:layout="@layout/fragment_sign_up">
-        <action
-            android:id="@+id/action_signUp_to_emailSentFragment"
-            app:destination="@id/emailSentFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/homeFragment"
         android:name="com.android.itrip.fragments.HomeFragment"
         android:label="fragment_home"
@@ -52,23 +19,6 @@
             android:id="@+id/action_homeFragment_to_quizInfoFragment"
             app:destination="@id/quizInfoFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/passwordRecoveryFragment"
-        android:name="com.android.itrip.fragments.PasswordRecoveryFragment"
-        android:label="fragment_password_recovery"
-        tools:layout="@layout/fragment_password_recovery">
-        <action
-            android:id="@+id/action_passwordRecoveryFragment_to_emailSentFragment"
-            app:destination="@id/emailSentFragment" />
-        <argument
-            android:name="email"
-            app:argType="string" />
-    </fragment>
-    <fragment
-        android:id="@+id/emailSentFragment"
-        android:name="com.android.itrip.fragments.EmailSentFragment"
-        android:label="fragment_email_sent"
-        tools:layout="@layout/fragment_email_sent" />
     <fragment
         android:id="@+id/quizEndFragment"
         android:name="com.android.itrip.fragments.QuizEndFragment"

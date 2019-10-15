@@ -64,36 +64,6 @@ class DestinationListFragment : Fragment() {
 
         binding.destinationsViewModel = destinationsViewModel
 
-        //SEARCHVIEW Logic
-
-        val simpleSearchView = binding.simpleSearchView
-
-
-        simpleSearchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                logger.info("searchView expanded")
-            } else {
-                logger.info("searchView not expanded")
-            }
-        }
-
-        simpleSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                destinationsViewModel.updateResults(query!!)
-//                binding.textView.text = query
-                logger.info("Llego al querysubmit")
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                destinationsViewModel.updateResults(newText)
-//                binding.textView.text = newText
-                logger.info("Llego al querytextchange")
-                return true
-            }
-        })
-
-
 //        //RECYCLERVIEW logic
         recyclerView = binding.myRecyclerView
         viewManager = LinearLayoutManager(application)
