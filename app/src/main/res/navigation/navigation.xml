@@ -83,7 +83,7 @@
         android:id="@+id/travelsFragment"
         android:name="com.android.itrip.fragments.TravelsFragment"
         android:label="TravelsFragment"
-        tools:layout="@layout/fragment_travels"/>
+        tools:layout="@layout/fragment_travels" />
     <fragment
         android:id="@+id/quizInfoFragment"
         android:name="com.android.itrip.fragments.QuizInfoFragment"

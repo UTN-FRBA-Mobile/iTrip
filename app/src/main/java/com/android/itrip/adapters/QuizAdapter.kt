@@ -49,9 +49,7 @@ class QuizAdapter(hobbies: List<Answer>) :
         binding.apply {
             hobbieTextview.setOnClickListener {
                 answer?.let {
-                    val tempHobbie = it
-                    it.choosed = !tempHobbie.choosed
-                    if (tempHobbie.choosed) {
+                    if (!checkedHobbies.contains(it)) {
                         hobbieTextview.setBackgroundColor(Color.LTGRAY)
                         checkedHobbies.add(it)
                     } else {

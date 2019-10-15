@@ -41,7 +41,7 @@ class QuizViewModel(
         mutableList.add(Answer("So", "Solter@"))
         mutableList.add(Answer("Co", "En concubinat@"))
         mutableList.add(Answer("Ca", "Casad@"))
-        mutableList.add(Answer("CD", "Divorciad@"))
+        mutableList.add(Answer("D", "Divorciad@"))
         mutableList.add(Answer("Se", "Separad@"))
         mutableList.add(Answer("V", "Viud@"))
         return mutableList
