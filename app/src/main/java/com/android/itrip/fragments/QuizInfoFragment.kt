@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Adapter
+import android.widget.AdapterView
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -22,7 +24,7 @@ import java.util.logging.Logger
 /**
  * A simple [Fragment] subclass.
  */
-class QuizInfoFragment : Fragment() {
+class QuizInfoFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private lateinit var binding: FragmentQuizInfoBinding
     private val logger = Logger.getLogger(this::class.java.name)
@@ -44,38 +46,45 @@ class QuizInfoFragment : Fragment() {
 
         binding.submitFloatingActionButton.setOnClickListener { view: View ->
             val genero = binding.generoSpinner.selectedItem as Answer
+            val otro_genero = binding.otrogeneroTextinputedittext.text.toString()
+            val edadText = binding.edadTextinputedittext.text.toString()
+            val edadInt = if (edadText.isBlank()) 0 else edadText.toInt()
             val estadoCivil = binding.estadocivilSpinner.selectedItem as Answer
             val estudios = binding.estudiosSpinner.selectedItem as Answer
             val ocupacion = binding.ocupacionSpinner.selectedItem as Answer
-            val quiz = Quiz(
-                genero.key,
-                binding.otrogeneroTextinputedittext.text.toString(),
-                binding.edadTextinputedittext.text.toString().toInt(),
-                estadoCivil.key,
-                estudios.key,
-                ocupacion.key
-            )
-
-            val bundle = bundleOf(
-                "quiz" to quiz
-            )
-            view.findNavController()
-                .navigate(
-                    QuizInfoFragmentDirections.actionQuizInfoFragmentToQuizHobbiesFragment().actionId
-                    , bundle
+            val generoCondition: Boolean =
+                genero.key.isBlank() || (genero.key == "O" && otro_genero.isBlank())
+            val condition: Boolean =
+                generoCondition || edadInt == 0 || estadoCivil.key.isBlank() || estudios.key.isBlank() || ocupacion.key.isBlank()
+            if (!condition) {
+                val quiz = Quiz(
+                    genero.key,
+                    otro_genero,
+                    edadInt,
+                    estadoCivil.key,
+                    estudios.key,
+                    ocupacion.key
                 )
+                val bundle = bundleOf(
+                    "quiz" to quiz
+                )
+                view.findNavController()
+                    .navigate(
+                        QuizInfoFragmentDirections.actionQuizInfoFragmentToQuizHobbiesFragment().actionId
+                        , bundle
+                    )
+            }
         }
 
-        setSpinner(binding.generoSpinner, quizViewModel.genero)
+        setSpinner(binding.generoSpinner, quizViewModel.genero).onItemSelectedListener = this
         setSpinner(binding.estadocivilSpinner, quizViewModel.estado_civil)
         setSpinner(binding.estudiosSpinner, quizViewModel.nivel_de_estudios)
         setSpinner(binding.ocupacionSpinner, quizViewModel.ocupacion)
 
-
         return binding.root
     }
 
-    private fun setSpinner(spinner: Spinner, answerList: List<Answer>) {
+    private fun setSpinner(spinner: Spinner, answerList: List<Answer>): Spinner {
         val adapter = AnswerAdapter(
             activity!!,
             R.layout.answer_item,
@@ -84,8 +93,27 @@ class QuizInfoFragment : Fragment() {
         )
         spinner.adapter = adapter
         spinner.setSelection(Adapter.NO_SELECTION, false)
-        spinner.onItemSelectedListener = adapter
+        return spinner
 
+    }
+
+    override fun onItemSelected(
+        parent: AdapterView<*>?,
+        view: View?,
+        position: Int,
+        id: Long
+    ) {
+        val answer: Answer = parent!!.getItemAtPosition(position) as Answer
+        if (answer.key == "O") {
+            binding.otrogeneroTextinputlayout.visibility = View.VISIBLE
+            Toast.makeText(context, "Por favor ingrese género", Toast.LENGTH_SHORT).show()
+        } else {
+            binding.otrogeneroTextinputlayout.visibility = View.GONE
+            binding.otrogeneroTextinputedittext.setText("")
+        }
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
     }
 
 }

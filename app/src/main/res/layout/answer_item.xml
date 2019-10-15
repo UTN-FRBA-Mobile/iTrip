@@ -3,7 +3,6 @@
     android:id="@+id/answer_textview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="30dp"
-    android:paddingTop="8dp"
-    android:textAlignment="center"
+    android:padding="8dp"
+    android:textAlignment="textStart"
     android:textSize="18sp" />

@@ -18,7 +18,7 @@
             android:id="@+id/hobbie_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bottom_line_border"
+            android:background="@drawable/bottom_top_line_border"
             android:paddingTop="3dp"
             android:paddingBottom="3dp"
             android:text="@{answer.value}"

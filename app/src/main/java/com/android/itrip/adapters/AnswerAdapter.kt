@@ -17,8 +17,7 @@ class AnswerAdapter(
     private val textViewResourceId: Int,
     private val answers: List<Answer>
 ) :
-    ArrayAdapter<Answer>(context, resource, textViewResourceId, answers),
-    AdapterView.OnItemSelectedListener {
+    ArrayAdapter<Answer>(context, resource, textViewResourceId, answers){
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         return createViewFromResource(position, convertView, parent)
@@ -41,14 +40,5 @@ class AnswerAdapter(
         view.text = answers[position].value
         if (position == 0) view.visibility = View.GONE
         return view
-    }
-
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        // An item was selected. You can retrieve the selected item using
-        // parent.getItemAtPosition(position)
-    }
-
-    override fun onNothingSelected(parent: AdapterView<*>?) {
-        Toast.makeText(context, "onNothingSelected", Toast.LENGTH_SHORT).show()
     }
 }

@@ -53,7 +53,7 @@ class QuizAdapter(hobbies: List<Answer>) :
                         hobbieTextview.setBackgroundColor(Color.LTGRAY)
                         checkedHobbies.add(it)
                     } else {
-                        hobbieTextview.setBackgroundResource(R.drawable.bottom_line_border)
+                        hobbieTextview.setBackgroundResource(R.drawable.bottom_top_line_border)
                         checkedHobbies.remove(it)
                     }
                 }

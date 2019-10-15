@@ -44,11 +44,10 @@
             <ImageButton
                 android:id="@+id/logOutButton"
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:text="Salir"
-                android:textSize="12sp"
+                android:layout_height="48dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:srcCompat="@drawable/ic_power_settings_primary_24dp" />
 
 
