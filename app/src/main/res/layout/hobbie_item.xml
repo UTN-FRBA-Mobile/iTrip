@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="hobbie"
-            type="com.android.itrip.models.Hobbie" />
+            name="answer"
+            type="com.android.itrip.models.Answer" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -21,7 +21,7 @@
             android:background="@drawable/bottom_line_border"
             android:paddingTop="3dp"
             android:paddingBottom="3dp"
-            android:text="@{hobbie.value}"
+            android:text="@{answer.value}"
             android:textAlignment="center"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"

@@ -12,20 +12,20 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.R
 import com.android.itrip.databinding.HobbieItemBinding
-import com.android.itrip.models.Hobbie
+import com.android.itrip.models.Answer
 
-class QuizAdapter(hobbies: List<Hobbie>) :
-    ListAdapter<Hobbie, RecyclerView.ViewHolder>(HobbieDiffCallback()) {
+class QuizAdapter(hobbies: List<Answer>) :
+    ListAdapter<Answer, RecyclerView.ViewHolder>(HobbieDiffCallback()) {
 
-    private val _hobbies: List<Hobbie> = hobbies
-    var checkedHobbies: MutableList<Hobbie> = mutableListOf()
+    private val _hobbies: List<Answer> = hobbies
+    var checkedHobbies: MutableList<Answer> = mutableListOf()
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as HobbieHolder).bind(getItem(position))
     }
 
-    override fun getItem(position: Int): Hobbie {
+    override fun getItem(position: Int): Answer {
         return _hobbies[position]
     }
 
@@ -48,7 +48,7 @@ class QuizAdapter(hobbies: List<Hobbie>) :
             )
         binding.apply {
             hobbieTextview.setOnClickListener {
-                hobbie?.let {
+                answer?.let {
                     val tempHobbie = it
                     it.choosed = !tempHobbie.choosed
                     if (tempHobbie.choosed) {
@@ -74,27 +74,27 @@ class QuizAdapter(hobbies: List<Hobbie>) :
             return lifecycleRegistry
         }
 
-        fun bind(item: Hobbie) {
+        fun bind(item: Answer) {
             binding.apply {
-                hobbie = item
+                answer = item
             }
         }
     }
 
 }
 
-private class HobbieDiffCallback : DiffUtil.ItemCallback<Hobbie>() {
+private class HobbieDiffCallback : DiffUtil.ItemCallback<Answer>() {
 
     override fun areItemsTheSame(
-        oldItem: Hobbie,
-        newItem: Hobbie
+        oldItem: Answer,
+        newItem: Answer
     ): Boolean {
         return oldItem.key == newItem.key
     }
 
     override fun areContentsTheSame(
-        oldItem: Hobbie,
-        newItem: Hobbie
+        oldItem: Answer,
+        newItem: Answer
     ): Boolean {
         return oldItem == newItem
     }

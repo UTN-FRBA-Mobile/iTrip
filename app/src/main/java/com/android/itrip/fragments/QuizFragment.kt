@@ -37,6 +37,8 @@ class QuizFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_quiz_hobbies, container, false
         )

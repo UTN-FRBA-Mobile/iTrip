@@ -50,7 +50,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         val view = inflater.inflate(R.layout.fragment_maps, container, false)
 
         logger.info("Map ID: " + R.id.map)
-        val fragment = childFragmentManager?.findFragmentById(R.id.map)
+        val fragment = childFragmentManager.findFragmentById(R.id.map)
         logger.info("fragment ID: " + fragment?.id)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         mapFragment = fragment as SupportMapFragment
@@ -73,7 +73,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         mapDestination?.let {
             val destinationLatLng =
-                LatLng(it.latitude ?: 0.0, it.longitude ?: 0.0)
+                LatLng(it.latitude, it.longitude)
             mMap.addMarker(MarkerOptions().position(destinationLatLng).title(it.name))
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(destinationLatLng, 10.0f))
         }
