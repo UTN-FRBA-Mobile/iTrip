@@ -36,7 +36,6 @@ class ActivitiesListFragment : Fragment() {
 
     lateinit var activitiesViewModel: ActivitiesViewModel
     lateinit var destination: Destination
-    val queue = VolleyController.getInstance(context)!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

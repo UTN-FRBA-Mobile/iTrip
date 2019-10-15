@@ -32,6 +32,14 @@ class DestinationAdapter(destinations: LiveData<List<Destination>>) :
         (holder as DestinationHolder).bind(destination)
     }
 
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
     override fun getItem(position: Int): Destination {
         return _destinations.value!![position]
     }
