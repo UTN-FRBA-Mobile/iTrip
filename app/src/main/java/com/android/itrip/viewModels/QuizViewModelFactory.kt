@@ -3,7 +3,6 @@ package com.android.itrip.viewModels
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.android.itrip.database.QuestionDatabaseDao
 
 class QuizViewModelFactory(
 

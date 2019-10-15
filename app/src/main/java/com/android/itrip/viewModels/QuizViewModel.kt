@@ -28,6 +28,7 @@ class QuizViewModel(
 
     private fun fillGeneros(): MutableList<Answer> {
         val mutableList: MutableList<Answer> = mutableListOf()
+        mutableList.add(Answer("", ""))
         mutableList.add(Answer("M", "Masculino"))
         mutableList.add(Answer("F", "Femenino"))
         mutableList.add(Answer("O", "Otro"))
@@ -36,6 +37,7 @@ class QuizViewModel(
 
     private fun fillEstadoCivil(): MutableList<Answer> {
         val mutableList: MutableList<Answer> = mutableListOf()
+        mutableList.add(Answer("", ""))
         mutableList.add(Answer("So", "Solter@"))
         mutableList.add(Answer("Co", "En concubinat@"))
         mutableList.add(Answer("Ca", "Casad@"))
@@ -47,6 +49,7 @@ class QuizViewModel(
 
     private fun fillNivelDeEstudios(): MutableList<Answer> {
         val mutableList: MutableList<Answer> = mutableListOf()
+        mutableList.add(Answer("", ""))
         mutableList.add(Answer("SI", "Secundario incompleto"))
         mutableList.add(Answer("SC", "Secundario completo"))
         mutableList.add(Answer("TI", "Terciario incompleto"))
@@ -60,6 +63,7 @@ class QuizViewModel(
 
     private fun fillOcupacion(): MutableList<Answer> {
         val mutableList: MutableList<Answer> = mutableListOf()
+        mutableList.add(Answer("", ""))
         mutableList.add(Answer("E", "Estudiante"))
         mutableList.add(Answer("T", "Trabajador"))
         mutableList.add(Answer("ET", "Estudiante y trabajador"))
@@ -108,8 +112,8 @@ class QuizViewModel(
         return mutableHobbies
     }
 
-    fun sendQuiz(checkedHobbies: List<Answer>, callback: () -> Unit) {
-        val quiz = Quiz("M", "", 29, "So", "SI", "ET", checkedHobbies.map { it.key })
+    fun sendQuiz(quiz: Quiz, checkedHobbies: List<Answer>, callback: () -> Unit) {
+        quiz.hobbies = checkedHobbies.map { it.key }
         QuizService.postQuestions(quiz, callback, {})
     }
 

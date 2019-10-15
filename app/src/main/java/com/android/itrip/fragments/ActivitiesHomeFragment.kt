@@ -27,10 +27,6 @@ class ActivitiesHomeFragment : Fragment() {
             view.findNavController()
                 .navigate(ActivitiesHomeFragmentDirections.actionActivitiesHomeFragmentToActivitiesListFragment())
         }
-        binding.modifyTravelButton.setOnClickListener { view: View ->
-            view.findNavController()
-                .navigate(ActivitiesHomeFragmentDirections.actionActivitiesHomeFragmentToTravelListFragment())
-        }
         return binding.root
     }
 

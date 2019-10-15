@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.R
 import com.android.itrip.adapters.QuizAdapter
 import com.android.itrip.databinding.FragmentQuizHobbiesBinding
+import com.android.itrip.models.Quiz
 import com.android.itrip.viewModels.QuizViewModel
 import com.android.itrip.viewModels.QuizViewModelFactory
 import java.util.logging.Logger
@@ -22,12 +22,13 @@ import java.util.logging.Logger
 /**
  * A simple [Fragment] subclass.
  */
-class QuizFragment : Fragment() {
+class QuizHobbiesFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: QuizAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var binding: FragmentQuizHobbiesBinding
+    private lateinit var quiz: Quiz
 
     private val logger = Logger.getLogger(this::class.java.name)
 
@@ -37,6 +38,10 @@ class QuizFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        this.arguments!!.get("quiz")?.let {
+            quiz = this.arguments!!.get("quiz") as Quiz
+        }
 
 
         binding = DataBindingUtil.inflate(
@@ -72,23 +77,15 @@ class QuizFragment : Fragment() {
             viewAdapter.checkedHobbies.forEach {
                 textMessage = textMessage + it.value + ", "
             }
-            textMessage += "agregadas."
-            Toast.makeText(
-                context,
-                textMessage,
-                Toast.LENGTH_SHORT
-            ).show()
-            quizViewModel.sendQuiz(viewAdapter.checkedHobbies) { finishQuiz() }
+            quizViewModel.sendQuiz(quiz, viewAdapter.checkedHobbies) { finishQuiz() }
         }
-
-
 
         return binding.root
     }
 
     private fun finishQuiz() {
         view?.findNavController()
-            ?.navigate(QuizFragmentDirections.actionQuizFragmentToQuizEndFragment())
+            ?.navigate(QuizHobbiesFragmentDirections.actionQuizHobbiesFragmentToQuizEndFragment())
     }
 
 }

@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.android.android.fragments.QuizFragment">
+    tools:context="com.android.android.fragments.QuizInfoFragment">
 
     <data>
 
@@ -35,12 +35,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:hint="Género"
+            android:spinnerMode="dropdown"
+            android:tooltipText="Elija un género"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/genero_textview"
             app:layout_constraintTop_toTopOf="parent" />
-        <!--            android:entries="@array/cities_array"-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/otrogenero_textinputlayout"
@@ -58,7 +58,11 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/otrogenero_textinputedittext"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:lines="1"
+                android:maxLines="1"
+                android:singleLine="true" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -80,7 +84,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:maxLength="2" />
+                android:lines="1"
+                android:maxLength="2"
+                android:maxLines="1"
+                android:singleLine="true" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -119,6 +126,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/estudios_spinner" />
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/submit_floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="Siguiente Quiz"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

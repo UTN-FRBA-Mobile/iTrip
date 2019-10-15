@@ -59,12 +59,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            app:srcCompat="@drawable/ic_pin_drop_white_30dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:contentDescription="Mapa Actividades"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_pin_drop_white_30dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

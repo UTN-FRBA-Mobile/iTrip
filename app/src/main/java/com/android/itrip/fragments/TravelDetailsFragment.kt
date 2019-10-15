@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.itrip.R
 import com.android.itrip.adapters.TravelAdapter
 import com.android.itrip.databinding.FragmentTravelDetailsBinding
@@ -23,30 +21,35 @@ class TravelDetailsFragment : Fragment() {
     private var travelAdapter = TravelAdapter()
     private lateinit var application: Application
     private lateinit var binding: FragmentTravelDetailsBinding
-    private var tripID:Long=0
-    private lateinit  var trip: Viaje
+    private var tripID: Long = 0
+    private lateinit var trip: Viaje
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_travel_details, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_travel_details, container, false)
         application = requireNotNull(this.activity).application
         getTrip()
         return binding.root
     }
 
     private fun getTrip() {
-      //  binding.recyclerviewTravels.layoutManager = LinearLayoutManager(application)
-       // binding.recyclerviewTravels.itemAnimator = DefaultItemAnimator()
+        //  binding.recyclerviewTravels.layoutManager = LinearLayoutManager(application)
+        // binding.recyclerviewTravels.itemAnimator = DefaultItemAnimator()
         //binding.recyclerviewTravels.adapter = travelAdapter
         TravelService.getTrip(tripID,
-            {(Unit)}
-        , { error ->
-            logger.info("Failed to get travel: " + error.message)
-            Toast
-                .makeText(this.context, "Hubo un problema, intente de nuevo", Toast.LENGTH_SHORT)
-                .show()
-        })
+            { (Unit) }
+            , { error ->
+                logger.info("Failed to get travel: " + error.message)
+                Toast
+                    .makeText(
+                        this.context,
+                        "Hubo un problema, intente de nuevo",
+                        Toast.LENGTH_SHORT
+                    )
+                    .show()
+            })
     }
 }

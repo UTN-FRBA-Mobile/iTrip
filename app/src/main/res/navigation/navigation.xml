@@ -46,11 +46,11 @@
             android:id="@+id/action_homeFragment_to_createTravelFragment"
             app:destination="@id/createTravelFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_quizHomeFragment"
-            app:destination="@id/quizHomeFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_travelsFragment"
             app:destination="@id/travelsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_quizInfoFragment"
+            app:destination="@id/quizInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/passwordRecoveryFragment"
@@ -69,15 +69,6 @@
         android:name="com.android.itrip.fragments.EmailSentFragment"
         android:label="fragment_email_sent"
         tools:layout="@layout/fragment_email_sent" />
-    <fragment
-        android:id="@+id/quizHomeFragment"
-        android:name="com.android.itrip.fragments.QuizHomeFragment"
-        android:label="fragment_quiz_home"
-        tools:layout="@layout/fragment_quiz_home">
-        <action
-            android:id="@+id/action_quizHomeFragment_to_quizFragment"
-            app:destination="@id/quizFragment" />
-    </fragment>
     <fragment
         android:id="@+id/quizEndFragment"
         android:name="com.android.itrip.fragments.QuizEndFragment"
@@ -107,9 +98,6 @@
         android:label="fragment_destination_list"
         tools:layout="@layout/fragment_destination_list">
         <action
-            android:id="@+id/action_destinationListFragment_to_mapsFragment"
-            app:destination="@id/mapsFragment" />
-        <action
             android:id="@+id/action_destinationListFragment_to_createTravelFragment"
             app:destination="@id/createTravelFragment"
             app:popUpTo="@+id/homeFragment"
@@ -126,24 +114,16 @@
         <action
             android:id="@+id/action_activitiesHomeFragment_to_activitiesListFragment"
             app:destination="@id/activitiesListFragment" />
-        <action
-            android:id="@+id/action_activitiesHomeFragment_to_travelListFragment"
-            app:destination="@id/travelListFragment" />
     </fragment>
     <fragment
         android:id="@+id/activitiesListFragment"
         android:name="com.android.itrip.fragments.ActivitiesListFragment"
         android:label="fragment_activities_list"
-        tools:layout="@layout/fragment_activities_list" >
+        tools:layout="@layout/fragment_activities_list">
         <action
             android:id="@+id/action_activitiesListFragment_to_mapsFragment"
             app:destination="@id/mapsFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/travelListFragment"
-        android:name="com.android.itrip.fragments.TravelListFragment"
-        android:label="fragment_travel_list"
-        tools:layout="@layout/fragment_travel_list" />
     <fragment
         android:id="@+id/mapsFragment"
         android:name="com.android.itrip.fragments.MapsFragment"
@@ -154,11 +134,19 @@
         android:name="com.android.itrip.fragments.TravelsFragment"
         android:label="TravelsFragment" />
     <fragment
-        android:id="@+id/quizFragment"
-        android:name="com.android.itrip.fragments.QuizFragment"
-        android:label="QuizFragment" >
+        android:id="@+id/quizInfoFragment"
+        android:name="com.android.itrip.fragments.QuizInfoFragment"
+        android:label="QuizInfoFragment">
         <action
-            android:id="@+id/action_quizFragment_to_quizEndFragment"
+            android:id="@+id/action_quizInfoFragment_to_quizHobbiesFragment"
+            app:destination="@id/quizHobbiesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizHobbiesFragment"
+        android:name="com.android.itrip.fragments.QuizHobbiesFragment"
+        android:label="QuizHobbiesFragment">
+        <action
+            android:id="@+id/action_quizHobbiesFragment_to_quizEndFragment"
             app:destination="@id/quizEndFragment" />
     </fragment>
 </navigation>
