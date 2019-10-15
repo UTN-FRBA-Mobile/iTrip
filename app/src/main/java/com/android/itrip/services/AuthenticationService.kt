@@ -3,10 +3,7 @@ package com.android.itrip.services
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import com.android.volley.Request
-import com.android.volley.Response
 import com.android.volley.VolleyError
-import com.android.volley.toolbox.JsonObjectRequest
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GetTokenResult

@@ -10,7 +10,6 @@ import android.widget.Spinner
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.android.itrip.R
 import com.android.itrip.adapters.AnswerAdapter
@@ -18,7 +17,6 @@ import com.android.itrip.databinding.FragmentQuizInfoBinding
 import com.android.itrip.models.Answer
 import com.android.itrip.models.Quiz
 import com.android.itrip.viewModels.QuizViewModel
-import com.android.itrip.viewModels.QuizViewModelFactory
 import java.util.logging.Logger
 
 /**
@@ -34,18 +32,13 @@ class QuizInfoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentQuizInfoBinding = DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_quiz_info, container, false
         )
 
         val application = requireNotNull(this.activity).application
 
-        val quizViewModelFactory = QuizViewModelFactory(application)
-
-        quizViewModel =
-            ViewModelProviders.of(
-                this, quizViewModelFactory
-            ).get(QuizViewModel::class.java)
+        quizViewModel = QuizViewModel(application)
 
         binding.quizViewModel = quizViewModel
 

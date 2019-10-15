@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +15,6 @@ import com.android.itrip.adapters.QuizAdapter
 import com.android.itrip.databinding.FragmentQuizHobbiesBinding
 import com.android.itrip.models.Quiz
 import com.android.itrip.viewModels.QuizViewModel
-import com.android.itrip.viewModels.QuizViewModelFactory
 import java.util.logging.Logger
 
 /**
@@ -49,12 +47,7 @@ class QuizHobbiesFragment : Fragment() {
         )
         val application = requireNotNull(this.activity).application
 
-        val quizViewModelFactory = QuizViewModelFactory(application)
-
-        quizViewModel =
-            ViewModelProviders.of(
-                this, quizViewModelFactory
-            ).get(QuizViewModel::class.java)
+        quizViewModel = QuizViewModel(application)
 
         binding.quizViewModel = quizViewModel
 
