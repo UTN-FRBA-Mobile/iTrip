@@ -79,6 +79,7 @@ class DestinationAdapter(destinations: LiveData<List<Destination>>) :
                 bundle
             )
         }
+
         val viewHolder = DestinationHolder(binding)
         binding.lifecycleOwner = viewHolder
         return viewHolder

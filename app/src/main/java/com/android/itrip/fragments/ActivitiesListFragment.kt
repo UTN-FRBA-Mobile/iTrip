@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.R
@@ -18,7 +20,7 @@ import com.android.itrip.adapters.ActivitiesAdapter
 import com.android.itrip.database.ActivityDatabase
 import com.android.itrip.database.Destination
 import com.android.itrip.databinding.FragmentActivitiesListBinding
-import com.android.itrip.util.VolleyController
+import com.android.itrip.models.MapDestination
 import com.android.itrip.viewModels.ActivitiesViewModel
 import com.android.itrip.viewModels.ActivitiesViewModelFactory
 import java.util.logging.Logger
@@ -106,6 +108,20 @@ class ActivitiesListFragment : Fragment() {
 
         viewAdapter = ActivitiesAdapter(activitiesViewModel.actividades)
         recyclerView.adapter = viewAdapter
+
+        binding.mapsFloatingActionButton.setOnClickListener { view: View ->
+            val mapDestinations: MutableList<MapDestination> = mutableListOf()
+            activitiesViewModel.actividades.value!!.forEach {
+                mapDestinations.add(MapDestination(it.nombre, it.latitud, it.longitud))
+            }
+            val bundle = bundleOf(
+                "mapDestinations" to mapDestinations
+            )
+            view.findNavController().navigate(
+                ActivitiesListFragmentDirections.actionActivitiesListFragmentToMapsFragment().actionId,
+                bundle
+            )
+        }
 
 
         binding.lifecycleOwner = this
