@@ -3,8 +3,6 @@ package com.android.itrip.viewModels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import com.android.itrip.database.Destination
 import com.android.itrip.database.DestinationDatabaseDao
 import com.android.itrip.models.Continente
