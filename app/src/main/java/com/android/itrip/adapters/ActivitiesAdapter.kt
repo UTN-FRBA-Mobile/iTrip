@@ -34,6 +34,14 @@ class ActivitiesAdapter(actividades: LiveData<List<Actividad>>) :
         return _actividades.value!![position]
     }
 
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
     override fun getItemCount(): Int {
         var size = 0
         _actividades.value?.let {

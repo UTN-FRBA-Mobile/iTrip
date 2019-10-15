@@ -41,7 +41,8 @@ class MainActivity : AppCompatActivity() {
             logger.info("currentUser photoUrl: " + currentUser.photoUrl)
         }
 
-        Picasso.get().load(currentUser.photoUrl).into(binding.imageView)
+        Picasso.get().load(currentUser.photoUrl).error(R.drawable.ic_person_primary_24dp)
+            .placeholder(R.drawable.ic_person_primary_24dp).into(binding.imageView)
 
         binding.logOutButton.setOnClickListener {
             FirebaseAuth.getInstance().signOut()

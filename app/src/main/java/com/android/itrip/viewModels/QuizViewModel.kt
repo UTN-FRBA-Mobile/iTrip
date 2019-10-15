@@ -3,6 +3,8 @@ package com.android.itrip.viewModels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.android.itrip.models.Hobbie
+import com.android.itrip.models.Quiz
+import com.android.itrip.services.QuizService
 
 
 class QuizViewModel(
@@ -11,6 +13,7 @@ class QuizViewModel(
     val hobbies: List<Hobbie>
 
     init {
+
         hobbies = addHobbies().toList()
     }
 
@@ -50,6 +53,11 @@ class QuizViewModel(
         mutableHobbies.add(Hobbie("AMIGOS", "Juntarse con amigos/as"))
         mutableHobbies.add(Hobbie("FAMILIA", "Pasar el tiempo con la familia"))
         return mutableHobbies
+    }
+
+    fun sendQuiz(checkedHobbies: List<Hobbie>, callback: () -> Unit) {
+        val quiz = Quiz("M", "", 29, "So", "SI", "ET", checkedHobbies.map { it.key })
+        QuizService.postQuestions(quiz, callback, {})
     }
 
 }

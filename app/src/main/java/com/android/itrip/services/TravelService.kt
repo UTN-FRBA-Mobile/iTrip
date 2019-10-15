@@ -69,7 +69,7 @@ object TravelService : Service() {
     ) {
         logger.info("createTrip.")
         val url = "viajes/"
-        val json: JSONObject = JSONObject().getJSONObject(gson.toJson(viajeParam))
+        val json = JSONObject(gson.toJson(viajeParam))
         ApiService.post(url, json, {
             val viaje: Viaje = gson.fromJson(it.toString(), Viaje::class.java)
             responseHandler(viaje)
@@ -83,7 +83,7 @@ object TravelService : Service() {
     ) {
         logger.info("updateTrip.")
         val url = """viaje/${viajeParam.id}/"""
-        val json: JSONObject = JSONObject().getJSONObject(gson.toJson(viajeParam))
+        val json = JSONObject(gson.toJson(viajeParam))
         ApiService.patch(url, json, {
             val viaje: Viaje = gson.fromJson(it.toString(), Viaje::class.java)
             responseHandler(viaje)
@@ -97,7 +97,6 @@ object TravelService : Service() {
     ) {
         logger.info("deleteTrip.")
         val url = """viaje/${viajeParam.id}/"""
-        val json: JSONObject = JSONObject().getJSONObject(gson.toJson(viajeParam))
         ApiService.delete(url, {
             responseHandler()
         }, errorHandler)
@@ -143,7 +142,7 @@ object TravelService : Service() {
     ) {
         logger.info("updateDestination.")
         val url = """ciudad-a-visitar/${ciudad_a_visitarParam.id}/"""
-        val json: JSONObject = JSONObject().getJSONObject(gson.toJson(ciudad_a_visitarParam))
+        val json = JSONObject(gson.toJson(ciudad_a_visitarParam))
         ApiService.patch(url, json, {
             val ciudad_a_visitar: CiudadAVisitar =
                 gson.fromJson(it.toString(), CiudadAVisitar::class.java)

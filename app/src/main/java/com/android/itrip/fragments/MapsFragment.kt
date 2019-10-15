@@ -82,8 +82,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             var longitudeAverage = 0.0
             var counter = 0
             mapDestinations.forEach { destinationToPin: MapDestination ->
-                //todo quitar condicion, es solo por un bug del backend
-                if (destinationToPin.latitude != 0.0 && destinationToPin.longitude != 0.0 && destinationToPin.latitude <= 0.0) {
+                if (destinationToPin.latitude != 0.0 && destinationToPin.longitude != 0.0) {
                     counter++
                     val destinationLatLng =
                         LatLng(destinationToPin.latitude, destinationToPin.longitude)

@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.R
@@ -25,6 +27,7 @@ class QuizFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: QuizAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var binding: FragmentQuizHobbiesBinding
 
     private val logger = Logger.getLogger(this::class.java.name)
 
@@ -34,7 +37,7 @@ class QuizFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentQuizHobbiesBinding = DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_quiz_hobbies, container, false
         )
         val application = requireNotNull(this.activity).application
@@ -61,9 +64,29 @@ class QuizFragment : Fragment() {
 //        subscribeUi(viewAdapter)
 
 
-        return binding.root
+        binding.submitFloatingActionButton.setOnClickListener {
 
+            var textMessage = ""
+            viewAdapter.checkedHobbies.forEach {
+                textMessage = textMessage + it.value + ", "
+            }
+            textMessage += "agregadas."
+            Toast.makeText(
+                context,
+                textMessage,
+                Toast.LENGTH_SHORT
+            ).show()
+            quizViewModel.sendQuiz(viewAdapter.checkedHobbies) { finishQuiz() }
+        }
+
+
+
+        return binding.root
     }
 
+    private fun finishQuiz() {
+        view?.findNavController()
+            ?.navigate(QuizFragmentDirections.actionQuizFragmentToQuizEndFragment())
+    }
 
 }

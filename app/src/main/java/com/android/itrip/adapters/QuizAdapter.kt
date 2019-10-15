@@ -18,6 +18,8 @@ class QuizAdapter(hobbies: List<Hobbie>) :
     ListAdapter<Hobbie, RecyclerView.ViewHolder>(HobbieDiffCallback()) {
 
     private val _hobbies: List<Hobbie> = hobbies
+    var checkedHobbies: MutableList<Hobbie> = mutableListOf()
+
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as HobbieHolder).bind(getItem(position))
@@ -49,8 +51,13 @@ class QuizAdapter(hobbies: List<Hobbie>) :
                 hobbie?.let {
                     val tempHobbie = it
                     it.choosed = !tempHobbie.choosed
-                    if (tempHobbie.choosed) hobbieTextview.setBackgroundColor(Color.LTGRAY)
-                    else hobbieTextview.setBackgroundResource(R.drawable.bottom_line_border)
+                    if (tempHobbie.choosed) {
+                        hobbieTextview.setBackgroundColor(Color.LTGRAY)
+                        checkedHobbies.add(it)
+                    } else {
+                        hobbieTextview.setBackgroundResource(R.drawable.bottom_line_border)
+                        checkedHobbies.remove(it)
+                    }
                 }
             }
         }
