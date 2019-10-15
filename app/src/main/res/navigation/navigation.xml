@@ -82,11 +82,13 @@
     <fragment
         android:id="@+id/travelsFragment"
         android:name="com.android.itrip.fragments.TravelsFragment"
-        android:label="TravelsFragment" />
+        android:label="TravelsFragment"
+        tools:layout="@layout/fragment_travels"/>
     <fragment
         android:id="@+id/quizInfoFragment"
         android:name="com.android.itrip.fragments.QuizInfoFragment"
-        android:label="QuizInfoFragment">
+        android:label="fragment_quiz_info"
+        tools:layout="@layout/fragment_quiz_info">
         <action
             android:id="@+id/action_quizInfoFragment_to_quizHobbiesFragment"
             app:destination="@id/quizHobbiesFragment" />
@@ -94,7 +96,8 @@
     <fragment
         android:id="@+id/quizHobbiesFragment"
         android:name="com.android.itrip.fragments.QuizHobbiesFragment"
-        android:label="QuizHobbiesFragment">
+        android:label="fragment_quiz_hobbies"
+        tools:layout="@layout/fragment_quiz_hobbies">
         <action
             android:id="@+id/action_quizHobbiesFragment_to_quizEndFragment"
             app:destination="@id/quizEndFragment" />

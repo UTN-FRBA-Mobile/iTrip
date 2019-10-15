@@ -43,8 +43,10 @@ object ApiService : Service() {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
                     val headers = HashMap<String, String>()
-                    val accessToken: String = AuthenticationService.accessToken.value!!
-                    headers["Authorization"] = "Bearer $accessToken"
+                    val accessToken: String = AuthenticationService.accessToken
+                    if (!accessToken.isBlank()) {
+                        headers["Authorization"] = "Bearer $accessToken"
+                    }
                     headers["Content-Type"] = "application/json"
                     headers.forEach {
                         logger.info(it.key + ": " + it.value)
@@ -70,7 +72,7 @@ object ApiService : Service() {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
                     val headers = HashMap<String, String>()
-                    val accessToken: String = AuthenticationService.accessToken.value!!
+                    val accessToken: String = AuthenticationService.accessToken
                     headers["Authorization"] = "Bearer $accessToken"
                     headers["Content-Type"] = "application/json"
                     headers.forEach {
@@ -96,7 +98,7 @@ object ApiService : Service() {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
                     val headers = HashMap<String, String>()
-                    val accessToken: String = AuthenticationService.accessToken.value!!
+                    val accessToken: String = AuthenticationService.accessToken
                     headers["Authorization"] = "Bearer $accessToken"
                     headers["Content-Type"] = "application/json"
                     headers.forEach {
@@ -123,7 +125,7 @@ object ApiService : Service() {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
                     val headers = HashMap<String, String>()
-                    val accessToken: String = AuthenticationService.accessToken.value!!
+                    val accessToken: String = AuthenticationService.accessToken
                     headers["Authorization"] = "Bearer $accessToken"
                     headers["Content-Type"] = "application/json"
                     headers.forEach {
@@ -149,7 +151,7 @@ object ApiService : Service() {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
                     val headers = HashMap<String, String>()
-                    val accessToken: String = AuthenticationService.accessToken.value!!
+                    val accessToken: String = AuthenticationService.accessToken
                     headers["Authorization"] = "Bearer $accessToken"
                     headers["Content-Type"] = "application/json"
                     headers.forEach {

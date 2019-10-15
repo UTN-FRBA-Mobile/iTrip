@@ -17,7 +17,6 @@ import com.android.itrip.R
 import com.android.itrip.adapters.DestinationAdapter
 import com.android.itrip.database.DestinationDatabase
 import com.android.itrip.databinding.FragmentDestinationListBinding
-import com.android.itrip.util.VolleyController
 import com.android.itrip.viewModels.DestinationViewModel
 import com.android.itrip.viewModels.DestinationViewModelFactory
 import java.util.logging.Logger
@@ -35,7 +34,6 @@ class DestinationListFragment : Fragment() {
     private val logger = Logger.getLogger(this::class.java.name)
 
     lateinit var destinationsViewModel: DestinationViewModel
-    val queue = VolleyController.getInstance(context)!!
 
 
     override fun onCreateView(

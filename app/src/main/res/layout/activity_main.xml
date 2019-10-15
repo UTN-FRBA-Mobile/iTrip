@@ -43,9 +43,10 @@
                 app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/logOutButton"
-                android:layout_width="115dp"
+                android:layout_width="wrap_content"
+                app:srcCompat="@drawable/ic_power_settings_primary_24dp"
                 android:layout_height="45dp"
                 android:text="Salir"
                 android:textSize="12sp"
