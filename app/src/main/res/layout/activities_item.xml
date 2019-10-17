@@ -48,15 +48,16 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@{actividadModel.nombre}" />
 
-            <ImageView
-                android:id="@+id/map_imageView"
+            <ImageButton
+                android:id="@+id/share_imagebutton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
+                android:background="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="@+id/activity_imageView"
                 app:layout_constraintEnd_toEndOf="@+id/activity_imageView"
-                app:srcCompat="@drawable/ic_pin_drop_black_24dp" />
+                app:srcCompat="@drawable/ic_share_white_24dp" />
 
             <RatingBar
                 android:id="@+id/calificacion_rating"
