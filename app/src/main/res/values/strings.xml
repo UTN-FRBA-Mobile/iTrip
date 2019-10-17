@@ -15,7 +15,7 @@
     <string name="quiz_questions_quantity">Preguntas: 12</string>
     <string name="tou_alert">Acepto los términos y condiciones de uso</string>
     <string name="cancel">Cancelar</string>
-    <string name="create_travel">Armar viaje!</string>
+    <string name="create_travel">Crear viaje!</string>
     <string name="travels">Mis viajes</string>
     <string name="take_quiz">Completar cuestionario</string>
     <string name="quiz_end_title">Cuestionario finalizado</string>
@@ -34,6 +34,8 @@
     <!--Mis Viajes-->
     <string name="travels_watch">Ver</string>
     <string name="travels_date">Desde: %1$s Hasta: %2$s</string>
+    <string name="travels_no_travels_firstline">No tenés aún ningún viaje.</string>
+    <string name="travels_no_travels_secondline">Empieza creando uno desde el \'+\'.</string>
 
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="facebook_application_id" translatable="false">399355764046745</string>

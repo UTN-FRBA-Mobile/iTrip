@@ -13,9 +13,6 @@
             android:id="@+id/action_homeFragment_to_createTravelFragment"
             app:destination="@id/createTravelFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_travelsFragment"
-            app:destination="@id/travelsFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_quizInfoFragment"
             app:destination="@id/quizInfoFragment" />
     </fragment>
@@ -79,11 +76,6 @@
         android:name="com.android.itrip.fragments.MapsFragment"
         android:label="fragment_maps"
         tools:layout="@layout/fragment_maps" />
-    <fragment
-        android:id="@+id/travelsFragment"
-        android:name="com.android.itrip.fragments.TravelsFragment"
-        android:label="TravelsFragment"
-        tools:layout="@layout/fragment_travels" />
     <fragment
         android:id="@+id/quizInfoFragment"
         android:name="com.android.itrip.fragments.QuizInfoFragment"
