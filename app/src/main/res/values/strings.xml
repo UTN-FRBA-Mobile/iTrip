@@ -32,6 +32,7 @@
     <string name="budget">Presupuesto estimado</string>
 
     <!--Mis Viajes-->
+    <string name="travels_title">Mis Viajes</string>
     <string name="travels_watch">Ver</string>
     <string name="travels_date">Desde: %1$s Hasta: %2$s</string>
     <string name="travels_no_travels_firstline">No tenés aún ningún viaje.</string>
