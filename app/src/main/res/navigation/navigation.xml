@@ -70,6 +70,9 @@
         <action
             android:id="@+id/action_activitiesListFragment_to_mapsFragment"
             app:destination="@id/mapsFragment" />
+        <action
+            android:id="@+id/action_activitiesListFragment_to_activityDetailsFragment"
+            app:destination="@id/activityDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapsFragment"
@@ -93,5 +96,14 @@
         <action
             android:id="@+id/action_quizHobbiesFragment_to_quizEndFragment"
             app:destination="@id/quizEndFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/activityDetailsFragment"
+        android:name="com.android.itrip.fragments.ActivityDetailsFragment"
+        android:label="ActivityDetailsFragment"
+        tools:layout="@layout/fragment_activity_details">
+        <action
+            android:id="@+id/action_activityDetailsFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
     </fragment>
 </navigation>
