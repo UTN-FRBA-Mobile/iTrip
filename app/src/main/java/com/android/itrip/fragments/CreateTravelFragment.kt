@@ -27,11 +27,7 @@ class CreateTravelFragment : Fragment() {
         binding.untilDateTextinputedittext.setOnClickListener { showDatePickerDialog(it) }
         binding.createTravel.setOnClickListener { view: View ->
             view.findNavController()
-                .navigate(CreateTravelFragmentDirections.actionCreateTravelFragmentToActivitiesHomeFragment())
-        }
-        binding.selectDestiny.setOnClickListener { view: View ->
-            view.findNavController()
-                .navigate(CreateTravelFragmentDirections.actionCreateTravelFragmentToDestinationListFragment())
+                .navigate(CreateTravelFragmentDirections.actionCreateTravelFragmentToTripFragment())
         }
         return binding.root
     }

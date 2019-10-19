@@ -41,17 +41,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/destinationCreateTitle" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/selectDestiny"
-            style="@style/default_itrip_button"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="30dp"
-            android:text="@string/select_destiny"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/destinationCreateDescription" />
-
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fromDate"
@@ -59,13 +48,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="125dp"
             android:layout_marginEnd="15dp"
-            android:hint="@string/untilDate"
+            android:hint="@string/fromDate"
             app:boxStrokeColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/selectDestiny">
+            app:layout_constraintTop_toBottomOf="@+id/destinationCreateDescription">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fromDate_textinputedittext"

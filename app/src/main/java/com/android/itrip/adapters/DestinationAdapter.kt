@@ -59,14 +59,17 @@ class DestinationAdapter(destinations: LiveData<List<Destination>>) :
                 LayoutInflater.from(parent.context), R.layout.destination_item, parent, false
             )
 
-
-        binding.addRemoveSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.addImagebutton.setOnClickListener { view: View ->
             binding.destination?.let {
                 val dest = binding.destination!!
-                if (isChecked) {
-                    checkedDestinations.add(dest)
-                    logger.info("destination.name: " + dest.name)
-                } else checkedDestinations.remove(dest)
+                val bundle = bundleOf(
+                    "destination" to dest
+                )
+                view.findNavController()
+                    .navigate(
+                        DestinationListFragmentDirections.actionDestinationListFragmentToTripFragment().actionId
+                        , bundle
+                    )
             }
         }
 
