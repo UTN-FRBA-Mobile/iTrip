@@ -1,5 +1,18 @@
 <resources>
+
+    <!--App name-->
     <string name="app_name">iTrip</string>
+
+    <!--Drawer-->
+    <string name="drawer_open">Abrir menú</string>
+    <string name="drawer_close">Cerrar menú</string>
+
+    <!--Drawer Menu-->
+    <string name="drawer_menu_travels">Mis Viajes</string>
+    <string name="drawer_menu_create_travel">Crear Viaje</string>
+    <string name="drawer_menu_logout">Salir</string>
+
+    <!--Not tagged-->
     <string name="back">Volver</string>
     <string name="quiz_end_description">Gracias por completar el cuestionario, sabemos que fue un poco largo pero eso
         nos ayuda mucho para poder ofrecerte las mejores oportunidades de viaje y asi puedas construir hermosas

@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_menu"
+    tools:context=".MainActivity">
+
+    <group
+        android:id="@+id/drawer_menu_main_items"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/drawer_menu_create_travel"
+            android:icon="@drawable/ic_black_plane_24dp"
+            android:title="@string/drawer_menu_create_travel" />
+        <item
+            android:id="@+id/drawer_menu_travels"
+            android:icon="@drawable/ic_pin_drop_black_24dp"
+            android:title="@string/drawer_menu_travels" />
+        <item
+            android:id="@+id/drawer_menu_logout"
+            android:icon="@drawable/ic_power_settings_primary_24dp"
+            android:title="@string/drawer_menu_logout" />
+    </group>
+</menu>
