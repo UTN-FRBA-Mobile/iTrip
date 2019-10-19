@@ -6,10 +6,9 @@ import com.android.itrip.models.Viaje
 import java.util.logging.Logger
 
 class TripViewModel(
-    application: Application, viaje: Viaje
+    application: Application, val viaje: Viaje
 ) : AndroidViewModel(application) {
 
-    lateinit var viaje: Viaje
     private val logger = Logger.getLogger(this::class.java.name)
 
 }
