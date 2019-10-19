@@ -62,7 +62,7 @@ class TravelAdapter :
                 setImage(viaje)
                 destinationName.text = viaje.nombre
                 travelDate.text =
-                    super.itemView.context.getString(R.string.travels_date, viaje.inicio, viaje.fin)
+                    super.itemView.context.getString(R.string.travels_date, viaje.inicio.time, viaje.fin.time)
             }
         }
 
