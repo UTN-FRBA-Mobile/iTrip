@@ -31,7 +31,7 @@ class TripFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         try {
-            viaje = this.arguments!!.get("destination") as Viaje
+            viaje = this.arguments!!.get("viaje") as Viaje
             logger.info("viaje: " + viaje.nombre)
             Toast.makeText(context, viaje.nombre, Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {

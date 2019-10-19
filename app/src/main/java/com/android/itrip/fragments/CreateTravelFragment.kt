@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -26,8 +27,14 @@ class CreateTravelFragment : Fragment() {
         binding.fromDateTextinputedittext.setOnClickListener { showDatePickerDialog(it) }
         binding.untilDateTextinputedittext.setOnClickListener { showDatePickerDialog(it) }
         binding.createTravel.setOnClickListener { view: View ->
+            val bundle = bundleOf(
+//                "viaje" to viaje
+            )
             view.findNavController()
-                .navigate(CreateTravelFragmentDirections.actionCreateTravelFragmentToTripFragment())
+                .navigate(
+                    CreateTravelFragmentDirections.actionCreateTravelFragmentToTripFragment().actionId
+                    , bundle
+                )
         }
         return binding.root
     }
