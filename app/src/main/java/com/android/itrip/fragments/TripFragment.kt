@@ -10,7 +10,10 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.itrip.R
+import com.android.itrip.adapters.TripAdapter
 import com.android.itrip.databinding.FragmentTripBinding
 import com.android.itrip.models.Viaje
 import com.android.itrip.services.TravelService
@@ -31,6 +34,7 @@ class TripFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        application = requireNotNull(this.activity).application
         TravelService.getTrip(13, { viaje -> getDestinations(viaje) }, {})
 //        try {
 //            viaje = this.arguments!!.get("viaje") as Viaje
@@ -48,16 +52,21 @@ class TripFragment : Fragment() {
     }
 
     private fun getDestinations(viaje: Viaje) {
-//        binding.tripRecyclerview.layoutManager = LinearLayoutManager(application)
-//        binding.tripRecyclerview.itemAnimator = DefaultItemAnimator()
-//        binding.tripRecyclerview.adapter = travelAdapter
         if (viaje.ciudades_a_visitar.isNullOrEmpty()) {
             binding.tripLinearLayout.visibility = View.VISIBLE
         } else {
             tripViewModel = TripViewModel(
-                requireNotNull(this.activity).application, viaje
+                application, viaje
             )
-            Toast.makeText(context, viaje.ciudades_a_visitar[0].detalle_ciudad.nombre,Toast.LENGTH_SHORT).show()
+            binding.tripRecyclerview.layoutManager = LinearLayoutManager(application)
+            binding.tripRecyclerview.itemAnimator = DefaultItemAnimator()
+            val viewAdapter = TripAdapter(viaje.ciudades_a_visitar)
+            binding.tripRecyclerview.adapter = viewAdapter
+            Toast.makeText(
+                context,
+                viaje.ciudades_a_visitar[0].detalle_ciudad.nombre,
+                Toast.LENGTH_SHORT
+            ).show()
             binding.tripLinearLayout.visibility = View.GONE
         }
     }

@@ -63,12 +63,12 @@
                 android:textSize="20sp" />
         </LinearLayout>
 
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/trip_recyclerview"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    tools:listitem="@layout/travel_item" />-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/trip_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/citytovisit_item" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addDestination_floatingactionbutton"
