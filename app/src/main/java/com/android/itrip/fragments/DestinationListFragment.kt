@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -15,6 +16,7 @@ import com.android.itrip.R
 import com.android.itrip.adapters.DestinationAdapter
 import com.android.itrip.database.DestinationDatabase
 import com.android.itrip.databinding.FragmentDestinationListBinding
+import com.android.itrip.ui.DatePickerFragment
 import com.android.itrip.viewModels.DestinationViewModel
 import com.android.itrip.viewModels.DestinationViewModelFactory
 import java.util.logging.Logger
@@ -28,9 +30,7 @@ class DestinationListFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: DestinationAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
-
     private val logger = Logger.getLogger(this::class.java.name)
-
     lateinit var destinationsViewModel: DestinationViewModel
 
 
@@ -50,6 +50,8 @@ class DestinationListFragment : Fragment() {
                 this, viewModelFactory
             ).get(DestinationViewModel::class.java)
         binding.destinationsViewModel = destinationsViewModel
+        binding.fromDateTextinputedittext.setOnClickListener { showDatePickerDialog(it) }
+        binding.untilDateTextinputedittext.setOnClickListener { showDatePickerDialog(it) }
 //        //RECYCLERVIEW logic
         recyclerView = binding.myRecyclerView
         viewManager = LinearLayoutManager(application)
@@ -69,6 +71,17 @@ class DestinationListFragment : Fragment() {
                 logger.info(e.toString())
             }
         })
+    }
+
+    private fun showDatePickerDialog(v: View) {
+        val newFragment = DatePickerFragment { year, month, day ->
+            Toast.makeText(
+                context,
+                "$day/$month/$year",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        fragmentManager?.let { newFragment.show(it, "datePicker") }
     }
 
 }

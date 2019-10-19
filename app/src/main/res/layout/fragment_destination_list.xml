@@ -27,21 +27,20 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:scrollbars="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/linearlayout_no_travels"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/linearlayout_no_travels"
             tools:listitem="@layout/destination_item" />
 
         <LinearLayout
             android:id="@+id/linearlayout_no_travels"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/fromDate"
@@ -49,7 +48,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="125dp"
                 android:layout_marginEnd="15dp"
                 android:hint="@string/fromDate"
                 app:boxStrokeColor="@color/colorPrimary"

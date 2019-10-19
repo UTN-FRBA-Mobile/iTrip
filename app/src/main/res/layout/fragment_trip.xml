@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="@string/travels_title"
+            android:text="Mis Destinos"
             android:textColor="#000"
             android:textSize="30sp"
             app:layout_constraintStart_toStartOf="parent"

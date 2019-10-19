@@ -41,7 +41,7 @@ class TripFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_trip, container, false)
         binding.createTravel.setOnClickListener { view: View ->
             view.findNavController()
-                .navigate(actionHomeFragmentToCreateTravelFragment())
+                .navigate(TripFragmentDirections.actionTripFragmentToDestinationListFragment())
         }
         application = requireNotNull(this.activity).application
 //        getTravels()
