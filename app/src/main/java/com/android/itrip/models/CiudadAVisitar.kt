@@ -1,24 +1,38 @@
 package com.android.itrip.models
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
-import com.android.itrip.util.Converters
 import java.io.Serializable
+import java.text.SimpleDateFormat
+import java.util.*
 
 
-@TypeConverters(Converters::class)
-@Entity(tableName = "ciudad_a_visitar_table")
 data class CiudadAVisitar(
-    @PrimaryKey(autoGenerate = true)
     var id: Long = 0L,
 
-    var ciudad: Ciudad,
+    var inicio: Calendar,
 
-    @ColumnInfo(name = "inicio")
-    var inicio: String = "",
+    var fin: Calendar,
 
-    @ColumnInfo(name = "fin")
-    var fin: String = ""
+    var detalle_ciudad: Ciudad,
+
+    var actividades_a_realizar: List<ActividadARealizar>
+
 ) : Serializable
+
+data class CiudadAVisitarCreator(
+    var id: Long,
+    var inicio: String,
+    var fin: String,
+    var detalle_ciudad: Ciudad,
+    var actividades_a_realizar: List<ActividadARealizar>
+) : Serializable {
+
+    fun ciudadAVisitar(): CiudadAVisitar {
+        return CiudadAVisitar(
+            id,
+            Calendar.getInstance().apply { time = SimpleDateFormat("yyyy-MM-dd").parse(inicio) },
+            Calendar.getInstance().apply { time = SimpleDateFormat("yyyy-MM-dd").parse(fin) },
+            detalle_ciudad,
+            actividades_a_realizar
+        )
+    }
+}

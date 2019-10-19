@@ -16,7 +16,7 @@ data class Continente(
     @ColumnInfo(name = "descripcion")
     val descripcion: String = "",
 
-//    @ColumnInfo(name = "ciudades")
+//    @ColumnInfo(name = "paises")
     val paises: List<Pais> = emptyList()
 
 ) : Serializable
