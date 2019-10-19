@@ -12,8 +12,11 @@
     <string name="drawer_menu_create_travel">Crear Viaje</string>
     <string name="drawer_menu_logout">Salir</string>
 
-    <!--Not tagged-->
-    <string name="back">Volver</string>
+    <!--Quiz-->
+    <string name="quiz_info_title">Completa el cuestionario</string>
+    <string name="quiz_hobbies_title">¿Cuáles son tus hobbies?</string>
+    <string name="quiz_end_title">Cuestionario finalizado</string>
+    <string name="quiz_next">Siguiente</string>
     <string name="quiz_end_description">Gracias por completar el cuestionario, sabemos que fue un poco largo pero eso
         nos ayuda mucho para poder ofrecerte las mejores oportunidades de viaje y asi puedas construir hermosas
         experiencias
@@ -24,20 +27,17 @@
     <string name="destination_create_description">Estos son los mínimos datos necesarios para que podamos armar tu
         próximo viaje!
     </string>
-    <string name="quiz_intro_title">Cuestionario</string>
-    <string name="quiz_questions_quantity">Preguntas: 12</string>
+
+    <!--Not tagged-->
+    <string name="back">Volver</string>
     <string name="tou_alert">Acepto los términos y condiciones de uso</string>
     <string name="cancel">Cancelar</string>
-    <string name="create_travel">Crear viaje!</string>
     <string name="travels">Mis viajes</string>
-    <string name="take_quiz">Completar cuestionario</string>
-    <string name="quiz_end_title">Cuestionario finalizado</string>
     <string name="select_destiny">Seleccionar destino</string>
     <string name="select_activities">Seleccionar actividades</string>
     <string name="add_activity">Agregar</string>
     <string name="travel_modify">Modificar viaje</string>
     <string name="create_activity">Crear itinerario</string>
-    <string name="quiz_next">Siguiente</string>
     <string name="start">Comenzar</string>
     <string name="create">Crear!</string>
     <string name="fromDate">Fecha desde</string>
@@ -45,6 +45,7 @@
     <string name="budget">Presupuesto estimado</string>
 
     <!--Mis Viajes-->
+    <string name="travels_creation">Crear viaje</string>
     <string name="travels_title">Mis Viajes</string>
     <string name="travels_watch">Ver</string>
     <string name="travels_date">Desde: %1$s Hasta: %2$s</string>

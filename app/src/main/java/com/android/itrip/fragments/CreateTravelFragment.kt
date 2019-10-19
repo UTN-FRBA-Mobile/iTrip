@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.android.itrip.MainActivity
 import com.android.itrip.R
 import com.android.itrip.databinding.FragmentCreateTravelBinding
 import com.android.itrip.ui.DatePickerFragment
@@ -20,6 +21,7 @@ class CreateTravelFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setBarTitle()
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_create_travel, container, false
         )
@@ -34,6 +36,10 @@ class CreateTravelFragment : Fragment() {
                 .navigate(CreateTravelFragmentDirections.actionCreateTravelFragmentToDestinationListFragment())
         }
         return binding.root
+    }
+
+    private fun setBarTitle() {
+        (activity as MainActivity).setActionBarTitle(getString(R.string.travels_creation))
     }
 
     private fun showDatePickerDialog(v: View) {

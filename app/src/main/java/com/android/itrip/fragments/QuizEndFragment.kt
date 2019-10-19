@@ -8,18 +8,17 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.android.itrip.MainActivity
 import com.android.itrip.R
 import com.android.itrip.databinding.FragmentQuizEndBinding
 
-/**
- * A simple [Fragment] subclass.
- */
 class QuizEndFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setBarTitle()
         val binding: FragmentQuizEndBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_quiz_end, container, false
         )
@@ -30,5 +29,8 @@ class QuizEndFragment : Fragment() {
         return binding.root
     }
 
+    private fun setBarTitle() {
+        (activity as MainActivity).setActionBarTitle("") // no title in this fragment
+    }
 
 }

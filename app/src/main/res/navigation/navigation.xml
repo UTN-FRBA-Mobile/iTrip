@@ -7,7 +7,6 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.android.itrip.fragments.HomeFragment"
-        android:label="fragment_home"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_createTravelFragment"
@@ -19,7 +18,6 @@
     <fragment
         android:id="@+id/quizEndFragment"
         android:name="com.android.itrip.fragments.QuizEndFragment"
-        android:label="fragment_quiz_end"
         tools:layout="@layout/fragment_quiz_end">
         <action
             android:id="@+id/action_quizEndFragment_to_homeFragment"
@@ -30,7 +28,6 @@
     <fragment
         android:id="@+id/createTravelFragment"
         android:name="com.android.itrip.fragments.CreateTravelFragment"
-        android:label="fragment_create_travel"
         tools:layout="@layout/fragment_create_travel">
         <action
             android:id="@+id/action_createTravelFragment_to_destinationListFragment"
@@ -82,7 +79,6 @@
     <fragment
         android:id="@+id/quizInfoFragment"
         android:name="com.android.itrip.fragments.QuizInfoFragment"
-        android:label="fragment_quiz_info"
         tools:layout="@layout/fragment_quiz_info">
         <action
             android:id="@+id/action_quizInfoFragment_to_quizHobbiesFragment"
@@ -91,7 +87,6 @@
     <fragment
         android:id="@+id/quizHobbiesFragment"
         android:name="com.android.itrip.fragments.QuizHobbiesFragment"
-        android:label="fragment_quiz_hobbies"
         tools:layout="@layout/fragment_quiz_hobbies">
         <action
             android:id="@+id/action_quizHobbiesFragment_to_quizEndFragment"
@@ -110,5 +105,5 @@
         android:id="@+id/scheduleFragment"
         android:name="com.android.itrip.fragments.ScheduleFragment"
         android:label="ScheduleFragment"
-        tools:layout="@layout/fragment_schedule"/>
+        tools:layout="@layout/fragment_schedule" />
 </navigation>

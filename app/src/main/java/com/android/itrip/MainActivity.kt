@@ -129,6 +129,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+    fun setActionBarTitle(title: String) {
+        supportActionBar!!.title = title
+    }
+
     private fun quizAnswered(answered: Boolean) {
         val navHostFragment = navHostFragment as NavHostFragment
         val inflater = navHostFragment.navController.navInflater

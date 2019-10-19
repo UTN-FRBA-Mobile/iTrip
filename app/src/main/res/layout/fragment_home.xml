@@ -13,17 +13,6 @@
         android:background="@color/colorWhiteSmoke"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textview_travels_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/travels_title"
-            android:textColor="#000"
-            android:textSize="30sp"
-            android:layout_marginStart="10dp"
-            app:layout_constraintBottom_toTopOf="@id/recyclerview_travels"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <LinearLayout
             android:id="@+id/linearlayout_no_travels"
             android:layout_width="wrap_content"
@@ -66,7 +55,7 @@
             android:id="@+id/recyclerview_travels"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/textview_travels_title"
+            app:layout_constraintTop_toTopOf="@+id/linearlayout_no_travels"
             tools:listitem="@layout/travel_item" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -76,7 +65,7 @@
             android:layout_gravity="end|bottom"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:contentDescription="@string/create_travel"
+            android:contentDescription="@string/travels_creation"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_add_black_24dp" />

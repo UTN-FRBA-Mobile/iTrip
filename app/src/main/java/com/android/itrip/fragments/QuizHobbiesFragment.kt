@@ -10,16 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.itrip.MainActivity
 import com.android.itrip.R
 import com.android.itrip.adapters.QuizAdapter
 import com.android.itrip.databinding.FragmentQuizHobbiesBinding
 import com.android.itrip.models.Quiz
 import com.android.itrip.viewModels.QuizViewModel
-import java.util.logging.Logger
 
-/**
- * A simple [Fragment] subclass.
- */
 class QuizHobbiesFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
@@ -27,45 +24,30 @@ class QuizHobbiesFragment : Fragment() {
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var binding: FragmentQuizHobbiesBinding
     private lateinit var quiz: Quiz
-
-    private val logger = Logger.getLogger(this::class.java.name)
-
-    lateinit var quizViewModel: QuizViewModel
+    private lateinit var quizViewModel: QuizViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        this.arguments!!.get("quiz")?.let {
-            quiz = this.arguments!!.get("quiz") as Quiz
-        }
-
-
+        setBarTitle()
+        arguments!!.get("quiz")?.let { quiz = it as Quiz }
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_quiz_hobbies, container, false
         )
         val application = requireNotNull(this.activity).application
-
         quizViewModel = QuizViewModel(application)
-
         binding.quizViewModel = quizViewModel
 
-        //        //RECYCLERVIEW logic
+        // RECYCLERVIEW logic
         recyclerView = binding.myRecyclerView
         viewManager = LinearLayoutManager(application)
         recyclerView.layoutManager = viewManager
-
         viewAdapter = QuizAdapter(quizViewModel.hobbies)
         recyclerView.adapter = viewAdapter
-
-
         binding.lifecycleOwner = this
-//        subscribeUi(viewAdapter)
-
 
         binding.submitFloatingActionButton.setOnClickListener {
-
             var textMessage = ""
             viewAdapter.checkedHobbies.forEach {
                 textMessage = textMessage + it.value + ", "
@@ -74,6 +56,10 @@ class QuizHobbiesFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun setBarTitle() {
+        (activity as MainActivity).setActionBarTitle(getString(R.string.quiz_hobbies_title))
     }
 
     private fun finishQuiz() {

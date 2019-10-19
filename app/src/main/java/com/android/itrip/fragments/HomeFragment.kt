@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.itrip.MainActivity
 import com.android.itrip.R
 import com.android.itrip.adapters.TravelAdapter
 import com.android.itrip.databinding.FragmentHomeBinding
@@ -33,6 +34,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setBarTitle()
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         binding.createTravel.setOnClickListener { view: View ->
             view.findNavController()
@@ -41,6 +43,10 @@ class HomeFragment : Fragment() {
         application = requireNotNull(this.activity).application
         getTravels()
         return binding.root
+    }
+
+    private fun setBarTitle() {
+        (activity as MainActivity).setActionBarTitle(getString(R.string.travels_title))
     }
 
     private fun getTravels() {

@@ -13,27 +13,24 @@ import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.android.itrip.MainActivity
 import com.android.itrip.R
 import com.android.itrip.adapters.AnswerAdapter
 import com.android.itrip.databinding.FragmentQuizInfoBinding
 import com.android.itrip.models.Answer
 import com.android.itrip.models.Quiz
 import com.android.itrip.viewModels.QuizViewModel
-import java.util.logging.Logger
 
-/**
- * A simple [Fragment] subclass.
- */
 class QuizInfoFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private lateinit var binding: FragmentQuizInfoBinding
-    private val logger = Logger.getLogger(this::class.java.name)
     lateinit var quizViewModel: QuizViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setBarTitle()
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_quiz_info, container, false
         )
@@ -70,8 +67,8 @@ class QuizInfoFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 )
                 view.findNavController()
                     .navigate(
-                        QuizInfoFragmentDirections.actionQuizInfoFragmentToQuizHobbiesFragment().actionId
-                        , bundle
+                        QuizInfoFragmentDirections.actionQuizInfoFragmentToQuizHobbiesFragment().actionId,
+                        bundle
                     )
             }
         }
@@ -84,6 +81,10 @@ class QuizInfoFragment : Fragment(), AdapterView.OnItemSelectedListener {
         return binding.root
     }
 
+    private fun setBarTitle() {
+        (activity as MainActivity).setActionBarTitle(getString(R.string.quiz_info_title))
+    }
+
     private fun setSpinner(spinner: Spinner, answerList: List<Answer>): Spinner {
         val adapter = AnswerAdapter(
             activity!!,
@@ -94,7 +95,6 @@ class QuizInfoFragment : Fragment(), AdapterView.OnItemSelectedListener {
         spinner.adapter = adapter
         spinner.setSelection(Adapter.NO_SELECTION, false)
         return spinner
-
     }
 
     override fun onItemSelected(
