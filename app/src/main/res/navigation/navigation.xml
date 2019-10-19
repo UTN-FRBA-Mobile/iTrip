@@ -106,4 +106,9 @@
             android:id="@+id/action_activityDetailsFragment_to_mapsFragment"
             app:destination="@id/mapsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/scheduleFragment"
+        android:name="com.android.itrip.fragments.ScheduleFragment"
+        android:label="ScheduleFragment"
+        tools:layout="@layout/fragment_schedule"/>
 </navigation>

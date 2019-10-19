@@ -15,5 +15,7 @@ data class Ciudad(
     val nombre: String = "",
 
     @ColumnInfo(name = "descripcion")
-    val descripcion: String = ""
+    val descripcion: String = "",
+
+    val imagen: String = ""
 ) : Serializable
