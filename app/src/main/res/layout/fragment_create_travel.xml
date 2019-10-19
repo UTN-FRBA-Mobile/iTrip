@@ -52,28 +52,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/destinationCreateDescription" />
 
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fromDate"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="15dp"
-            android:hint="@string/fromDate"
+            android:hint="@string/untilDate"
             app:boxStrokeColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/selectDestiny">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fromDate_textinputedittext"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:focusableInTouchMode="false"
                 android:inputType="date"
                 android:maxLines="1"
                 android:textSize="20sp"
                 app:boxBackgroundColor="#fff" />
         </com.google.android.material.textfield.TextInputLayout>
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/untilDate"
@@ -90,8 +94,10 @@
             app:layout_constraintTop_toBottomOf="@+id/fromDate">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/untilDate_textinputedittext"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:focusableInTouchMode="false"
                 android:inputType="date"
                 android:maxLines="1"
                 android:textSize="20sp"

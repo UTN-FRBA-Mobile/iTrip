@@ -6,18 +6,22 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.provider.MediaStore
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.LiveData
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.R
 import com.android.itrip.databinding.ActivitiesItemBinding
+import com.android.itrip.fragments.ActivitiesListFragmentDirections
 import com.android.itrip.models.Actividad
 import com.squareup.picasso.Picasso
 
@@ -58,6 +62,18 @@ class ActivitiesAdapter(actividades: LiveData<List<Actividad>>) :
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context), R.layout.activities_item, parent, false
             )
+
+        binding.activityConstraintLayout.setOnClickListener { view: View ->
+            val bundle = bundleOf(
+                "actividad" to binding.actividadModel!!
+            )
+            view.findNavController()
+                .navigate(
+                    ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailsFragment().actionId
+                    , bundle
+                )
+        }
+
 //        binding.mapImageView.setOnClickListener { view: View ->
 //            val mapDestination = MapDestination(
 //                binding.actividadModel!!.nombre,
