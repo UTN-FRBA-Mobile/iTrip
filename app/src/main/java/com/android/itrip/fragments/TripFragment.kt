@@ -11,15 +11,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.android.itrip.R
-import com.android.itrip.database.Destination
 import com.android.itrip.databinding.FragmentTripBinding
-import com.android.itrip.fragments.HomeFragmentDirections.Companion.actionHomeFragmentToCreateTravelFragment
 import com.android.itrip.models.Viaje
+import com.android.itrip.services.TravelService
+import com.android.itrip.viewModels.TripViewModel
 import java.util.logging.Logger
 
 class TripFragment : Fragment() {
 
     private val logger = Logger.getLogger(this::class.java.name)
+    private lateinit var tripViewModel: TripViewModel
     //    private var travelAdapter = TravelAdapter()
     private lateinit var application: Application
     private lateinit var binding: FragmentTripBinding
@@ -30,41 +31,35 @@ class TripFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        try {
-            viaje = this.arguments!!.get("viaje") as Viaje
-            logger.info("viaje: " + viaje.nombre)
-            Toast.makeText(context, viaje.nombre, Toast.LENGTH_SHORT).show()
-        } catch (e: Exception) {
-            logger.info(e.toString())
-        }
-
+        TravelService.getTrip(13, { viaje -> getDestinations(viaje) }, {})
+//        try {
+//            viaje = this.arguments!!.get("viaje") as Viaje
+//            logger.info("viaje: " + viaje.nombre)
+//            Toast.makeText(context, viaje.nombre, Toast.LENGTH_SHORT).show()
+//        } catch (e: Exception) {
+//            logger.info(e.toString())
+//        }
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_trip, container, false)
-        binding.createTravel.setOnClickListener { view: View ->
+        binding.addDestinationFloatingactionbutton.setOnClickListener { view: View ->
             view.findNavController()
                 .navigate(TripFragmentDirections.actionTripFragmentToDestinationListFragment())
         }
-        application = requireNotNull(this.activity).application
-//        getTravels()
         return binding.root
     }
 
-    /* private fun getTravels() {
-         binding.recyclerviewTravels.layoutManager = LinearLayoutManager(application)
-         binding.recyclerviewTravels.itemAnimator = DefaultItemAnimator()
-         binding.recyclerviewTravels.adapter = travelAdapter
-         TravelService.getTravels({ travels ->
-             if (travels.isNotEmpty()) {
-                 binding.linearlayoutNoTravels.visibility = INVISIBLE
-                 travelAdapter.replaceItems(travels)
-             } else {
-                 binding.linearlayoutNoTravels.visibility = VISIBLE
-             }
-         }, { error ->
-             logger.info("Failed to get travels: " + error.message)
-             Toast
-                 .makeText(this.context, "Hubo un problema, intente de nuevo", Toast.LENGTH_SHORT)
-                 .show()
-         })
-     }*/
+    private fun getDestinations(viaje: Viaje) {
+//        binding.tripRecyclerview.layoutManager = LinearLayoutManager(application)
+//        binding.tripRecyclerview.itemAnimator = DefaultItemAnimator()
+//        binding.tripRecyclerview.adapter = travelAdapter
+        if (viaje.ciudades_a_visitar.isNullOrEmpty()) {
+            binding.tripLinearLayout.visibility = View.VISIBLE
+        } else {
+            tripViewModel = TripViewModel(
+                requireNotNull(this.activity).application, viaje
+            )
+            Toast.makeText(context, viaje.ciudades_a_visitar[0].detalle_ciudad.nombre,Toast.LENGTH_SHORT).show()
+            binding.tripLinearLayout.visibility = View.GONE
+        }
+    }
 
 }

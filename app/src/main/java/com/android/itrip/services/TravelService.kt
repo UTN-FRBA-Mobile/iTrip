@@ -54,7 +54,8 @@ object TravelService : Service() {
         logger.info("getTrip.")
         val url = "viajes/$id"
         ApiService.get(url, {
-            val viaje: Viaje = gson.fromJson(it.toString(), Viaje::class.java)
+            val viajeCreator: ViajeCreator = gson.fromJson(it.toString(), ViajeCreator::class.java)
+            val viaje: Viaje = viajeCreator.viaje()
             responseHandler(viaje)
         }, errorHandler)
     }
