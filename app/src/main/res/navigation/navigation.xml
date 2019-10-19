@@ -11,9 +11,6 @@
         <action
             android:id="@+id/action_homeFragment_to_createTravelFragment"
             app:destination="@id/createTravelFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_quizInfoFragment"
-            app:destination="@id/quizInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/quizEndFragment"
@@ -30,11 +27,8 @@
         android:name="com.android.itrip.fragments.CreateTravelFragment"
         tools:layout="@layout/fragment_create_travel">
         <action
-            android:id="@+id/action_createTravelFragment_to_destinationListFragment"
-            app:destination="@id/destinationListFragment" />
-        <action
-            android:id="@+id/action_createTravelFragment_to_activitiesHomeFragment"
-            app:destination="@id/activitiesHomeFragment" />
+            android:id="@+id/action_createTravelFragment_to_tripFragment"
+            app:destination="@id/tripFragment" />
     </fragment>
     <fragment
         android:id="@+id/destinationListFragment"
@@ -42,22 +36,11 @@
         android:label="fragment_destination_list"
         tools:layout="@layout/fragment_destination_list">
         <action
-            android:id="@+id/action_destinationListFragment_to_createTravelFragment"
-            app:destination="@id/createTravelFragment"
-            app:popUpTo="@+id/homeFragment"
-            app:popUpToInclusive="false" />
-        <action
             android:id="@+id/action_destinationListFragment_to_activitiesListFragment"
             app:destination="@id/activitiesListFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/activitiesHomeFragment"
-        android:name="com.android.itrip.fragments.ActivitiesHomeFragment"
-        android:label="fragment_activities_home"
-        tools:layout="@layout/fragment_activities_home">
         <action
-            android:id="@+id/action_activitiesHomeFragment_to_activitiesListFragment"
-            app:destination="@id/activitiesListFragment" />
+            android:id="@+id/action_destinationListFragment_to_tripFragment"
+            app:destination="@id/tripFragment" />
     </fragment>
     <fragment
         android:id="@+id/activitiesListFragment"
@@ -105,5 +88,21 @@
         android:id="@+id/scheduleFragment"
         android:name="com.android.itrip.fragments.ScheduleFragment"
         android:label="ScheduleFragment"
-        tools:layout="@layout/fragment_schedule" />
+        tools:layout="@layout/fragment_schedule">
+        <action
+            android:id="@+id/action_scheduleFragment_to_activitiesListFragment"
+            app:destination="@id/activitiesListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tripFragment"
+        android:name="com.android.itrip.fragments.TripFragment"
+        android:label="TripFragment"
+        tools:layout="@layout/fragment_trip">
+        <action
+            android:id="@+id/action_tripFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment" />
+        <action
+            android:id="@+id/action_tripFragment_to_destinationListFragment"
+            app:destination="@id/destinationListFragment" />
+    </fragment>
 </navigation>
