@@ -6,24 +6,24 @@ import java.util.*
 
 
 data class CiudadAVisitar(
-    var id: Long = 0L,
+    val id: Long,
 
-    var inicio: Calendar,
+    val inicio: Calendar,
 
-    var fin: Calendar,
+    val fin: Calendar,
 
-    var detalle_ciudad: Ciudad,
+    val detalle_ciudad: Ciudad,
 
-    var actividades_a_realizar: List<ActividadARealizar>
+    val actividades_a_realizar: List<ActividadARealizar>
 
 ) : Serializable
 
 data class CiudadAVisitarCreator(
-    var id: Long,
-    var inicio: String,
-    var fin: String,
-    var detalle_ciudad: Ciudad,
-    var actividades_a_realizar: List<ActividadARealizar>
+    val id: Long,
+    val inicio: String,
+    val fin: String,
+    val detalle_ciudad: Ciudad,
+    val actividades_a_realizar: List<ActividadARealizar>
 ) : Serializable {
 
     fun ciudadAVisitar(): CiudadAVisitar {

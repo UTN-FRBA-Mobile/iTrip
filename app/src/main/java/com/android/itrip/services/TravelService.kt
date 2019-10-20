@@ -41,9 +41,9 @@ object TravelService : Service() {
     ) {
         val url = "viajes/"
         ApiService.getArray(url, {
-            val listType = object : TypeToken<List<Viaje>>() {}.type
-            val viajes: List<Viaje> = gson.fromJson(it.toString(), listType)
-            responseHandler(viajes)
+            val listType = object : TypeToken<List<ViajeCreator>>() {}.type
+            val viajesCreator: List<ViajeCreator> = gson.fromJson(it.toString(), listType)
+            responseHandler(viajesCreator.map { it.viaje() })
         }, errorHandler)
     }
 
@@ -55,7 +55,8 @@ object TravelService : Service() {
         logger.info("getTrip.")
         val url = "viajes/$id"
         ApiService.get(url, {
-            val viaje: Viaje = gson.fromJson(it.toString(), Viaje::class.java)
+            val viajeCreator: ViajeCreator = gson.fromJson(it.toString(), ViajeCreator::class.java)
+            val viaje: Viaje = viajeCreator.viaje()
             responseHandler(viaje)
         }, errorHandler)
     }

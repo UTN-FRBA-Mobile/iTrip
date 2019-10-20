@@ -74,21 +74,6 @@ class ActivitiesAdapter(actividades: LiveData<List<Actividad>>) :
                 )
         }
 
-//        binding.mapImageView.setOnClickListener { view: View ->
-//            val mapDestination = MapDestination(
-//                binding.actividadModel!!.nombre,
-//                binding.actividadModel!!.latitud,
-//                binding.actividadModel!!.longitud
-//            )
-//            val bundle = bundleOf(
-//                "mapDestination" to mapDestination
-//            )
-//            view.findNavController()
-//                .navigate(
-//                    ActivitiesListFragmentDirections.actionActivitiesListFragmentToMapsFragment().actionId
-//                    , bundle
-//                )
-//        }
         binding.shareImagebutton.setOnClickListener {
             val shareIntent = Intent()
             val bitmapDrawable: BitmapDrawable =

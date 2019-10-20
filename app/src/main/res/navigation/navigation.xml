@@ -11,6 +11,9 @@
         <action
             android:id="@+id/action_homeFragment_to_createTravelFragment"
             app:destination="@id/createTravelFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_tripFragment"
+            app:destination="@id/tripFragment" />
     </fragment>
     <fragment
         android:id="@+id/quizEndFragment"

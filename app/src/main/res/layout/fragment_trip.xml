@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textview_travels_title"
+            android:id="@+id/tripTitle_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -26,7 +26,7 @@
         <!--            app:layout_constraintBottom_toTopOf="@id/recyclerview_travels"-->
 
         <LinearLayout
-            android:id="@+id/linearlayout_no_travels"
+            android:id="@+id/trip_linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -63,15 +63,15 @@
                 android:textSize="20sp" />
         </LinearLayout>
 
-        <!--        <androidx.recyclerview.widget.RecyclerView-->
-        <!--            android:id="@+id/recyclerview_travels"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            app:layout_constraintTop_toBottomOf="@id/textview_travels_title"-->
-        <!--            tools:listitem="@layout/travel_item" />-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/trip_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/citytovisit_item" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/create_travel"
+            android:id="@+id/addDestination_floatingactionbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"

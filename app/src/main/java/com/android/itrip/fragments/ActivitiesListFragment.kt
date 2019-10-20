@@ -48,7 +48,7 @@ class ActivitiesListFragment : Fragment() {
         )
 
         this.arguments!!.get("destination")?.let {
-            destination = this.arguments!!.get("destination") as Destination
+            destination = it as Destination
             Toast.makeText(
                 context,
                 destination.name,
