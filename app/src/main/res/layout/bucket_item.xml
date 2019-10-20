@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="actividadARealizar"
+            type="com.android.itrip.models.ActividadARealizar" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/bucket1message_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mañana"
+            android:textAlignment="center"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/bucket1_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text='@{actividadARealizar.detalle_actividad.nombre??"Vacio"}'
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@+id/bucket1message_textview" />
+
+
+        <ImageButton
+            android:id="@+id/bucket1_activitydetails_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhiteSmoke"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bucket1_textview"
+            app:srcCompat="@drawable/ic_info_black_24dp" />
+
+
+        <ImageButton
+            android:id="@+id/bucket1_removeactivity_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhiteSmoke"
+            app:layout_constraintStart_toEndOf="@id/bucket1_activitydetails_button"
+            app:layout_constraintTop_toBottomOf="@+id/bucket1_textview"
+            app:srcCompat="@drawable/ic_remove_circle_outline_black_24dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

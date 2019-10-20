@@ -23,7 +23,7 @@ data class CiudadAVisitarCreator(
     val inicio: String,
     val fin: String,
     val detalle_ciudad: Ciudad,
-    val actividades_a_realizar: List<ActividadARealizar>
+    val actividades_a_realizar: List<ActividadARealizarCreator>
 ) : Serializable {
 
     fun ciudadAVisitar(): CiudadAVisitar {
@@ -32,7 +32,7 @@ data class CiudadAVisitarCreator(
             Calendar.getInstance().apply { time = SimpleDateFormat("yyyy-MM-dd").parse(inicio) },
             Calendar.getInstance().apply { time = SimpleDateFormat("yyyy-MM-dd").parse(fin) },
             detalle_ciudad,
-            actividades_a_realizar
+            actividades_a_realizar.map { it.actividadARealizar() }
         )
     }
 }
