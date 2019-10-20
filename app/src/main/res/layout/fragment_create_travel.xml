@@ -6,119 +6,102 @@
 
     <data />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/loginConstraint"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorWhiteSmoke"
-        android:orientation="vertical">
+        android:padding="15dp">
 
         <TextView
-            android:id="@+id/destinationCreateDescription"
+            android:id="@+id/textview_travel_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="30dp"
-            android:text="@string/destination_create_description"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/selectDestiny"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="@string/travel_creation_description"
+            android:textSize="18sp" />
 
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fromDate"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <com.emmasuzuki.easyform.EasyForm
+            android:id="@+id/form"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="125dp"
-            android:layout_marginEnd="15dp"
-            android:hint="@string/fromDate"
-            app:boxStrokeColor="@color/colorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/destinationCreateDescription">
+            android:layout_height="match_parent"
+            android:layout_below="@id/textview_travel_description"
+            app:showErrorOn="unfocus"
+            app:submitButton="@+id/createTravel">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fromDate_textinputedittext"
+            <com.emmasuzuki.easyform.EasyTextInputLayout
+                android:id="@+id/textinputlayout_travel_name"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:focusableInTouchMode="false"
-                android:inputType="date"
-                android:maxLines="1"
-                android:textSize="20sp"
-                app:boxBackgroundColor="#fff" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/travel_creation_name"
+                app:errorMessage="@string/travel_creation_field_error"
+                app:errorType="empty" />
 
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/untilDate"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="15dp"
-            android:hint="@string/untilDate"
-            app:boxStrokeColor="@color/colorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fromDate">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/untilDate_textinputedittext"
+            <RelativeLayout
+                android:id="@+id/relativelayout_travel_from_date"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:focusableInTouchMode="false"
-                android:inputType="date"
-                android:maxLines="1"
-                android:textSize="20sp"
-                app:boxBackgroundColor="#fff" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textinputlayout_travel_name"
+                android:layout_marginTop="10dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/budget"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="15dp"
-            android:hint="@string/budget"
-            app:boxStrokeColor="@color/colorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/untilDate">
+                <com.emmasuzuki.easyform.EasyTextInputLayout
+                    android:id="@+id/textinputlayout_travel_from_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/travel_creation_from_date"
+                    android:inputType="none"
+                    app:errorMessage="@string/travel_creation_field_error"
+                    app:errorType="empty" />
 
-            <com.google.android.material.textfield.TextInputEditText
+                <ImageButton
+                    android:id="@+id/imagebutton_travel_from_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/textinputlayout_travel_from_date"
+                    android:layout_centerInParent="true"
+                    app:srcCompat="@drawable/ic_date_range_black_24dp"
+                    tools:ignore="ContentDescription" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativelayout_travel_until_date"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="number"
-                android:maxLines="1"
-                android:textSize="20sp"
-                app:boxBackgroundColor="#fff" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relativelayout_travel_from_date"
+                android:layout_marginTop="10dp">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/createTravel"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="15dp"
-            android:background="@color/colorPrimary"
-            android:text="@string/create"
-            android:textAllCaps="false"
-            android:textColor="#fff"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/budget" />
+                <com.emmasuzuki.easyform.EasyTextInputLayout
+                    android:id="@+id/textinputlayout_travel_until_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/travel_creation_until_date"
+                    android:inputType="date"
+                    app:errorMessage="@string/travel_creation_field_error"
+                    app:errorType="empty" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageButton
+                    android:id="@+id/imagebutton_travel_until_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/textinputlayout_travel_until_date"
+                    android:layout_centerInParent="true"
+                    app:srcCompat="@drawable/ic_date_range_black_24dp"
+                    tools:ignore="ContentDescription" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/createTravel"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorPrimary"
+                android:text="@string/travel_creation_button"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+        </com.emmasuzuki.easyform.EasyForm>
+
+    </RelativeLayout>
 
 </layout>

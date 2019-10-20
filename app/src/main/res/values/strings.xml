@@ -24,9 +24,6 @@
     <string name="quiz_intro_description">El siguiente cuestionario es para que podamos conocerte mejor y asi ofrecerte
         las mejores oportunidades de viajes.
     </string>
-    <string name="destination_create_description">Estos son los mínimos datos necesarios para que podamos armar tu
-        próximo viaje!
-    </string>
 
     <!--Not tagged-->
     <string name="back">Volver</string>
@@ -39,18 +36,30 @@
     <string name="travel_modify">Modificar viaje</string>
     <string name="create_activity">Crear itinerario</string>
     <string name="start">Comenzar</string>
-    <string name="create">Crear!</string>
-    <string name="fromDate">Fecha desde</string>
-    <string name="untilDate">Fecha hasta</string>
-    <string name="budget">Presupuesto estimado</string>
 
-    <!--Mis Viajes-->
+    <!--Travel Creation-->
+    <string name="travel_creation_description">Estos son los mínimos datos necesarios para que podamos armar tu
+        próximo viaje!
+    </string>
+    <string name="travel_creation_name">Ponele un nombre a tu viaje</string>
+    <string name="travel_creation_from_date">Fecha desde</string>
+    <string name="travel_creation_until_date">Fecha hasta</string>
+    <string name="travel_creation_budget">¿Cuál es tu presupuesto?</string>
+    <string name="travel_creation_button">Crear mi Viaje</string>
+    <string name="travel_creation_field_error">Completa este dato</string>
+    <string name="travel_creation_date_format">%1$d-%2$d-%3$d</string>
+
+    <!--My Travels-->
     <string name="travels_creation">Crear viaje</string>
     <string name="travels_title">Mis Viajes</string>
     <string name="travels_watch">Ver</string>
     <string name="travels_date">Desde: %1$s Hasta: %2$s</string>
     <string name="travels_no_travels_firstline">No tenés aún ningún viaje.</string>
     <string name="travels_no_travels_secondline">Empieza creando uno desde el \'+\'.</string>
+
+    <!--Destination Creation-->
+    <string name="destination_creation_from_date">Fecha desde</string>
+    <string name="destination_creation_until_date">Fecha hasta</string>
 
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="facebook_application_id" translatable="false">399355764046745</string>

@@ -22,7 +22,8 @@
         android:supportsRtl="true"
         android:theme="@style/InitialAppTheme"
         android:usesCleartextTraffic="true"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:icon">
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -49,6 +50,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:parentActivityName=".LogInActivity" />
+            android:parentActivityName=".LogInActivity"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 </manifest>

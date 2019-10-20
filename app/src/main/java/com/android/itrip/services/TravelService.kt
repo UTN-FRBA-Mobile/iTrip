@@ -4,6 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import com.android.itrip.database.Destination
+import com.android.itrip.fragments.ViajeData
 import com.android.itrip.models.*
 import com.android.volley.VolleyError
 import com.google.gson.Gson
@@ -60,13 +61,12 @@ object TravelService : Service() {
     }
 
     fun createTrip(
-        viajeParam: Viaje,
+        body: ViajeData,
         responseHandler: (Viaje) -> Unit,
         errorHandler: (VolleyError) -> Unit
     ) {
-        logger.info("createTrip.")
         val url = "viajes/"
-        val json = JSONObject(gson.toJson(viajeParam))
+        val json = JSONObject(gson.toJson(body))
         ApiService.post(url, json, {
             val viaje: Viaje = gson.fromJson(it.toString(), Viaje::class.java)
             responseHandler(viaje)
