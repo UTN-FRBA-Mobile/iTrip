@@ -4,6 +4,7 @@ package com.android.itrip.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
@@ -58,7 +59,7 @@ class TripAdapter(private val travels: List<CiudadAVisitar>) :
                 setImage(ciudadAVisitar)
                 travelDate.text =
                     "Desde " + ciudadAVisitar.inicio.time + ", Hasta " + ciudadAVisitar.fin.time
-                modifyButton.setOnClickListener { view: View ->
+                viewActivitiesMaterialButton.setOnClickListener { view: View ->
                     val bundle = bundleOf(
                         "ciudadAVisitar" to ciudadAVisitar
                     )
@@ -66,7 +67,22 @@ class TripAdapter(private val travels: List<CiudadAVisitar>) :
                         TripFragmentDirections.actionTripFragmentToScheduleFragment().actionId,
                         bundle
                     )
-
+                }
+                modifyCityToTravelButton.setOnClickListener { view: View ->
+                    val bundle = bundleOf(
+                        "ciudadAVisitar" to ciudadAVisitar
+                    )
+                    view.findNavController().navigate(
+                        TripFragmentDirections.actionTripFragmentToDestinationListFragment().actionId,
+                        bundle
+                    )
+                }
+                removeCityToTravelButton.setOnClickListener {
+                    Toast.makeText(
+                        it.context,
+                        "Deberia ser removido el destino",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }

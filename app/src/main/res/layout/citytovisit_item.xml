@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="#fff">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -60,13 +59,41 @@
                 app:layout_constraintTop_toBottomOf="@+id/destination_name" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/modify_button"
+                android:id="@+id/modifyCityToTravel_Button"
                 style="@style/default_itrip_button"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:text="Modificar"
+                app:layout_constraintEnd_toStartOf="@id/removeCityToTravel_Button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/travel_date" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/removeCityToTravel_Button"
+                style="@style/default_itrip_button"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:text="Remover"
+                app:layout_constraintEnd_toStartOf="@id/viewActivities_materialButton"
+                app:layout_constraintStart_toEndOf="@id/modifyCityToTravel_Button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/travel_date" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/viewActivities_materialButton"
+                style="@style/default_itrip_button"
+                android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/travels_watch"
+                app:layout_constraintStart_toEndOf="@id/removeCityToTravel_Button"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/travel_date" />
         </androidx.constraintlayout.widget.ConstraintLayout>
