@@ -2,27 +2,55 @@ package com.android.itrip.viewModels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import com.android.itrip.models.ActividadARealizar
 import com.android.itrip.models.CiudadAVisitar
-import com.android.itrip.services.TravelService
+import java.util.*
 import java.util.logging.Logger
 
 class ScheduleViewModel(
-    application: Application,
-    val ciudadAVisitar: CiudadAVisitar
+    application: Application
+    , val ciudadAVisitar: CiudadAVisitar
 ) : AndroidViewModel(application) {
-    lateinit var ciudad_a_visitar: CiudadAVisitar
     private val logger = Logger.getLogger(this::class.java.name)
+    var actividadesARealizar: LiveData<List<ActividadARealizar>>
 
+    private var _date = MutableLiveData<Calendar>()
+    val date: LiveData<Calendar>
+        get() = _date
 
-    fun setCiudadAVisitar(fragmentCallback: () -> Unit) {
-        TravelService.get_CityToVisit(ciudadAVisitar,
-            { ciudad_a_visitar ->
-                this.ciudad_a_visitar = ciudad_a_visitar
-                this.ciudad_a_visitar.actividades_a_realizar.forEach {
-                    logger.info(it.detalle_actividad.nombre)
-                }
-                fragmentCallback()
-            },
-            {})
+    init {
+        _date.value = ciudadAVisitar.inicio
+        actividadesARealizar = Transformations.switchMap(date) { date -> setBuckets(date) }
     }
+
+    fun setBuckets(date: Calendar): LiveData<List<ActividadARealizar>> {
+        ciudadAVisitar.actividades_a_realizar.filter { it.dia == date }
+            .apply {
+                logger.info("Actividades en el dia: " + size.toString())
+                return MutableLiveData<List<ActividadARealizar>>(createBuckets(this))
+            }
+    }
+
+    private fun createBuckets(list: List<ActividadARealizar>): List<ActividadARealizar> {
+        val bucketsTemp: HashMap<Int, ActividadARealizar> = hashMapOf()
+        bucketsTemp.apply {
+            list.forEach {
+                this[it.bucket_inicio] = it
+                repeat(it.detalle_actividad.duracion) { counter: Int ->
+                    this[it.bucket_inicio + counter] = it
+                }
+            }
+        }.forEach {
+            logger.info(it.value.detalle_actividad.nombre)
+        }
+        return bucketsTemp.map { it.value }
+    }
+
+    fun updateDate(date: Calendar) {
+        _date.value = date
+    }
+
 }

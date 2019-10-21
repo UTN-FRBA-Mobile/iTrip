@@ -6,9 +6,7 @@
     tools:context="com.android.android.fragments.ScheduleFragment">
 
     <data>
-
         <import type="java.util.List" />
-
         <variable
             name="scheduleViewModel"
             type="com.android.itrip.viewModels.ScheduleViewModel" />
@@ -28,7 +26,18 @@
             app:layout_constraintTop_toTopOf="parent"
             app:textColorSelected="#FFFF" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/my_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/bucket_item"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/calendarView"/>
+
+<!--        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/buckets_constraintlayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -46,7 +55,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                bind:actividadARealizar="@{scheduleViewModel.ciudadAVisitar.actividades_a_realizar[0]}" />
+                bind:scheduleViewModel="@{scheduleViewModel}"
+                bind:position="@{scheduleViewModel.numero}"
+                />
 
             <include
                 android:id="@+id/bucket2_fragment"
@@ -97,7 +108,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/bucket5_fragment" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
