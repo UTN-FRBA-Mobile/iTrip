@@ -43,8 +43,14 @@ class CreateTravelFragment : Fragment() {
 
     private fun showDatePickerDialog(input: EasyTextInputLayout) {
         val newFragment = DatePickerFragment { year, month, day ->
-            val date = getString(R.string.travel_creation_date_format, year, month, day)
+            val date = getString(
+                R.string.travel_creation_date_format,
+                year,
+                month + 1 /*fix: month ranges from 0-11*/,
+                day
+            )
             input.editText.setText(date)
+            binding.form.validate()
         }
         fragmentManager?.let { newFragment.show(it, "datePicker") }
     }
