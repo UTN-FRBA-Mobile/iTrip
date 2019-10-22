@@ -67,10 +67,5 @@ class LogInActivity : AppCompatActivity() {
         }
         startActivity(intent)
         finish()
-        Toast.makeText(
-            this,
-            "Welcome! " + FirebaseAuth.getInstance().currentUser?.displayName!!,
-            Toast.LENGTH_LONG
-        ).show()
     }
 }
