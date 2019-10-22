@@ -3,10 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <import type="java.util.List" />
         <variable
             name="actividadARealizar"
             type="com.android.itrip.models.ActividadARealizar" />
+        <variable
+            name="actividad"
+            type="com.android.itrip.models.Actividad" />
+        <variable
+            name="position"
+            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,7 +34,7 @@
             android:id="@+id/bucket1_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text='@{actividadARealizar.detalle_actividad.nombre??"Vacio"}'
+            android:text='@{actividad.nombre??"Vacio"}'
             android:textAlignment="center"
             app:layout_constraintTop_toBottomOf="@+id/bucket1message_textview" />
 
