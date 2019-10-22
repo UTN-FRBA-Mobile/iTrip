@@ -50,7 +50,6 @@ class CreateTravelFragment : Fragment() {
                 day
             )
             input.editText.setText(date)
-            binding.form.validate()
         }
         fragmentManager?.let { newFragment.show(it, "datePicker") }
     }

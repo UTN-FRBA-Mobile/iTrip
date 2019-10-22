@@ -69,8 +69,8 @@ object TravelService : Service() {
         val url = "viajes/"
         val json = JSONObject(gson.toJson(body))
         ApiService.post(url, json, {
-            val viaje: Viaje = gson.fromJson(it.toString(), Viaje::class.java)
-            responseHandler(viaje)
+            val viajeCreator: ViajeCreator = gson.fromJson(it.toString(), ViajeCreator::class.java)
+            responseHandler(viajeCreator.viaje())
         }, errorHandler)
     }
 
