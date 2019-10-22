@@ -13,7 +13,7 @@ data class Viaje(
 
     var fin: Calendar,
 
-    var imagen: String,
+    var imagen: String? = null,
 
     val ciudades_a_visitar: List<CiudadAVisitar> = emptyList()
 
