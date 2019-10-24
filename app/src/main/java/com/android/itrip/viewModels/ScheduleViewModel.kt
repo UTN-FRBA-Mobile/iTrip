@@ -18,7 +18,7 @@ class ScheduleViewModel(
     var actividadesARealizar: LiveData<List<ActividadARealizar>>
 
     private var _date = MutableLiveData<Calendar>()
-    val date: LiveData<Calendar>
+    private val date: LiveData<Calendar>
         get() = _date
 
     init {
@@ -26,7 +26,7 @@ class ScheduleViewModel(
         actividadesARealizar = Transformations.switchMap(date) { date -> setBuckets(date) }
     }
 
-    fun setBuckets(date: Calendar): LiveData<List<ActividadARealizar>> {
+    private fun setBuckets(date: Calendar): LiveData<List<ActividadARealizar>> {
         ciudadAVisitar.actividades_a_realizar.filter { it.dia == date }
             .apply {
                 logger.info("Actividades en el dia: " + size.toString())
@@ -39,12 +39,15 @@ class ScheduleViewModel(
         bucketsTemp.apply {
             list.forEach {
                 this[it.bucket_inicio] = it
-                repeat(it.detalle_actividad.duracion) { counter: Int ->
+                repeat(it.detalle_actividad!!.duracion) { counter: Int ->
                     this[it.bucket_inicio + counter] = it
                 }
             }
-        }.forEach {
-            logger.info(it.value.detalle_actividad.nombre)
+            for (i in 1..6) {
+                if (this[i] == null) {
+                    this[i] = ActividadARealizar(0, Calendar.getInstance(), i, null)
+                }
+            }
         }
         return bucketsTemp.map { it.value }
     }

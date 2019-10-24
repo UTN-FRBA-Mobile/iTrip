@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.R
@@ -18,6 +19,7 @@ import devs.mulham.horizontalcalendar.HorizontalCalendar
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener
 import java.util.*
 import java.util.logging.Logger
+
 
 class ScheduleFragment : Fragment() {
 
@@ -45,15 +47,19 @@ class ScheduleFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         scheduleViewModel = ScheduleViewModel(application, ciudadAVisitar)
         binding.scheduleViewModel = scheduleViewModel
-//        scheduleViewModel.setCiudadAVisitar { setCalendar() }
         setCalendar()
         recyclerView = binding.myRecyclerView
         viewManager = LinearLayoutManager(application)
         recyclerView.layoutManager = viewManager
-        viewAdapter = BucketAdapter(scheduleViewModel.actividadesARealizar)
+        viewAdapter = BucketAdapter(scheduleViewModel)
         recyclerView.adapter = viewAdapter
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                context!!,
+                DividerItemDecoration.VERTICAL
+            )
+        )
         binding.lifecycleOwner = this
-        subscribeUi(viewAdapter)
         return binding.root
     }
 
@@ -73,22 +79,4 @@ class ScheduleFragment : Fragment() {
         }
     }
 
-    private fun subscribeUi(adapter: BucketAdapter) {
-        scheduleViewModel.actividadesARealizar.observeForever {
-            try {
-                recyclerView.invalidate()
-                adapter.notifyDataSetChanged()
-            } catch (e: Exception) {
-                logger.info(e.toString())
-            }
-        }
-        scheduleViewModel.date.observeForever {
-            try {
-                recyclerView.invalidate()
-                adapter.notifyDataSetChanged()
-            } catch (e: Exception) {
-                logger.info(e.toString())
-            }
-        }
-    }
 }

@@ -12,7 +12,7 @@ data class ActividadARealizar(
 
     var bucket_inicio: Int,
 
-    var detalle_actividad: Actividad
+    var detalle_actividad: Actividad?
 
 ) : Serializable
 

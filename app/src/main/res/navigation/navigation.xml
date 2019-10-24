@@ -95,6 +95,9 @@
         <action
             android:id="@+id/action_scheduleFragment_to_activitiesListFragment"
             app:destination="@id/activitiesListFragment" />
+        <action
+            android:id="@+id/action_scheduleFragment_to_activityDetailsFragment"
+            app:destination="@id/activityDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/tripFragment"
