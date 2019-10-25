@@ -38,8 +38,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         } catch (e: Exception) {
             logger.info(e.toString())
         }
+        val view = inflater.inflate(R.layout.fragment_maps, container, false)
         (childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment).getMapAsync(this)
-        return inflater.inflate(R.layout.fragment_maps, container, false)
+        return view
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

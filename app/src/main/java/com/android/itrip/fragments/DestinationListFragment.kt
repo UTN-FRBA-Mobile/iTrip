@@ -53,21 +53,21 @@ class DestinationListFragment : Fragment() {
             destinationsViewModel = this@DestinationListFragment.destinationsViewModel
             fromDate.setOnClickListener {
                 showDatePickerDialog(it as TextView) { calendar ->
-                    destinationsViewModel.chooseStartDate(
+                    destinationsViewModel?.chooseStartDate(
                         calendar
                     )
                 }
             }
             untilDate.setOnClickListener {
                 showDatePickerDialog(it as TextView) { calendar ->
-                    destinationsViewModel.chooseEndDate(
+                    destinationsViewModel?.chooseEndDate(
                         calendar
                     )
                 }
             }
             myRecyclerView.apply {
                 layoutManager = LinearLayoutManager(application)
-                adapter = DestinationAdapter(destinationsViewModel.destinations)
+                adapter = DestinationAdapter(destinationsViewModel!!.destinations)
             }
             lifecycleOwner = this@DestinationListFragment
         }

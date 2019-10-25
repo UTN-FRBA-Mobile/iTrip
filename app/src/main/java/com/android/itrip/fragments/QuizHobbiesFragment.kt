@@ -37,7 +37,7 @@ class QuizHobbiesFragment : Fragment() {
             quizViewModel = this@QuizHobbiesFragment.quizViewModel
             myRecyclerView.apply {
                 layoutManager = LinearLayoutManager(requireNotNull(activity).application)
-                viewAdapter = QuizAdapter(quizViewModel.hobbies)
+                viewAdapter = QuizAdapter(quizViewModel!!.hobbies)
                 adapter = viewAdapter
             }
             lifecycleOwner = this@QuizHobbiesFragment
@@ -46,7 +46,7 @@ class QuizHobbiesFragment : Fragment() {
                 viewAdapter.checkedHobbies.forEach {
                     textMessage = textMessage + it.value + ", "
                 }
-                quizViewModel.sendQuiz(quiz, viewAdapter.checkedHobbies) { finishQuiz() }
+                quizViewModel!!.sendQuiz(quiz, viewAdapter.checkedHobbies) { finishQuiz() }
             }
         }
         return binding.root
