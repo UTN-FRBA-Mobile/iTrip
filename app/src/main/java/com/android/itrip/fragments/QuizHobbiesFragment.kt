@@ -15,6 +15,7 @@ import com.android.itrip.R
 import com.android.itrip.adapters.QuizAdapter
 import com.android.itrip.databinding.FragmentQuizHobbiesBinding
 import com.android.itrip.models.Quiz
+import com.android.itrip.services.QuizService
 import com.android.itrip.viewModels.QuizViewModel
 
 class QuizHobbiesFragment : Fragment() {
@@ -24,36 +25,27 @@ class QuizHobbiesFragment : Fragment() {
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var binding: FragmentQuizHobbiesBinding
     private lateinit var quiz: Quiz
-    private lateinit var quizViewModel: QuizViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         setBarTitle()
-        arguments!!.get("quiz")?.let { quiz = it as Quiz }
+        quiz = arguments!!.get("quiz") as Quiz
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_quiz_hobbies, container, false
         )
         val application = requireNotNull(this.activity).application
-        quizViewModel = QuizViewModel(application)
-        binding.quizViewModel = quizViewModel
 
         // RECYCLERVIEW logic
         recyclerView = binding.myRecyclerView
         viewManager = LinearLayoutManager(application)
         recyclerView.layoutManager = viewManager
-        viewAdapter = QuizAdapter(quizViewModel.hobbies)
+        viewAdapter = QuizAdapter(QuizViewModel(application).hobbies)
         recyclerView.adapter = viewAdapter
         binding.lifecycleOwner = this
 
-        binding.submitFloatingActionButton.setOnClickListener {
-            var textMessage = ""
-            viewAdapter.checkedHobbies.forEach {
-                textMessage = textMessage + it.value + ", "
-            }
-            quizViewModel.sendQuiz(quiz, viewAdapter.checkedHobbies) { finishQuiz() }
-        }
+        binding.submitFloatingActionButton.setOnClickListener { resolveQuiz() }
 
         return binding.root
     }
@@ -62,9 +54,19 @@ class QuizHobbiesFragment : Fragment() {
         (activity as MainActivity).setActionBarTitle(getString(R.string.quiz_hobbies_title))
     }
 
-    private fun finishQuiz() {
-        view?.findNavController()
-            ?.navigate(QuizHobbiesFragmentDirections.actionQuizHobbiesFragmentToQuizEndFragment())
+    private fun resolveQuiz() {
+        var textMessage = ""
+        viewAdapter.checkedHobbies.forEach {
+            textMessage = textMessage + it.value + ", "
+        }
+
+        QuizService.postQuestions(
+            quiz.addHobbies(viewAdapter.checkedHobbies.map { it.key }), {
+                view?.findNavController()
+                    ?.navigate(QuizHobbiesFragmentDirections.actionQuizHobbiesFragmentToQuizEndFragment())
+            }, { error ->
+
+            })
     }
 
 }

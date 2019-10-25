@@ -16,27 +16,24 @@ object QuizService : Service() {
     private val gson = Gson()
 
     override fun onBind(intent: Intent?): IBinder? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
-    fun getQuestionsVerify(
+    fun getResolution(
         responseHandler: (Boolean) -> Unit,
         errorHandler: (VolleyError) -> Unit
     ) {
-        logger.info("getQuestionsVerify.")
         val url = "questions/verify"
         ApiService.get(url, {
             responseHandler(it.getBoolean("respondidas"))
         }, errorHandler)
     }
 
-
-    fun postQuestions(
+    fun postAnswers(
         quiz: Quiz,
         responseHandler: () -> Unit,
         errorHandler: (VolleyError) -> Unit
     ) {
-        logger.info("postQuestions.")
         val url = "questions/"
         logger.info(gson.toJson(quiz))
         val json = JSONObject(gson.toJson(quiz))

@@ -13,179 +13,121 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="15dp">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/textview_quiz_info_description"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:text="@string/quiz_info_description"
+            android:textSize="18sp" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textview_quiz_info_description"
+            android:layout_marginTop="20dp"
             android:padding="8dp">
 
-            <TextView
-                android:id="@+id/quiz_textview"
-                android:layout_width="match_parent"
+            <com.emmasuzuki.easyform.EasyForm
+                android:id="@+id/form"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="@string/quiz_intro_description"
-                android:textSize="18sp" />
+                app:showErrorOn="change"
+                app:submitButton="@+id/floatingactionbutton_quiz_info">
 
-            <LinearLayout
-                android:id="@+id/genero_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <TextView
-                    android:id="@+id/genero_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="8dp"
-                    android:text="Género:"
-                    android:textSize="18sp" />
-
-                <Spinner
-                    android:id="@+id/genero_spinner"
+                <com.emmasuzuki.easyform.EasyTextInputLayout
+                    android:id="@+id/textinputlayout_quiz_info_genero"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:spinnerMode="dropdown"
-                    android:tooltipText="Elija un género" />
-            </LinearLayout>
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/quiz_info_genero"
+                    android:inputType="none"
+                    android:textSize="18sp"
+                    app:errorMessage="@string/quiz_info_field_error"
+                    app:errorType="empty" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/otrogenero_textinputlayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:hint="Otro género"
-                android:visibility="gone">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/otrogenero_textinputedittext"
+                <com.emmasuzuki.easyform.EasyTextInputLayout
+                    android:id="@+id/textinputlayout_quiz_info_otrogenero"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/textinputlayout_quiz_info_genero"
+                    android:hint="@string/quiz_info_otro_genero"
                     android:inputType="text"
-                    android:lines="1"
-                    android:maxLines="1"
+                    android:maxLength="20"
                     android:singleLine="true"
-                    android:textAlignment="center" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:errorMessage="@string/quiz_info_field_error"
+                    app:errorType="empty" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/edad_textinputlayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:hint="Edad"
-                android:visibility="visible">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edad_textinputedittext"
+                <com.emmasuzuki.easyform.EasyTextInputLayout
+                    android:id="@+id/textinputedittext_quiz_info_edad"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textinputlayout_quiz_info_genero"
+                    android:layout_marginTop="15dp"
+                    android:hint="@string/quiz_info_edad"
                     android:inputType="number"
                     android:lines="1"
                     android:maxLength="2"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textAlignment="textStart" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <LinearLayout
-                android:id="@+id/estadocivil_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:orientation="horizontal"
-                android:padding="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edad_textinputlayout">
-
-                <TextView
-                    android:id="@+id/estadocivil_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="8dp"
-                    android:text="Estado Civil:"
-                    android:textSize="18sp" />
-
-                <Spinner
-                    android:id="@+id/estadocivil_spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:spinnerMode="dropdown"
-                    android:tooltipText="Elija un estado Civil" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/estudios_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:orientation="horizontal"
-                android:padding="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/estadocivil_layout">
-
-                <TextView
-                    android:id="@+id/estudios_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="8dp"
-                    android:text="Estudios:"
-                    android:textSize="18sp" />
-
-                <Spinner
-                    android:id="@+id/estudios_spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:spinnerMode="dropdown"
-                    android:tooltipText="Elija un nivel de estudios" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/ocupacion_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:orientation="horizontal"
-                android:padding="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/estudios_layout">
-
-                <TextView
-                    android:id="@+id/ocupacion_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="8dp"
-                    android:text="Ocupación:"
-                    android:textSize="18sp" />
-
-                <Spinner
-                    android:id="@+id/ocupacion_spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:spinnerMode="dropdown"
                     android:textAlignment="textStart"
-                    android:tooltipText="Elija una ocupación" />
-            </LinearLayout>
+                    android:textSize="18sp"
+                    app:errorMessage="@string/quiz_info_field_error"
+                    app:errorType="empty" />
 
-        </LinearLayout>
+                <com.emmasuzuki.easyform.EasyTextInputLayout
+                    android:id="@+id/textinputlayout_quiz_info_estadocivil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textinputedittext_quiz_info_edad"
+                    android:layout_marginTop="15dp"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/quiz_info_estadocivil"
+                    android:inputType="none"
+                    android:textSize="18sp"
+                    app:errorMessage="@string/quiz_info_field_error"
+                    app:errorType="empty" />
+
+                <com.emmasuzuki.easyform.EasyTextInputLayout
+                    android:id="@+id/textinputlayout_quiz_info_estudios"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textinputlayout_quiz_info_estadocivil"
+                    android:layout_marginTop="15dp"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/quiz_info_estudios"
+                    android:inputType="none"
+                    android:textSize="18sp"
+                    app:errorMessage="@string/quiz_info_field_error"
+                    app:errorType="empty" />
+
+                <com.emmasuzuki.easyform.EasyTextInputLayout
+                    android:id="@+id/textinputlayout_quiz_info_ocupacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textinputlayout_quiz_info_estudios"
+                    android:layout_marginTop="15dp"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/quiz_info_ocupacion"
+                    android:inputType="none"
+                    android:textSize="18sp"
+                    app:errorMessage="@string/quiz_info_field_error"
+                    app:errorType="empty" />
+
+            </com.emmasuzuki.easyform.EasyForm>
+
+        </RelativeLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/submit_floatingActionButton"
+            android:id="@+id/floatingactionbutton_quiz_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

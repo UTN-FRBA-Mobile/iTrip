@@ -23,10 +23,12 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.logging.Logger
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    private val logger = Logger.getLogger(this::class.java.name)
     private lateinit var binding: ActivityMainBinding
     private lateinit var toolbar: Toolbar
     private lateinit var drawerLayout: DrawerLayout
@@ -40,7 +42,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         bindings()
         initDrawer()
         initNavigation()
-        QuizService.getQuestionsVerify({ answered: Boolean -> quizAnswered(answered) }, {})
+        QuizService.getResolution({ answered: Boolean -> quizAnswered(answered) }, { error ->
+            logger.severe("Failed to retrieve quiz result: " + error.message)
+        })
     }
 
     private fun bindings() {

@@ -70,13 +70,9 @@ class CreateTravelFragment : Fragment() {
                         bundle
                     )
             }, { error ->
-                logger.info("Failed to post new travel: " + error.message)
+                logger.severe("Failed to post new travel: " + error.message)
                 Toast
-                    .makeText(
-                        this.context,
-                        "Hubo un problema, intente de nuevo",
-                        Toast.LENGTH_SHORT
-                    )
+                    .makeText(context, "Hubo un problema, intente de nuevo", Toast.LENGTH_SHORT)
                     .show()
             })
         } else {
