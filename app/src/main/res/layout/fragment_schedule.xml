@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.android.android.fragments.ScheduleFragment">
 
     <data>
+
         <import type="java.util.List" />
+
         <variable
             name="scheduleViewModel"
             type="com.android.itrip.viewModels.ScheduleViewModel" />
@@ -31,85 +32,12 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scrollbars="vertical"
-            tools:listitem="@layout/bucket_item"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/calendarView"/>
-
-<!--        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/buckets_constraintlayout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/calendarView">
-
-            <include
-                android:id="@+id/bucket1_fragment"
-                layout="@layout/bucket_item"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/bucket2_fragment"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                bind:scheduleViewModel="@{scheduleViewModel}"
-                bind:position="@{scheduleViewModel.numero}"
-                />
-
-            <include
-                android:id="@+id/bucket2_fragment"
-                layout="@layout/bucket_item"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/bucket3_fragment"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/bucket1_fragment" />
-
-            <include
-                android:id="@+id/bucket3_fragment"
-                layout="@layout/bucket_item"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/bucket4_fragment"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/bucket2_fragment" />
-
-            <include
-                android:id="@+id/bucket4_fragment"
-                layout="@layout/bucket_item"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/bucket5_fragment"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/bucket3_fragment" />
-
-            <include
-                android:id="@+id/bucket5_fragment"
-                layout="@layout/bucket_item"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/bucket6_fragment"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/bucket4_fragment" />
-
-            <include
-                android:id="@+id/bucket6_fragment"
-                layout="@layout/bucket_item"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/bucket5_fragment" />
-        </androidx.constraintlayout.widget.ConstraintLayout>-->
-
+            app:layout_constraintTop_toBottomOf="@id/calendarView"
+            tools:itemCount="6"
+            tools:listitem="@layout/bucket_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

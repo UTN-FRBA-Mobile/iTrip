@@ -30,7 +30,6 @@ class TravelAdapter :
     private val logger = Logger.getLogger(this::class.java.name)
 
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding: TravelItemBinding =
             DataBindingUtil.inflate(
@@ -74,7 +73,10 @@ class TravelAdapter :
                 )
                 modifyButton.setOnClickListener { view: View ->
                     view.findNavController()
-                        .navigate(HomeFragmentDirections.actionHomeFragmentToTripFragment().actionId, bundle)
+                        .navigate(
+                            HomeFragmentDirections.actionHomeFragmentToTripFragment().actionId,
+                            bundle
+                        )
                 }
                 setImage(viaje)
                 destinationName.text = viaje.nombre

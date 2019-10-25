@@ -4,10 +4,8 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.LayoutRes
 import com.android.itrip.models.Answer
 
@@ -17,7 +15,7 @@ class AnswerAdapter(
     private val textViewResourceId: Int,
     private val answers: List<Answer>
 ) :
-    ArrayAdapter<Answer>(context, resource, textViewResourceId, answers){
+    ArrayAdapter<Answer>(context, resource, textViewResourceId, answers) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         return createViewFromResource(position, convertView, parent)

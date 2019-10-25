@@ -18,17 +18,6 @@
 package com.android.itrip.util
 
 import com.android.itrip.models.Actividad
-import kotlin.math.round
-
-fun fromTenthsToSeconds(tenths: Int): String {
-    return if (tenths < 600) {
-        String.format("%.1f", tenths / 10.0)
-    } else {
-        val minutes = (tenths / 10) / 60
-        val seconds = (tenths / 10) % 60
-        String.format("%d:%02d", minutes, seconds)
-    }
-}
 
 fun fromStringToFloat(string: String?): Float? {
     string?.let { return string.toFloat() }
@@ -64,6 +53,7 @@ fun fromModelTimeToStringTime(actividad: Actividad): String {
         if (disponibilidad_manana && disponibilidad_tarde && disponibilidad_noche) return "Todo el día"
         if (disponibilidad_manana && !disponibilidad_tarde && !disponibilidad_noche) return "Solo por la mañana"
         if (!disponibilidad_manana && disponibilidad_tarde && !disponibilidad_noche) return "Solo por la tarde"
+        if (!disponibilidad_manana && !disponibilidad_tarde && disponibilidad_noche) return "Solo por la noche"
         if (!disponibilidad_manana && disponibilidad_tarde && disponibilidad_noche) return "Tarde y noche"
         if (disponibilidad_manana && disponibilidad_tarde && !disponibilidad_noche) return "Mañana y tarde"
         if (disponibilidad_manana && !disponibilidad_tarde && disponibilidad_noche) return "Mañana y noche"
@@ -71,25 +61,14 @@ fun fromModelTimeToStringTime(actividad: Actividad): String {
     return "Cerrado"
 }
 
-
-fun fromStringToInt(string: String?): Int? {
-    return string?.let { string.toInt() }
-}
-
-fun cleanSecondsString(seconds: String): Int {
-    // Remove letters and other characters
-    val filteredValue = seconds.replace(Regex("""[^\d:.]"""), "")
-    if (filteredValue.isEmpty()) return 0
-    val elements: List<Int> = filteredValue.split(":").map { it -> round(it.toDouble()).toInt() }
-
-    var result: Int
-    return when {
-        elements.size > 2 -> 0
-        elements.size > 1 -> {
-            result = elements[0] * 60
-            result += elements[1]
-            result * 10
-        }
-        else -> elements[0] * 10
+fun fromBucketPositionToTimeOfTheDay(bucketPosition: Int): String {
+    return when (bucketPosition) {
+        0 -> "Mañana"
+        1 -> "Media Mañana"
+        2 -> "Tarde"
+        3 -> "Media Tarde"
+        4 -> "Noche"
+        5 -> "Media Noche"
+        else -> "Libre"
     }
 }
