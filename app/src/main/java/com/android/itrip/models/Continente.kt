@@ -9,14 +9,10 @@ import java.io.Serializable
 data class Continente(
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0L,
-
     @ColumnInfo(name = "nombre")
     val nombre: String = "",
-
     @ColumnInfo(name = "descripcion")
     val descripcion: String = "",
-
 //    @ColumnInfo(name = "paises")
     val paises: List<Pais> = emptyList()
-
 ) : Serializable

@@ -1,5 +1,6 @@
 package com.android.itrip.models
 
+import android.annotation.SuppressLint
 import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
@@ -21,6 +22,7 @@ data class CiudadAVisitarCreator(
     val actividades_a_realizar: List<ActividadARealizarCreator>
 ) : Serializable {
 
+    @SuppressLint("SimpleDateFormat")
     fun ciudadAVisitar(): CiudadAVisitar {
         return CiudadAVisitar(
             id,

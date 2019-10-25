@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -15,20 +14,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.R
-
 import com.android.itrip.databinding.TravelItemBinding
 import com.android.itrip.fragments.HomeFragmentDirections
 import com.android.itrip.models.Viaje
 import com.squareup.picasso.Picasso
-import java.util.logging.Logger
 
 
 class TravelAdapter :
     ListAdapter<Viaje, RecyclerView.ViewHolder>(TravelDiffCallback()) {
 
-    private var travels = emptyList<Viaje>()
-    private val logger = Logger.getLogger(this::class.java.name)
-
+    private var travels = listOf<Viaje>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding: TravelItemBinding =
@@ -41,8 +36,7 @@ class TravelAdapter :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val travel = getItem(position)
-        (holder as TravelHolder).bind(travel)
+        (holder as TravelHolder).bind(getItem(position))
     }
 
     override fun getItemId(position: Int) = position.toLong()
@@ -69,8 +63,8 @@ class TravelAdapter :
                 val bundle = bundleOf(
                     "viaje" to viaje
                 )
-                modifyButton.setOnClickListener { view: View ->
-                    view.findNavController()
+                modifyButton.setOnClickListener {
+                    it.findNavController()
                         .navigate(
                             HomeFragmentDirections.actionHomeFragmentToTripFragment().actionId,
                             bundle
@@ -90,7 +84,7 @@ class TravelAdapter :
         private fun setImage(viaje: Viaje) {
             viaje.imagen?.let {
                 Picasso.get()
-                    .load(viaje.imagen)
+                    .load(it)
                     .placeholder(R.drawable.logo)
                     .error(R.drawable.logo)
                     .fit()

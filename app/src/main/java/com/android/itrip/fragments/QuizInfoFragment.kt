@@ -34,14 +34,9 @@ class QuizInfoFragment : Fragment(), AdapterView.OnItemSelectedListener {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_quiz_info, container, false
         )
-
-        val application = requireNotNull(this.activity).application
-
-        quizViewModel = QuizViewModel(application)
-
+        quizViewModel = QuizViewModel()
         binding.quizViewModel = quizViewModel
-
-        binding.submitFloatingActionButton.setOnClickListener { view: View ->
+        binding.submitFloatingActionButton.setOnClickListener {
             val genero = binding.generoSpinner.selectedItem as Answer
             val otro_genero = binding.otrogeneroTextinputedittext.text.toString()
             val edadText = binding.edadTextinputedittext.text.toString()
@@ -65,19 +60,17 @@ class QuizInfoFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 val bundle = bundleOf(
                     "quiz" to quiz
                 )
-                view.findNavController()
+                it.findNavController()
                     .navigate(
                         QuizInfoFragmentDirections.actionQuizInfoFragmentToQuizHobbiesFragment().actionId,
                         bundle
                     )
             }
         }
-
         setSpinner(binding.generoSpinner, quizViewModel.genero).onItemSelectedListener = this
         setSpinner(binding.estadocivilSpinner, quizViewModel.estado_civil)
         setSpinner(binding.estudiosSpinner, quizViewModel.nivel_de_estudios)
         setSpinner(binding.ocupacionSpinner, quizViewModel.ocupacion)
-
         return binding.root
     }
 

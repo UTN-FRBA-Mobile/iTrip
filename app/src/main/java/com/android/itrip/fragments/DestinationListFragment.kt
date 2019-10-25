@@ -27,7 +27,6 @@ class DestinationListFragment : Fragment() {
     lateinit var destinationsViewModel: DestinationViewModel
     private var viaje: Viaje? = null
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,32 +41,36 @@ class DestinationListFragment : Fragment() {
             inflater, R.layout.fragment_destination_list, container, false
         )
         val application = requireNotNull(this.activity).application
-        val dataSource = DestinationDatabase.getInstance(application).destinationDatabaseDao
-        val viewModelFactory = DestinationViewModelFactory(dataSource, application)
+        val viewModelFactory = DestinationViewModelFactory(
+            DestinationDatabase.getInstance(application).destinationDatabaseDao,
+            application
+        )
         destinationsViewModel =
             ViewModelProviders.of(
                 this, viewModelFactory
             ).get(DestinationViewModel::class.java)
-        binding.destinationsViewModel = destinationsViewModel
-        binding.fromDate.setOnClickListener {
-            showDatePickerDialog(it as TextView) { calendar ->
-                destinationsViewModel.chooseStartDate(
-                    calendar
-                )
+        binding.apply {
+            destinationsViewModel = this@DestinationListFragment.destinationsViewModel
+            fromDate.setOnClickListener {
+                showDatePickerDialog(it as TextView) { calendar ->
+                    destinationsViewModel.chooseStartDate(
+                        calendar
+                    )
+                }
             }
-        }
-        binding.untilDate.setOnClickListener {
-            showDatePickerDialog(it as TextView) { calendar ->
-                destinationsViewModel.chooseEndDate(
-                    calendar
-                )
+            untilDate.setOnClickListener {
+                showDatePickerDialog(it as TextView) { calendar ->
+                    destinationsViewModel.chooseEndDate(
+                        calendar
+                    )
+                }
             }
+            myRecyclerView.apply {
+                layoutManager = LinearLayoutManager(application)
+                adapter = DestinationAdapter(destinationsViewModel.destinations)
+            }
+            lifecycleOwner = this@DestinationListFragment
         }
-        binding.myRecyclerView.apply {
-            layoutManager = LinearLayoutManager(application)
-            adapter = DestinationAdapter(destinationsViewModel.destinations)
-        }
-        binding.lifecycleOwner = this
         return binding.root
     }
 

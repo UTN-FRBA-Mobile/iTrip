@@ -24,8 +24,7 @@ object QuizService : Service() {
         errorHandler: (VolleyError) -> Unit
     ) {
         logger.info("getQuestionsVerify.")
-        val url = "questions/verify"
-        ApiService.get(url, {
+        ApiService.get("questions/verify", {
             responseHandler(it.getBoolean("respondidas"))
         }, errorHandler)
     }
@@ -37,10 +36,8 @@ object QuizService : Service() {
         errorHandler: (VolleyError) -> Unit
     ) {
         logger.info("postQuestions.")
-        val url = "questions/"
         logger.info(gson.toJson(quiz))
-        val json = JSONObject(gson.toJson(quiz))
-        ApiService.post(url, json, {
+        ApiService.post("questions/", JSONObject(gson.toJson(quiz)), {
             responseHandler()
         }, errorHandler)
     }

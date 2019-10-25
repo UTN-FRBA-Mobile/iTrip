@@ -27,28 +27,25 @@ class ActivityDetailsFragment : Fragment() {
         val binding: FragmentActivityDetailsBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_activity_details, container, false
         )
-
         this.arguments!!.get("actividad")?.let {
-            actividad = this.arguments!!.get("actividad") as Actividad
+            actividad = it as Actividad
             Toast.makeText(
                 context,
                 actividad.nombre,
                 Toast.LENGTH_SHORT
             ).show()
         }
-
         binding.activity = actividad
-
-        if (!actividad.imagen.isNullOrBlank()) {
+        actividad.imagen?.let {
             Picasso.get()
-                .load(actividad.imagen)
+                .load(it)
                 .placeholder(R.drawable.logo)
                 .error(R.drawable.logo)
                 .fit()
                 .into(binding.activityImg)
         }
         binding.activityDescription.movementMethod = ScrollingMovementMethod()
-        binding.activityLocation.setOnClickListener { view: View ->
+        binding.activityLocation.setOnClickListener {
             val mapDestination = MapDestination(
                 binding.activity!!.nombre,
                 binding.activity!!.latitud,
@@ -57,13 +54,12 @@ class ActivityDetailsFragment : Fragment() {
             val bundle = bundleOf(
                 "mapDestination" to mapDestination
             )
-            view.findNavController()
+            it.findNavController()
                 .navigate(
                     ActivityDetailsFragmentDirections.actionActivityDetailsFragmentToMapsFragment().actionId
                     , bundle
                 )
         }
-
         return binding.root
     }
 }

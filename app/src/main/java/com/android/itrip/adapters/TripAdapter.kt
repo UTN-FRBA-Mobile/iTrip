@@ -59,20 +59,20 @@ class TripAdapter(private val travels: List<CiudadAVisitar>) :
                 setImage(ciudadAVisitar)
                 travelDate.text =
                     "Desde " + ciudadAVisitar.inicio.time + ", Hasta " + ciudadAVisitar.fin.time
-                viewActivitiesMaterialButton.setOnClickListener { view: View ->
+                viewActivitiesMaterialButton.setOnClickListener {
                     val bundle = bundleOf(
                         "ciudadAVisitar" to ciudadAVisitar
                     )
-                    view.findNavController().navigate(
+                    it.findNavController().navigate(
                         TripFragmentDirections.actionTripFragmentToScheduleFragment().actionId,
                         bundle
                     )
                 }
-                modifyCityToTravelButton.setOnClickListener { view: View ->
+                modifyCityToTravelButton.setOnClickListener {
                     val bundle = bundleOf(
                         "ciudadAVisitar" to ciudadAVisitar
                     )
-                    view.findNavController().navigate(
+                    it.findNavController().navigate(
                         TripFragmentDirections.actionTripFragmentToDestinationListFragment().actionId,
                         bundle
                     )
@@ -90,7 +90,7 @@ class TripAdapter(private val travels: List<CiudadAVisitar>) :
         private fun setImage(ciudadAVisitar: CiudadAVisitar) {
             ciudadAVisitar.detalle_ciudad?.imagen?.let {
                 Picasso.get()
-                    .load(ciudadAVisitar.detalle_ciudad!!.imagen)
+                    .load(it)
                     .placeholder(R.drawable.logo)
                     .error(R.drawable.logo)
                     .fit()

@@ -9,7 +9,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.MainActivity
 import com.android.itrip.R
 import com.android.itrip.adapters.QuizAdapter
@@ -19,9 +18,7 @@ import com.android.itrip.viewModels.QuizViewModel
 
 class QuizHobbiesFragment : Fragment() {
 
-    private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: QuizAdapter
-    private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var binding: FragmentQuizHobbiesBinding
     private lateinit var quiz: Quiz
     private lateinit var quizViewModel: QuizViewModel
@@ -35,26 +32,23 @@ class QuizHobbiesFragment : Fragment() {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_quiz_hobbies, container, false
         )
-        val application = requireNotNull(this.activity).application
-        quizViewModel = QuizViewModel(application)
-        binding.quizViewModel = quizViewModel
-
-        // RECYCLERVIEW logic
-        recyclerView = binding.myRecyclerView
-        viewManager = LinearLayoutManager(application)
-        recyclerView.layoutManager = viewManager
-        viewAdapter = QuizAdapter(quizViewModel.hobbies)
-        recyclerView.adapter = viewAdapter
-        binding.lifecycleOwner = this
-
-        binding.submitFloatingActionButton.setOnClickListener {
-            var textMessage = ""
-            viewAdapter.checkedHobbies.forEach {
-                textMessage = textMessage + it.value + ", "
+        quizViewModel = QuizViewModel()
+        binding.apply {
+            quizViewModel = this@QuizHobbiesFragment.quizViewModel
+            myRecyclerView.apply {
+                layoutManager = LinearLayoutManager(requireNotNull(activity).application)
+                viewAdapter = QuizAdapter(quizViewModel.hobbies)
+                adapter = viewAdapter
             }
-            quizViewModel.sendQuiz(quiz, viewAdapter.checkedHobbies) { finishQuiz() }
+            lifecycleOwner = this@QuizHobbiesFragment
+            submitFloatingActionButton.setOnClickListener {
+                var textMessage = ""
+                viewAdapter.checkedHobbies.forEach {
+                    textMessage = textMessage + it.value + ", "
+                }
+                quizViewModel.sendQuiz(quiz, viewAdapter.checkedHobbies) { finishQuiz() }
+            }
         }
-
         return binding.root
     }
 

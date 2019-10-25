@@ -14,10 +14,10 @@ import com.android.itrip.R
 import com.android.itrip.databinding.HobbieItemBinding
 import com.android.itrip.models.Answer
 
-class QuizAdapter(hobbies: List<Answer>) :
+class QuizAdapter(private val _hobbies: List<Answer>) :
     ListAdapter<Answer, RecyclerView.ViewHolder>(HobbieDiffCallback()) {
 
-    private val _hobbies: List<Answer> = hobbies
+//    private val _hobbies: List<Answer> = hobbies
     var checkedHobbies: MutableList<Answer> = mutableListOf()
 
 

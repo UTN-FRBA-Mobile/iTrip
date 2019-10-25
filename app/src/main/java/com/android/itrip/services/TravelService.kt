@@ -27,8 +27,7 @@ object TravelService : Service() {
         errorHandler: (VolleyError) -> Unit
     ) {
         logger.info("getDestinations.")
-        val url = "destinos/"
-        ApiService.getArray(url, {
+        ApiService.getArray("destinos/", {
             val listType = object : TypeToken<List<Continente>>() {}.type
             val continentes: List<Continente> = gson.fromJson(it.toString(), listType)
             responseHandler(continentes)
@@ -39,10 +38,9 @@ object TravelService : Service() {
         responseHandler: (List<Viaje>) -> Unit,
         errorHandler: (VolleyError) -> Unit
     ) {
-        val url = "viajes/"
-        ApiService.getArray(url, {
-            val listType = object : TypeToken<List<ViajeCreator>>() {}.type
-            val viajesCreator: List<ViajeCreator> = gson.fromJson(it.toString(), listType)
+        ApiService.getArray("viajes/", {
+            val viajesCreator: List<ViajeCreator> =
+                gson.fromJson(it.toString(), object : TypeToken<List<ViajeCreator>>() {}.type)
             responseHandler(viajesCreator.map { it.viaje() })
         }, errorHandler)
     }
@@ -53,8 +51,7 @@ object TravelService : Service() {
         errorHandler: (VolleyError) -> Unit
     ) {
         logger.info("getTrip.")
-        val url = "viajes/$id"
-        ApiService.get(url, {
+        ApiService.get("viajes/$id", {
             val viajeCreator: ViajeCreator = gson.fromJson(it.toString(), ViajeCreator::class.java)
             val viaje: Viaje = viajeCreator.viaje()
             responseHandler(viaje)
@@ -66,9 +63,8 @@ object TravelService : Service() {
         responseHandler: (Viaje) -> Unit,
         errorHandler: (VolleyError) -> Unit
     ) {
-        val url = "viajes/"
         val json = JSONObject(gson.toJson(body))
-        ApiService.post(url, json, {
+        ApiService.post("viajes/", json, {
             val viajeCreator: ViajeCreator = gson.fromJson(it.toString(), ViajeCreator::class.java)
             responseHandler(viajeCreator.viaje())
         }, errorHandler)
@@ -80,9 +76,7 @@ object TravelService : Service() {
         errorHandler: (VolleyError) -> Unit
     ) {
         logger.info("updateTrip.")
-        val url = """viaje/${viajeParam.id}/"""
-        val json = JSONObject(gson.toJson(viajeParam))
-        ApiService.patch(url, json, {
+        ApiService.patch("""viaje/${viajeParam.id}/""", JSONObject(gson.toJson(viajeParam)), {
             val viaje: Viaje = gson.fromJson(it.toString(), Viaje::class.java)
             responseHandler(viaje)
         }, errorHandler)
@@ -94,8 +88,7 @@ object TravelService : Service() {
         errorHandler: (VolleyError) -> Unit
     ) {
         logger.info("deleteTrip.")
-        val url = """viaje/${viajeParam.id}/"""
-        ApiService.delete(url, {
+        ApiService.delete("""viaje/${viajeParam.id}/""", {
             responseHandler()
         }, errorHandler)
     }
@@ -105,8 +98,7 @@ object TravelService : Service() {
         errorHandler: (VolleyError) -> Unit
     ) {
         logger.info("getActivities.")
-        val url = """destinos/${destination.destinationId}/actividades/"""
-        ApiService.getArray(url, {
+        ApiService.getArray("""destinos/${destination.destinationId}/actividades/""", {
             val listType = object : TypeToken<List<Actividad>>() {}.type
             val actividades: List<Actividad> = gson.fromJson(it.toString(), listType)
             responseHandler(actividades)
@@ -120,12 +112,13 @@ object TravelService : Service() {
         errorHandler: (VolleyError) -> Unit
     ) {
         logger.info("postDestination.")
-        val url = """viajes/${viajeParam.id}/add_destination/"""
         val json = JSONObject()
-        json.put("ciudad", ciudad_a_visitarParam.detalle_ciudad?.id)
-        json.put("inicio", ciudad_a_visitarParam.inicio)
-        json.put("fin", ciudad_a_visitarParam.fin)
-        ApiService.post(url, json, {
+        json.apply {
+            put("ciudad", ciudad_a_visitarParam.detalle_ciudad?.id)
+            put("inicio", ciudad_a_visitarParam.inicio)
+            put("fin", ciudad_a_visitarParam.fin)
+        }
+        ApiService.post("""viajes/${viajeParam.id}/add_destination/""", json, {
             val ciudad_a_visitar: CiudadAVisitar =
                 gson.fromJson(it.toString(), CiudadAVisitar::class.java)
             responseHandler(ciudad_a_visitar)
@@ -138,8 +131,7 @@ object TravelService : Service() {
         errorHandler: (VolleyError) -> Unit
     ) {
         logger.info("get_CityToVisit.")
-        val url = """ciudad-a-visitar/${ciudad_a_visitarParam.id}/"""
-        ApiService.get(url, {
+        ApiService.get("""ciudad-a-visitar/${ciudad_a_visitarParam.id}/""", {
             val ciudadAVisitarCreator: CiudadAVisitarCreator =
                 gson.fromJson(it.toString(), CiudadAVisitarCreator::class.java)
             val ciudad_a_visitar: CiudadAVisitar = ciudadAVisitarCreator.ciudadAVisitar()
@@ -153,13 +145,16 @@ object TravelService : Service() {
         errorHandler: (VolleyError) -> Unit
     ) {
         logger.info("updateDestination.")
-        val url = """ciudad-a-visitar/${ciudad_a_visitarParam.id}/"""
-        val json = JSONObject(gson.toJson(ciudad_a_visitarParam))
-        ApiService.patch(url, json, {
-            val ciudad_a_visitar: CiudadAVisitar =
-                gson.fromJson(it.toString(), CiudadAVisitar::class.java)
-            responseHandler(ciudad_a_visitar)
-        }, errorHandler)
+        ApiService.patch(
+            """ciudad-a-visitar/${ciudad_a_visitarParam.id}/""",
+            JSONObject(gson.toJson(ciudad_a_visitarParam)),
+            {
+                val ciudad_a_visitar: CiudadAVisitar =
+                    gson.fromJson(it.toString(), CiudadAVisitar::class.java)
+                responseHandler(ciudad_a_visitar)
+            },
+            errorHandler
+        )
     }
 
     fun deleteDestination(
@@ -168,9 +163,7 @@ object TravelService : Service() {
         errorHandler: (VolleyError) -> Unit
     ) {
         logger.info("deleteDestination.")
-        val url =
-            """ciudad-a-visitar/${ciudad_a_visitarParam.id}/"""
-        ApiService.delete(url, {
+        ApiService.delete("""ciudad-a-visitar/${ciudad_a_visitarParam.id}/""", {
             responseHandler()
         }, errorHandler)
     }

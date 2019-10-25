@@ -6,7 +6,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.provider.MediaStore
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.os.bundleOf
@@ -26,14 +25,17 @@ import com.android.itrip.models.Actividad
 import com.squareup.picasso.Picasso
 
 
-class ActivitiesAdapter(actividades: LiveData<List<Actividad>>) :
+class ActivitiesAdapter(private val _actividades: LiveData<List<Actividad>>) :
     ListAdapter<Actividad, RecyclerView.ViewHolder>(ActivitiesDiffCallback()) {
 
-    private var _actividades: LiveData<List<Actividad>> = actividades
+    init {
+        _actividades.observeForever {
+            notifyDataSetChanged()
+        }
+    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val actividad = getItem(position)
-        (holder as ActivitiesHolder).bind(actividad)
+        (holder as ActivitiesHolder).bind(getItem(position))
     }
 
     override fun getItem(position: Int): Actividad {
@@ -56,24 +58,21 @@ class ActivitiesAdapter(actividades: LiveData<List<Actividad>>) :
         return size
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding: ActivitiesItemBinding =
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context), R.layout.activities_item, parent, false
             )
-
-        binding.activityConstraintLayout.setOnClickListener { view: View ->
+        binding.activityConstraintLayout.setOnClickListener {
             val bundle = bundleOf(
                 "actividad" to binding.actividadModel!!
             )
-            view.findNavController()
+            it.findNavController()
                 .navigate(
                     ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailsFragment().actionId
                     , bundle
                 )
         }
-
         binding.shareImagebutton.setOnClickListener {
             val shareIntent = Intent()
             val bitmapDrawable: BitmapDrawable =
@@ -97,7 +96,6 @@ class ActivitiesAdapter(actividades: LiveData<List<Actividad>>) :
             shareIntent.putExtra(Intent.EXTRA_STREAM, imgBitmapUri)
             startActivity(parent.context, Intent.createChooser(shareIntent, "send"), null)
         }
-
         val viewHolder = ActivitiesHolder(binding)
         binding.lifecycleOwner = viewHolder
         return viewHolder
@@ -115,9 +113,9 @@ class ActivitiesAdapter(actividades: LiveData<List<Actividad>>) :
             binding.apply {
                 actividadModel = item
                 actividadNameTextView.text = item.nombre
-                if (!item.imagen.isNullOrBlank()) {
+                item.imagen?.let {
                     Picasso.get()
-                        .load(item.imagen)
+                        .load(it)
                         .placeholder(R.drawable.logo)
                         .error(R.drawable.logo)
                         .fit()

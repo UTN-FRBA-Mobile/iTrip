@@ -32,9 +32,11 @@ class CreateTravelFragment : Fragment() {
         setBarTitle()
         binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_create_travel, container, false)
-        binding.imagebuttonTravelFromDate.setOnClickListener { showDatePickerDialog(binding.textinputlayoutTravelFromDate) }
-        binding.imagebuttonTravelUntilDate.setOnClickListener { showDatePickerDialog(binding.textinputlayoutTravelUntilDate) }
-        binding.createTravel.setOnClickListener { view -> createTravel(view) }
+        binding.apply {
+            imagebuttonTravelFromDate.setOnClickListener { showDatePickerDialog(textinputlayoutTravelFromDate) }
+            imagebuttonTravelUntilDate.setOnClickListener { showDatePickerDialog(textinputlayoutTravelUntilDate) }
+            createTravel.setOnClickListener { view -> createTravel(view) }
+        }
         return binding.root
     }
 
@@ -57,8 +59,8 @@ class CreateTravelFragment : Fragment() {
                 inicio = binding.textinputlayoutTravelFromDate.editText.text.toString(),
                 fin = binding.textinputlayoutTravelUntilDate.editText.text.toString()
             )
-            TravelService.createTrip(request, { viaje ->
-                val bundle = bundleOf("viaje" to viaje)
+            TravelService.createTrip(request, {
+                val bundle = bundleOf("viaje" to it)
                 view.findNavController()
                     .navigate(
                         CreateTravelFragmentDirections.actionCreateTravelFragmentToTripFragment().actionId,

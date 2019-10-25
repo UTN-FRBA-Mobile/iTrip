@@ -9,10 +9,8 @@ import java.io.Serializable
 data class Categoria(
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0L,
-
     @ColumnInfo(name = "nombre")
     val nombre: String = "",
-
     @ColumnInfo(name = "descripcion")
     val descripcion: String = ""
 ) : Serializable

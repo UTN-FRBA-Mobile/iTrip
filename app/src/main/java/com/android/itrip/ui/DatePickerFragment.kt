@@ -18,10 +18,7 @@ class DatePickerFragment(
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
-        val datePickerDialog = DatePickerDialog(context!!, this, year, month, day)
+        val datePickerDialog = DatePickerDialog(context!!, this, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH))
         minDate?.let {
             datePickerDialog.datePicker.minDate = it.timeInMillis
         }

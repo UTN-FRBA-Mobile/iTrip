@@ -1,19 +1,14 @@
 package com.android.itrip.viewModels
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import com.android.itrip.models.Answer
 import com.android.itrip.models.Quiz
 import com.android.itrip.services.QuizService
 
 
-class QuizViewModel(
-    application: Application
-) : AndroidViewModel(application) {
+class QuizViewModel : ViewModel() {
     val hobbies: List<Answer>
     val genero: List<Answer>
-    var genero_otro: String = ""
-    var edad: Int = 0
     val estado_civil: List<Answer>
     val nivel_de_estudios: List<Answer>
     val ocupacion: List<Answer>
@@ -60,7 +55,6 @@ class QuizViewModel(
         return mutableList
     }
 
-
     private fun fillOcupacion(): MutableList<Answer> {
         val mutableList: MutableList<Answer> = mutableListOf()
         mutableList.add(Answer("", ""))
@@ -72,7 +66,6 @@ class QuizViewModel(
         mutableList.add(Answer("N", "Ninguna"))
         return mutableList
     }
-
 
     private fun addHobbies(): MutableList<Answer> {
         val mutableHobbies: MutableList<Answer> = mutableListOf()
