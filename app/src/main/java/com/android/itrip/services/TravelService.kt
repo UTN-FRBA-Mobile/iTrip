@@ -122,7 +122,7 @@ object TravelService : Service() {
         logger.info("postDestination.")
         val url = """viajes/${viajeParam.id}/add_destination/"""
         val json = JSONObject()
-        json.put("ciudad", ciudad_a_visitarParam.detalle_ciudad.id)
+        json.put("ciudad", ciudad_a_visitarParam.detalle_ciudad?.id)
         json.put("inicio", ciudad_a_visitarParam.inicio)
         json.put("fin", ciudad_a_visitarParam.fin)
         ApiService.post(url, json, {

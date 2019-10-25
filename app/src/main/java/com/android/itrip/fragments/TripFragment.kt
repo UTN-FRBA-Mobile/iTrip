@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -23,6 +24,7 @@ class TripFragment : Fragment() {
     private lateinit var tripViewModel: TripViewModel
     private lateinit var application: Application
     private lateinit var binding: FragmentTripBinding
+    private lateinit var viaje: Viaje
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,13 +34,20 @@ class TripFragment : Fragment() {
         application = requireNotNull(this.activity).application
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_trip, container, false)
         try {
-            getDestinations(this.arguments!!.get("viaje") as Viaje)
+            viaje = this.arguments!!.get("viaje") as Viaje
+            getDestinations(viaje)
         } catch (e: Exception) {
             logger.info(e.toString())
         }
-        binding.addDestinationFloatingactionbutton.setOnClickListener { view: View ->
-            view.findNavController()
-                .navigate(TripFragmentDirections.actionTripFragmentToDestinationListFragment())
+        binding.addDestinationFloatingactionbutton.setOnClickListener {
+            val bundle = bundleOf(
+                "viaje" to viaje
+            )
+            it.findNavController()
+                .navigate(
+                    TripFragmentDirections.actionTripFragmentToDestinationListFragment().actionId
+                    , bundle
+                )
         }
         return binding.root
     }

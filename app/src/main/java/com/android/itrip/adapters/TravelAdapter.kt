@@ -59,8 +59,6 @@ class TravelAdapter :
     class TravelHolder(private val binding: TravelItemBinding) :
         RecyclerView.ViewHolder(binding.root), LifecycleOwner {
         private val lifecycleRegistry = LifecycleRegistry(this)
-        private val logger = Logger.getLogger(this::class.java.name)
-
 
         override fun getLifecycle(): Lifecycle {
             return lifecycleRegistry
@@ -83,8 +81,8 @@ class TravelAdapter :
                 travelDate.text =
                     super.itemView.context.getString(
                         R.string.travels_date,
-                        viaje.inicio.time,
-                        viaje.fin.time
+                        com.android.itrip.util.calendarToString(viaje.inicio),
+                        com.android.itrip.util.calendarToString(viaje.fin)
                     )
             }
         }

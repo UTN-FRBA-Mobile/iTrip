@@ -7,19 +7,32 @@ import android.widget.DatePicker
 import androidx.fragment.app.DialogFragment
 import java.util.*
 
-class DatePickerFragment(private val callback: (Int, Int, Int) -> Unit) : DialogFragment(),
+class DatePickerFragment(
+    private val callback: (Calendar) -> Unit,
+    private val minDate: Calendar?,
+    private val maxDate: Calendar?
+) : DialogFragment(),
     DatePickerDialog.OnDateSetListener {
+
+    constructor(callback: (Calendar) -> Unit) : this(callback, null, null)
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
-        return DatePickerDialog(activity, this, year, month, day)
+        val datePickerDialog = DatePickerDialog(context!!, this, year, month, day)
+        minDate?.let {
+            datePickerDialog.datePicker.minDate = it.timeInMillis
+        }
+        maxDate?.let {
+            datePickerDialog.datePicker.maxDate = it.timeInMillis
+        }
+        return datePickerDialog
     }
 
     override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
-        callback(year, month, day)
+        callback(Calendar.getInstance().apply { set(year, month, day) })
     }
 
 }

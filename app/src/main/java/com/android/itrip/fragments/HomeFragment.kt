@@ -63,7 +63,11 @@ class HomeFragment : Fragment() {
         }, { error ->
             logger.info("Failed to get travels: " + error.message)
             Toast
-                .makeText(this.context, "Hubo un problema, intente de nuevo", Toast.LENGTH_SHORT)
+                .makeText(
+                    this.context,
+                    "Hubo un problema, intente de nuevo",
+                    Toast.LENGTH_SHORT
+                )
                 .show()
         })
     }

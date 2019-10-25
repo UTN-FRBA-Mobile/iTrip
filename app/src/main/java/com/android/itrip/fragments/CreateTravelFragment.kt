@@ -15,6 +15,7 @@ import com.android.itrip.databinding.FragmentCreateTravelBinding
 import com.android.itrip.services.TravelService
 import com.android.itrip.ui.DatePickerFragment
 import com.emmasuzuki.easyform.EasyTextInputLayout
+import java.text.SimpleDateFormat
 import java.util.logging.Logger
 
 data class ViajeData(val nombre: String, val inicio: String, val fin: String)
@@ -42,14 +43,8 @@ class CreateTravelFragment : Fragment() {
     }
 
     private fun showDatePickerDialog(input: EasyTextInputLayout) {
-        val newFragment = DatePickerFragment { year, month, day ->
-            val date = getString(
-                R.string.travel_creation_date_format,
-                year,
-                month + 1 /*fix: month ranges from 0-11*/,
-                day
-            )
-            input.editText.setText(date)
+        val newFragment = DatePickerFragment { calendar ->
+            input.editText.setText(SimpleDateFormat("dd-MM-yyyy").format(calendar))
         }
         fragmentManager?.let { newFragment.show(it, "datePicker") }
     }

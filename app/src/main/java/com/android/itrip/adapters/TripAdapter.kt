@@ -90,7 +90,7 @@ class TripAdapter(private val travels: List<CiudadAVisitar>) :
         private fun setImage(ciudadAVisitar: CiudadAVisitar) {
             ciudadAVisitar.detalle_ciudad?.imagen?.let {
                 Picasso.get()
-                    .load(ciudadAVisitar.detalle_ciudad.imagen)
+                    .load(ciudadAVisitar.detalle_ciudad!!.imagen)
                     .placeholder(R.drawable.logo)
                     .error(R.drawable.logo)
                     .fit()

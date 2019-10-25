@@ -37,7 +37,7 @@ class ScheduleFragment : Fragment() {
     ): View? {
         try {
             ciudadAVisitar = this.arguments!!.get("ciudadAVisitar") as CiudadAVisitar
-            logger.info("ciuda.nombre: " + ciudadAVisitar.detalle_ciudad.nombre)
+            logger.info("ciuda.nombre: " + ciudadAVisitar.detalle_ciudad!!.nombre)
         } catch (e: Exception) {
             logger.info(e.toString())
         }

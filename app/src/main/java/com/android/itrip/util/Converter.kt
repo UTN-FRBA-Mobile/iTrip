@@ -17,7 +17,10 @@
 
 package com.android.itrip.util
 
+import android.annotation.SuppressLint
 import com.android.itrip.models.Actividad
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun fromStringToFloat(string: String?): Float? {
     string?.let { return string.toFloat() }
@@ -71,4 +74,12 @@ fun fromBucketPositionToTimeOfTheDay(bucketPosition: Int): String {
         5 -> "Media Noche"
         else -> "Libre"
     }
+}
+
+@SuppressLint("SimpleDateFormat")
+fun calendarToString(calendar: Calendar?): String {
+    calendar?.let {
+        return SimpleDateFormat("dd-MM-yy").format(calendar.time)
+    }
+    return SimpleDateFormat("dd-MM-yy").format(Calendar.getInstance().time)
 }
