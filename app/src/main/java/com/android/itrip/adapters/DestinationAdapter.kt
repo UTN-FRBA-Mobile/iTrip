@@ -17,15 +17,13 @@ import com.android.itrip.R
 import com.android.itrip.database.Destination
 import com.android.itrip.databinding.DestinationItemBinding
 import com.android.itrip.fragments.DestinationListFragmentDirections
-import java.util.logging.Logger
 
-class DestinationAdapter(destinations: LiveData<List<Destination>>) :
+class DestinationAdapter(private val _destinations: LiveData<List<Destination>>) :
     ListAdapter<Destination, RecyclerView.ViewHolder>(DestinationDiffCallback()) {
 
-    private var _destinations: LiveData<List<Destination>> = destinations
-    var checkedDestinations: MutableList<Destination> = mutableListOf()
-    private val logger = Logger.getLogger(this::class.java.name)
-
+    init {
+        _destinations.observeForever { notifyDataSetChanged() }
+    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val destination = getItem(position)
@@ -52,13 +50,11 @@ class DestinationAdapter(destinations: LiveData<List<Destination>>) :
         return size
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding: DestinationItemBinding =
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context), R.layout.destination_item, parent, false
             )
-
         binding.addImagebutton.setOnClickListener { view: View ->
             binding.destination?.let {
                 val dest = binding.destination!!
@@ -72,7 +68,6 @@ class DestinationAdapter(destinations: LiveData<List<Destination>>) :
                     )
             }
         }
-
         binding.activitiesButton.setOnClickListener { view: View ->
             val bundle = bundleOf(
                 "destination" to binding.destination
@@ -82,7 +77,6 @@ class DestinationAdapter(destinations: LiveData<List<Destination>>) :
                 bundle
             )
         }
-
         val viewHolder = DestinationHolder(binding)
         binding.lifecycleOwner = viewHolder
         return viewHolder
@@ -92,6 +86,7 @@ class DestinationAdapter(destinations: LiveData<List<Destination>>) :
         private val binding: DestinationItemBinding
     ) : RecyclerView.ViewHolder(binding.root), LifecycleOwner {
         private val lifecycleRegistry = LifecycleRegistry(this)
+
         override fun getLifecycle(): Lifecycle {
             return lifecycleRegistry
         }

@@ -44,7 +44,7 @@ class CreateTravelFragment : Fragment() {
 
     private fun showDatePickerDialog(input: EasyTextInputLayout) {
         val newFragment = DatePickerFragment { calendar ->
-            input.editText.setText(SimpleDateFormat("dd-MM-yyyy").format(calendar))
+            input.editText.setText(SimpleDateFormat("dd-MM-yyyy").format(calendar.time))
         }
         fragmentManager?.let { newFragment.show(it, "datePicker") }
     }
