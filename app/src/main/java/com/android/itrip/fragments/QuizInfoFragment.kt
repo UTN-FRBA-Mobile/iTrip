@@ -28,8 +28,8 @@ private const val DIALOG_TITLE_OCU = R.string.quiz_info_dialog_title_ocupacion
 class QuizInfoFragment : Fragment() {
 
     private val logger = Logger.getLogger(this::class.java.name)
+    private val quizViewModel: QuizViewModel = QuizViewModel()
     private lateinit var binding: FragmentQuizInfoBinding
-    private lateinit var quizViewModel: QuizViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,8 +39,6 @@ class QuizInfoFragment : Fragment() {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_quiz_info, container, false
         )
-        val application = requireNotNull(this.activity).application
-        quizViewModel = QuizViewModel(application)
         bindings()
         return binding.root
     }

@@ -1,11 +1,9 @@
 package com.android.itrip.viewModels
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import com.android.itrip.models.Answer
 
 
-class QuizViewModel(application: Application) : AndroidViewModel(application) {
+class QuizViewModel {
     val hobbies: List<Answer>
     val genero: List<Answer>
     val estado_civil: List<Answer>

@@ -4,27 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.android.android.fragments.QuizFragment">
 
-    <data>
-
-        <variable
-            name="quizViewModel"
-            type="com.android.itrip.viewModels.QuizViewModel" />
-    </data>
+    <data />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="#EEE">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/my_recycler_view"
+            android:id="@+id/recyclerview_quiz_hobbies"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="12dp"
             android:scrollbars="vertical"
-            tools:listitem="@layout/hobbie_item" />
+            tools:listitem="@layout/hobby_item" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/submit_floatingActionButton"
+            android:id="@+id/floatingactionbutton_quiz_hobbies"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
