@@ -82,7 +82,6 @@
     <fragment
         android:id="@+id/tripFragment"
         android:name="com.android.itrip.fragments.TripFragment"
-        android:label="TripFragment"
         tools:layout="@layout/fragment_trip">
         <action
             android:id="@+id/action_tripFragment_to_scheduleFragment"

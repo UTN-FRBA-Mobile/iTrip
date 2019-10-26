@@ -6,80 +6,57 @@
 
     <data />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/homeConstraintLayout"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWhiteSmoke"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tripTitle_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="Mis Destinos"
-            android:textColor="#000"
-            android:textSize="30sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:padding="15dp">
 
         <LinearLayout
-            android:id="@+id/trip_linearLayout"
-            android:layout_width="wrap_content"
+            android:id="@+id/linearlayout_destinations_no_destinations"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
             android:orientation="vertical"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:visibility="invisible">
 
             <ImageView
-                android:id="@+id/mainLogo"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginEnd="8dp"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/logo" />
+                app:srcCompat="@drawable/ic_destination" />
 
             <TextView
-                android:id="@+id/textview_travels_no_travels_firstline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:text="@string/travels_no_travels_firstline"
+                android:text="@string/destinations_no_destinations_firstline"
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/textview_travels_no_travels_secondline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/travels_no_travels_secondline"
+                android:text="@string/destinations_no_destinations_secondline"
                 android:textSize="20sp" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/trip_recyclerview"
+            android:id="@+id/recyclerview_destinations"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/citytovisit_item" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addDestination_floatingactionbutton"
+            android:id="@+id/floatingactionbutton_destination_creation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_add_black_24dp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
 </layout>

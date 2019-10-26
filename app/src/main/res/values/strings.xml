@@ -73,6 +73,11 @@
     <string name="destination_creation_from_date">Fecha desde</string>
     <string name="destination_creation_until_date">Fecha hasta</string>
 
+    <!--My Destinations-->
+    <string name="destinations_title">Mis Destinos</string>
+    <string name="destinations_no_destinations_firstline">No tenés aún ningún destino.</string>
+    <string name="destinations_no_destinations_secondline">Empieza creando uno desde el \'+\'.</string>
+
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="facebook_application_id" translatable="false">399355764046745</string>
     <string name="facebook_login_protocol_scheme" translatable="false">fb399355764046745</string>

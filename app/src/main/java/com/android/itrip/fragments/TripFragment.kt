@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.itrip.MainActivity
 import com.android.itrip.R
 import com.android.itrip.adapters.TripAdapter
 import com.android.itrip.databinding.FragmentTripBinding
@@ -29,33 +30,36 @@ class TripFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setBarTitle()
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_trip, container, false)
-        arguments?.get("viajeID")?.let {
-            tripViewModel = TripViewModel(it as Long) { getDestinations() }
-        }
+        arguments!!.getLong("viajeID")
+            .let { tripViewModel = TripViewModel(it) { getDestinations() } }
         binding.lifecycleOwner = this
         return binding.root
     }
 
+    private fun setBarTitle() {
+        (activity as MainActivity).setActionBarTitle(getString(R.string.destinations_title))
+    }
+
     private fun getDestinations() {
         if (tripViewModel.viaje.value!!.ciudades_a_visitar.isNullOrEmpty()) {
-            binding.tripLinearLayout.visibility = View.VISIBLE
+            binding.linearlayoutDestinationsNoDestinations.visibility = View.VISIBLE
         } else {
-            binding.tripRecyclerview.apply {
+            binding.recyclerviewDestinations.apply {
                 layoutManager = LinearLayoutManager(requireNotNull(activity).application)
                 adapter = TripAdapter(tripViewModel,
                     { deleteCityToVisit(it) },
                     { viewCityToVisit(it) })
             }
-            binding.tripLinearLayout.visibility = View.GONE
+            binding.linearlayoutDestinationsNoDestinations.visibility = View.INVISIBLE
         }
-        binding.addDestinationFloatingactionbutton.setOnClickListener {
+        binding.floatingactionbuttonDestinationCreation.setOnClickListener {
             val bundle = bundleOf("viaje" to tripViewModel.viaje.value!!)
-            it.findNavController()
-                .navigate(
-                    TripFragmentDirections.actionTripFragmentToDestinationListFragment().actionId
-                    , bundle
-                )
+            it.findNavController().navigate(
+                TripFragmentDirections.actionTripFragmentToDestinationListFragment().actionId,
+                bundle
+            )
         }
     }
 
@@ -65,18 +69,13 @@ class TripFragment : Fragment() {
 
     private fun deleteCityToVisit(ciudadAVisitar: CiudadAVisitar) {
         logger.info("deleteCityToVisit: " + ciudadAVisitar.detalle_ciudad!!.nombre)
-        TravelService.deleteDestination(ciudadAVisitar, { tripViewModel.getTravel(null) {
-            logger.info("deleteCityToVisit")
-            getDestinations()
-            binding.tripRecyclerview.invalidate()
-        }
+        TravelService.deleteDestination(ciudadAVisitar, {
+            tripViewModel.getTravel(null) {
+                logger.info("deleteCityToVisit")
+                getDestinations()
+                binding.recyclerviewDestinations.invalidate()
+            }
         }, {})
-
-//        tripViewModel.deleteCityToVisit(ciudadAVisitar) {
-//            getDestinations()
-//            logger.info("deleteCityToVisit")
-//            binding.tripRecyclerview.invalidate()
-//        }
-
     }
+
 }

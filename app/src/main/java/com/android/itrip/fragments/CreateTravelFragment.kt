@@ -48,7 +48,6 @@ class CreateTravelFragment : Fragment() {
                     maxDate = maxDate,
                     startDate = minDate
                 )
-
             }
             imagebuttonTravelUntilDate.setOnClickListener {
                 showDatePickerDialog(
