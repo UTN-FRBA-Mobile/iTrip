@@ -17,12 +17,13 @@ import java.util.logging.Logger
 
 class DestinationViewModel(
     val database: DestinationDatabaseDao,
-    application: Application
+    application: Application,
+    viaje: Viaje?
 ) : AndroidViewModel(application) {
 
     private val logger = Logger.getLogger(this::class.java.name)
     var ciudadAVisitar: CiudadAVisitar = CiudadAVisitar(
-        0, Calendar.getInstance(), Calendar.getInstance(), null,
+        0, viaje?.inicio ?: Calendar.getInstance(), viaje?.fin ?: Calendar.getInstance(), null,
         listOf()
     )
 
@@ -84,7 +85,7 @@ class DestinationViewModel(
         ciudadAVisitar.detalle_ciudad = Ciudad(destination.destinationId, destination.name, "", "")
         TravelService.postDestination(viaje, ciudadAVisitar, {
             callback(it)
-        }, {logger.info(it.message!!)}
+        }, { logger.info(it.message!!) }
         )
     }
 
