@@ -33,8 +33,12 @@ class CreateTravelFragment : Fragment() {
         binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_create_travel, container, false)
         binding.apply {
-            imagebuttonTravelFromDate.setOnClickListener { showDatePickerDialog(textinputlayoutTravelFromDate) }
-            imagebuttonTravelUntilDate.setOnClickListener { showDatePickerDialog(textinputlayoutTravelUntilDate) }
+            imagebuttonTravelFromDate.setOnClickListener {
+                showDatePickerDialog(textinputlayoutTravelFromDate)
+            }
+            imagebuttonTravelUntilDate.setOnClickListener {
+                showDatePickerDialog(textinputlayoutTravelUntilDate)
+            }
             createTravel.setOnClickListener { view -> createTravel(view) }
         }
         return binding.root
@@ -59,9 +63,6 @@ class CreateTravelFragment : Fragment() {
                 inicio = binding.textinputlayoutTravelFromDate.editText.text.toString(),
                 fin = binding.textinputlayoutTravelUntilDate.editText.text.toString()
             )
-            logger.info("nombre: " + request.nombre)
-            logger.info("inicio: " + request.inicio)
-            logger.info("fin: " + request.fin)
             TravelService.createTrip(request, {
                 val bundle = bundleOf("viajeID" to it.id)
                 view.findNavController()
@@ -70,9 +71,14 @@ class CreateTravelFragment : Fragment() {
                         bundle
                     )
             }, { error ->
-                logger.severe("Failed to post new travel: " + error.message)
+                val message = if (error.statusCode == 400) {
+                    error.data.getJSONArray("non_field_errors")[0] as String
+                } else {
+                    logger.severe("Failed to post new travel - status: ${error.statusCode} - message: ${error.message}")
+                    "Hubo un problema, intente de nuevo"
+                }
                 Toast
-                    .makeText(context, "Hubo un problema, intente de nuevo", Toast.LENGTH_SHORT)
+                    .makeText(context, message, Toast.LENGTH_SHORT)
                     .show()
             })
         } else {

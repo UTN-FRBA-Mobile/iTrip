@@ -3,7 +3,6 @@ package com.android.itrip.services
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import com.android.volley.VolleyError
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GetTokenResult
@@ -26,12 +25,10 @@ object AuthenticationService : Service() {
     private fun validateFirebaseToken(
         paramToken: String,
         responseHandler: () -> Unit,
-        errorHandler: (VolleyError) -> Unit
+        errorHandler: (ApiError) -> Unit
     ) {
-        logger.info("validateFirebaseToken.")
         val url = "firebase/"
         val json = JSONObject().put("token", paramToken)
-        logger.info(json.toString())
         ApiService.post(url, json, {
             refreshToken = it.getString("refresh")
             accessToken = it.getString("access")
@@ -41,9 +38,8 @@ object AuthenticationService : Service() {
 
     fun verifyUser(
         auth: FirebaseUser?, responseHandler: () -> Unit,
-        errorHandler: (VolleyError) -> Unit
+        errorHandler: (ApiError) -> Unit
     ) {
-        logger.info("Calling verifying user: " + auth?.displayName)
         auth!!.getIdToken(true)
             .addOnCompleteListener { task ->
                 onVerifyUserComplete(task, responseHandler, errorHandler)
@@ -52,13 +48,13 @@ object AuthenticationService : Service() {
 
     private fun onVerifyUserComplete(
         task: Task<GetTokenResult>, responseHandler: () -> Unit,
-        errorHandler: (VolleyError) -> Unit
+        errorHandler: (ApiError) -> Unit
     ) {
-        logger.info("Calling onVerifyUserComplete.")
-        if (task.isSuccessful)
-            validateFirebaseToken(
-                task.result?.token!!, responseHandler, errorHandler
-            )
-        else logger.info("Error verifying user: " + task.exception)
+        if (task.isSuccessful) {
+            validateFirebaseToken(task.result?.token!!, responseHandler, errorHandler)
+        } else {
+            logger.severe("Error verifying user: " + task.exception)
+        }
     }
+
 }

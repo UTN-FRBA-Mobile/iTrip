@@ -4,7 +4,6 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import com.android.itrip.models.Quiz
-import com.android.volley.VolleyError
 import com.google.gson.Gson
 import org.json.JSONObject
 
@@ -17,14 +16,14 @@ object QuizService : Service() {
         TODO("not implemented")
     }
 
-    fun getResolution(responseHandler: (Boolean) -> Unit, errorHandler: (VolleyError) -> Unit) {
+    fun getResolution(responseHandler: (Boolean) -> Unit, errorHandler: (ApiError) -> Unit) {
         val url = "questions/verify"
         ApiService.get(url, {
             responseHandler(it.getBoolean("respondidas"))
         }, errorHandler)
     }
 
-    fun postAnswers(quiz: Quiz, responseHandler: () -> Unit, errorHandler: (VolleyError) -> Unit) {
+    fun postAnswers(quiz: Quiz, responseHandler: () -> Unit, errorHandler: (ApiError) -> Unit) {
         val url = "questions/"
         val json = JSONObject(gson.toJson(quiz))
         ApiService.post(url, json, {

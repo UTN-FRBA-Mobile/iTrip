@@ -65,7 +65,7 @@ class QuizHobbiesFragment : Fragment() {
             view?.findNavController()
                 ?.navigate(QuizHobbiesFragmentDirections.actionQuizHobbiesFragmentToQuizEndFragment())
         }, { error ->
-            logger.severe("Failed to post quiz answers: " + error.message)
+            logger.severe("Failed to post quiz answers - status: ${error.statusCode} - message: ${error.message}")
             Toast
                 .makeText(context, "Hubo un problema, intente de nuevo", Toast.LENGTH_SHORT)
                 .show()

@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         initDrawer()
         initNavigation()
         QuizService.getResolution({ answered: Boolean -> quizAnswered(answered) }, { error ->
-            logger.severe("Failed to retrieve quiz result: " + error.message)
+            logger.severe("Failed to retrieve quiz result - status: ${error.statusCode} - message: ${error.message}")
         })
     }
 

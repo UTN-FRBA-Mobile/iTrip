@@ -12,17 +12,19 @@ import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 import java.util.logging.Logger
 
-object ApiService : Service() {
+data class ApiError(val statusCode: Int, val message: String? = null, val data: JSONObject)
 
+object ApiService : Service() {
 
     private val logger = Logger.getLogger(this::class.java.name)
     private lateinit var queue: VolleySingleton
 
     override fun onBind(intent: Intent?): IBinder? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     fun setContext(context: Context) {
@@ -33,14 +35,14 @@ object ApiService : Service() {
         uri: String,
         body: JSONObject,
         responseHandler: (JSONObject) -> Unit,
-        errorHandler: (VolleyError) -> Unit,
+        errorHandler: (ApiError) -> Unit,
         initialTimeoutMs: Int? = null
     ) {
         val request =
             object : JsonObjectRequest(
                 Method.POST, AuthenticationService.base_api_url + uri, body,
                 Response.Listener { response -> responseHandler(response) },
-                Response.ErrorListener { error -> errorHandler(error) }) {
+                Response.ErrorListener { error -> errorHandler(mapOf(error)) }) {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
                     val headers = HashMap<String, String>()
@@ -49,9 +51,6 @@ object ApiService : Service() {
                         headers["Authorization"] = "Bearer $accessToken"
                     }
                     headers["Content-Type"] = "application/json"
-                    headers.forEach {
-                        logger.info(it.key + ": " + it.value)
-                    }
                     return headers
                 }
             }
@@ -62,14 +61,14 @@ object ApiService : Service() {
         uri: String,
         body: JSONObject,
         responseHandler: (JSONObject) -> Unit,
-        errorHandler: (VolleyError) -> Unit,
+        errorHandler: (ApiError) -> Unit,
         initialTimeoutMs: Int? = null
     ) {
         val request =
             object : JsonObjectRequest(
                 Method.PATCH, AuthenticationService.base_api_url + uri, body,
                 Response.Listener { response -> responseHandler(response) },
-                Response.ErrorListener { error -> errorHandler(error) }) {
+                Response.ErrorListener { error -> errorHandler(mapOf(error)) }) {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
                     val headers = HashMap<String, String>()
@@ -88,7 +87,7 @@ object ApiService : Service() {
     fun delete(
         uri: String,
         responseHandler: () -> Unit,
-        errorHandler: (VolleyError) -> Unit,
+        errorHandler: (ApiError) -> Unit,
         initialTimeoutMs: Int? = null
     ) {
         val request =
@@ -96,7 +95,7 @@ object ApiService : Service() {
                 Method.DELETE,
                 AuthenticationService.base_api_url + uri,
                 Response.Listener { responseHandler() },
-                Response.ErrorListener { error -> errorHandler(error) }
+                Response.ErrorListener { error -> errorHandler(mapOf(error)) }
             ) {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
@@ -104,36 +103,29 @@ object ApiService : Service() {
                     val accessToken: String = AuthenticationService.accessToken
                     headers["Authorization"] = "Bearer $accessToken"
                     headers["Content-Type"] = "application/json"
-                    headers.forEach {
-                        logger.info(it.key + ": " + it.value)
-                    }
                     return headers
                 }
             }
         queue.addToRequestQueue(request, initialTimeoutMs)
     }
 
-
     fun get(
         uri: String,
         responseHandler: (JSONObject) -> Unit,
-        errorHandler: (VolleyError) -> Unit,
+        errorHandler: (ApiError) -> Unit,
         initialTimeoutMs: Int? = null
     ) {
         val request =
             object : JsonObjectRequest(
                 Method.GET, AuthenticationService.base_api_url + uri, null,
                 Response.Listener { response -> responseHandler(response) },
-                Response.ErrorListener { error -> errorHandler(error) }) {
+                Response.ErrorListener { error -> errorHandler(mapOf(error)) }) {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
                     val headers = HashMap<String, String>()
                     val accessToken: String = AuthenticationService.accessToken
                     headers["Authorization"] = "Bearer $accessToken"
                     headers["Content-Type"] = "application/json"
-                    headers.forEach {
-                        logger.info(it.key + ": " + it.value)
-                    }
                     return headers
                 }
             }
@@ -143,26 +135,39 @@ object ApiService : Service() {
     fun getArray(
         uri: String,
         responseHandler: (JSONArray) -> Unit,
-        errorHandler: (VolleyError) -> Unit,
+        errorHandler: (ApiError) -> Unit,
         initialTimeoutMs: Int? = null
     ) {
         val request =
             object : JsonArrayRequest(
                 Method.GET, AuthenticationService.base_api_url + uri, null,
                 Response.Listener { response -> responseHandler(response) },
-                Response.ErrorListener { error -> errorHandler(error) }) {
+                Response.ErrorListener { error -> errorHandler(mapOf(error)) }) {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
                     val headers = HashMap<String, String>()
                     val accessToken: String = AuthenticationService.accessToken
                     headers["Authorization"] = "Bearer $accessToken"
                     headers["Content-Type"] = "application/json"
-                    headers.forEach {
-                        logger.info(it.key + ": " + it.value)
-                    }
                     return headers
                 }
             }
         queue.addToRequestQueue(request, initialTimeoutMs)
     }
+
+    private fun mapOf(error: VolleyError): ApiError {
+        val dataString = error.networkResponse.data.toString(Charsets.UTF_8)
+        val dataJson = try {
+            JSONObject(dataString)
+        } catch (e: JSONException) {
+            logger.severe(e.toString())
+            JSONObject().put("non_field_errors", JSONArray().put("Error leyendo respuesta"))
+        }
+        return ApiError(
+            statusCode = error.networkResponse.statusCode,
+            message = error.message,
+            data = dataJson
+        )
+    }
+
 }

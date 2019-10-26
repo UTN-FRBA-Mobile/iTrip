@@ -6,7 +6,7 @@ import android.os.IBinder
 import com.android.itrip.database.Destination
 import com.android.itrip.fragments.ViajeData
 import com.android.itrip.models.*
-import com.android.volley.VolleyError
+import com.android.itrip.util.calendarToString
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
@@ -24,7 +24,7 @@ object TravelService : Service() {
 
     fun getDestinations(
         responseHandler: (List<Continente>) -> Unit,
-        errorHandler: (VolleyError) -> Unit
+        errorHandler: (ApiError) -> Unit
     ) {
         logger.info("getDestinations.")
         ApiService.getArray("destinos/", {
@@ -36,7 +36,7 @@ object TravelService : Service() {
 
     fun getTravels(
         responseHandler: (List<Viaje>) -> Unit,
-        errorHandler: (VolleyError) -> Unit
+        errorHandler: (ApiError) -> Unit
     ) {
         ApiService.getArray("viajes/", {
             val viajesCreator: List<ViajeCreator> =
@@ -48,7 +48,7 @@ object TravelService : Service() {
     fun getTrip(
         id: Long,
         responseHandler: (Viaje) -> Unit,
-        errorHandler: (VolleyError) -> Unit
+        errorHandler: (ApiError) -> Unit
     ) {
         logger.info("getTrip.")
         ApiService.get("viajes/$id", {
@@ -61,7 +61,7 @@ object TravelService : Service() {
     fun createTrip(
         body: ViajeData,
         responseHandler: (Viaje) -> Unit,
-        errorHandler: (VolleyError) -> Unit
+        errorHandler: (ApiError) -> Unit
     ) {
         val json = JSONObject(gson.toJson(body))
         ApiService.post("viajes/", json, {
@@ -70,22 +70,10 @@ object TravelService : Service() {
         }, errorHandler)
     }
 
-    fun updateTrip(
-        viajeParam: Viaje,
-        responseHandler: (Viaje) -> Unit,
-        errorHandler: (VolleyError) -> Unit
-    ) {
-        logger.info("updateTrip.")
-        ApiService.patch("""viajes/${viajeParam.id}/""", JSONObject(gson.toJson(viajeParam)), {
-            val viaje: Viaje = gson.fromJson(it.toString(), Viaje::class.java)
-            responseHandler(viaje)
-        }, errorHandler)
-    }
-
     fun deleteTrip(
         viajeParam: Viaje,
         responseHandler: () -> Unit,
-        errorHandler: (VolleyError) -> Unit
+        errorHandler: (ApiError) -> Unit
     ) {
         logger.info("deleteTrip.")
         ApiService.delete("""viajes/${viajeParam.id}/""", {
@@ -95,7 +83,7 @@ object TravelService : Service() {
 
     fun getActivities(
         destination: Destination, responseHandler: (List<Actividad>) -> Unit,
-        errorHandler: (VolleyError) -> Unit
+        errorHandler: (ApiError) -> Unit
     ) {
         logger.info("getActivities.")
         ApiService.getArray("""destinos/${destination.destinationId}/actividades/""", {
@@ -109,14 +97,14 @@ object TravelService : Service() {
         viajeParam: Viaje,
         ciudad_a_visitarParam: CiudadAVisitar,
         responseHandler: (CiudadAVisitar) -> Unit,
-        errorHandler: (VolleyError) -> Unit
+        errorHandler: (ApiError) -> Unit
     ) {
         logger.info("postDestination.")
         val json = JSONObject()
         json.apply {
             put("ciudad", ciudad_a_visitarParam.detalle_ciudad?.id)
-            put("inicio", com.android.itrip.util.calendarToString(ciudad_a_visitarParam.inicio,"yyyy-MM-dd"))
-            put("fin", com.android.itrip.util.calendarToString(ciudad_a_visitarParam.fin,"yyyy-MM-dd"))
+            put("inicio", calendarToString(ciudad_a_visitarParam.inicio, "yyyy-MM-dd"))
+            put("fin", calendarToString(ciudad_a_visitarParam.fin, "yyyy-MM-dd"))
         }
         ApiService.post("""viajes/${viajeParam.id}/add_destination/""", json, {
             val ciudad_a_visitar: CiudadAVisitarCreator =
@@ -128,7 +116,7 @@ object TravelService : Service() {
     fun get_CityToVisit(
         ciudad_a_visitarParam: CiudadAVisitar,
         responseHandler: (CiudadAVisitar) -> Unit,
-        errorHandler: (VolleyError) -> Unit
+        errorHandler: (ApiError) -> Unit
     ) {
         logger.info("get_CityToVisit.")
         ApiService.get("""ciudad-a-visitar/${ciudad_a_visitarParam.id}/""", {
@@ -142,7 +130,7 @@ object TravelService : Service() {
     fun updateDestination(
         ciudad_a_visitarParam: CiudadAVisitar,
         responseHandler: (CiudadAVisitar) -> Unit,
-        errorHandler: (VolleyError) -> Unit
+        errorHandler: (ApiError) -> Unit
     ) {
         logger.info("updateDestination.")
         ApiService.patch(
@@ -160,7 +148,7 @@ object TravelService : Service() {
     fun deleteDestination(
         ciudad_a_visitarParam: CiudadAVisitar,
         responseHandler: () -> Unit,
-        errorHandler: (VolleyError) -> Unit
+        errorHandler: (ApiError) -> Unit
     ) {
         logger.info("deleteDestination.")
         ApiService.delete("""ciudad-a-visitar/${ciudad_a_visitarParam.id}/""", {

@@ -73,7 +73,7 @@ class HomeFragment : Fragment() {
                 binding.linearlayoutNoTravels.visibility = VISIBLE
             }
         }, { error ->
-            logger.info("Failed to get travels: " + error.message)
+            logger.severe("Failed to get travels - status: ${error.statusCode} - message: ${error.message}")
             Toast
                 .makeText(
                     this.context,
