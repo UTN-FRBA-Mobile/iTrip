@@ -18,6 +18,7 @@ import com.android.itrip.fragments.HomeFragmentDirections
 import com.android.itrip.models.Viaje
 import com.android.itrip.services.TravelService
 import com.squareup.picasso.Picasso
+import java.util.logging.Logger
 
 
 class TravelAdapter :
@@ -55,6 +56,8 @@ class TravelAdapter :
     ) :
         RecyclerView.ViewHolder(binding.root), LifecycleOwner {
         private val lifecycleRegistry = LifecycleRegistry(this)
+        private val logger = Logger.getLogger("prueba")
+
 
         override fun getLifecycle(): Lifecycle {
             return lifecycleRegistry
@@ -65,20 +68,21 @@ class TravelAdapter :
             travelAdapter: TravelAdapter
         ) {
             binding.apply {
-                val bundle = bundleOf(
-                    "viajeID" to viaje.id
-                )
                 modifyButton.setOnClickListener {
                     it.findNavController()
                         .navigate(
                             HomeFragmentDirections.actionHomeFragmentToTripFragment().actionId,
-                            bundle
+                            bundleOf(
+                                "viajeID" to viaje.id
+                            )
                         )
                 }
                 removeButton.setOnClickListener {
                     TravelService.deleteTrip(viaje,
                         {
+                            logger.info("TravelService.deleteTrip")
                             TravelService.getTravels({
+                                logger.info("TravelService.getTravels")
                                 travelAdapter.replaceItems(it)
                             },
                                 {})
