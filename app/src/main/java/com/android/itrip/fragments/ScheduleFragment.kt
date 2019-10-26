@@ -9,7 +9,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.R
 import com.android.itrip.adapters.BucketAdapter
 import com.android.itrip.databinding.FragmentScheduleBinding
@@ -23,9 +22,6 @@ import java.util.logging.Logger
 
 class ScheduleFragment : Fragment() {
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: BucketAdapter
-    private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var binding: FragmentScheduleBinding
     private lateinit var scheduleViewModel: ScheduleViewModel
     private lateinit var ciudadAVisitar: CiudadAVisitar
@@ -37,28 +33,26 @@ class ScheduleFragment : Fragment() {
     ): View? {
         try {
             ciudadAVisitar = this.arguments!!.get("ciudadAVisitar") as CiudadAVisitar
-            logger.info("ciuda.nombre: " + ciudadAVisitar.detalle_ciudad.nombre)
+            logger.info("ciuda.nombre: " + ciudadAVisitar.detalle_ciudad!!.nombre)
         } catch (e: Exception) {
             logger.info(e.toString())
         }
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_schedule, container, false
         )
-        val application = requireNotNull(this.activity).application
-        scheduleViewModel = ScheduleViewModel(application, ciudadAVisitar)
-        binding.scheduleViewModel = scheduleViewModel
+        scheduleViewModel = ScheduleViewModel(ciudadAVisitar)
         setCalendar()
-        recyclerView = binding.myRecyclerView
-        viewManager = LinearLayoutManager(application)
-        recyclerView.layoutManager = viewManager
-        viewAdapter = BucketAdapter(scheduleViewModel)
-        recyclerView.adapter = viewAdapter
-        recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                context!!,
-                DividerItemDecoration.VERTICAL
+        binding.scheduleViewModel = scheduleViewModel
+        binding.myRecyclerView.apply {
+            layoutManager = LinearLayoutManager(requireNotNull(activity).application)
+            adapter = BucketAdapter(scheduleViewModel)
+            addItemDecoration(
+                DividerItemDecoration(
+                    context!!,
+                    DividerItemDecoration.VERTICAL
+                )
             )
-        )
+        }
         binding.lifecycleOwner = this
         return binding.root
     }

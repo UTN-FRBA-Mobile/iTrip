@@ -1,19 +1,17 @@
 package com.android.itrip.viewModels
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import com.android.itrip.models.ActividadARealizar
 import com.android.itrip.models.CiudadAVisitar
 import java.util.*
 import java.util.logging.Logger
 
 class ScheduleViewModel(
-    application: Application
-    , val ciudadAVisitar: CiudadAVisitar
-) : AndroidViewModel(application) {
+    val ciudadAVisitar: CiudadAVisitar
+) : ViewModel() {
     private val logger = Logger.getLogger(this::class.java.name)
     var actividadesARealizar: LiveData<List<ActividadARealizar>>
 

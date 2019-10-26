@@ -17,21 +17,14 @@ object QuizService : Service() {
         TODO("not implemented")
     }
 
-    fun getResolution(
-        responseHandler: (Boolean) -> Unit,
-        errorHandler: (VolleyError) -> Unit
-    ) {
+    fun getResolution(responseHandler: (Boolean) -> Unit, errorHandler: (VolleyError) -> Unit) {
         val url = "questions/verify"
         ApiService.get(url, {
             responseHandler(it.getBoolean("respondidas"))
         }, errorHandler)
     }
 
-    fun postAnswers(
-        quiz: Quiz,
-        responseHandler: () -> Unit,
-        errorHandler: (VolleyError) -> Unit
-    ) {
+    fun postAnswers(quiz: Quiz, responseHandler: () -> Unit, errorHandler: (VolleyError) -> Unit) {
         val url = "questions/"
         val json = JSONObject(gson.toJson(quiz))
         ApiService.post(url, json, {

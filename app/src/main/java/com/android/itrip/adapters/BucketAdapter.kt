@@ -80,11 +80,11 @@ class ActivitiesHolder(
     fun bind(item: ActividadARealizar, position: Int) {
         binding.apply {
             actividadARealizar = item
-            bucketActivitydetailsButton.setOnClickListener { view: View ->
+            bucketActivitydetailsButton.setOnClickListener {
                 val bundle = bundleOf(
                     "actividad" to item.detalle_actividad
                 )
-                view.findNavController()
+                it.findNavController()
                     .navigate(
                         ScheduleFragmentDirections.actionScheduleFragmentToActivityDetailsFragment().actionId
                         , bundle

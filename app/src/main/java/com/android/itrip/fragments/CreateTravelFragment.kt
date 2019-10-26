@@ -15,6 +15,7 @@ import com.android.itrip.databinding.FragmentCreateTravelBinding
 import com.android.itrip.services.TravelService
 import com.android.itrip.ui.DatePickerFragment
 import com.emmasuzuki.easyform.EasyTextInputLayout
+import java.text.SimpleDateFormat
 import java.util.logging.Logger
 
 data class ViajeData(val nombre: String, val inicio: String, val fin: String)
@@ -31,9 +32,11 @@ class CreateTravelFragment : Fragment() {
         setBarTitle()
         binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_create_travel, container, false)
-        binding.imagebuttonTravelFromDate.setOnClickListener { showDatePickerDialog(binding.textinputlayoutTravelFromDate) }
-        binding.imagebuttonTravelUntilDate.setOnClickListener { showDatePickerDialog(binding.textinputlayoutTravelUntilDate) }
-        binding.createTravel.setOnClickListener { view -> createTravel(view) }
+        binding.apply {
+            imagebuttonTravelFromDate.setOnClickListener { showDatePickerDialog(textinputlayoutTravelFromDate) }
+            imagebuttonTravelUntilDate.setOnClickListener { showDatePickerDialog(textinputlayoutTravelUntilDate) }
+            createTravel.setOnClickListener { view -> createTravel(view) }
+        }
         return binding.root
     }
 
@@ -42,14 +45,8 @@ class CreateTravelFragment : Fragment() {
     }
 
     private fun showDatePickerDialog(input: EasyTextInputLayout) {
-        val newFragment = DatePickerFragment { year, month, day ->
-            val date = getString(
-                R.string.travel_creation_date_format,
-                year,
-                month + 1 /*fix: month ranges from 0-11*/,
-                day
-            )
-            input.editText.setText(date)
+        val newFragment = DatePickerFragment { calendar ->
+            input.editText.setText(SimpleDateFormat("yyyy-MM-dd").format(calendar.time))
         }
         fragmentManager?.let { newFragment.show(it, "datePicker") }
     }
@@ -62,8 +59,11 @@ class CreateTravelFragment : Fragment() {
                 inicio = binding.textinputlayoutTravelFromDate.editText.text.toString(),
                 fin = binding.textinputlayoutTravelUntilDate.editText.text.toString()
             )
-            TravelService.createTrip(request, { viaje ->
-                val bundle = bundleOf("viaje" to viaje)
+            logger.info("nombre: " + request.nombre)
+            logger.info("inicio: " + request.inicio)
+            logger.info("fin: " + request.fin)
+            TravelService.createTrip(request, {
+                val bundle = bundleOf("viajeID" to it.id)
                 view.findNavController()
                     .navigate(
                         CreateTravelFragmentDirections.actionCreateTravelFragmentToTripFragment().actionId,

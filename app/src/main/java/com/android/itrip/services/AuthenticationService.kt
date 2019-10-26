@@ -7,7 +7,6 @@ import com.android.volley.VolleyError
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GetTokenResult
-import com.google.gson.Gson
 import org.json.JSONObject
 import java.util.logging.Logger
 
@@ -17,7 +16,6 @@ object AuthenticationService : Service() {
     private var refreshToken: String = ""
     var accessToken: String = ""
     const val base_api_url = "https://proyecto.brazilsouth.cloudapp.azure.com/rest-api/"
-    private val gson = Gson()
     private val logger = Logger.getLogger(this::class.java.name)
 
 

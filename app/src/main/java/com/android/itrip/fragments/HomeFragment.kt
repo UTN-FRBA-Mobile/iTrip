@@ -1,7 +1,6 @@
 package com.android.itrip.fragments
 
 
-import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,14 +18,14 @@ import com.android.itrip.R
 import com.android.itrip.adapters.TravelAdapter
 import com.android.itrip.databinding.FragmentHomeBinding
 import com.android.itrip.fragments.HomeFragmentDirections.Companion.actionHomeFragmentToCreateTravelFragment
+import com.android.itrip.models.Viaje
 import com.android.itrip.services.TravelService
 import java.util.logging.Logger
 
 class HomeFragment : Fragment() {
 
     private val logger = Logger.getLogger(this::class.java.name)
-    private var travelAdapter = TravelAdapter()
-    private lateinit var application: Application
+    private var travelAdapter = TravelAdapter { deleteTravel(it) }
     private lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(
@@ -40,9 +39,19 @@ class HomeFragment : Fragment() {
             view.findNavController()
                 .navigate(actionHomeFragmentToCreateTravelFragment())
         }
-        application = requireNotNull(this.activity).application
         getTravels()
         return binding.root
+    }
+
+    private fun deleteTravel(viaje: Viaje) {
+        TravelService.deleteTrip(viaje,
+            {
+                TravelService.getTravels({
+                    travelAdapter.replaceItems(it)
+                },
+                    {})
+            },
+            {})
     }
 
     private fun setBarTitle() {
@@ -50,22 +59,28 @@ class HomeFragment : Fragment() {
     }
 
     private fun getTravels() {
-        binding.recyclerviewTravels.layoutManager = LinearLayoutManager(application)
-        binding.recyclerviewTravels.itemAnimator = DefaultItemAnimator()
-        binding.recyclerviewTravels.adapter = travelAdapter
-        TravelService.getTravels({ travels ->
-            if (travels.isNotEmpty()) {
+        binding.recyclerviewTravels.apply {
+            layoutManager =
+                LinearLayoutManager(requireNotNull(this@HomeFragment.activity).application)
+            itemAnimator = DefaultItemAnimator()
+            adapter = travelAdapter
+        }
+        TravelService.getTravels({
+            if (it.isNotEmpty()) {
                 binding.linearlayoutNoTravels.visibility = INVISIBLE
-                travelAdapter.replaceItems(travels)
+                travelAdapter.replaceItems(it)
             } else {
                 binding.linearlayoutNoTravels.visibility = VISIBLE
             }
         }, { error ->
             logger.info("Failed to get travels: " + error.message)
             Toast
-                .makeText(this.context, "Hubo un problema, intente de nuevo", Toast.LENGTH_SHORT)
+                .makeText(
+                    this.context,
+                    "Hubo un problema, intente de nuevo",
+                    Toast.LENGTH_SHORT
+                )
                 .show()
         })
     }
-
 }

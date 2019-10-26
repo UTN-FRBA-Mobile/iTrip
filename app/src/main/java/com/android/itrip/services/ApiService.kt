@@ -10,6 +10,7 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.StringRequest
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.logging.Logger
@@ -86,15 +87,17 @@ object ApiService : Service() {
 
     fun delete(
         uri: String,
-        responseHandler: (JSONObject) -> Unit,
+        responseHandler: () -> Unit,
         errorHandler: (VolleyError) -> Unit,
         initialTimeoutMs: Int? = null
     ) {
         val request =
-            object : JsonObjectRequest(
-                Method.DELETE, AuthenticationService.base_api_url + uri, null,
-                Response.Listener { response -> responseHandler(response) },
-                Response.ErrorListener { error -> errorHandler(error) }) {
+            object : StringRequest(
+                Method.DELETE,
+                AuthenticationService.base_api_url + uri,
+                Response.Listener { responseHandler() },
+                Response.ErrorListener { error -> errorHandler(error) }
+            ) {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
                     val headers = HashMap<String, String>()

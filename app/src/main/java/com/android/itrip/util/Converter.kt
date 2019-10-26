@@ -1,23 +1,11 @@
-/*
- * Copyright (C) 2018 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 @file:JvmName("Converter")
 
 package com.android.itrip.util
 
+import android.annotation.SuppressLint
 import com.android.itrip.models.Actividad
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun fromStringToFloat(string: String?): Float? {
     string?.let { return string.toFloat() }
@@ -29,7 +17,6 @@ fun fromModelDaysToStringDays(actividad: Actividad): String {
         val diasDeSemana =
             disponibilidad_lunes && disponibilidad_martes && disponibilidad_miercoles && disponibilidad_miercoles && disponibilidad_jueves && disponibilidad_viernes
         val finesDeSemana = disponibilidad_sabado && disponibilidad_domingo
-
         if (diasDeSemana && finesDeSemana) return "Todos los días"
         if (diasDeSemana && !disponibilidad_sabado && !disponibilidad_domingo) return "Días de Semana"
         if (finesDeSemana && !disponibilidad_lunes && !disponibilidad_martes && !disponibilidad_miercoles && !disponibilidad_jueves && !disponibilidad_viernes) return "Fines de Semana"
@@ -41,7 +28,6 @@ fun fromModelDaysToStringDays(actividad: Actividad): String {
         if (disponibilidad_viernes) str.append(", Vie")
         if (disponibilidad_sabado) str.append(", Sab")
         if (disponibilidad_domingo) str.append(", Dom")
-
         str.delete(0, 2)
         str.replace(str.lastIndexOf(", "), str.lastIndexOf(", ") + 1, " y")
         return str.toString()
@@ -71,4 +57,18 @@ fun fromBucketPositionToTimeOfTheDay(bucketPosition: Int): String {
         5 -> "Media Noche"
         else -> "Libre"
     }
+}
+
+@SuppressLint("SimpleDateFormat")
+fun calendarToString(
+    calendar: Calendar,
+    format: String?
+): String {
+    return SimpleDateFormat(format ?: "dd-MM-yy").format(calendar.time)
+}
+
+fun calendarToString(
+    calendar: Calendar?
+): String {
+    return calendarToString(calendar ?: Calendar.getInstance(), null)
 }
