@@ -61,7 +61,7 @@ class TravelAdapter :
         fun bind(viaje: Viaje) {
             binding.apply {
                 val bundle = bundleOf(
-                    "viaje" to viaje
+                    "viajeID" to viaje.id
                 )
                 modifyButton.setOnClickListener {
                     it.findNavController()

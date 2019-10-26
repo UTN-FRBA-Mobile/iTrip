@@ -60,9 +60,15 @@ fun fromBucketPositionToTimeOfTheDay(bucketPosition: Int): String {
 }
 
 @SuppressLint("SimpleDateFormat")
-fun calendarToString(calendar: Calendar?): String {
-    calendar?.let {
-        return SimpleDateFormat("dd-MM-yy").format(calendar.time)
-    }
-    return SimpleDateFormat("dd-MM-yy").format(Calendar.getInstance().time)
+fun calendarToString(
+    calendar: Calendar,
+    format: String?
+): String {
+    return SimpleDateFormat(format ?: "dd-MM-yy").format(calendar.time)
+}
+
+fun calendarToString(
+    calendar: Calendar?
+): String {
+    return calendarToString(calendar ?: Calendar.getInstance(), null)
 }

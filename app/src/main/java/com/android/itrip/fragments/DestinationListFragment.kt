@@ -6,14 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.itrip.R
 import com.android.itrip.adapters.DestinationAdapter
+import com.android.itrip.database.Destination
 import com.android.itrip.database.DestinationDatabase
 import com.android.itrip.databinding.FragmentDestinationListBinding
+import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.models.Viaje
 import com.android.itrip.ui.DatePickerFragment
 import com.android.itrip.viewModels.DestinationViewModel
@@ -67,11 +71,25 @@ class DestinationListFragment : Fragment() {
             }
             myRecyclerView.apply {
                 layoutManager = LinearLayoutManager(application)
-                adapter = DestinationAdapter(destinationsViewModel!!.destinations)
+                adapter = DestinationAdapter(destinationsViewModel!!) { destinationAdded(it) }
             }
             lifecycleOwner = this@DestinationListFragment
         }
         return binding.root
+    }
+
+    private fun destinationAdded(destination: Destination) {
+        destinationsViewModel.addDestination(viaje!!, destination) { goToTrip(it) }
+    }
+
+    private fun goToTrip(ciudadAVisitar: CiudadAVisitar) {
+        view!!.findNavController()
+            .navigate(
+                DestinationListFragmentDirections.actionDestinationListFragmentToTripFragment().actionId,
+                bundleOf(
+                    "viajeID" to viaje!!.id
+                )
+            )
     }
 
     private fun showDatePickerDialog(v: TextView, callback: (Calendar) -> Unit) {

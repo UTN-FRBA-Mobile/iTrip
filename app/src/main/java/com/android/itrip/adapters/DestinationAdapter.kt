@@ -1,14 +1,12 @@
 package com.android.itrip.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
-import androidx.lifecycle.LiveData
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -17,12 +15,16 @@ import com.android.itrip.R
 import com.android.itrip.database.Destination
 import com.android.itrip.databinding.DestinationItemBinding
 import com.android.itrip.fragments.DestinationListFragmentDirections
+import com.android.itrip.viewModels.DestinationViewModel
 
-class DestinationAdapter(private val _destinations: LiveData<List<Destination>>) :
+class DestinationAdapter(
+    private val destinationViewModel: DestinationViewModel,
+    private val callback: (Destination) -> Unit
+) :
     ListAdapter<Destination, RecyclerView.ViewHolder>(DestinationDiffCallback()) {
 
     init {
-        _destinations.observeForever { notifyDataSetChanged() }
+        destinationViewModel.destinations.observeForever { notifyDataSetChanged() }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -39,13 +41,13 @@ class DestinationAdapter(private val _destinations: LiveData<List<Destination>>)
     }
 
     override fun getItem(position: Int): Destination {
-        return _destinations.value!![position]
+        return destinationViewModel.destinations.value!![position]
     }
 
     override fun getItemCount(): Int {
         var size = 0
-        _destinations.value?.let {
-            size = _destinations.value!!.size
+        destinationViewModel.destinations.value?.let {
+            size = destinationViewModel.destinations.value!!.size
         }
         return size
     }
@@ -55,18 +57,8 @@ class DestinationAdapter(private val _destinations: LiveData<List<Destination>>)
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context), R.layout.destination_item, parent, false
             )
-        binding.addImagebutton.setOnClickListener { view: View ->
-            binding.destination?.let {
-                val dest = binding.destination!!
-                val bundle = bundleOf(
-                    "destination" to dest
-                )
-                view.findNavController()
-                    .navigate(
-                        DestinationListFragmentDirections.actionDestinationListFragmentToTripFragment().actionId
-                        , bundle
-                    )
-            }
+        binding.addImagebutton.setOnClickListener {
+            callback(binding.destination!!)
         }
         binding.activitiesButton.setOnClickListener {
             val bundle = bundleOf(

@@ -2,9 +2,7 @@ package com.android.itrip.adapters
 
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
@@ -18,34 +16,56 @@ import com.android.itrip.R
 import com.android.itrip.databinding.CitytovisitItemBinding
 import com.android.itrip.fragments.TripFragmentDirections
 import com.android.itrip.models.CiudadAVisitar
+import com.android.itrip.viewModels.TripViewModel
 import com.squareup.picasso.Picasso
+import java.util.logging.Logger
 
 
-class TripAdapter(private val travels: List<CiudadAVisitar>) :
+class TripAdapter(
+    private val tripViewModel: TripViewModel,
+    private val deleteCallback: (CiudadAVisitar) -> Unit,
+    private val viewCallback: (CiudadAVisitar) -> Unit,
+    private val modifyCallback: (CiudadAVisitar) -> Unit
+) :
     ListAdapter<CiudadAVisitar, RecyclerView.ViewHolder>(TripDiffCallback()) {
+    private val logger = Logger.getLogger("prueba")
+
+    init {
+        tripViewModel.ciudadesAVisitar.observeForever {
+            logger.info("tripViewModel.ciudadesAVisitar.observeForever")
+            notifyItemRangeRemoved(0, itemCount)
+            notifyDataSetChanged()
+            submitList(it)
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding: CitytovisitItemBinding =
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context), R.layout.citytovisit_item, parent, false
             )
-        val viewHolder = TripHolder(binding)
+        parent.invalidate()
+        val viewHolder = TripHolder(binding, deleteCallback, viewCallback, modifyCallback)
         binding.lifecycleOwner = viewHolder
         return viewHolder
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val travel = getItem(position)
-        (holder as TripHolder).bind(travel)
+        (holder as TripHolder).bind(getItem(position))
     }
 
     override fun getItemId(position: Int) = position.toLong()
 
-    override fun getItem(position: Int) = travels[position]
+    override fun getItem(position: Int) = tripViewModel.ciudadesAVisitar.value!![position]
 
-    override fun getItemCount() = travels.size
+    override fun getItemCount() = tripViewModel.ciudadesAVisitar.value!!.size
 
-    class TripHolder(private val binding: CitytovisitItemBinding) :
+    class TripHolder(
+        private val binding: CitytovisitItemBinding,
+        private val deleteCallback: (CiudadAVisitar) -> Unit,
+        private val viewCallback: (CiudadAVisitar) -> Unit,
+        private val modifyCallback: (CiudadAVisitar) -> Unit
+    ) :
         RecyclerView.ViewHolder(binding.root), LifecycleOwner {
         private val lifecycleRegistry = LifecycleRegistry(this)
 
@@ -60,6 +80,7 @@ class TripAdapter(private val travels: List<CiudadAVisitar>) :
                 travelDate.text =
                     "Desde " + ciudadAVisitar.inicio.time + ", Hasta " + ciudadAVisitar.fin.time
                 viewActivitiesMaterialButton.setOnClickListener {
+                    viewCallback(ciudadAVisitar)
                     val bundle = bundleOf(
                         "ciudadAVisitar" to ciudadAVisitar
                     )
@@ -69,6 +90,7 @@ class TripAdapter(private val travels: List<CiudadAVisitar>) :
                     )
                 }
                 modifyCityToTravelButton.setOnClickListener {
+                    modifyCallback(ciudadAVisitar)
                     val bundle = bundleOf(
                         "ciudadAVisitar" to ciudadAVisitar
                     )
@@ -78,11 +100,7 @@ class TripAdapter(private val travels: List<CiudadAVisitar>) :
                     )
                 }
                 removeCityToTravelButton.setOnClickListener {
-                    Toast.makeText(
-                        it.context,
-                        "Deberia ser removido el destino",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    deleteCallback(ciudadAVisitar)
                 }
             }
         }

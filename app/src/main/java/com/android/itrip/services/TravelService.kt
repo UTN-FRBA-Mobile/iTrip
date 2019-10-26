@@ -115,13 +115,13 @@ object TravelService : Service() {
         val json = JSONObject()
         json.apply {
             put("ciudad", ciudad_a_visitarParam.detalle_ciudad?.id)
-            put("inicio", ciudad_a_visitarParam.inicio)
-            put("fin", ciudad_a_visitarParam.fin)
+            put("inicio", com.android.itrip.util.calendarToString(ciudad_a_visitarParam.inicio,"yyyy-MM-dd"))
+            put("fin", com.android.itrip.util.calendarToString(ciudad_a_visitarParam.fin,"yyyy-MM-dd"))
         }
         ApiService.post("""viajes/${viajeParam.id}/add_destination/""", json, {
-            val ciudad_a_visitar: CiudadAVisitar =
-                gson.fromJson(it.toString(), CiudadAVisitar::class.java)
-            responseHandler(ciudad_a_visitar)
+            val ciudad_a_visitar: CiudadAVisitarCreator =
+                gson.fromJson(it.toString(), CiudadAVisitarCreator::class.java)
+            responseHandler(ciudad_a_visitar.ciudadAVisitar())
         }, errorHandler)
     }
 

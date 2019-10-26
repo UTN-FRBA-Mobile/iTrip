@@ -46,7 +46,7 @@ class CreateTravelFragment : Fragment() {
 
     private fun showDatePickerDialog(input: EasyTextInputLayout) {
         val newFragment = DatePickerFragment { calendar ->
-            input.editText.setText(SimpleDateFormat("dd-MM-yyyy").format(calendar.time))
+            input.editText.setText(SimpleDateFormat("yyyy-MM-dd").format(calendar.time))
         }
         fragmentManager?.let { newFragment.show(it, "datePicker") }
     }
@@ -59,8 +59,11 @@ class CreateTravelFragment : Fragment() {
                 inicio = binding.textinputlayoutTravelFromDate.editText.text.toString(),
                 fin = binding.textinputlayoutTravelUntilDate.editText.text.toString()
             )
+            logger.info("nombre: " + request.nombre)
+            logger.info("inicio: " + request.inicio)
+            logger.info("fin: " + request.fin)
             TravelService.createTrip(request, {
-                val bundle = bundleOf("viaje" to it)
+                val bundle = bundleOf("viajeID" to it.id)
                 view.findNavController()
                     .navigate(
                         CreateTravelFragmentDirections.actionCreateTravelFragmentToTripFragment().actionId,

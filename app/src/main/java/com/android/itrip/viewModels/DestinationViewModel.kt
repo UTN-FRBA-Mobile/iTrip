@@ -5,8 +5,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.android.itrip.database.Destination
 import com.android.itrip.database.DestinationDatabaseDao
+import com.android.itrip.models.Ciudad
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.models.Continente
+import com.android.itrip.models.Viaje
 import com.android.itrip.services.TravelService
 import kotlinx.coroutines.*
 import java.util.*
@@ -76,6 +78,14 @@ class DestinationViewModel(
         withContext(Dispatchers.IO) {
             database.clear()
         }
+    }
+
+    fun addDestination(viaje: Viaje, destination: Destination, callback: (CiudadAVisitar) -> Unit) {
+        ciudadAVisitar.detalle_ciudad = Ciudad(destination.destinationId, destination.name, "", "")
+        TravelService.postDestination(viaje, ciudadAVisitar, {
+            callback(it)
+        }, {logger.info(it.message!!)}
+        )
     }
 
 }
