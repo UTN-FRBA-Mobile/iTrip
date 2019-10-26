@@ -52,5 +52,6 @@
             android:name=".MainActivity"
             android:parentActivityName=".LogInActivity"
             android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".QuizActivity" />
     </application>
 </manifest>

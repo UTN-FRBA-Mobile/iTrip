@@ -15,11 +15,10 @@
     <!--Quiz-->
     <string name="quiz_info_title">Completa el cuestionario</string>
     <string name="quiz_hobbies_title">¿Cuáles son tus hobbies?</string>
-    <string name="quiz_end_title">Cuestionario finalizado</string>
     <string name="quiz_next">Siguiente</string>
     <string name="quiz_end_description">Gracias por completar el cuestionario, sabemos que fue un poco largo pero eso
         nos ayuda mucho para poder ofrecerte las mejores oportunidades de viaje y asi puedas construir hermosas
-        experiencias
+        experiencias.
     </string>
     <string name="quiz_info_description">El siguiente cuestionario es para que podamos conocerte mejor y asi ofrecerte
         las mejores oportunidades de viajes.
@@ -35,6 +34,8 @@
     <string name="quiz_info_dialog_title_estadocivil">Selccioná tu estado civil</string>
     <string name="quiz_info_dialog_title_estudios">Seleccioná tu nivel de estudios</string>
     <string name="quiz_info_dialog_title_ocupacion">Seleccioná un ocupación</string>
+    <string name="quiz_end_title">Cuestionario finalizado</string>
+    <string name="quiz_end_continue">Continuar</string>
 
     <!--Not tagged-->
     <string name="back">Volver</string>

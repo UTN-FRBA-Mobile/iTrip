@@ -13,7 +13,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.android.itrip.databinding.ActivityMainBinding
 import com.android.itrip.databinding.AppBarHeaderBinding
@@ -22,7 +21,6 @@ import com.android.itrip.services.QuizService
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.android.synthetic.main.activity_main.*
 import java.util.logging.Logger
 
 
@@ -138,15 +136,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun quizAnswered(answered: Boolean) {
-        val navHostFragment = navHostFragment as NavHostFragment
-        val inflater = navHostFragment.navController.navInflater
-        val graph = inflater.inflate(R.navigation.navigation)
         if (!answered) {
-            graph.startDestination = R.id.quizInfoFragment
-            navHostFragment.navController.graph = graph
-        } else {
-            graph.startDestination = R.id.homeFragment
-            navHostFragment.navController.graph = graph
+            val intent = Intent(this, QuizActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 

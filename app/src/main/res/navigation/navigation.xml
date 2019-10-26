@@ -16,16 +16,6 @@
             app:destination="@id/tripFragment" />
     </fragment>
     <fragment
-        android:id="@+id/quizEndFragment"
-        android:name="com.android.itrip.fragments.QuizEndFragment"
-        tools:layout="@layout/fragment_quiz_end">
-        <action
-            android:id="@+id/action_quizEndFragment_to_homeFragment"
-            app:destination="@+id/createTravelFragment"
-            app:popUpTo="@+id/homeFragment"
-            app:popUpToInclusive="false" />
-    </fragment>
-    <fragment
         android:id="@+id/createTravelFragment"
         android:name="com.android.itrip.fragments.CreateTravelFragment"
         tools:layout="@layout/fragment_create_travel">
@@ -62,22 +52,8 @@
         android:name="com.android.itrip.fragments.MapsFragment"
         android:label="fragment_maps"
         tools:layout="@layout/fragment_maps" />
-    <fragment
-        android:id="@+id/quizInfoFragment"
-        android:name="com.android.itrip.fragments.QuizInfoFragment"
-        tools:layout="@layout/fragment_quiz_info">
-        <action
-            android:id="@+id/action_quizInfoFragment_to_quizHobbiesFragment"
-            app:destination="@id/quizHobbiesFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/quizHobbiesFragment"
-        android:name="com.android.itrip.fragments.QuizHobbiesFragment"
-        tools:layout="@layout/fragment_quiz_hobbies">
-        <action
-            android:id="@+id/action_quizHobbiesFragment_to_quizEndFragment"
-            app:destination="@id/quizEndFragment" />
-    </fragment>
+
+
     <fragment
         android:id="@+id/activityDetailsFragment"
         android:name="com.android.itrip.fragments.ActivityDetailsFragment"

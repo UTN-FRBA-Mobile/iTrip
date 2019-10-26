@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import com.android.itrip.MainActivity
+import com.android.itrip.DrawerLocker
+import com.android.itrip.QuizActivity
 import com.android.itrip.R
 import com.android.itrip.databinding.FragmentQuizInfoBinding
 import com.android.itrip.models.Answer
@@ -39,12 +41,19 @@ class QuizInfoFragment : Fragment() {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_quiz_info, container, false
         )
+        disableHomeButton()
         bindings()
         return binding.root
     }
 
     private fun setBarTitle() {
-        (activity as MainActivity).setActionBarTitle(getString(R.string.quiz_info_title))
+        (activity as QuizActivity).setActionBarTitle(getString(R.string.quiz_info_title))
+    }
+
+    private fun disableHomeButton() {
+        (activity as DrawerLocker).setDrawerEnabled(false)
+        (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+        (activity as AppCompatActivity).supportActionBar!!.setHomeButtonEnabled(false)
     }
 
     private fun bindings() {

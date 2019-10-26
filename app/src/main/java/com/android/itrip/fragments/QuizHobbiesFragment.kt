@@ -12,7 +12,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.itrip.MainActivity
+import com.android.itrip.QuizActivity
 import com.android.itrip.R
 import com.android.itrip.adapters.HobbiesAdapter
 import com.android.itrip.databinding.FragmentQuizHobbiesBinding
@@ -43,7 +43,7 @@ class QuizHobbiesFragment : Fragment() {
     }
 
     private fun setBarTitle() {
-        (activity as MainActivity).setActionBarTitle(getString(R.string.quiz_hobbies_title))
+        (activity as QuizActivity).setActionBarTitle(getString(R.string.quiz_hobbies_title))
     }
 
     private fun bindings() {

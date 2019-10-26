@@ -6,62 +6,38 @@
 
     <data />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:id="@+id/loginConstraint"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorWhiteSmoke">
+        android:padding="15dp">
 
         <ImageView
-            android:id="@+id/quizImage"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_marginTop="60dp"
-            android:scaleType="fitCenter"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/smiley" />
+            android:id="@+id/imageview_quiz_end_congrats"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            app:srcCompat="@drawable/ic_checklist"
+            tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/quizEndTitle"
+            android:id="@+id/textview_quiz_end_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
+            android:layout_below="@+id/imageview_quiz_end_congrats"
             android:layout_marginTop="30dp"
-            android:layout_marginEnd="15dp"
-            android:text="@string/quiz_end_title"
-            android:textColor="#000"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/quizImage" />
-
-        <TextView
-            android:id="@+id/quizEndDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="15dp"
             android:text="@string/quiz_end_description"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/quizEndTitle" />
+            android:textSize="18sp" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/armar_viaje_button"
-            style="@style/default_itrip_button"
+            android:id="@+id/materialbutton_quiz_end"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="30dp"
-            android:text="@string/travels_creation"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/quizEndDescription" />
+            android:layout_alignParentBottom="true"
+            android:text="@string/quiz_end_continue"
+            android:textAllCaps="false" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
 </layout>
