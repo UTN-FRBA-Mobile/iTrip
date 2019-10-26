@@ -44,8 +44,7 @@ class TripFragment : Fragment() {
                 layoutManager = LinearLayoutManager(requireNotNull(activity).application)
                 adapter = TripAdapter(tripViewModel,
                     { deleteCityToVisit(it) },
-                    { viewCityToVisit(it) },
-                    { modifyCityToVisir(it) })
+                    { viewCityToVisit(it) })
             }
             binding.tripLinearLayout.visibility = View.GONE
         }
@@ -57,10 +56,6 @@ class TripFragment : Fragment() {
                     , bundle
                 )
         }
-    }
-
-    private fun modifyCityToVisir(ciudadAVisitar: CiudadAVisitar) {
-
     }
 
     private fun viewCityToVisit(ciudadAVisitar: CiudadAVisitar) {

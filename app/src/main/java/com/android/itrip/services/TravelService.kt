@@ -76,7 +76,7 @@ object TravelService : Service() {
         errorHandler: (VolleyError) -> Unit
     ) {
         logger.info("updateTrip.")
-        ApiService.patch("""viaje/${viajeParam.id}/""", JSONObject(gson.toJson(viajeParam)), {
+        ApiService.patch("""viajes/${viajeParam.id}/""", JSONObject(gson.toJson(viajeParam)), {
             val viaje: Viaje = gson.fromJson(it.toString(), Viaje::class.java)
             responseHandler(viaje)
         }, errorHandler)
@@ -88,7 +88,7 @@ object TravelService : Service() {
         errorHandler: (VolleyError) -> Unit
     ) {
         logger.info("deleteTrip.")
-        ApiService.delete("""viaje/${viajeParam.id}/""", {
+        ApiService.delete("""viajes/${viajeParam.id}/""", {
             responseHandler()
         }, errorHandler)
     }

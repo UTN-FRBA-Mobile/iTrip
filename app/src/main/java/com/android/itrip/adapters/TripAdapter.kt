@@ -24,8 +24,7 @@ import java.util.logging.Logger
 class TripAdapter(
     private val tripViewModel: TripViewModel,
     private val deleteCallback: (CiudadAVisitar) -> Unit,
-    private val viewCallback: (CiudadAVisitar) -> Unit,
-    private val modifyCallback: (CiudadAVisitar) -> Unit
+    private val viewCallback: (CiudadAVisitar) -> Unit
 ) :
     ListAdapter<CiudadAVisitar, RecyclerView.ViewHolder>(TripDiffCallback()) {
     private val logger = Logger.getLogger("prueba")
@@ -45,7 +44,7 @@ class TripAdapter(
                 LayoutInflater.from(parent.context), R.layout.citytovisit_item, parent, false
             )
         parent.invalidate()
-        val viewHolder = TripHolder(binding, deleteCallback, viewCallback, modifyCallback)
+        val viewHolder = TripHolder(binding, deleteCallback, viewCallback)
         binding.lifecycleOwner = viewHolder
         return viewHolder
     }
@@ -63,8 +62,7 @@ class TripAdapter(
     class TripHolder(
         private val binding: CitytovisitItemBinding,
         private val deleteCallback: (CiudadAVisitar) -> Unit,
-        private val viewCallback: (CiudadAVisitar) -> Unit,
-        private val modifyCallback: (CiudadAVisitar) -> Unit
+        private val viewCallback: (CiudadAVisitar) -> Unit
     ) :
         RecyclerView.ViewHolder(binding.root), LifecycleOwner {
         private val lifecycleRegistry = LifecycleRegistry(this)
@@ -86,16 +84,6 @@ class TripAdapter(
                     )
                     it.findNavController().navigate(
                         TripFragmentDirections.actionTripFragmentToScheduleFragment().actionId,
-                        bundle
-                    )
-                }
-                modifyCityToTravelButton.setOnClickListener {
-                    modifyCallback(ciudadAVisitar)
-                    val bundle = bundleOf(
-                        "ciudadAVisitar" to ciudadAVisitar
-                    )
-                    it.findNavController().navigate(
-                        TripFragmentDirections.actionTripFragmentToDestinationListFragment().actionId,
                         bundle
                     )
                 }

@@ -2,7 +2,6 @@ package com.android.itrip.adapters
 
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
@@ -17,6 +16,7 @@ import com.android.itrip.R
 import com.android.itrip.databinding.TravelItemBinding
 import com.android.itrip.fragments.HomeFragmentDirections
 import com.android.itrip.models.Viaje
+import com.android.itrip.services.TravelService
 import com.squareup.picasso.Picasso
 
 
@@ -36,7 +36,7 @@ class TravelAdapter :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as TravelHolder).bind(getItem(position))
+        (holder as TravelHolder).bind(getItem(position), this)
     }
 
     override fun getItemId(position: Int) = position.toLong()
@@ -50,7 +50,9 @@ class TravelAdapter :
         notifyDataSetChanged()
     }
 
-    class TravelHolder(private val binding: TravelItemBinding) :
+    class TravelHolder(
+        private val binding: TravelItemBinding
+    ) :
         RecyclerView.ViewHolder(binding.root), LifecycleOwner {
         private val lifecycleRegistry = LifecycleRegistry(this)
 
@@ -58,7 +60,10 @@ class TravelAdapter :
             return lifecycleRegistry
         }
 
-        fun bind(viaje: Viaje) {
+        fun bind(
+            viaje: Viaje,
+            travelAdapter: TravelAdapter
+        ) {
             binding.apply {
                 val bundle = bundleOf(
                     "viajeID" to viaje.id
@@ -69,6 +74,16 @@ class TravelAdapter :
                             HomeFragmentDirections.actionHomeFragmentToTripFragment().actionId,
                             bundle
                         )
+                }
+                removeButton.setOnClickListener {
+                    TravelService.deleteTrip(viaje,
+                        {
+                            TravelService.getTravels({
+                                travelAdapter.replaceItems(it)
+                            },
+                                {})
+                        },
+                        {})
                 }
                 setImage(viaje)
                 destinationName.text = viaje.nombre
