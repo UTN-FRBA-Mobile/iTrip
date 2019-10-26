@@ -28,9 +28,8 @@ class TripViewModel(viajeID: Long, callback: () -> Unit) : ViewModel() {
         TravelService.deleteDestination(ciudadAVisitar, { getTravel(null, callback) }, {})
     }
 
-    private fun getTravel(viajeID: Long? = _viaje.value!!.id, callback: () -> Unit) {
-        logger.info("getTravel ")
-        TravelService.getTrip(viajeID!!, {
+    fun getTravel(viajeID: Long?, callback: () -> Unit) {
+        TravelService.getTrip(viajeID ?: viaje.value!!.id, {
             _viaje.value = it
             logger.info("TravelService.getTrip")
             callback()

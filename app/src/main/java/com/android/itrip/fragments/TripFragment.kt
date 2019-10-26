@@ -14,6 +14,7 @@ import com.android.itrip.R
 import com.android.itrip.adapters.TripAdapter
 import com.android.itrip.databinding.FragmentTripBinding
 import com.android.itrip.models.CiudadAVisitar
+import com.android.itrip.services.TravelService
 import com.android.itrip.viewModels.TripViewModel
 import java.util.logging.Logger
 
@@ -64,11 +65,18 @@ class TripFragment : Fragment() {
 
     private fun deleteCityToVisit(ciudadAVisitar: CiudadAVisitar) {
         logger.info("deleteCityToVisit: " + ciudadAVisitar.detalle_ciudad!!.nombre)
-        tripViewModel.deleteCityToVisit(ciudadAVisitar) {
-            getDestinations()
+        TravelService.deleteDestination(ciudadAVisitar, { tripViewModel.getTravel(null) {
             logger.info("deleteCityToVisit")
+            getDestinations()
             binding.tripRecyclerview.invalidate()
         }
+        }, {})
+
+//        tripViewModel.deleteCityToVisit(ciudadAVisitar) {
+//            getDestinations()
+//            logger.info("deleteCityToVisit")
+//            binding.tripRecyclerview.invalidate()
+//        }
 
     }
 }

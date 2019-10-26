@@ -21,7 +21,7 @@ import com.squareup.picasso.Picasso
 import java.util.logging.Logger
 
 
-class TravelAdapter :
+class TravelAdapter(private val deleteCallback: (Viaje)-> Unit) :
     ListAdapter<Viaje, RecyclerView.ViewHolder>(TravelDiffCallback()) {
 
     private var travels = listOf<Viaje>()
@@ -56,8 +56,6 @@ class TravelAdapter :
     ) :
         RecyclerView.ViewHolder(binding.root), LifecycleOwner {
         private val lifecycleRegistry = LifecycleRegistry(this)
-        private val logger = Logger.getLogger("prueba")
-
 
         override fun getLifecycle(): Lifecycle {
             return lifecycleRegistry
@@ -78,16 +76,7 @@ class TravelAdapter :
                         )
                 }
                 removeButton.setOnClickListener {
-                    TravelService.deleteTrip(viaje,
-                        {
-                            logger.info("TravelService.deleteTrip")
-                            TravelService.getTravels({
-                                logger.info("TravelService.getTravels")
-                                travelAdapter.replaceItems(it)
-                            },
-                                {})
-                        },
-                        {})
+                    travelAdapter.deleteCallback(viaje)
                 }
                 setImage(viaje)
                 destinationName.text = viaje.nombre

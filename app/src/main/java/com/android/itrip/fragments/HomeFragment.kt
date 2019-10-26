@@ -18,13 +18,14 @@ import com.android.itrip.R
 import com.android.itrip.adapters.TravelAdapter
 import com.android.itrip.databinding.FragmentHomeBinding
 import com.android.itrip.fragments.HomeFragmentDirections.Companion.actionHomeFragmentToCreateTravelFragment
+import com.android.itrip.models.Viaje
 import com.android.itrip.services.TravelService
 import java.util.logging.Logger
 
 class HomeFragment : Fragment() {
 
     private val logger = Logger.getLogger(this::class.java.name)
-    private var travelAdapter = TravelAdapter()
+    private var travelAdapter = TravelAdapter { deleteTravel(it) }
     private lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(
@@ -40,6 +41,17 @@ class HomeFragment : Fragment() {
         }
         getTravels()
         return binding.root
+    }
+
+    private fun deleteTravel(viaje: Viaje) {
+        TravelService.deleteTrip(viaje,
+            {
+                TravelService.getTravels({
+                    travelAdapter.replaceItems(it)
+                },
+                    {})
+            },
+            {})
     }
 
     private fun setBarTitle() {
