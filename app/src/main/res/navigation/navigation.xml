@@ -31,7 +31,9 @@
         tools:layout="@layout/fragment_create_travel">
         <action
             android:id="@+id/action_createTravelFragment_to_tripFragment"
-            app:destination="@id/tripFragment" />
+            app:destination="@id/tripFragment"
+            app:popUpTo="@+id/homeFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/destinationListFragment"
@@ -43,7 +45,9 @@
             app:destination="@id/activitiesListFragment" />
         <action
             android:id="@+id/action_destinationListFragment_to_tripFragment"
-            app:destination="@id/tripFragment" />
+            app:destination="@id/tripFragment"
+            app:popUpTo="@+id/homeFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/activitiesListFragment"

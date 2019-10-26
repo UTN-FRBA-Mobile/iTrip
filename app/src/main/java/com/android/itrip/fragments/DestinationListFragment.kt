@@ -47,7 +47,7 @@ class DestinationListFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val viewModelFactory = DestinationViewModelFactory(
             DestinationDatabase.getInstance(application).destinationDatabaseDao,
-            application
+            application, viaje
         )
         destinationsViewModel =
             ViewModelProviders.of(
@@ -56,14 +56,14 @@ class DestinationListFragment : Fragment() {
         binding.apply {
             destinationsViewModel = this@DestinationListFragment.destinationsViewModel
             fromDate.setOnClickListener {
-                showDatePickerDialog(it as TextView) { calendar ->
+                showDatePickerDialog(viaje?.inicio, it as TextView) { calendar ->
                     destinationsViewModel?.chooseStartDate(
                         calendar
                     )
                 }
             }
             untilDate.setOnClickListener {
-                showDatePickerDialog(it as TextView) { calendar ->
+                showDatePickerDialog(viaje?.fin, it as TextView) { calendar ->
                     destinationsViewModel?.chooseEndDate(
                         calendar
                     )
@@ -92,11 +92,15 @@ class DestinationListFragment : Fragment() {
             )
     }
 
-    private fun showDatePickerDialog(v: TextView, callback: (Calendar) -> Unit) {
+    private fun showDatePickerDialog(
+        startDate: Calendar?,
+        v: TextView,
+        callback: (Calendar) -> Unit
+    ) {
         val newFragment = DatePickerFragment({ calendar ->
             v.text = com.android.itrip.util.calendarToString(calendar)
             callback(calendar)
-        }, viaje?.inicio, viaje?.fin)
+        }, viaje?.inicio, viaje?.fin, startDate)
         fragmentManager?.let { newFragment.show(it, "datePicker") }
     }
 
