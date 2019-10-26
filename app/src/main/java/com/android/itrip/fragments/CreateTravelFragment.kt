@@ -14,16 +14,17 @@ import com.android.itrip.R
 import com.android.itrip.databinding.FragmentCreateTravelBinding
 import com.android.itrip.services.TravelService
 import com.android.itrip.ui.DatePickerFragment
-import com.emmasuzuki.easyform.EasyTextInputLayout
-import java.text.SimpleDateFormat
+import java.util.*
 import java.util.logging.Logger
 
-data class ViajeData(val nombre: String, val inicio: String, val fin: String)
+data class ViajeData(val nombre: String, var inicio: String, var fin: String)
 
 class CreateTravelFragment : Fragment() {
 
     private val logger = Logger.getLogger(this::class.java.name)
     private lateinit var binding: FragmentCreateTravelBinding
+    private var minDate: Calendar = Calendar.getInstance()
+    private var maxDate: Calendar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,10 +35,35 @@ class CreateTravelFragment : Fragment() {
             .inflate(inflater, R.layout.fragment_create_travel, container, false)
         binding.apply {
             imagebuttonTravelFromDate.setOnClickListener {
-                showDatePickerDialog(textinputlayoutTravelFromDate)
+                showDatePickerDialog(
+                    callback = { calendar: Calendar ->
+                        minDate = calendar
+                        binding.textinputlayoutTravelFromDate.editText.setText(
+                            com.android.itrip.util.calendarToString(
+                                minDate
+                            )
+                        )
+                    },
+                    minDate = Calendar.getInstance(),
+                    maxDate = maxDate,
+                    startDate = minDate
+                )
+
             }
             imagebuttonTravelUntilDate.setOnClickListener {
-                showDatePickerDialog(textinputlayoutTravelUntilDate)
+                showDatePickerDialog(
+                    { calendar: Calendar ->
+                        maxDate = calendar
+                        binding.textinputlayoutTravelUntilDate.editText.setText(
+                            com.android.itrip.util.calendarToString(
+                                maxDate
+                            )
+                        )
+                    },
+                    minDate = minDate,
+                    maxDate = null,
+                    startDate = maxDate
+                )
             }
             createTravel.setOnClickListener { view -> createTravel(view) }
         }
@@ -48,10 +74,15 @@ class CreateTravelFragment : Fragment() {
         (activity as MainActivity).setActionBarTitle(getString(R.string.travels_creation))
     }
 
-    private fun showDatePickerDialog(input: EasyTextInputLayout) {
-        val newFragment = DatePickerFragment { calendar ->
-            input.editText.setText(SimpleDateFormat("yyyy-MM-dd").format(calendar.time))
-        }
+    private fun showDatePickerDialog(
+        callback: (Calendar) -> Unit,
+        minDate: Calendar?,
+        maxDate: Calendar?,
+        startDate: Calendar?
+    ) {
+        val newFragment = DatePickerFragment({ calendar ->
+            callback(calendar)
+        }, minDate, maxDate, startDate)
         fragmentManager?.let { newFragment.show(it, "datePicker") }
     }
 
@@ -60,8 +91,8 @@ class CreateTravelFragment : Fragment() {
         if (binding.form.isValid) {
             val request = ViajeData(
                 nombre = binding.textinputlayoutTravelName.editText.text.toString(),
-                inicio = binding.textinputlayoutTravelFromDate.editText.text.toString(),
-                fin = binding.textinputlayoutTravelUntilDate.editText.text.toString()
+                inicio = com.android.itrip.util.calendarToString(minDate),
+                fin = com.android.itrip.util.calendarToString(maxDate)
             )
             TravelService.createTrip(request, {
                 val bundle = bundleOf("viajeID" to it.id)
