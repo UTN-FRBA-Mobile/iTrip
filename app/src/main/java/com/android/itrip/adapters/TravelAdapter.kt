@@ -16,15 +16,13 @@ import com.android.itrip.R
 import com.android.itrip.databinding.TravelItemBinding
 import com.android.itrip.fragments.HomeFragmentDirections
 import com.android.itrip.models.Viaje
-import com.android.itrip.services.TravelService
 import com.squareup.picasso.Picasso
-import java.util.logging.Logger
 
 
-class TravelAdapter(private val deleteCallback: (Viaje)-> Unit) :
+class TravelAdapter(private val deleteCallback: (Viaje) -> Unit) :
     ListAdapter<Viaje, RecyclerView.ViewHolder>(TravelDiffCallback()) {
 
-    private var travels = listOf<Viaje>()
+    private var travels = mutableListOf<Viaje>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding: TravelItemBinding =
@@ -47,9 +45,16 @@ class TravelAdapter(private val deleteCallback: (Viaje)-> Unit) :
     override fun getItemCount() = travels.size
 
     fun replaceItems(_travels: List<Viaje>) {
-        travels = _travels
+        travels = _travels.toMutableList()
         notifyDataSetChanged()
     }
+
+    fun deleteItem(travel: Viaje) {
+        travels.remove(travel)
+        notifyDataSetChanged()
+    }
+
+    fun hasTravels() = travels.size != 0
 
     class TravelHolder(
         private val binding: TravelItemBinding

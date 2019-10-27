@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
     ): View? {
         setBarTitle()
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-        binding.createTravel.setOnClickListener { view: View ->
+        binding.floatingactionbuttonTravelsCreation.setOnClickListener { view: View ->
             view.findNavController()
                 .navigate(actionHomeFragmentToCreateTravelFragment())
         }
@@ -43,19 +43,27 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    private fun deleteTravel(viaje: Viaje) {
-        TravelService.deleteTrip(viaje,
-            {
-                TravelService.getTravels({
-                    travelAdapter.replaceItems(it)
-                },
-                    {})
-            },
-            {})
-    }
-
     private fun setBarTitle() {
         (activity as MainActivity).setActionBarTitle(getString(R.string.travels_title))
+    }
+
+    private fun deleteTravel(travel: Viaje) {
+        TravelService.deleteTrip(travel, {
+            travelAdapter.deleteItem(travel)
+            if (!travelAdapter.hasTravels()) {
+                binding.linearlayoutNoTravels.visibility = VISIBLE
+            }
+        }, { error ->
+            val message = if (error.statusCode == 404) {
+                error.data.getString("detail")
+            } else {
+                logger.severe("Failed to delete travel - status: ${error.statusCode} - message: ${error.message}")
+                "Hubo un problema, intente de nuevo"
+            }
+            Toast
+                .makeText(context, message, Toast.LENGTH_SHORT)
+                .show()
+        })
     }
 
     private fun getTravels() {
@@ -73,14 +81,16 @@ class HomeFragment : Fragment() {
                 binding.linearlayoutNoTravels.visibility = VISIBLE
             }
         }, { error ->
-            logger.severe("Failed to get travels - status: ${error.statusCode} - message: ${error.message}")
+            val message = if (error.statusCode == 400) {
+                error.data.getJSONArray("non_field_errors")[0] as String
+            } else {
+                logger.severe("Failed to get travels - status: ${error.statusCode} - message: ${error.message}")
+                "Hubo un problema, intente de nuevo"
+            }
             Toast
-                .makeText(
-                    this.context,
-                    "Hubo un problema, intente de nuevo",
-                    Toast.LENGTH_SHORT
-                )
+                .makeText(context, message, Toast.LENGTH_SHORT)
                 .show()
         })
     }
+
 }

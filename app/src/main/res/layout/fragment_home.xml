@@ -6,45 +6,35 @@
 
     <data />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/homeConstraintLayout"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWhiteSmoke"
-        android:orientation="vertical">
+        android:padding="15dp">
 
         <LinearLayout
             android:id="@+id/linearlayout_no_travels"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
             android:orientation="vertical"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:visibility="invisible">
 
             <ImageView
-                android:id="@+id/mainLogo"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginEnd="8dp"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/logo" />
+                app:srcCompat="@drawable/ic_travel_airplane"
+                tools:ignore="ContentDescription" />
 
             <TextView
-                android:id="@+id/textview_travels_no_travels_firstline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:text="@string/travels_no_travels_firstline"
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/textview_travels_no_travels_secondline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/travels_no_travels_secondline"
@@ -55,21 +45,19 @@
             android:id="@+id/recyclerview_travels"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@+id/linearlayout_no_travels"
             tools:listitem="@layout/travel_item" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/create_travel"
+            android:id="@+id/floatingactionbutton_travels_creation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:contentDescription="@string/travels_creation"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_add_black_24dp" />
+            app:srcCompat="@drawable/ic_add_black_24dp"
+            tools:ignore="ContentDescription" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
 </layout>
