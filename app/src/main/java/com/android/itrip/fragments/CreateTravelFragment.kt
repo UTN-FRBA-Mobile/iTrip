@@ -14,6 +14,7 @@ import com.android.itrip.R
 import com.android.itrip.databinding.FragmentCreateTravelBinding
 import com.android.itrip.services.TravelService
 import com.android.itrip.ui.DatePickerFragment
+import com.android.itrip.util.calendarToString
 import java.util.*
 import java.util.logging.Logger
 
@@ -39,9 +40,7 @@ class CreateTravelFragment : Fragment() {
                     callback = { calendar: Calendar ->
                         minDate = calendar
                         binding.textinputlayoutTravelFromDate.editText.setText(
-                            com.android.itrip.util.calendarToString(
-                                minDate
-                            )
+                            calendarToString(minDate, "yyyy-MM-dd")
                         )
                     },
                     minDate = Calendar.getInstance(),
@@ -55,9 +54,7 @@ class CreateTravelFragment : Fragment() {
                     { calendar: Calendar ->
                         maxDate = calendar
                         binding.textinputlayoutTravelUntilDate.editText.setText(
-                            com.android.itrip.util.calendarToString(
-                                maxDate
-                            )
+                            calendarToString(maxDate!!, "yyyy-MM-dd")
                         )
                     },
                     minDate = minDate,
@@ -91,8 +88,8 @@ class CreateTravelFragment : Fragment() {
         if (binding.form.isValid) {
             val request = ViajeData(
                 nombre = binding.textinputlayoutTravelName.editText.text.toString(),
-                inicio = com.android.itrip.util.calendarToString(minDate),
-                fin = com.android.itrip.util.calendarToString(maxDate)
+                inicio = calendarToString(minDate, "yyyy-MM-dd"),
+                fin = calendarToString(maxDate!!, "yyyy-MM-dd")
             )
             TravelService.createTrip(request, {
                 val bundle = bundleOf("viajeID" to it.id)
