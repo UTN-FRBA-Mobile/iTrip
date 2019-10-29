@@ -1,6 +1,7 @@
 package com.android.itrip.viewModels
 
 import android.app.Application
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.android.itrip.database.Destination
@@ -22,28 +23,34 @@ class DestinationViewModel(
 ) : AndroidViewModel(application) {
 
     private val logger = Logger.getLogger(this::class.java.name)
-    var ciudadAVisitar: CiudadAVisitar = CiudadAVisitar(
-        0, viaje?.inicio ?: Calendar.getInstance(), viaje?.fin ?: Calendar.getInstance(), null,
-        listOf()
-    )
-
     private var viewModelJob = Job()
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
-    }
-
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-
     val destinations: LiveData<List<Destination>>
+    var ciudadAVisitar: CiudadAVisitar = CiudadAVisitar(
+        id = 0,
+        inicio = viaje?.inicio ?: Calendar.getInstance(),
+        fin = viaje?.fin ?: Calendar.getInstance(),
+        detalle_ciudad = null,
+        actividades_a_realizar = listOf()
+    )
 
     init {
         TravelService.getDestinations({ continentes ->
             getDestinationsCallback(continentes)
-        }, {}
-        )
+        }, { error ->
+            logger.severe("Failed to retrieve destinations - status: ${error.statusCode} - message: ${error.message}")
+            val message = "Hubo un problema, intente de nuevo"
+            Toast
+                .makeText(getApplication(), message, Toast.LENGTH_SHORT)
+                .show()
+
+        })
         destinations = database.getAll()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 
     fun chooseStartDate(calendar: Calendar) {
@@ -81,12 +88,30 @@ class DestinationViewModel(
         }
     }
 
-    fun addDestination(viaje: Viaje, destination: Destination, callback: (CiudadAVisitar) -> Unit) {
-        ciudadAVisitar.detalle_ciudad = Ciudad(destination.destinationId, destination.name, "", "")
+    fun addDestination(
+        viaje: Viaje,
+        destination: Destination,
+        callback: (CiudadAVisitar) -> Unit,
+        callbackError: () -> Unit
+    ) {
+        ciudadAVisitar.detalle_ciudad = Ciudad(
+            id = destination.destinationId,
+            nombre = destination.name
+        )
         TravelService.postDestination(viaje, ciudadAVisitar, {
             callback(it)
-        }, { logger.info(it.message!!) }
-        )
+        }, { error ->
+            val message = if (error.statusCode == 400) {
+                error.data.getJSONArray("non_field_errors")[0] as String
+            } else {
+                logger.severe("Failed to post new destination - status: ${error.statusCode} - message: ${error.message}")
+                "Hubo un problema, intente de nuevo"
+            }
+            Toast
+                .makeText(getApplication(), message, Toast.LENGTH_SHORT)
+                .show()
+            callbackError()
+        })
     }
 
 }

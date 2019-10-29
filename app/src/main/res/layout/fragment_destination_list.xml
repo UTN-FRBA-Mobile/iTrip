@@ -15,65 +15,78 @@
             type="com.android.itrip.viewModels.DestinationViewModel" />
     </data>
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/loginConstraint"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorWhiteSmoke">
+        android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/my_recycler_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:scrollbars="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/linearlayout_no_travels"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/destination_item" />
+        <ProgressBar
+            android:id="@+id/progressbar_destinations_spinner"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:elevation="1dp"
+            android:indeterminate="true"
+            android:visibility="gone" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/linearlayout_no_travels"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:layout_height="match_parent"
+            android:background="@color/colorWhiteSmoke">
 
-            <TextView
-                android:id="@+id/fromDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/square_line_border"
-                android:drawableStart="@drawable/ic_date_range_black_24dp"
-                android:drawablePadding="2dp"
-                android:text="@{Converter.calendarToString(destinationsViewModel.ciudadAVisitar.inicio)}"
-                android:textSize="40sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/untilDate"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/my_recycler_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:paddingHorizontal="15dp"
+                android:scrollbars="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/constraintlayout_date_pickers"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/destination_item" />
 
-            <TextView
-                android:id="@+id/untilDate"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintlayout_date_pickers"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/square_line_border"
-                android:drawableStart="@drawable/ic_date_range_black_24dp"
-                android:drawablePadding="2dp"
-                android:text="@{Converter.calendarToString(destinationsViewModel.ciudadAVisitar.fin)}"
-                android:textSize="40sp"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/fromDate"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/fromDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/square_line_border"
+                    android:drawableStart="@drawable/ic_date_range_black_24dp"
+                    android:drawablePadding="2dp"
+                    android:text="@{Converter.calendarToString(destinationsViewModel.ciudadAVisitar.inicio)}"
+                    android:textSize="40sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/untilDate"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/untilDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/square_line_border"
+                    android:drawableStart="@drawable/ic_date_range_black_24dp"
+                    android:drawablePadding="2dp"
+                    android:text="@{Converter.calendarToString(destinationsViewModel.ciudadAVisitar.fin)}"
+                    android:textSize="40sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/fromDate"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </RelativeLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

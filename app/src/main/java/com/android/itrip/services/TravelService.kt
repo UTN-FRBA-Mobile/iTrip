@@ -99,18 +99,15 @@ object TravelService : Service() {
         responseHandler: (CiudadAVisitar) -> Unit,
         errorHandler: (ApiError) -> Unit
     ) {
-        logger.info("postDestination.")
-        val json = JSONObject()
-        json.apply {
+        val json = JSONObject().apply {
             put("ciudad", ciudad_a_visitarParam.detalle_ciudad?.id)
             put("inicio", calendarToString(ciudad_a_visitarParam.inicio, "yyyy-MM-dd"))
             put("fin", calendarToString(ciudad_a_visitarParam.fin, "yyyy-MM-dd"))
         }
         ApiService.post("""viajes/${viajeParam.id}/add_destination/""", json, {
-            val ciudad_a_visitar: CiudadAVisitarCreator =
-                gson.fromJson(it.toString(), CiudadAVisitarCreator::class.java)
+            val ciudad_a_visitar = gson.fromJson(it.toString(), CiudadAVisitarCreator::class.java)
             responseHandler(ciudad_a_visitar.ciudadAVisitar())
-        }, errorHandler)
+        }, errorHandler, initialTimeoutMs = 5000)
     }
 
     fun get_CityToVisit(

@@ -17,53 +17,48 @@ import com.android.itrip.adapters.DestinationAdapter
 import com.android.itrip.database.Destination
 import com.android.itrip.database.DestinationDatabase
 import com.android.itrip.databinding.FragmentDestinationListBinding
-import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.models.Viaje
 import com.android.itrip.ui.DatePickerFragment
+import com.android.itrip.util.calendarToString
 import com.android.itrip.viewModels.DestinationViewModel
 import com.android.itrip.viewModels.DestinationViewModelFactory
 import java.util.*
-import java.util.logging.Logger
 
 class DestinationListFragment : Fragment() {
 
-    private val logger = Logger.getLogger(this::class.java.name)
+    private lateinit var binding: FragmentDestinationListBinding
     lateinit var destinationsViewModel: DestinationViewModel
-    private var viaje: Viaje? = null
+    private lateinit var viaje: Viaje
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        try {
-            viaje = this.arguments!!.get("viaje") as Viaje
-        } catch (e: Exception) {
-            logger.info(e.toString())
-        }
-        val binding: FragmentDestinationListBinding = DataBindingUtil.inflate(
+        viaje = this.arguments!!.get("viaje") as Viaje
+        binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_destination_list, container, false
         )
         val application = requireNotNull(this.activity).application
         val viewModelFactory = DestinationViewModelFactory(
             DestinationDatabase.getInstance(application).destinationDatabaseDao,
-            application, viaje
+            application,
+            viaje
         )
-        destinationsViewModel =
-            ViewModelProviders.of(
-                this, viewModelFactory
-            ).get(DestinationViewModel::class.java)
+        destinationsViewModel = ViewModelProviders
+            .of(this, viewModelFactory)
+            .get(DestinationViewModel::class.java)
         binding.apply {
             destinationsViewModel = this@DestinationListFragment.destinationsViewModel
             fromDate.setOnClickListener {
-                showDatePickerDialog(viaje?.inicio, it as TextView) { calendar ->
+                showDatePickerDialog(viaje.inicio, it as TextView) { calendar ->
                     destinationsViewModel?.chooseStartDate(
                         calendar
                     )
                 }
             }
             untilDate.setOnClickListener {
-                showDatePickerDialog(viaje?.fin, it as TextView) { calendar ->
+                showDatePickerDialog(viaje.fin, it as TextView) { calendar ->
                     destinationsViewModel?.chooseEndDate(
                         calendar
                     )
@@ -79,16 +74,20 @@ class DestinationListFragment : Fragment() {
     }
 
     private fun destinationAdded(destination: Destination) {
-        destinationsViewModel.addDestination(viaje!!, destination) { goToTrip(it) }
+        val spinner = binding.progressbarDestinationsSpinner.apply { visibility = View.VISIBLE }
+        destinationsViewModel.addDestination(viaje, destination, {
+            spinner.visibility = View.GONE
+            goToTrip()
+        }, {
+            spinner.visibility = View.GONE
+        })
     }
 
-    private fun goToTrip(ciudadAVisitar: CiudadAVisitar) {
+    private fun goToTrip() {
         view!!.findNavController()
             .navigate(
                 DestinationListFragmentDirections.actionDestinationListFragmentToTripFragment().actionId,
-                bundleOf(
-                    "viajeID" to viaje!!.id
-                )
+                bundleOf("viajeID" to viaje.id)
             )
     }
 
@@ -98,9 +97,9 @@ class DestinationListFragment : Fragment() {
         callback: (Calendar) -> Unit
     ) {
         val newFragment = DatePickerFragment({ calendar ->
-            v.text = com.android.itrip.util.calendarToString(calendar)
+            v.text = calendarToString(calendar)
             callback(calendar)
-        }, viaje?.inicio, viaje?.fin, startDate)
+        }, viaje.inicio, viaje.fin, startDate)
         fragmentManager?.let { newFragment.show(it, "datePicker") }
     }
 
