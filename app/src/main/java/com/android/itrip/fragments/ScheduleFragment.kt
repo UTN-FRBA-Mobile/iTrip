@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.R
 import com.android.itrip.adapters.BucketAdapter
 import com.android.itrip.databinding.FragmentScheduleBinding
@@ -31,9 +31,9 @@ class ScheduleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
         try {
             ciudadAVisitar = this.arguments!!.get("ciudadAVisitar") as CiudadAVisitar
-            logger.info("ciuda.nombre: " + ciudadAVisitar.detalle_ciudad!!.nombre)
         } catch (e: Exception) {
             logger.info(e.toString())
         }
@@ -44,14 +44,9 @@ class ScheduleFragment : Fragment() {
         setCalendar()
         binding.scheduleViewModel = scheduleViewModel
         binding.myRecyclerView.apply {
+            setHasFixedSize(true)
             layoutManager = LinearLayoutManager(requireNotNull(activity).application)
             adapter = BucketAdapter(scheduleViewModel)
-            addItemDecoration(
-                DividerItemDecoration(
-                    context!!,
-                    DividerItemDecoration.VERTICAL
-                )
-            )
         }
         binding.lifecycleOwner = this
         return binding.root

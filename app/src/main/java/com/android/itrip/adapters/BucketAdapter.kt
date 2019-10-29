@@ -1,113 +1,154 @@
 package com.android.itrip.adapters
 
 
+import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.R
+import com.android.itrip.databinding.BucketEmptyItemBinding
 import com.android.itrip.databinding.BucketItemBinding
 import com.android.itrip.fragments.ScheduleFragmentDirections
 import com.android.itrip.models.ActividadARealizar
 import com.android.itrip.viewModels.ScheduleViewModel
-import java.util.logging.Logger
 
+
+interface ActivityType {
+    companion object {
+        const val EMPTY = 0
+        const val ACTIVITY = 1
+    }
+}
 
 class BucketAdapter(private val scheduleViewModel: ScheduleViewModel) :
-    ListAdapter<ActividadARealizar, ActivitiesHolder>(
-        ActividadARealizarDiffItemCallback()
-    ) {
+    RecyclerView.Adapter<BucketAdapter.ActivitiesHolder>() {
 
-    private val logger = Logger.getLogger(this::class.java.name)
+    private var actividadARealizar: List<ActividadARealizar>
 
     init {
+        actividadARealizar = scheduleViewModel.actividadesARealizar.value ?: emptyList()
         scheduleViewModel.actividadesARealizar.observeForever {
-            try {
-                notifyItemRangeRemoved(0, itemCount)
-                submitList(scheduleViewModel.actividadesARealizar.value)
-            } catch (e: Exception) {
-                logger.info(e.toString())
-            }
+            replaceItems(it)
         }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return when (getItem(position).detalle_actividad) {
+            null -> ActivityType.EMPTY
+            else -> ActivityType.ACTIVITY
+        }
+    }
+
+    fun replaceItems(_activities: List<ActividadARealizar>) {
+        actividadARealizar = _activities
+        notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: ActivitiesHolder, position: Int) {
-        holder.bind(getItem(position), position)
+        holder.bind(getItem(position), position, scheduleViewModel)
     }
 
-    override fun getItem(position: Int): ActividadARealizar {
-        return scheduleViewModel.actividadesARealizar.value?.get(position)!!
+    fun getItem(position: Int): ActividadARealizar {
+        return actividadARealizar[position]
     }
 
     override fun getItemId(position: Int): Long {
-        return scheduleViewModel.actividadesARealizar.value?.get(position)?.id ?: 0
+        return actividadARealizar[position].id
     }
 
     override fun getItemCount(): Int {
-        return scheduleViewModel.actividadesARealizar.value?.size ?: 0
+        return actividadARealizar.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActivitiesHolder {
-        val binding: BucketItemBinding =
-            DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context), R.layout.bucket_item, parent, false
-            )
+        lateinit var binding: ViewDataBinding
+        when (viewType) {
+            ActivityType.ACTIVITY -> {
+                binding =
+                    DataBindingUtil.inflate(
+                        LayoutInflater.from(parent.context),
+                        R.layout.bucket_item,
+                        parent,
+                        false
+                    )
+            }
+            else -> {
+                binding =
+                    DataBindingUtil.inflate(
+                        LayoutInflater.from(parent.context),
+                        R.layout.bucket_empty_item,
+                        parent,
+                        false
+                    )
+            }
+        }
         parent.invalidate()
         val viewHolder = ActivitiesHolder(binding)
-        binding.lifecycleOwner = viewHolder
         return viewHolder
     }
 
-}
+    class ActivitiesHolder(
+        private val binding: ViewDataBinding
+    ) : RecyclerView.ViewHolder(binding.root), LifecycleOwner {
+        private val lifecycleRegistry = LifecycleRegistry(this)
 
-class ActivitiesHolder(
-    private val binding: BucketItemBinding
-) : RecyclerView.ViewHolder(binding.root), LifecycleOwner {
-    private val lifecycleRegistry = LifecycleRegistry(this)
-
-    override fun getLifecycle(): Lifecycle {
-        return lifecycleRegistry
-    }
-
-    fun bind(item: ActividadARealizar, position: Int) {
-        binding.apply {
-            actividadARealizar = item
-            bucketActivitydetailsButton.setOnClickListener {
-                val bundle = bundleOf(
-                    "actividad" to item.detalle_actividad
-                )
-                it.findNavController()
-                    .navigate(
-                        ScheduleFragmentDirections.actionScheduleFragmentToActivityDetailsFragment().actionId
-                        , bundle
-                    )
-            }
-            this.position = position
+        override fun getLifecycle(): Lifecycle {
+            return lifecycleRegistry
         }
-    }
-}
 
-private class ActividadARealizarDiffItemCallback : DiffUtil.ItemCallback<ActividadARealizar>() {
+        fun bind(item: ActividadARealizar, position: Int, viewModel: ScheduleViewModel) {
+            when (itemViewType) {
+                ActivityType.ACTIVITY -> bindActivity(item, position, viewModel)
+                ActivityType.EMPTY -> bindingEmpty(item, position, viewModel)
+            }
+        }
 
-    override fun areItemsTheSame(
-        oldItem: ActividadARealizar,
-        newItem: ActividadARealizar
-    ): Boolean {
-        return oldItem.id == newItem.id
-    }
+        fun bindActivity(
+            item: ActividadARealizar,
+            position: Int,
+            scheduleViewModel: ScheduleViewModel
+        ) {
+            (binding as BucketItemBinding).apply {
+                if (position % 2 == 0)
+                    bucketItemConstraintLayout.setBackgroundColor(Color.LTGRAY)
+                else
+                    bucketItemConstraintLayout.setBackgroundColor(Color.WHITE)
+                actividadARealizar = item
+                bucketActivitydetailsButton.setOnClickListener {
+                    val bundle = bundleOf(
+                        "actividad" to item.detalle_actividad
+                    )
+                    it.findNavController()
+                        .navigate(
+                            ScheduleFragmentDirections.actionScheduleFragmentToActivityDetailsFragment().actionId
+                            , bundle
+                        )
+                }
+                bucketRemoveactivityButton.setOnClickListener {
+                    scheduleViewModel.deleteToDoActivity(item)
+                }
+                this.position = position
+            }
+        }
 
-    override fun areContentsTheSame(
-        oldItem: ActividadARealizar,
-        newItem: ActividadARealizar
-    ): Boolean {
-        return oldItem == newItem
+        fun bindingEmpty(item: ActividadARealizar, position: Int, viewModel: ScheduleViewModel) {
+            (binding as BucketEmptyItemBinding).apply {
+                if (position % 2 == 0)
+                    bucketEmptyItemConstraintLayout.setBackgroundColor(Color.LTGRAY)
+                else
+                    bucketEmptyItemConstraintLayout.setBackgroundColor(Color.WHITE)
+                actividadARealizar = item
+                bucketAddButton.setOnClickListener {
+                }
+                this.position = position
+            }
+        }
     }
 }
