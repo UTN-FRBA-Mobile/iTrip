@@ -16,7 +16,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bucket_item_constraintLayout"
+        android:id="@+id/bucket_empty_item_constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,35 +32,16 @@
             android:textAlignment="center"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/bucket_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text='@{actividadARealizar.detalle_actividad.nombre??"Vacio"}'
-            android:textAlignment="center"
-            app:layout_constraintTop_toBottomOf="@+id/bucketmessage_textview" />
-
 
         <ImageButton
-            android:id="@+id/bucket_activitydetails_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/colorWhiteSmoke"
-            app:layout_constraintEnd_toStartOf="@+id/bucket_removeactivity_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bucket_textview"
-            app:srcCompat="@drawable/ic_info_black_24dp" />
-
-
-        <ImageButton
-            android:id="@+id/bucket_removeactivity_button"
+            android:id="@+id/bucket_add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorWhiteSmoke"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/bucket_activitydetails_button"
-            app:layout_constraintTop_toBottomOf="@+id/bucket_textview"
-            app:srcCompat="@drawable/ic_remove_circle_outline_black_24dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bucketmessage_textview"
+            app:srcCompat="@drawable/ic_add_black_24dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -156,4 +156,15 @@ object TravelService : Service() {
         }, errorHandler)
     }
 
+    fun deleteToDoActivity(
+        actividadARealizar: ActividadARealizar,
+        responseHandler: () -> Unit,
+        errorHandler: (ApiError) -> Unit
+    ) {
+        logger.info("deleteDestination.")
+        ApiService.delete("""actividad-a-realizar/${actividadARealizar.id}/""", {
+            responseHandler()
+        }, errorHandler)
+    }
+
 }
