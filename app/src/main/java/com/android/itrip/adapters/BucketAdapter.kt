@@ -13,6 +13,7 @@ import androidx.lifecycle.LifecycleRegistry
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.R
+import com.android.itrip.database.Destination
 import com.android.itrip.databinding.BucketEmptyItemBinding
 import com.android.itrip.databinding.BucketItemBinding
 import com.android.itrip.fragments.ScheduleFragmentDirections
@@ -94,6 +95,10 @@ class BucketAdapter(private val scheduleViewModel: ScheduleViewModel) :
         return viewHolder
     }
 
+    fun remove(position: Int) {
+        scheduleViewModel.deleteToDoActivity(getItem(position))
+    }
+
     class ActivitiesHolder(
         private val binding: ViewDataBinding
     ) : RecyclerView.ViewHolder(binding.root), LifecycleOwner {
@@ -121,7 +126,10 @@ class BucketAdapter(private val scheduleViewModel: ScheduleViewModel) :
                 else
                     bucketItemConstraintLayout.setBackgroundColor(Color.WHITE)
                 actividadARealizar = item
-                bucketActivitydetailsButton.setOnClickListener {
+//                bucketItemConstraintLayout.layoutParams.height =
+//                    200 * item.detalle_actividad!!.duracion
+//                bucketItemConstraintLayout.requestLayout()
+                bucketItemConstraintLayout.setOnClickListener {
                     val bundle = bundleOf(
                         "actividad" to item.detalle_actividad
                     )
@@ -130,9 +138,6 @@ class BucketAdapter(private val scheduleViewModel: ScheduleViewModel) :
                             ScheduleFragmentDirections.actionScheduleFragmentToActivityDetailsFragment().actionId
                             , bundle
                         )
-                }
-                bucketRemoveactivityButton.setOnClickListener {
-                    scheduleViewModel.deleteToDoActivity(item)
                 }
                 this.position = position
             }
@@ -146,9 +151,18 @@ class BucketAdapter(private val scheduleViewModel: ScheduleViewModel) :
                     bucketEmptyItemConstraintLayout.setBackgroundColor(Color.WHITE)
                 actividadARealizar = item
                 bucketAddButton.setOnClickListener {
+                    val destination = Destination(
+                        viewModel.ciudadAVisitar.detalle_ciudad!!.id,
+                        viewModel.ciudadAVisitar.detalle_ciudad!!.nombre
+                    )
+                    it.findNavController().navigate(
+                        ScheduleFragmentDirections.actionScheduleFragmentToActivitiesListFragment().actionId,
+                        bundleOf("destination" to destination)
+                    )
                 }
                 this.position = position
             }
         }
+
     }
 }

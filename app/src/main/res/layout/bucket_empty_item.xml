@@ -24,23 +24,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/bucketmessage_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@{Converter.fromBucketPositionToTimeOfTheDay(position)}"
-            android:textAlignment="center"
-            app:layout_constraintTop_toTopOf="parent" />
+<!--        <TextView-->
+<!--            android:id="@+id/bucketmessage_textview"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@{Converter.fromBucketPositionToTimeOfTheDay(position)}"-->
+<!--            android:textAlignment="center"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
 
         <ImageButton
             android:id="@+id/bucket_add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhiteSmoke"
+            android:background="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bucketmessage_textview"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:srcCompat="@drawable/ic_add_black_24dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

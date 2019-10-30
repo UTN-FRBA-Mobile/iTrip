@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.android.itrip.MainActivity
 import com.android.itrip.R
 import com.android.itrip.models.MapDestination
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -29,12 +30,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     ): View? {
         super.onCreate(savedInstanceState)
         try {
-            mapDestination = this.arguments!!.get("mapDestination") as MapDestination
+            mapDestination = arguments!!.get("mapDestination") as MapDestination
+            setBarTitle(mapDestination!!.name)
         } catch (e: Exception) {
             logger.info(e.toString())
         }
         try {
-            mapDestinations = this.arguments!!.get("mapDestinations") as List<MapDestination>
+            mapDestinations = arguments!!.get("mapDestinations") as List<MapDestination>
+            setBarTitle("Mapa de "+arguments!!.get("destination") as String)
         } catch (e: Exception) {
             logger.info(e.toString())
         }
@@ -73,4 +76,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(destinationLatLng, 8.0f))
         }
     }
+
+    private fun setBarTitle(title: String) {
+        (activity as MainActivity).setActionBarTitle(title)
+    }
+
 }
