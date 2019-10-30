@@ -15,6 +15,10 @@
             android:icon="@drawable/ic_pin_drop_black_24dp"
             android:title="@string/drawer_menu_travels" />
         <item
+            android:id="@+id/drawer_menu_preferences"
+            android:icon="@drawable/ic_settings_24dp"
+            android:title="@string/drawer_menu_preferences" />
+        <item
             android:id="@+id/drawer_menu_logout"
             android:icon="@drawable/ic_power_settings_primary_24dp"
             android:title="@string/drawer_menu_logout" />

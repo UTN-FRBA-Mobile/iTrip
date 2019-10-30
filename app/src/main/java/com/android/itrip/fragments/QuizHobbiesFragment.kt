@@ -62,8 +62,18 @@ class QuizHobbiesFragment : Fragment() {
     private fun resolveQuiz() {
         val quizCompleted = quiz.addHobbies(hobbiesAdapter.checkedHobbies.map { it.key })
         QuizService.postAnswers(quizCompleted, {
-            view?.findNavController()
-                ?.navigate(QuizHobbiesFragmentDirections.actionQuizHobbiesFragmentToQuizEndFragment())
+            // if source is 'preferences' just closes the activity and shows a toast message,
+            // otherwise it continues to congrats view
+            val activity = activity as QuizActivity
+            if (activity.source == "preferences") {
+                Toast
+                    .makeText(context, "Preferencias actualizadas", Toast.LENGTH_LONG)
+                    .show()
+                activity.finish()
+            } else {
+                view?.findNavController()
+                    ?.navigate(QuizHobbiesFragmentDirections.actionQuizHobbiesFragmentToQuizEndFragment())
+            }
         }, { error ->
             logger.severe("Failed to post quiz answers - status: ${error.statusCode} - message: ${error.message}")
             Toast

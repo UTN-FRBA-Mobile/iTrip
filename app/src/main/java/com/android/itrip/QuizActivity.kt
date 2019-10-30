@@ -31,9 +31,11 @@ class QuizActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Draw
     private lateinit var drawerToggle: ActionBarDrawerToggle
     private lateinit var navigationView: NavigationView
     private lateinit var navController: NavController
+    var source: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        readSource()
         bindings()
         initDrawer()
         initNavigation()
@@ -42,6 +44,11 @@ class QuizActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Draw
 
     fun setActionBarTitle(title: String) {
         supportActionBar!!.title = title
+    }
+
+    private fun readSource() {
+        // read if there is a source which invoked the quiz
+        source = intent.getStringExtra("source")
     }
 
     private fun bindings() {

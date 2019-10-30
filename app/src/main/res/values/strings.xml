@@ -10,10 +10,12 @@
     <!--Drawer Menu-->
     <string name="drawer_menu_travels">Mis Viajes</string>
     <string name="drawer_menu_create_travel">Crear Viaje</string>
+    <string name="drawer_menu_preferences">Preferencias</string>
     <string name="drawer_menu_logout">Salir</string>
 
     <!--Quiz-->
     <string name="quiz_info_title">Completa el cuestionario</string>
+    <string name="quiz_info_title_update_preferences">Actualizá tus datos</string>
     <string name="quiz_hobbies_title">¿Cuáles son tus hobbies?</string>
     <string name="quiz_next">Siguiente</string>
     <string name="quiz_end_description">Gracias por completar el cuestionario, sabemos que fue un poco largo pero eso

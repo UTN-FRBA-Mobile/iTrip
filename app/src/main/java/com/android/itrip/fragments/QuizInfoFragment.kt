@@ -43,11 +43,27 @@ class QuizInfoFragment : Fragment() {
         )
         disableHomeButton()
         bindings()
+        setQuizDescription()
         return binding.root
     }
 
     private fun setBarTitle() {
-        (activity as QuizActivity).setActionBarTitle(getString(R.string.quiz_info_title))
+        // set the fragment title depending on source
+        val quiz = activity as QuizActivity
+        val title = if (quiz.source == "preferences") {
+            R.string.quiz_info_title_update_preferences
+        } else {
+            R.string.quiz_info_title
+        }
+        quiz.setActionBarTitle(getString(title))
+    }
+
+    private fun setQuizDescription() {
+        // hide the view description if source is 'preferences'
+        val quiz = activity as QuizActivity
+        if (quiz.source == "preferences") {
+            binding.textviewQuizInfoDescription.visibility = View.GONE
+        }
     }
 
     private fun disableHomeButton() {

@@ -40,9 +40,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         bindings()
         initDrawer()
         initNavigation()
-        QuizService.getResolution({ answered: Boolean -> quizAnswered(answered) }, { error ->
-            logger.severe("Failed to retrieve quiz result - status: ${error.statusCode} - message: ${error.message}")
-        })
+        isQuizAnswered()
     }
 
     private fun bindings() {
@@ -127,6 +125,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.drawer_menu_create_travel -> navController.navigate(R.id.createTravelFragment)
             R.id.drawer_menu_travels -> navController.navigate(R.id.homeFragment)
+            R.id.drawer_menu_preferences -> {
+                val intent = Intent(this, QuizActivity::class.java).apply {
+                    putExtra("source", "preferences")
+                }
+                startActivity(intent)
+            }
         }
         return true
     }
@@ -135,12 +139,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         supportActionBar!!.title = title
     }
 
-    private fun quizAnswered(answered: Boolean) {
-        if (!answered) {
-            val intent = Intent(this, QuizActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
+    private fun isQuizAnswered() {
+        QuizService.getResolution({ answered ->
+            if (!answered) {
+                val intent = Intent(this, QuizActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }, { error ->
+            logger.severe("Failed to retrieve quiz result - status: ${error.statusCode} - message: ${error.message}")
+        })
     }
 
 }
