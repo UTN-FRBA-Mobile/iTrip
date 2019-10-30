@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.itrip.MainActivity
 import com.android.itrip.R
 import com.android.itrip.adapters.DestinationAdapter
 import com.android.itrip.database.Destination
@@ -70,6 +71,7 @@ class DestinationListFragment : Fragment() {
             }
             lifecycleOwner = this@DestinationListFragment
         }
+        setBarTitle()
         return binding.root
     }
 
@@ -101,6 +103,10 @@ class DestinationListFragment : Fragment() {
             callback(calendar)
         }, viaje.inicio, viaje.fin, startDate)
         fragmentManager?.let { newFragment.show(it, "datePicker") }
+    }
+
+    private fun setBarTitle() {
+        (activity as MainActivity).setActionBarTitle("Elija un destino")
     }
 
 }

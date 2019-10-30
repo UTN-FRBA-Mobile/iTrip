@@ -5,11 +5,11 @@ import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.android.itrip.MainActivity
 import com.android.itrip.R
 import com.android.itrip.databinding.FragmentActivityDetailsBinding
 import com.android.itrip.models.Actividad
@@ -29,11 +29,6 @@ class ActivityDetailsFragment : Fragment() {
         )
         this.arguments!!.get("actividad")?.let {
             actividad = it as Actividad
-            Toast.makeText(
-                context,
-                actividad.nombre,
-                Toast.LENGTH_SHORT
-            ).show()
         }
         binding.activity = actividad
         actividad.imagen?.let {
@@ -60,6 +55,13 @@ class ActivityDetailsFragment : Fragment() {
                     , bundle
                 )
         }
+        setBarTitle()
         return binding.root
     }
+
+    private fun setBarTitle() {
+        (activity as MainActivity).setActionBarTitle(actividad.nombre)
+    }
+
+
 }

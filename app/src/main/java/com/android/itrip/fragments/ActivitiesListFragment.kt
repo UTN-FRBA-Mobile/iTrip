@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.itrip.MainActivity
 import com.android.itrip.R
 import com.android.itrip.adapters.ActivitiesAdapter
 import com.android.itrip.database.ActivityDatabase
@@ -68,7 +69,8 @@ class ActivitiesListFragment : Fragment() {
                 mapDestinations.add(MapDestination(it.nombre, it.latitud, it.longitud))
             }
             val bundle = bundleOf(
-                "mapDestinations" to mapDestinations
+                "mapDestinations" to mapDestinations,
+                "destination" to destination.name
             )
             view.findNavController().navigate(
                 ActivitiesListFragmentDirections.actionActivitiesListFragmentToMapsFragment().actionId,
@@ -76,7 +78,12 @@ class ActivitiesListFragment : Fragment() {
             )
         }
         binding.lifecycleOwner = this
+        setBarTitle()
         return binding.root
+    }
+
+    private fun setBarTitle() {
+        (activity as MainActivity).setActionBarTitle("Actividades de "+destination.name)
     }
 
 }
