@@ -24,9 +24,16 @@ class VolleySingleton constructor(context: Context) {
 
     private val requestQueue: RequestQueue by lazy { Volley.newRequestQueue(context.applicationContext) }
 
-    fun <T> addToRequestQueue(request: Request<T>, initialTimeoutMs: Int? = null) {
-        request.retryPolicy =
-            DefaultRetryPolicy(initialTimeoutMs ?: 2000, DEFAULT_MAX_RETRIES, DEFAULT_BACKOFF_MULT)
+    fun <T> addToRequestQueue(
+        request: Request<T>,
+        initialTimeoutMs: Int? = null,
+        retries: Int? = null
+    ) {
+        request.retryPolicy = DefaultRetryPolicy(
+            initialTimeoutMs ?: 2000,
+            retries ?: DEFAULT_MAX_RETRIES,
+            DEFAULT_BACKOFF_MULT
+        )
         requestQueue.add(request)
     }
 

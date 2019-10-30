@@ -7,6 +7,7 @@ import android.os.IBinder
 import com.android.itrip.util.VolleySingleton
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
+import com.android.volley.TimeoutError
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
@@ -36,7 +37,8 @@ object ApiService : Service() {
         body: JSONObject,
         responseHandler: (JSONObject) -> Unit,
         errorHandler: (ApiError) -> Unit,
-        initialTimeoutMs: Int? = null
+        initialTimeoutMs: Int? = null,
+        retries: Int? = null
     ) {
         val request =
             object : JsonObjectRequest(
@@ -54,7 +56,7 @@ object ApiService : Service() {
                     return headers
                 }
             }
-        queue.addToRequestQueue(request, initialTimeoutMs)
+        queue.addToRequestQueue(request, initialTimeoutMs, retries)
     }
 
     fun patch(
@@ -156,18 +158,37 @@ object ApiService : Service() {
     }
 
     private fun mapOf(error: VolleyError): ApiError {
-        val dataString = error.networkResponse.data.toString(Charsets.UTF_8)
-        val dataJson = try {
-            JSONObject(dataString)
+        try {
+            val dataString = error.networkResponse.data.toString(Charsets.UTF_8)
+            return ApiError(
+                statusCode = error.networkResponse.statusCode,
+                message = error.message,
+                data = JSONObject(dataString)
+            )
         } catch (e: JSONException) {
-            logger.severe(e.toString())
-            JSONObject().put("non_field_errors", JSONArray().put("Error leyendo respuesta"))
+            logger.severe(e.message)
+            return ApiError(
+                statusCode = error.networkResponse.statusCode,
+                message = error.message,
+                data = JSONObject()
+                    .put("non_field_errors", JSONArray().put("Error leyendo respuesta"))
+            )
+        } catch (e: NullPointerException) {
+            logger.severe(e.message)
+            return when (error) {
+                is TimeoutError -> ApiError(
+                    statusCode = 500,
+                    message = e.message,
+                    data = JSONObject()
+                        .put("non_field_errors", JSONArray().put("Tiempo de espera superado"))
+                )
+                else -> ApiError(
+                    statusCode = 500,
+                    message = error.message,
+                    data = JSONObject().put("non_field_errors", JSONArray().put(error.message))
+                )
+            }
         }
-        return ApiError(
-            statusCode = error.networkResponse.statusCode,
-            message = error.message,
-            data = dataJson
-        )
     }
 
 }

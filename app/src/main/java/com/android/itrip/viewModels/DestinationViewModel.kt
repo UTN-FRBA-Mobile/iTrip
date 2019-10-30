@@ -105,10 +105,14 @@ class DestinationViewModel(
                 error.data.getJSONArray("non_field_errors")[0] as String
             } else {
                 logger.severe("Failed to post new destination - status: ${error.statusCode} - message: ${error.message}")
-                "Hubo un problema, intente de nuevo"
+                try {
+                    error.data.getJSONArray("non_field_errors")[0] as String
+                } catch (e: Exception) {
+                    "Hubo un problema, intente de nuevo"
+                }
             }
             Toast
-                .makeText(getApplication(), message, Toast.LENGTH_SHORT)
+                .makeText(getApplication(), message, Toast.LENGTH_LONG)
                 .show()
             callbackError()
         })
