@@ -1,6 +1,7 @@
 package com.android.itrip.fragments
 
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -74,23 +75,47 @@ class QuizInfoFragment : Fragment() {
 
     private fun bindings() {
         binding.textinputlayoutQuizInfoGenero.editText.apply {
-            setOnClickListener { view ->
+            keyListener = null
+            isFocusableInTouchMode = false
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                focusable = View.NOT_FOCUSABLE
+            }
+            setOnClickListener {
+                it.clearFocus()
                 setText(" ") // hack (do not remove)
                 setAlertDialog(getString(DIALOG_TITLE_GEN), this, quizViewModel.genero)
             }
         }
         binding.textinputlayoutQuizInfoEstadocivil.editText.apply {
-            setOnClickListener { view ->
+            keyListener = null
+            isFocusableInTouchMode = false
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                focusable = View.NOT_FOCUSABLE
+            }
+            setOnClickListener {
+                it.clearFocus()
                 setAlertDialog(getString(DIALOG_TITLE_EC), this, quizViewModel.estado_civil)
             }
         }
         binding.textinputlayoutQuizInfoEstudios.editText.apply {
-            setOnClickListener { view ->
+            keyListener = null
+            isFocusableInTouchMode = false
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                focusable = View.NOT_FOCUSABLE
+            }
+            setOnClickListener {
+                it.clearFocus()
                 setAlertDialog(getString(DIALOG_TITLE_EST), this, quizViewModel.nivel_de_estudios)
             }
         }
         binding.textinputlayoutQuizInfoOcupacion.editText.apply {
-            setOnClickListener { view ->
+            keyListener = null
+            isFocusableInTouchMode = false
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                focusable = View.NOT_FOCUSABLE
+            }
+            setOnClickListener {
+                it.clearFocus()
                 setAlertDialog(getString(DIALOG_TITLE_OCU), this, quizViewModel.ocupacion)
             }
         }
@@ -101,7 +126,7 @@ class QuizInfoFragment : Fragment() {
         val builder = AlertDialog.Builder(context!!)
         builder.setTitle(title)
         val items = elements.map { it.value }.toTypedArray()
-        builder.setItems(items) { dialog, option ->
+        builder.setItems(items) { _, option ->
             input.setText(items[option])
             if (title == getString(DIALOG_TITLE_GEN)) handleOtherGender(option)
         }

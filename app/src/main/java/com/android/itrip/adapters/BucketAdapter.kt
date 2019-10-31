@@ -4,6 +4,7 @@ package com.android.itrip.adapters
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -28,7 +29,9 @@ interface ActivityType {
     }
 }
 
-class BucketAdapter(private val scheduleViewModel: ScheduleViewModel) :
+class BucketAdapter(
+    private val scheduleViewModel: ScheduleViewModel
+) :
     RecyclerView.Adapter<BucketAdapter.ActivitiesHolder>() {
 
     private var actividadARealizar: List<ActividadARealizar>
@@ -41,8 +44,8 @@ class BucketAdapter(private val scheduleViewModel: ScheduleViewModel) :
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (getItem(position).detalle_actividad) {
-            null -> ActivityType.EMPTY
+        return when (getItem(position).id) {
+            0L -> ActivityType.EMPTY
             else -> ActivityType.ACTIVITY
         }
     }
@@ -91,8 +94,7 @@ class BucketAdapter(private val scheduleViewModel: ScheduleViewModel) :
             }
         }
         parent.invalidate()
-        val viewHolder = ActivitiesHolder(binding)
-        return viewHolder
+        return ActivitiesHolder(binding)
     }
 
     fun remove(position: Int) {
@@ -110,15 +112,14 @@ class BucketAdapter(private val scheduleViewModel: ScheduleViewModel) :
 
         fun bind(item: ActividadARealizar, position: Int, viewModel: ScheduleViewModel) {
             when (itemViewType) {
-                ActivityType.ACTIVITY -> bindActivity(item, position, viewModel)
-                ActivityType.EMPTY -> bindingEmpty(item, position, viewModel)
+                ActivityType.ACTIVITY -> bindActivity(item, position)
+                ActivityType.EMPTY -> bindingEmpty(item, viewModel)
             }
         }
 
         fun bindActivity(
             item: ActividadARealizar,
-            position: Int,
-            scheduleViewModel: ScheduleViewModel
+            position: Int
         ) {
             (binding as BucketItemBinding).apply {
                 if (position % 2 == 0)
@@ -126,30 +127,24 @@ class BucketAdapter(private val scheduleViewModel: ScheduleViewModel) :
                 else
                     bucketItemConstraintLayout.setBackgroundColor(Color.WHITE)
                 actividadARealizar = item
-//                bucketItemConstraintLayout.layoutParams.height =
-//                    200 * item.detalle_actividad!!.duracion
-//                bucketItemConstraintLayout.requestLayout()
+                bucketItemConstraintLayout.layoutParams.height =
+                    bucketItemConstraintLayout.context.resources.displayMetrics.heightPixels / 9 * item.detalle_actividad!!.duracion
+                bucketItemConstraintLayout.requestLayout()
                 bucketItemConstraintLayout.setOnClickListener {
-                    val bundle = bundleOf(
-                        "actividad" to item.detalle_actividad
-                    )
-                    it.findNavController()
-                        .navigate(
-                            ScheduleFragmentDirections.actionScheduleFragmentToActivityDetailsFragment().actionId
-                            , bundle
-                        )
+                    Toast.makeText(
+                        it.context,
+                        "Desliza izquierda para ver detalles. \nDesliza derecha para remover.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
-                this.position = position
             }
         }
 
-        fun bindingEmpty(item: ActividadARealizar, position: Int, viewModel: ScheduleViewModel) {
+        fun bindingEmpty(item: ActividadARealizar, viewModel: ScheduleViewModel) {
             (binding as BucketEmptyItemBinding).apply {
-                if (position % 2 == 0)
-                    bucketEmptyItemConstraintLayout.setBackgroundColor(Color.LTGRAY)
-                else
-                    bucketEmptyItemConstraintLayout.setBackgroundColor(Color.WHITE)
-                actividadARealizar = item
+                bucketEmptyItemConstraintLayout.layoutParams.height =
+                    bucketEmptyItemConstraintLayout.context.resources.displayMetrics.heightPixels / 9 * item.detalle_actividad!!.duracion
+                bucketEmptyItemConstraintLayout.requestLayout()
                 bucketAddButton.setOnClickListener {
                     val destination = Destination(
                         viewModel.ciudadAVisitar.detalle_ciudad!!.id,
@@ -160,7 +155,6 @@ class BucketAdapter(private val scheduleViewModel: ScheduleViewModel) :
                         bundleOf("destination" to destination)
                     )
                 }
-                this.position = position
             }
         }
 

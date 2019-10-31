@@ -35,7 +35,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/calendarView"
-            tools:itemCount="6"
             tools:listitem="@layout/bucket_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
