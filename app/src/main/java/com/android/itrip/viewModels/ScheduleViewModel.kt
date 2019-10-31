@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import com.android.itrip.models.Actividad
 import com.android.itrip.models.ActividadARealizar
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.services.TravelService
@@ -29,16 +30,17 @@ class ScheduleViewModel(
 
     private fun setBuckets(date: Calendar): LiveData<List<ActividadARealizar>> {
         val tempList =
-            createBuckets(ciudadAVisitar.actividades_a_realizar.filter { it.dia == date })
+            cleanDuplication(ciudadAVisitar.actividades_a_realizar.filter { it.dia == date })
         return MutableLiveData<List<ActividadARealizar>>(tempList)
     }
 
+/* DEPRECATED, OLD VERSION OF cleanDuplication
     private fun createBuckets(list: List<ActividadARealizar>): List<ActividadARealizar> {
         val bucketsTemp: HashMap<Int, ActividadARealizar> = hashMapOf()
         bucketsTemp.apply {
             for (i in 1..6) {
                 this[i] = ActividadARealizar(
-                    CiudadAVisitarDate.date.value!!.timeInMillis + i,
+                    0L,
                     Calendar.getInstance(),
                     i,
                     null
@@ -48,6 +50,40 @@ class ScheduleViewModel(
                 this[it.bucket_inicio] = it
                 repeat(it.detalle_actividad!!.duracion) { counter: Int ->
                     this[it.bucket_inicio + counter] = it
+                }
+            }
+        }
+        return bucketsTemp.map { it.value }
+    }
+*/
+
+    private fun cleanDuplication(
+        list: List<ActividadARealizar>
+    ): List<ActividadARealizar> {
+        val bucketsTemp: HashMap<Int, ActividadARealizar> = hashMapOf()
+        val mutableList: MutableList<ActividadARealizar> = list.toMutableList()
+        var tempItem: ActividadARealizar?
+        var duration: Int
+        var j = 1
+        for (i in 1..6) {
+            if (i >= j) {
+                tempItem = mutableList.firstOrNull { it.bucket_inicio == i }
+                if (tempItem != null) {
+                    tempItem.apply {
+                        bucketsTemp[i] = this
+                        j += this.detalle_actividad!!.duracion
+                        mutableList.remove(this)
+                    }
+                } else {
+                    duration =
+                        mutableList.firstOrNull()?.bucket_inicio?.minus(i) ?: 7 - i
+                    bucketsTemp[i] = ActividadARealizar(
+                        0L,
+                        Calendar.getInstance(),
+                        i,
+                        Actividad(0L, "", "", duration)
+                    )
+                    j += bucketsTemp[i]!!.detalle_actividad!!.duracion
                 }
             }
         }

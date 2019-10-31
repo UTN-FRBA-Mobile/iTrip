@@ -10,17 +10,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.MainActivity
 import com.android.itrip.R
+import com.android.itrip.R.color.colorDarkGreen
 import com.android.itrip.adapters.ActivityType
 import com.android.itrip.adapters.BucketAdapter
 import com.android.itrip.databinding.FragmentScheduleBinding
+import com.android.itrip.models.ActividadARealizar
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.viewModels.ScheduleViewModel
 import devs.mulham.horizontalcalendar.HorizontalCalendar
@@ -55,14 +60,29 @@ class ScheduleFragment : Fragment() {
         binding.scheduleViewModel = scheduleViewModel
         mRecyclerView = binding.myRecyclerView
         mRecyclerView.apply {
-            setHasFixedSize(true)
             layoutManager = LinearLayoutManager(requireNotNull(activity).application)
             adapter = BucketAdapter(scheduleViewModel)
             setUpItemTouchHelper()
         }
+        Toast.makeText(
+            context,
+            "<= REMOVER   |   DETALLES =>",
+            Toast.LENGTH_LONG
+        ).show()
         setBarTitle()
         binding.lifecycleOwner = this
         return binding.root
+    }
+
+    private fun showActivityDetails(actividadARealizar: ActividadARealizar) {
+        val bundle = bundleOf(
+            "actividad" to actividadARealizar.detalle_actividad
+        )
+        findNavController()
+            .navigate(
+                ScheduleFragmentDirections.actionScheduleFragmentToActivityDetailsFragment().actionId
+                , bundle
+            )
     }
 
     private fun setBarTitle() {
@@ -93,22 +113,31 @@ class ScheduleFragment : Fragment() {
     private fun setUpItemTouchHelper() {
 
         val simpleItemTouchCallback =
-            object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            object :
+                ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)) {
 
                 // we want to cache these and not allocate anything repeatedly in the onChildDraw method
-                var background: Drawable? = null
-                var xMark: Drawable? = null
-                var xMarkMargin: Int = 0
+                var detailsBackground: Drawable? = null
+                var detailsDrawable: Drawable? = null
+                var deleteBackground: Drawable? = null
+                var deleteDrawable: Drawable? = null
+                var drawableMargin: Int = 0
                 var initiated: Boolean = false
 
                 private fun init() {
-                    background = ColorDrawable(Color.RED)
-                    xMark = ContextCompat.getDrawable(
+                    detailsBackground = ColorDrawable(resources.getColor(colorDarkGreen))
+                    detailsDrawable = ContextCompat.getDrawable(
+                        context!!,
+                        R.drawable.ic_info_black_24dp
+                    )
+                    detailsDrawable!!.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
+                    deleteBackground = ColorDrawable(Color.RED)
+                    deleteDrawable = ContextCompat.getDrawable(
                         context!!,
                         R.drawable.ic_delete_white_24dp
                     )
-                    xMark!!.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
-                    xMarkMargin =
+                    deleteDrawable!!.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
+                    drawableMargin =
                         context!!.resources
                             .getDimension(R.dimen.ic_clear_margin)
                             .toInt()
@@ -125,8 +154,18 @@ class ScheduleFragment : Fragment() {
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-                    if ((mRecyclerView.adapter as BucketAdapter).getItemViewType(viewHolder.adapterPosition) == ActivityType.ACTIVITY)
-                        (mRecyclerView.adapter as BucketAdapter).remove(viewHolder.adapterPosition)
+                    if ((mRecyclerView.adapter as BucketAdapter).getItemViewType(viewHolder.adapterPosition) == ActivityType.ACTIVITY) {
+                        when (swipeDir) {
+                            ItemTouchHelper.LEFT -> (mRecyclerView.adapter as BucketAdapter).remove(
+                                viewHolder.adapterPosition
+                            )
+                            ItemTouchHelper.RIGHT -> showActivityDetails(
+                                (mRecyclerView.adapter as BucketAdapter).getItem(
+                                    viewHolder.adapterPosition
+                                )
+                            )
+                        }
+                    }
                 }
 
                 override fun onChildDraw(
@@ -139,41 +178,16 @@ class ScheduleFragment : Fragment() {
                     isCurrentlyActive: Boolean
                 ) {
                     if ((mRecyclerView.adapter as BucketAdapter).getItemViewType(viewHolder.adapterPosition) == ActivityType.ACTIVITY) {
-
                         val itemView = viewHolder.itemView
-
                         // not sure why, but this method get's called for viewholder that are already swiped away
-                        if (viewHolder.adapterPosition == -1) {
-                            // not interested in those
+                        if (viewHolder.adapterPosition == -1)
                             return
-                        }
-
-                        if (!initiated) {
+                        if (!initiated)
                             init()
-                        }
-
-                        // draw red background
-                        background!!.setBounds(
-                            itemView.right + dX.toInt(),
-                            itemView.top,
-                            itemView.right,
-                            itemView.bottom
-                        )
-                        background!!.draw(c)
-
-                        // draw x mark
-                        val itemHeight = itemView.bottom - itemView.top
-                        val intrinsicWidth = xMark!!.intrinsicWidth
-                        val intrinsicHeight = xMark!!.intrinsicWidth
-
-                        val xMarkLeft = itemView.right - xMarkMargin - intrinsicWidth
-                        val xMarkRight = itemView.right - xMarkMargin
-                        val xMarkTop = itemView.top + (itemHeight - intrinsicHeight) / 2
-                        val xMarkBottom = xMarkTop + intrinsicHeight
-                        xMark!!.setBounds(xMarkLeft, xMarkTop, xMarkRight, xMarkBottom)
-
-                        xMark!!.draw(c)
-
+                        if (dX > 0)
+                            swipeRight(itemView, dX, c)
+                        else if (dX < 0)
+                            swipeLeft(itemView, dX, c)
                         super.onChildDraw(
                             c,
                             recyclerView,
@@ -184,6 +198,42 @@ class ScheduleFragment : Fragment() {
                             isCurrentlyActive
                         )
                     }
+                }
+
+                private fun swipeRight(itemView: View, dX: Float, c: Canvas) {
+                    detailsBackground!!.setBounds(
+                        itemView.left,
+                        itemView.top,
+                        itemView.left + dX.toInt(),
+                        itemView.bottom
+                    )
+                    detailsBackground!!.draw(c)
+                    val xMarkLeft = itemView.left + drawableMargin
+                    val xMarkRight =
+                        itemView.left + drawableMargin + detailsDrawable!!.intrinsicWidth
+                    val xMarkTop =
+                        itemView.top + (itemView.bottom - itemView.top - detailsDrawable!!.intrinsicWidth) / 2
+                    val xMarkBottom = xMarkTop + detailsDrawable!!.intrinsicWidth
+                    detailsDrawable!!.setBounds(xMarkLeft, xMarkTop, xMarkRight, xMarkBottom)
+                    detailsDrawable!!.draw(c)
+                }
+
+                private fun swipeLeft(itemView: View, dX: Float, c: Canvas) {
+                    deleteBackground!!.setBounds(
+                        itemView.right + dX.toInt(),
+                        itemView.top,
+                        itemView.right,
+                        itemView.bottom
+                    )
+                    deleteBackground!!.draw(c)
+                    val deleteLeft =
+                        itemView.right - drawableMargin - deleteDrawable!!.intrinsicWidth
+                    val deleteRight = itemView.right - drawableMargin
+                    val deleteTop =
+                        itemView.top + (itemView.bottom - itemView.top - deleteDrawable!!.intrinsicWidth) / 2
+                    val deleteBottom = deleteTop + deleteDrawable!!.intrinsicWidth
+                    deleteDrawable!!.setBounds(deleteLeft, deleteTop, deleteRight, deleteBottom)
+                    deleteDrawable!!.draw(c)
                 }
 
 
