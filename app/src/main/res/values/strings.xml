@@ -2,6 +2,7 @@
 
     <!--App name-->
     <string name="app_name">iTrip</string>
+    <string name="app_internet_error">Comprobá la conexión a Internet</string>
 
     <!--Drawer-->
     <string name="drawer_open">Abrir menú</string>

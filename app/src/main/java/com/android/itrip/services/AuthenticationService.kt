@@ -6,6 +6,7 @@ import android.os.IBinder
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GetTokenResult
+import org.json.JSONArray
 import org.json.JSONObject
 import java.util.logging.Logger
 
@@ -54,7 +55,16 @@ object AuthenticationService : Service() {
             validateFirebaseToken(task.result?.token!!, responseHandler, errorHandler)
         } else {
             logger.severe("Error verifying user: " + task.exception)
+            errorHandler(mapOf(task.exception))
         }
+    }
+
+    private fun mapOf(e: Exception?): ApiError {
+        return ApiError(
+            statusCode = 500,
+            message = e?.message ?: "",
+            data = JSONObject().put("non_field_errors", JSONArray().put(e?.message ?: "error"))
+        )
     }
 
 }
