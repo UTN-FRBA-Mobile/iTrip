@@ -68,9 +68,13 @@ class QuizInfoFragment : Fragment() {
     }
 
     private fun disableHomeButton() {
-        (activity as DrawerLocker).setDrawerEnabled(false)
-        (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(false)
-        (activity as AppCompatActivity).supportActionBar!!.setHomeButtonEnabled(false)
+        // disable only if it comes from preferences menu
+        val quiz = activity as QuizActivity
+        if (quiz.source == "preferences") {
+            (activity as DrawerLocker).setDrawerEnabled(false)
+            (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+            (activity as AppCompatActivity).supportActionBar!!.setHomeButtonEnabled(false)
+        }
     }
 
     private fun bindings() {

@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_menu_quiz">
+
+    <group
+        android:id="@+id/drawer_menu_main_items"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/drawer_menu_logout"
+            android:icon="@drawable/ic_power_settings_primary_24dp"
+            android:title="@string/drawer_menu_logout" />
+    </group>
+
+</menu>

@@ -43,6 +43,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         isQuizAnswered()
     }
 
+    fun setActionBarTitle(title: String) {
+        supportActionBar!!.title = title
+    }
+
     private fun bindings() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         drawerLayout = binding.drawerLayout
@@ -64,8 +68,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun initNavigation() {
         // settea el toolbar y el usuario logueado en el menu
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeButtonEnabled(true)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setHomeButtonEnabled(true)
         val bindingAppBar: AppBarHeaderBinding = DataBindingUtil.inflate(
             layoutInflater, R.layout.app_bar_header, navigationView, false
         )
@@ -133,10 +137,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
         return true
-    }
-
-    fun setActionBarTitle(title: String) {
-        supportActionBar!!.title = title
     }
 
     private fun isQuizAnswered() {
