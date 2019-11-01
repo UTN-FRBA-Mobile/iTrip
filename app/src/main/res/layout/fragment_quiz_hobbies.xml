@@ -9,13 +9,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#EEE">
+        android:background="#EEE"
+        android:padding="15dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_quiz_hobbies"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="12dp"
             android:scrollbars="vertical"
             tools:listitem="@layout/hobby_item" />
 
