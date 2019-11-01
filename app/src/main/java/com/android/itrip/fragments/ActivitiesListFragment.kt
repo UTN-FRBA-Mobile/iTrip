@@ -1,6 +1,7 @@
 package com.android.itrip.fragments
 
 
+import android.Manifest
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,7 @@ import com.android.itrip.databinding.FragmentActivitiesListBinding
 import com.android.itrip.models.MapDestination
 import com.android.itrip.viewModels.ActivitiesViewModel
 import com.android.itrip.viewModels.ActivitiesViewModelFactory
+
 
 class ActivitiesListFragment : Fragment() {
 
@@ -61,7 +63,7 @@ class ActivitiesListFragment : Fragment() {
         })
         binding.myRecyclerView.apply {
             layoutManager = LinearLayoutManager(application)
-            adapter = ActivitiesAdapter(activitiesViewModel.actividades)
+            adapter = ActivitiesAdapter(activitiesViewModel.actividades) { requestPermission() }
         }
         binding.mapsFloatingActionButton.setOnClickListener { view: View ->
             val mapDestinations: MutableList<MapDestination> = mutableListOf()
@@ -82,8 +84,12 @@ class ActivitiesListFragment : Fragment() {
         return binding.root
     }
 
+    private fun requestPermission() {
+        requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 101)
+    }
+
     private fun setBarTitle() {
-        (activity as MainActivity).setActionBarTitle("Actividades de "+destination.name)
+        (activity as MainActivity).setActionBarTitle("Actividades de " + destination.name)
     }
 
 }

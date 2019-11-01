@@ -64,6 +64,7 @@ class ScheduleFragment : Fragment() {
             adapter = BucketAdapter(scheduleViewModel)
             setUpItemTouchHelper()
         }
+
         Toast.makeText(
             context,
             "<= REMOVER   |   DETALLES =>",
@@ -115,8 +116,6 @@ class ScheduleFragment : Fragment() {
         val simpleItemTouchCallback =
             object :
                 ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)) {
-
-                // we want to cache these and not allocate anything repeatedly in the onChildDraw method
                 var detailsBackground: Drawable? = null
                 var detailsDrawable: Drawable? = null
                 var deleteBackground: Drawable? = null
@@ -144,7 +143,6 @@ class ScheduleFragment : Fragment() {
                     initiated = true
                 }
 
-                // not important, we don't want drag & drop
                 override fun onMove(
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder,
@@ -156,10 +154,10 @@ class ScheduleFragment : Fragment() {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
                     if ((mRecyclerView.adapter as BucketAdapter).getItemViewType(viewHolder.adapterPosition) == ActivityType.ACTIVITY) {
                         when (swipeDir) {
-                            ItemTouchHelper.LEFT -> (mRecyclerView.adapter as BucketAdapter).remove(
+                            ItemTouchHelper.RIGHT -> (mRecyclerView.adapter as BucketAdapter).remove(
                                 viewHolder.adapterPosition
                             )
-                            ItemTouchHelper.RIGHT -> showActivityDetails(
+                            ItemTouchHelper.LEFT -> showActivityDetails(
                                 (mRecyclerView.adapter as BucketAdapter).getItem(
                                     viewHolder.adapterPosition
                                 )
@@ -179,15 +177,14 @@ class ScheduleFragment : Fragment() {
                 ) {
                     if ((mRecyclerView.adapter as BucketAdapter).getItemViewType(viewHolder.adapterPosition) == ActivityType.ACTIVITY) {
                         val itemView = viewHolder.itemView
-                        // not sure why, but this method get's called for viewholder that are already swiped away
                         if (viewHolder.adapterPosition == -1)
                             return
                         if (!initiated)
                             init()
                         if (dX > 0)
-                            swipeRight(itemView, dX, c)
+                            swipeRight(itemView, dX, c, deleteDrawable, deleteBackground)
                         else if (dX < 0)
-                            swipeLeft(itemView, dX, c)
+                            swipeLeft(itemView, dX, c, detailsDrawable, detailsBackground)
                         super.onChildDraw(
                             c,
                             recyclerView,
@@ -200,40 +197,52 @@ class ScheduleFragment : Fragment() {
                     }
                 }
 
-                private fun swipeRight(itemView: View, dX: Float, c: Canvas) {
-                    detailsBackground!!.setBounds(
+                private fun swipeRight(
+                    itemView: View,
+                    dX: Float,
+                    c: Canvas,
+                    drawable: Drawable?,
+                    background: Drawable?
+                ) {
+                    background!!.setBounds(
                         itemView.left,
                         itemView.top,
                         itemView.left + dX.toInt(),
                         itemView.bottom
                     )
-                    detailsBackground!!.draw(c)
+                    background.draw(c)
                     val xMarkLeft = itemView.left + drawableMargin
                     val xMarkRight =
-                        itemView.left + drawableMargin + detailsDrawable!!.intrinsicWidth
+                        itemView.left + drawableMargin + drawable!!.intrinsicWidth
                     val xMarkTop =
-                        itemView.top + (itemView.bottom - itemView.top - detailsDrawable!!.intrinsicWidth) / 2
-                    val xMarkBottom = xMarkTop + detailsDrawable!!.intrinsicWidth
-                    detailsDrawable!!.setBounds(xMarkLeft, xMarkTop, xMarkRight, xMarkBottom)
-                    detailsDrawable!!.draw(c)
+                        itemView.top + (itemView.bottom - itemView.top - drawable.intrinsicWidth) / 2
+                    val xMarkBottom = xMarkTop + drawable.intrinsicWidth
+                    drawable.setBounds(xMarkLeft, xMarkTop, xMarkRight, xMarkBottom)
+                    drawable.draw(c)
                 }
 
-                private fun swipeLeft(itemView: View, dX: Float, c: Canvas) {
-                    deleteBackground!!.setBounds(
+                private fun swipeLeft(
+                    itemView: View,
+                    dX: Float,
+                    c: Canvas,
+                    drawable: Drawable?,
+                    background: Drawable?
+                ) {
+                    background!!.setBounds(
                         itemView.right + dX.toInt(),
                         itemView.top,
                         itemView.right,
                         itemView.bottom
                     )
-                    deleteBackground!!.draw(c)
+                    background.draw(c)
                     val deleteLeft =
-                        itemView.right - drawableMargin - deleteDrawable!!.intrinsicWidth
+                        itemView.right - drawableMargin - drawable!!.intrinsicWidth
                     val deleteRight = itemView.right - drawableMargin
                     val deleteTop =
-                        itemView.top + (itemView.bottom - itemView.top - deleteDrawable!!.intrinsicWidth) / 2
-                    val deleteBottom = deleteTop + deleteDrawable!!.intrinsicWidth
-                    deleteDrawable!!.setBounds(deleteLeft, deleteTop, deleteRight, deleteBottom)
-                    deleteDrawable!!.draw(c)
+                        itemView.top + (itemView.bottom - itemView.top - drawable.intrinsicWidth) / 2
+                    val deleteBottom = deleteTop + drawable.intrinsicWidth
+                    drawable.setBounds(deleteLeft, deleteTop, deleteRight, deleteBottom)
+                    drawable.draw(c)
                 }
 
 
