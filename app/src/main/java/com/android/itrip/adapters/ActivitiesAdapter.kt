@@ -29,7 +29,7 @@ import com.squareup.picasso.Picasso
 
 
 class ActivitiesAdapter(
-    _actividades: LiveData<List<Actividad>>,
+    private val _actividades: LiveData<List<Actividad>>,
     private val requestPermissionCallback: () -> Unit
 ) :
     ListAdapter<Actividad, RecyclerView.ViewHolder>(ActivitiesDiffCallback()) {
