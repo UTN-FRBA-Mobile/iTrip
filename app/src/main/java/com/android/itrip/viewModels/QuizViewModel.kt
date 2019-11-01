@@ -48,7 +48,7 @@ class QuizViewModel {
         Answer("T", "Trabajador"),
         Answer("ET", "Estudiante y trabajador"),
         Answer("J", "Jubilad@"),
-        Answer("D", "Desempleado@"),
+        Answer("D", "Desemplead@"),
         Answer("N", "Ninguna")
     )
 
