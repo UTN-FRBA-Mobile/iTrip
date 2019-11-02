@@ -7,11 +7,9 @@ import androidx.lifecycle.ViewModel
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.models.Viaje
 import com.android.itrip.services.TravelService
-import java.util.logging.Logger
 
 class TripViewModel(viajeID: Long, callback: () -> Unit) : ViewModel() {
 
-    private val logger = Logger.getLogger("prueba")
     private var _viaje = MutableLiveData<Viaje>()
     val viaje: LiveData<Viaje>
         get() = _viaje
@@ -31,13 +29,11 @@ class TripViewModel(viajeID: Long, callback: () -> Unit) : ViewModel() {
     fun getTravel(viajeID: Long?, callback: () -> Unit) {
         TravelService.getTrip(viajeID ?: viaje.value!!.id, {
             _viaje.value = it
-            logger.info("TravelService.getTrip")
             callback()
         }, {})
     }
 
     private fun ciudadesAVisitarTransformation(viaje: Viaje): LiveData<List<CiudadAVisitar>> {
-        logger.info("ciudadesAVisitarTransformation")
         return MutableLiveData<List<CiudadAVisitar>>(viaje.ciudades_a_visitar)
     }
 

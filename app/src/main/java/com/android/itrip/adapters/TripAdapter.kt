@@ -18,7 +18,6 @@ import com.android.itrip.fragments.TripFragmentDirections
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.viewModels.TripViewModel
 import com.squareup.picasso.Picasso
-import java.util.logging.Logger
 
 
 class TripAdapter(
@@ -27,11 +26,9 @@ class TripAdapter(
     private val viewCallback: (CiudadAVisitar) -> Unit
 ) :
     ListAdapter<CiudadAVisitar, RecyclerView.ViewHolder>(TripDiffCallback()) {
-    private val logger = Logger.getLogger("prueba")
 
     init {
         tripViewModel.ciudadesAVisitar.observeForever {
-            logger.info("tripViewModel.ciudadesAVisitar.observeForever")
             notifyItemRangeRemoved(0, itemCount)
             notifyDataSetChanged()
             submitList(it)

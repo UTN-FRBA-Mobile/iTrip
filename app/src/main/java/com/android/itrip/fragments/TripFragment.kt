@@ -68,10 +68,8 @@ class TripFragment : Fragment() {
     }
 
     private fun deleteCityToVisit(ciudadAVisitar: CiudadAVisitar) {
-        logger.info("deleteCityToVisit: " + ciudadAVisitar.detalle_ciudad!!.nombre)
         TravelService.deleteDestination(ciudadAVisitar, {
             tripViewModel.getTravel(null) {
-                logger.info("deleteCityToVisit")
                 getDestinations()
                 binding.recyclerviewDestinations.invalidate()
             }

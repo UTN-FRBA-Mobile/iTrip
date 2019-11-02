@@ -158,13 +158,30 @@ object TravelService : Service() {
         ApiService.getArray(
             url,
             {
-                logger.info(it.toString())
                 val listType = object : TypeToken<List<Actividad>>() {}.type
                 val actividades: List<Actividad> = gson.fromJson(it.toString(), listType)
                 responseHandler(actividades)
             },
             errorHandler
         )
+    }
+
+    fun addActivityToBucket(
+        bucket: Bucket,
+        responseHandler: () -> Unit,
+        errorHandler: (ApiError) -> Unit
+    ) {
+        logger.info("addActivityToBucket.")
+        val url =
+            """ciudad-a-visitar/${bucket.ciudadAVisitar.id}/agregar-actividad/"""
+        val json = JSONObject().apply {
+            put("actividad", bucket.actividad.id)
+            put("dia", bucket.dia)
+            put("bucket_inicio", bucket.bucket_inicio)
+        }
+        ApiService.post(url, json, {
+            responseHandler()
+        }, errorHandler)
     }
 
 }

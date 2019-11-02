@@ -1,15 +1,12 @@
 package com.android.itrip.adapters
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil

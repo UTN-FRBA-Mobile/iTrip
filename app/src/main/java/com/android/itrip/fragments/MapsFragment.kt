@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.android.itrip.ActivitiesActivity
-import com.android.itrip.MainActivity
 import com.android.itrip.R
 import com.android.itrip.models.MapDestination
 import com.google.android.gms.maps.CameraUpdateFactory

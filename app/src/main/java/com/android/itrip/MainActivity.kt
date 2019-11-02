@@ -1,12 +1,10 @@
 package com.android.itrip
 
 
-import android.app.Activity
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -18,7 +16,6 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.android.itrip.databinding.ActivityMainBinding
 import com.android.itrip.databinding.AppBarHeaderBinding
-import com.android.itrip.models.Actividad
 import com.android.itrip.services.ApiService
 import com.android.itrip.services.QuizService
 import com.google.android.material.navigation.NavigationView
@@ -158,18 +155,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }, { error ->
             logger.severe("Failed to retrieve quiz result - status: ${error.statusCode} - message: ${error.message}")
         })
-    }
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        //todo requestCode is not working as expected
-//        if (requestCode == RequestCodes.ADD_ACTIVITY_CODE) {
-        if (resultCode == Activity.RESULT_OK) {
-            val activdad: Actividad = data?.extras?.get("actividad") as Actividad
-            Toast.makeText(this, activdad.nombre + " " + requestCode, Toast.LENGTH_SHORT).show()
-        }
-//        }
     }
 
 }

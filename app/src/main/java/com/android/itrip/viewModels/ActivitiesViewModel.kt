@@ -32,13 +32,10 @@ class ActivitiesViewModel(
     }
 
     private fun getActividadesCallback(actividades: List<Actividad>) {
-        logger.info("Cantidad de Actividades: " + actividades.size.toString())
         uiScope.launch {
             clear()
             actividades.forEach {
-                logger.info("Actividad: " + it.nombre)
                 insert(it)
-
             }
         }
     }

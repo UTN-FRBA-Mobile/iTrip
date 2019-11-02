@@ -1,6 +1,7 @@
 package com.android.itrip.fragments
 
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
@@ -73,7 +74,7 @@ class ScheduleFragment : Fragment() {
         Toast.makeText(
             context,
             "<= REMOVER   |   DETALLES =>",
-            Toast.LENGTH_LONG
+            Toast.LENGTH_SHORT
         ).show()
         setBarTitle()
         binding.lifecycleOwner = this
@@ -93,6 +94,7 @@ class ScheduleFragment : Fragment() {
         startActivityForResult(intent, ADD_ACTIVITY_CODE)
     }
 
+    //todo cambiar a activity y no fragment
     private fun showActivityDetails(actividadARealizar: ActividadARealizar) {
         val bundle = bundleOf(
             "actividad" to actividadARealizar.detalle_actividad
@@ -120,6 +122,16 @@ class ScheduleFragment : Fragment() {
         horizontalCalendar.calendarListener = object : HorizontalCalendarListener() {
             override fun onDateSelected(date: Calendar, position: Int) {
                 scheduleViewModel.updateDate(date)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == ADD_ACTIVITY_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                val actividad: Actividad = data?.extras?.get("actividad") as Actividad
+                scheduleViewModel.addActividadToBucket(actividad)
             }
         }
     }

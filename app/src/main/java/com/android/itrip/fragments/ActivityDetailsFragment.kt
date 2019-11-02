@@ -1,7 +1,5 @@
 package com.android.itrip.fragments
 
-import android.app.Activity.RESULT_OK
-import android.content.Intent
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
