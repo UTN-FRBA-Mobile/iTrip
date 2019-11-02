@@ -7,34 +7,32 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
-import com.android.itrip.databinding.ActivityQuizBinding
+import com.android.itrip.databinding.ActivityActivitiesBinding
+import com.android.itrip.databinding.AppBarHeaderBinding
+import com.android.itrip.models.Actividad
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_quiz.*
 
-interface DrawerLocker {
-    fun setDrawerEnabled(enabled: Boolean)
-}
+class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener, DrawerLocker {
 
-class QuizActivity : AppCompatActivity(), OnNavigationItemSelectedListener, DrawerLocker {
-
-    private lateinit var binding: ActivityQuizBinding
+    private lateinit var binding: ActivityActivitiesBinding
     private lateinit var toolbar: Toolbar
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var drawerToggle: ActionBarDrawerToggle
     private lateinit var navigationView: NavigationView
     private lateinit var navController: NavController
+    private lateinit var actividades: List<Actividad>
     var source: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +41,7 @@ class QuizActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Draw
         bindings()
         initDrawer()
         initNavigation()
-        startQuiz()
+        startActivitiesList()
     }
 
     fun setActionBarTitle(title: String) {
@@ -51,15 +49,16 @@ class QuizActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Draw
     }
 
     private fun readSource() {
-        // read if there is a source which invoked the quiz
         source = intent.getStringExtra("source")
+        @Suppress("UNCHECKED_CAST")
+        actividades = intent?.extras?.get("actividades") as List<Actividad>
     }
 
     private fun bindings() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_quiz)
-        drawerLayout = binding.drawerLayoutQuiz
-        toolbar = binding.appBarQuiz as Toolbar
-        navigationView = binding.navigationViewQuiz
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_activities)
+        drawerLayout = binding.drawerLayoutActivities
+        toolbar = binding.appBarActivities as Toolbar
+        navigationView = binding.navigationViewActivities
     }
 
     private fun initDrawer() {
@@ -81,11 +80,12 @@ class QuizActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Draw
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setHomeButtonEnabled(true)
-        val bindingAppBar: ViewDataBinding = DataBindingUtil.inflate(
-            layoutInflater, R.layout.app_bar_header_quiz, navigationView, false
+        val bindingAppBar: AppBarHeaderBinding = DataBindingUtil.inflate(
+            layoutInflater, R.layout.app_bar_header, navigationView, false
         )
         // set up navigation controller and navigation view bindings
-        navController = Navigation.findNavController(this, R.id.navhostfragment_quiz)
+        bindingAppBar.currentUser = FirebaseAuth.getInstance().currentUser
+        navController = Navigation.findNavController(this, R.id.navhostfragment_activities)
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
         NavigationUI.setupWithNavController(navigationView, navController)
         navigationView.addHeaderView(bindingAppBar.root)
@@ -114,7 +114,7 @@ class QuizActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Draw
 
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(
-            Navigation.findNavController(this, R.id.navhostfragment_quiz),
+            Navigation.findNavController(this, R.id.navhostfragment_activities),
             drawerLayout
         )
     }
@@ -146,12 +146,17 @@ class QuizActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Draw
         return true
     }
 
-    private fun startQuiz() {
-        val navHostFragment = navhostfragment_quiz as NavHostFragment
-        val inflater = navHostFragment.navController.navInflater
-        val graph = inflater.inflate(R.navigation.quiz_navigation)
-        graph.startDestination = R.id.quizInfoFragment
-        navHostFragment.navController.graph = graph
+    private fun startActivitiesList() {
+        val navController = findNavController(R.id.navhostfragment_activities)
+        val bundle = bundleOf("actividades" to actividades)
+        navController.setGraph(navController.graph, bundle)
+//
+//        findNavController().setGraph(R.navigation.activities_navigation,Bundle())
+//        val navHostFragment = navhostfragment_activities as NavHostFragment
+//        val inflater = navHostFragment.navController.navInflater
+//        val graph = inflater.inflate(R.navigation.activities_navigation)
+//        graph.startDestination = R.id.activitiesListFragment
+//        navHostFragment.navController.graph = graph
     }
 
 }

@@ -18,14 +18,6 @@
         android:layout_height="match_parent"
         android:background="#fff">
 
-        <ImageView
-            android:id="@+id/activity_img"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/activityTitle_textview"
             android:layout_width="match_parent"
@@ -34,9 +26,17 @@
             android:textColor="#FFFFFF"
             android:textSize="30sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/activity_img"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintBottom_toTopOf="@+id/activity_img"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/activity_img"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activityTitle_textview" />
 
         <ImageView
             android:id="@+id/calendar_imageview"
@@ -45,7 +45,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginEnd="15dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activityTitle_textview"
+            app:layout_constraintTop_toBottomOf="@+id/activity_img"
             app:srcCompat="@drawable/ic_date_range_black_24dp" />
 
         <TextView
@@ -58,29 +58,16 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/calendar_imageview"
-            app:layout_constraintTop_toBottomOf="@+id/activityTitle_textview" />
+            app:layout_constraintTop_toBottomOf="@+id/activity_img" />
 
-        <ImageView
-            android:id="@+id/imageView2"
+        <ImageButton
+            android:id="@+id/locationImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/calendar_imageview"
             app:srcCompat="@drawable/ic_pin_drop_black_24dp" />
-
-        <TextView
-            android:id="@+id/activity_location"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@{`Latitud: ` + activity.latitud + `\nLongitud: `+activity.longitud}"
-            android:textColor="@color/colorPlaceholder"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
-            app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
         <TextView
             android:id="@+id/activitycategories_textview"
@@ -91,7 +78,7 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_location" />
+            app:layout_constraintTop_toBottomOf="@+id/locationImageButton" />
 
         <RatingBar
             android:id="@+id/activityRating_rating"
@@ -134,7 +121,7 @@
             app:layout_constraintTop_toBottomOf="@+id/activityCost_textview" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/maps_floatingActionButton"
+            android:id="@+id/addActivity_floatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"

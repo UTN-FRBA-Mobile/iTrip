@@ -10,10 +10,14 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_createTravelFragment"
-            app:destination="@id/createTravelFragment" />
+            app:destination="@id/createTravelFragment"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@anim/fui_slide_out_left" />
         <action
             android:id="@+id/action_homeFragment_to_tripFragment"
-            app:destination="@id/tripFragment" />
+            app:destination="@id/tripFragment"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@anim/fui_slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/createTravelFragment"
@@ -22,6 +26,8 @@
         <action
             android:id="@+id/action_createTravelFragment_to_tripFragment"
             app:destination="@id/tripFragment"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@anim/fui_slide_out_left"
             app:popUpTo="@+id/homeFragment"
             app:popUpToInclusive="false" />
     </fragment>
@@ -32,40 +38,16 @@
         tools:layout="@layout/fragment_destination_list">
         <action
             android:id="@+id/action_destinationListFragment_to_activitiesListFragment"
-            app:destination="@id/activitiesListFragment" />
+            app:destination="@id/activitiesListFragment"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@anim/fui_slide_out_left" />
         <action
             android:id="@+id/action_destinationListFragment_to_tripFragment"
             app:destination="@id/tripFragment"
+            app:enterAnim="@anim/fui_slide_out_left"
+            app:exitAnim="@anim/fui_slide_in_right"
             app:popUpTo="@+id/homeFragment"
             app:popUpToInclusive="false" />
-    </fragment>
-    <fragment
-        android:id="@+id/activitiesListFragment"
-        android:name="com.android.itrip.fragments.ActivitiesListFragment"
-        android:label="fragment_activities_list"
-        tools:layout="@layout/fragment_activities_list">
-        <action
-            android:id="@+id/action_activitiesListFragment_to_mapsFragment"
-            app:destination="@id/mapsFragment" />
-        <action
-            android:id="@+id/action_activitiesListFragment_to_activityDetailsFragment"
-            app:destination="@id/activityDetailsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/mapsFragment"
-        android:name="com.android.itrip.fragments.MapsFragment"
-        android:label="fragment_maps"
-        tools:layout="@layout/fragment_maps" />
-
-
-    <fragment
-        android:id="@+id/activityDetailsFragment"
-        android:name="com.android.itrip.fragments.ActivityDetailsFragment"
-        android:label="ActivityDetailsFragment"
-        tools:layout="@layout/fragment_activity_details">
-        <action
-            android:id="@+id/action_activityDetailsFragment_to_mapsFragment"
-            app:destination="@id/mapsFragment" />
     </fragment>
     <fragment
         android:id="@+id/scheduleFragment"
@@ -74,10 +56,14 @@
         tools:layout="@layout/fragment_schedule">
         <action
             android:id="@+id/action_scheduleFragment_to_activitiesListFragment"
-            app:destination="@id/activitiesListFragment" />
+            app:destination="@id/activitiesListFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
         <action
             android:id="@+id/action_scheduleFragment_to_activityDetailsFragment"
-            app:destination="@id/activityDetailsFragment" />
+            app:destination="@id/activityDetailsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/tripFragment"
@@ -85,9 +71,13 @@
         tools:layout="@layout/fragment_trip">
         <action
             android:id="@+id/action_tripFragment_to_scheduleFragment"
-            app:destination="@id/scheduleFragment" />
+            app:destination="@id/scheduleFragment"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@anim/fui_slide_out_left" />
         <action
             android:id="@+id/action_tripFragment_to_destinationListFragment"
-            app:destination="@id/destinationListFragment" />
+            app:destination="@id/destinationListFragment"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@anim/fui_slide_out_left" />
     </fragment>
 </navigation>

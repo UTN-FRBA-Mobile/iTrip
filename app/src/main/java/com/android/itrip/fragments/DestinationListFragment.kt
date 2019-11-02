@@ -1,6 +1,7 @@
 package com.android.itrip.fragments
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.itrip.ActivitiesActivity
 import com.android.itrip.MainActivity
 import com.android.itrip.R
 import com.android.itrip.adapters.DestinationAdapter
@@ -85,10 +86,16 @@ class DestinationListFragment : Fragment() {
     }
 
     private fun goToActivities(actividades: List<Actividad>) {
-        findNavController().navigate(
-            DestinationListFragmentDirections.actionDestinationListFragmentToActivitiesListFragment().actionId,
-            bundleOf("actividades" to actividades)
-        )
+//        val intent = Intent(context, ActivitiesActivity::class.java).apply {
+//            putExtra("CurrentUser", FirebaseAuth.getInstance().currentUser)
+//            putExtra("actividades", arrayListOf(actividades))
+//        }
+//        startActivityForResult(intent, RESULT_OK)
+        val intent = Intent(context, ActivitiesActivity::class.java).apply {
+            putExtras(bundleOf("actividades" to actividades))
+        }
+        startActivity(intent)
+//        activity?.finish()
     }
 
     private fun destinationAdded(destination: Destination) {

@@ -40,7 +40,7 @@ class ActivityDetailsFragment : Fragment() {
                 .into(binding.activityImg)
         }
         binding.activityDescription.movementMethod = ScrollingMovementMethod()
-        binding.activityLocation.setOnClickListener {
+        binding.locationImageButton.setOnClickListener {
             val mapDestination = MapDestination(
                 binding.activity!!.nombre,
                 binding.activity!!.latitud,
@@ -54,6 +54,9 @@ class ActivityDetailsFragment : Fragment() {
                     ActivityDetailsFragmentDirections.actionActivityDetailsFragmentToMapsFragment().actionId
                     , bundle
                 )
+        }
+        binding.addActivityFloatingActionButton.setOnClickListener {
+
         }
         setBarTitle()
         return binding.root
