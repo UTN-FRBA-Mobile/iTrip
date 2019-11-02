@@ -1,5 +1,7 @@
 package com.android.itrip.fragments
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
@@ -9,12 +11,13 @@ import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import com.android.itrip.MainActivity
+import com.android.itrip.ActivitiesActivity
 import com.android.itrip.R
 import com.android.itrip.databinding.FragmentActivityDetailsBinding
 import com.android.itrip.models.Actividad
 import com.android.itrip.models.MapDestination
 import com.squareup.picasso.Picasso
+
 
 class ActivityDetailsFragment : Fragment() {
 
@@ -56,14 +59,14 @@ class ActivityDetailsFragment : Fragment() {
                 )
         }
         binding.addActivityFloatingActionButton.setOnClickListener {
-
+            (activity as ActivitiesActivity).finishActivity(actividad)
         }
         setBarTitle()
         return binding.root
     }
 
     private fun setBarTitle() {
-        (activity as MainActivity).setActionBarTitle(actividad.nombre)
+        (activity as ActivitiesActivity).setActionBarTitle(actividad.nombre)
     }
 
 

@@ -1,5 +1,6 @@
 package com.android.itrip
 
+import android.app.Activity
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
@@ -23,6 +24,7 @@ import com.android.itrip.models.Actividad
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
 import com.google.firebase.auth.FirebaseAuth
+
 
 class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener, DrawerLocker {
 
@@ -150,13 +152,13 @@ class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener
         val navController = findNavController(R.id.navhostfragment_activities)
         val bundle = bundleOf("actividades" to actividades)
         navController.setGraph(navController.graph, bundle)
-//
-//        findNavController().setGraph(R.navigation.activities_navigation,Bundle())
-//        val navHostFragment = navhostfragment_activities as NavHostFragment
-//        val inflater = navHostFragment.navController.navInflater
-//        val graph = inflater.inflate(R.navigation.activities_navigation)
-//        graph.startDestination = R.id.activitiesListFragment
-//        navHostFragment.navController.graph = graph
+    }
+
+    fun finishActivity(actividad: Actividad) {
+        val returnIntent = Intent()
+        returnIntent.putExtra("actividad", actividad)
+        setResult(Activity.RESULT_OK, returnIntent)
+        finish()
     }
 
 }

@@ -1,6 +1,7 @@
 package com.android.itrip.fragments
 
 
+import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -19,9 +20,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.itrip.ActivitiesActivity
 import com.android.itrip.MainActivity
 import com.android.itrip.R
 import com.android.itrip.R.color.colorDarkGreen
+import com.android.itrip.RequestCodes.Companion.ADD_ACTIVITY_CODE
 import com.android.itrip.adapters.ActivityType
 import com.android.itrip.adapters.BucketAdapter
 import com.android.itrip.databinding.FragmentScheduleBinding
@@ -67,7 +70,6 @@ class ScheduleFragment : Fragment() {
             }
             setUpItemTouchHelper()
         }
-
         Toast.makeText(
             context,
             "<= REMOVER   |   DETALLES =>",
@@ -85,10 +87,10 @@ class ScheduleFragment : Fragment() {
     }
 
     private fun goToAddActivity(actividades: List<Actividad>) {
-        findNavController().navigate(
-            ScheduleFragmentDirections.actionScheduleFragmentToActivitiesListFragment().actionId,
-            bundleOf("actividades" to actividades)
-        )
+        val intent = Intent(context, ActivitiesActivity::class.java).apply {
+            putExtras(bundleOf("actividades" to actividades))
+        }
+        startActivityForResult(intent, ADD_ACTIVITY_CODE)
     }
 
     private fun showActivityDetails(actividadARealizar: ActividadARealizar) {
