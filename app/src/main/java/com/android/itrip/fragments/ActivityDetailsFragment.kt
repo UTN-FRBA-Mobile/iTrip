@@ -66,7 +66,7 @@ class ActivityDetailsFragment : Fragment() {
     }
 
     private fun setBarTitle() {
-        (activity as ActivitiesActivity).setActionBarTitle(actividad.nombre)
+        (activity as ActivitiesActivity).setActionBarTitle("Actividad")
     }
 
 
