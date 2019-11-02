@@ -82,7 +82,8 @@ object TravelService : Service() {
     }
 
     fun getActivities(
-        destination: Destination, responseHandler: (List<Actividad>) -> Unit,
+        destination: Destination,
+        responseHandler: (List<Actividad>) -> Unit,
         errorHandler: (ApiError) -> Unit
     ) {
         logger.info("getActivities.")
@@ -162,6 +163,26 @@ object TravelService : Service() {
         ApiService.delete("""actividad-a-realizar/${actividadARealizar.id}/""", {
             responseHandler()
         }, errorHandler)
+    }
+
+    fun getActivitiesForBucket(
+        bucket: Bucket,
+        responseHandler: (List<Actividad>) -> Unit,
+        errorHandler: (ApiError) -> Unit
+    ) {
+        logger.info("getActivitiesForBucket.")
+        val url =
+            """ciudad-a-visitar/${bucket.ciudadAVisitar.id}/posibles-actividades/?dia=${bucket.dia}&bucket_inicio=${bucket.bucket_inicio}"""
+        ApiService.getArray(
+            url,
+            {
+                logger.info(it.toString())
+                val listType = object : TypeToken<List<Actividad>>() {}.type
+                val actividades: List<Actividad> = gson.fromJson(it.toString(), listType)
+                responseHandler(actividades)
+            },
+            errorHandler
+        )
     }
 
 }

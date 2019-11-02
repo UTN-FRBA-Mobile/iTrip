@@ -6,6 +6,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.android.itrip.models.Actividad
 import com.android.itrip.models.ActividadARealizar
+import com.android.itrip.models.Bucket
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.services.TravelService
 import java.util.*
@@ -25,7 +26,6 @@ class ScheduleViewModel(
         CiudadAVisitarDate._date.value = CiudadAVisitarDate.date.value ?: ciudadAVisitar.inicio
         actividadesARealizar =
             Transformations.switchMap(CiudadAVisitarDate.date) { date -> setBuckets(date) }
-
     }
 
     private fun setBuckets(date: Calendar): LiveData<List<ActividadARealizar>> {
@@ -106,6 +106,20 @@ class ScheduleViewModel(
         TravelService.deleteToDoActivity(item, {
             updateCiudadAVisitar()
         }, {})
+    }
+
+    fun getPossibleActivitiesForBucket(
+        actividadARealizar: ActividadARealizar,
+        successCallback: (List<Actividad>) -> Unit,
+        failureCallback: () -> Unit
+    ) {
+        TravelService.getActivitiesForBucket(Bucket(
+            ciudadAVisitar,
+            actividadARealizar.dia,
+            actividadARealizar.bucket_inicio
+        ),
+            { actividadesARealizar -> successCallback(actividadesARealizar) },
+            { failureCallback() })
     }
 
 }

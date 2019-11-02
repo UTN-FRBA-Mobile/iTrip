@@ -30,7 +30,8 @@ interface ActivityType {
 }
 
 class BucketAdapter(
-    private val scheduleViewModel: ScheduleViewModel
+    private val scheduleViewModel: ScheduleViewModel,
+    private val addActivityToBucketCallback: (ActividadARealizar) -> Unit
 ) :
     RecyclerView.Adapter<BucketAdapter.ActivitiesHolder>() {
 
@@ -56,7 +57,7 @@ class BucketAdapter(
     }
 
     override fun onBindViewHolder(holder: ActivitiesHolder, position: Int) {
-        holder.bind(getItem(position), position, scheduleViewModel)
+        holder.bind(getItem(position), position, addActivityToBucketCallback)
     }
 
     fun getItem(position: Int): ActividadARealizar {
@@ -110,10 +111,14 @@ class BucketAdapter(
             return lifecycleRegistry
         }
 
-        fun bind(item: ActividadARealizar, position: Int, viewModel: ScheduleViewModel) {
+        fun bind(
+            item: ActividadARealizar,
+            position: Int,
+            addActivityToBucketCallback: (ActividadARealizar) -> Unit
+        ) {
             when (itemViewType) {
                 ActivityType.ACTIVITY -> bindActivity(item, position)
-                ActivityType.EMPTY -> bindingEmpty(item, viewModel)
+                ActivityType.EMPTY -> bindingEmpty(item, addActivityToBucketCallback)
             }
         }
 
@@ -133,27 +138,23 @@ class BucketAdapter(
                 bucketItemConstraintLayout.setOnClickListener {
                     Toast.makeText(
                         it.context,
-                        "Desliza izquierda para ver detalles. \nDesliza derecha para remover.",
+                        "<= REMOVER   |   DETALLES =>",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
             }
         }
 
-        fun bindingEmpty(item: ActividadARealizar, viewModel: ScheduleViewModel) {
+        fun bindingEmpty(
+            item: ActividadARealizar,
+            addActivityToBucketCallback: (ActividadARealizar) -> Unit
+        ) {
             (binding as BucketEmptyItemBinding).apply {
                 bucketEmptyItemConstraintLayout.layoutParams.height =
                     bucketEmptyItemConstraintLayout.context.resources.displayMetrics.heightPixels / 9 * item.detalle_actividad!!.duracion
                 bucketEmptyItemConstraintLayout.requestLayout()
                 bucketAddButton.setOnClickListener {
-                    val destination = Destination(
-                        viewModel.ciudadAVisitar.detalle_ciudad!!.id,
-                        viewModel.ciudadAVisitar.detalle_ciudad!!.nombre
-                    )
-                    it.findNavController().navigate(
-                        ScheduleFragmentDirections.actionScheduleFragmentToActivitiesListFragment().actionId,
-                        bundleOf("destination" to destination)
-                    )
+                    addActivityToBucketCallback(item)
                 }
             }
         }
