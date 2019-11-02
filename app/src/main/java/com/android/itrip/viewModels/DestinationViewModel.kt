@@ -6,10 +6,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.android.itrip.database.Destination
 import com.android.itrip.database.DestinationDatabaseDao
-import com.android.itrip.models.Ciudad
-import com.android.itrip.models.CiudadAVisitar
-import com.android.itrip.models.Continente
-import com.android.itrip.models.Viaje
+import com.android.itrip.models.*
+import com.android.itrip.services.ApiError
 import com.android.itrip.services.TravelService
 import kotlinx.coroutines.*
 import java.util.*
@@ -116,6 +114,14 @@ class DestinationViewModel(
                 .show()
             callbackError()
         })
+    }
+
+    fun getActivities(
+        destination: Destination,
+        successCallback: (List<Actividad>) -> Unit,
+        failureCallback: (ApiError) -> Unit
+    ) {
+        TravelService.getActivities(destination, successCallback, failureCallback)
     }
 
 }

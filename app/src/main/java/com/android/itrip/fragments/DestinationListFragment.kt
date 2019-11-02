@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.itrip.MainActivity
 import com.android.itrip.R
@@ -18,6 +19,7 @@ import com.android.itrip.adapters.DestinationAdapter
 import com.android.itrip.database.Destination
 import com.android.itrip.database.DestinationDatabase
 import com.android.itrip.databinding.FragmentDestinationListBinding
+import com.android.itrip.models.Actividad
 import com.android.itrip.models.Viaje
 import com.android.itrip.ui.DatePickerFragment
 import com.android.itrip.util.calendarToString
@@ -67,12 +69,26 @@ class DestinationListFragment : Fragment() {
             }
             myRecyclerView.apply {
                 layoutManager = LinearLayoutManager(application)
-                adapter = DestinationAdapter(destinationsViewModel!!) { destinationAdded(it) }
+                adapter = DestinationAdapter(
+                    destinationsViewModel!!,
+                    { destinationAdded(it) },
+                    { viewActivities(it) })
             }
             lifecycleOwner = this@DestinationListFragment
         }
         setBarTitle()
         return binding.root
+    }
+
+    private fun viewActivities(destination: Destination) {
+        destinationsViewModel.getActivities(destination, { goToActivities(it) }, {})
+    }
+
+    private fun goToActivities(actividades: List<Actividad>) {
+        findNavController().navigate(
+            DestinationListFragmentDirections.actionDestinationListFragmentToActivitiesListFragment().actionId,
+            bundleOf("actividades" to actividades)
+        )
     }
 
     private fun destinationAdded(destination: Destination) {

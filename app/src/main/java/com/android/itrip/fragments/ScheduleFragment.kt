@@ -25,6 +25,7 @@ import com.android.itrip.R.color.colorDarkGreen
 import com.android.itrip.adapters.ActivityType
 import com.android.itrip.adapters.BucketAdapter
 import com.android.itrip.databinding.FragmentScheduleBinding
+import com.android.itrip.models.Actividad
 import com.android.itrip.models.ActividadARealizar
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.viewModels.ScheduleViewModel
@@ -61,7 +62,9 @@ class ScheduleFragment : Fragment() {
         mRecyclerView = binding.myRecyclerView
         mRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireNotNull(activity).application)
-            adapter = BucketAdapter(scheduleViewModel)
+            adapter = BucketAdapter(scheduleViewModel) {
+                addActivityToBucket(it)
+            }
             setUpItemTouchHelper()
         }
 
@@ -73,6 +76,19 @@ class ScheduleFragment : Fragment() {
         setBarTitle()
         binding.lifecycleOwner = this
         return binding.root
+    }
+
+    private fun addActivityToBucket(actividadARealizar: ActividadARealizar) {
+        scheduleViewModel.getPossibleActivitiesForBucket(actividadARealizar,
+            { actividades -> goToAddActivity(actividades) },
+            {})
+    }
+
+    private fun goToAddActivity(actividades: List<Actividad>) {
+        findNavController().navigate(
+            ScheduleFragmentDirections.actionScheduleFragmentToActivitiesListFragment().actionId,
+            bundleOf("actividades" to actividades)
+        )
     }
 
     private fun showActivityDetails(actividadARealizar: ActividadARealizar) {

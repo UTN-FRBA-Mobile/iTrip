@@ -38,7 +38,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         try {
             @Suppress("UNCHECKED_CAST")
             mapDestinations = arguments!!.get("mapDestinations") as List<MapDestination>
-            setBarTitle("Mapa de "+arguments!!.get("destination") as String)
+            setBarTitle("Mapa")
         } catch (e: Exception) {
             logger.info(e.toString())
         }

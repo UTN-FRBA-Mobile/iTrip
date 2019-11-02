@@ -17,8 +17,8 @@ import com.android.itrip.MainActivity
 import com.android.itrip.R
 import com.android.itrip.adapters.ActivitiesAdapter
 import com.android.itrip.database.ActivityDatabase
-import com.android.itrip.database.Destination
 import com.android.itrip.databinding.FragmentActivitiesListBinding
+import com.android.itrip.models.Actividad
 import com.android.itrip.models.MapDestination
 import com.android.itrip.viewModels.ActivitiesViewModel
 import com.android.itrip.viewModels.ActivitiesViewModelFactory
@@ -27,7 +27,7 @@ import com.android.itrip.viewModels.ActivitiesViewModelFactory
 class ActivitiesListFragment : Fragment() {
 
     lateinit var activitiesViewModel: ActivitiesViewModel
-    lateinit var destination: Destination
+    lateinit var actividades: List<Actividad>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,12 +36,13 @@ class ActivitiesListFragment : Fragment() {
         val binding: FragmentActivitiesListBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_activities_list, container, false
         )
-        this.arguments!!.get("destination")?.let {
-            destination = it as Destination
+        @Suppress("UNCHECKED_CAST")
+        this.arguments!!.get("actividades")?.let {
+            actividades = it as List<Actividad>
         }
         val application = requireNotNull(this.activity).application
         val viewModelFactory = ActivitiesViewModelFactory(
-            destination,
+            actividades,
             ActivityDatabase.getInstance(application).activityDatabaseDao,
             application
         )
@@ -71,8 +72,7 @@ class ActivitiesListFragment : Fragment() {
                 mapDestinations.add(MapDestination(it.nombre, it.latitud, it.longitud))
             }
             val bundle = bundleOf(
-                "mapDestinations" to mapDestinations,
-                "destination" to destination.name
+                "mapDestinations" to mapDestinations
             )
             view.findNavController().navigate(
                 ActivitiesListFragmentDirections.actionActivitiesListFragmentToMapsFragment().actionId,
@@ -89,7 +89,7 @@ class ActivitiesListFragment : Fragment() {
     }
 
     private fun setBarTitle() {
-        (activity as MainActivity).setActionBarTitle("Actividades de " + destination.name)
+        (activity as MainActivity).setActionBarTitle("Actividades")
     }
 
 }
