@@ -79,7 +79,7 @@ class ActivitiesAdapter(
                     , bundle
                 )
         }
-        binding.shareImagebutton.setOnClickListener {
+/*        binding.shareImagebutton.setOnClickListener {
             if (ContextCompat.checkSelfPermission(
                     parent.context, Manifest.permission.WRITE_EXTERNAL_STORAGE
                 ) != PackageManager.PERMISSION_GRANTED
@@ -88,7 +88,7 @@ class ActivitiesAdapter(
             } else {
                 shareActivity(binding, parent)
             }
-        }
+        }*/
         val viewHolder = ActivitiesHolder(binding)
         binding.lifecycleOwner = viewHolder
         return viewHolder

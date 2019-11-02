@@ -125,24 +125,6 @@ object TravelService : Service() {
         }, errorHandler)
     }
 
-    fun updateDestination(
-        ciudad_a_visitarParam: CiudadAVisitar,
-        responseHandler: (CiudadAVisitar) -> Unit,
-        errorHandler: (ApiError) -> Unit
-    ) {
-        logger.info("updateDestination.")
-        ApiService.patch(
-            """ciudad-a-visitar/${ciudad_a_visitarParam.id}/""",
-            JSONObject(gson.toJson(ciudad_a_visitarParam)),
-            {
-                val ciudad_a_visitar: CiudadAVisitar =
-                    gson.fromJson(it.toString(), CiudadAVisitar::class.java)
-                responseHandler(ciudad_a_visitar)
-            },
-            errorHandler
-        )
-    }
-
     fun deleteDestination(
         ciudad_a_visitarParam: CiudadAVisitar,
         responseHandler: () -> Unit,

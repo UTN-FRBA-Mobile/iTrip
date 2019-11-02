@@ -18,79 +18,35 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/mtrl_card_spacing"
         android:layout_marginTop="@dimen/mtrl_card_spacing"
-        android:layout_marginRight="@dimen/mtrl_card_spacing">
+        android:layout_marginRight="@dimen/mtrl_card_spacing"
+        android:elevation="@dimen/cardview_default_elevation"
+        app:cardCornerRadius="@dimen/cardview_default_radius">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/activity_constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/activity_imageView"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:src="#AAA"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <TextView
                 android:id="@+id/actividad_name_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
                 android:background="#FFFFFF"
+                android:padding="8dp"
                 android:textColor="#000"
-                android:textSize="14sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@{actividadModel.nombre}" />
 
-            <ImageButton
-                android:id="@+id/share_imagebutton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@color/colorPrimary"
-                app:layout_constraintBottom_toBottomOf="@+id/activity_imageView"
-                app:layout_constraintEnd_toEndOf="@+id/activity_imageView"
-                app:srcCompat="@drawable/ic_share_white_24dp" />
-
-            <RatingBar
-                android:id="@+id/calificacion_rating"
-                style="?android:attr/ratingBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:isIndicator="true"
-                android:numStars="5"
-                android:rating="@{Converter.fromStringToFloat(actividadModel.calificacion)}"
-                android:stepSize="0.1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/activity_imageView" />
-            <!--            android:rating="@{Converter.fromStringToInt(actividadModel.calificacion)}"-->
-
-            <TextView
-                android:id="@+id/dias_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="@{Converter.fromModelDaysToStringDays(actividadModel)}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/activity_imageView" />
-
-            <TextView
-                android:id="@+id/time_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="@{Converter.fromModelTimeToStringTime(actividadModel)}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dias_textView" />
+            <ImageView
+                android:id="@+id/activity_imageView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="#AAA"
+                app:layout_constraintTop_toBottomOf="@+id/actividad_name_textView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
