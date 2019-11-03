@@ -1,26 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.android.android.fragments.DestinationListFragment">
-
-    <data>
-
-        <import type="com.android.itrip.util.Converter" />
-
-        <import type="java.util.List" />
-
-        <variable
-            name="destinationsViewModel"
-            type="com.android.itrip.viewModels.DestinationViewModel" />
-    </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ProgressBar
-            android:id="@+id/progressbar_destinations_spinner"
+            android:id="@+id/progressbar_destination_list_spinner"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,63 +17,14 @@
             android:indeterminate="true"
             android:visibility="gone" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_destination_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorWhiteSmoke">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/my_recycler_view"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:paddingHorizontal="15dp"
-                android:scrollbars="vertical"
-                app:layout_constraintBottom_toTopOf="@+id/constraintlayout_date_pickers"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:listitem="@layout/destination_item" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintlayout_date_pickers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <TextView
-                    android:id="@+id/fromDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/square_line_border"
-                    android:drawableStart="@drawable/ic_date_range_black_24dp"
-                    android:drawablePadding="2dp"
-                    android:text="@{Converter.calendarToString(destinationsViewModel.ciudadAVisitar.inicio)}"
-                    android:textSize="40sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/untilDate"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/untilDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/square_line_border"
-                    android:drawableStart="@drawable/ic_date_range_black_24dp"
-                    android:drawablePadding="2dp"
-                    android:text="@{Converter.calendarToString(destinationsViewModel.ciudadAVisitar.fin)}"
-                    android:textSize="40sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/fromDate"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:paddingHorizontal="5dp"
+            android:paddingBottom="10dp"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/destination_item" />
 
     </RelativeLayout>
 

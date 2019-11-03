@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -19,13 +18,11 @@ import com.android.itrip.adapters.DestinationAdapter
 import com.android.itrip.database.Destination
 import com.android.itrip.database.DestinationDatabase
 import com.android.itrip.databinding.FragmentDestinationListBinding
+import com.android.itrip.dialogs.DestinationDialog
 import com.android.itrip.models.Actividad
 import com.android.itrip.models.Viaje
-import com.android.itrip.ui.DatePickerFragment
-import com.android.itrip.util.calendarToString
 import com.android.itrip.viewModels.DestinationViewModel
 import com.android.itrip.viewModels.DestinationViewModelFactory
-import java.util.*
 
 class DestinationListFragment : Fragment() {
 
@@ -38,6 +35,7 @@ class DestinationListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setBarTitle()
         viaje = this.arguments!!.get("viaje") as Viaje
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_destination_list, container, false
@@ -52,32 +50,21 @@ class DestinationListFragment : Fragment() {
             .of(this, viewModelFactory)
             .get(DestinationViewModel::class.java)
         binding.apply {
-            destinationsViewModel = this@DestinationListFragment.destinationsViewModel
-            fromDate.setOnClickListener {
-                showDatePickerDialog(viaje.inicio, it as TextView) { calendar ->
-                    destinationsViewModel?.chooseStartDate(
-                        calendar
-                    )
-                }
-            }
-            untilDate.setOnClickListener {
-                showDatePickerDialog(viaje.fin, it as TextView) { calendar ->
-                    destinationsViewModel?.chooseEndDate(
-                        calendar
-                    )
-                }
-            }
-            myRecyclerView.apply {
+            recyclerviewDestinationList.apply {
                 layoutManager = LinearLayoutManager(application)
                 adapter = DestinationAdapter(
-                    destinationsViewModel!!,
-                    { destinationAdded(it) },
+                    context,
+                    destinationsViewModel,
+                    { showDestinationDialog(it) },
                     { viewActivities(it) })
             }
             lifecycleOwner = this@DestinationListFragment
         }
-        setBarTitle()
         return binding.root
+    }
+
+    private fun setBarTitle() {
+        (activity as MainActivity).setActionBarTitle("Seleccioná un destino")
     }
 
     private fun viewActivities(destination: Destination) {
@@ -91,16 +78,6 @@ class DestinationListFragment : Fragment() {
         )
     }
 
-    private fun destinationAdded(destination: Destination) {
-        val spinner = binding.progressbarDestinationsSpinner.apply { visibility = View.VISIBLE }
-        destinationsViewModel.addDestination(viaje, destination, {
-            spinner.visibility = View.GONE
-            goToTrip()
-        }, {
-            spinner.visibility = View.GONE
-        })
-    }
-
     private fun goToTrip() {
         view!!.findNavController()
             .navigate(
@@ -109,20 +86,20 @@ class DestinationListFragment : Fragment() {
             )
     }
 
-    private fun showDatePickerDialog(
-        startDate: Calendar?,
-        v: TextView,
-        callback: (Calendar) -> Unit
-    ) {
-        val newFragment = DatePickerFragment({ calendar ->
-            v.text = calendarToString(calendar)
-            callback(calendar)
-        }, viaje.inicio, viaje.fin, startDate)
-        fragmentManager?.let { newFragment.show(it, "datePicker") }
+    private fun showDestinationDialog(destination: Destination) {
+        DestinationDialog(this, viaje, destinationsViewModel) {
+            destinationAdded(destination)
+        }
     }
 
-    private fun setBarTitle() {
-        (activity as MainActivity).setActionBarTitle("Elija un destino")
+    private fun destinationAdded(destination: Destination) {
+        val spinner = binding.progressbarDestinationListSpinner.apply { visibility = View.VISIBLE }
+        destinationsViewModel.addDestination(viaje, destination, {
+            spinner.visibility = View.GONE
+            goToTrip()
+        }, {
+            spinner.visibility = View.GONE
+        })
     }
 
 }

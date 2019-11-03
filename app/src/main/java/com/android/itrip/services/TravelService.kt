@@ -26,7 +26,6 @@ object TravelService : Service() {
         responseHandler: (List<Continente>) -> Unit,
         errorHandler: (ApiError) -> Unit
     ) {
-        logger.info("getDestinations.")
         ApiService.getArray("destinos/", {
             val listType = object : TypeToken<List<Continente>>() {}.type
             val continentes: List<Continente> = gson.fromJson(it.toString(), listType)

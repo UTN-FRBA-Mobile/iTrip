@@ -1,7 +1,9 @@
 package com.android.itrip.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -13,13 +15,14 @@ import com.android.itrip.R
 import com.android.itrip.database.Destination
 import com.android.itrip.databinding.DestinationItemBinding
 import com.android.itrip.viewModels.DestinationViewModel
+import com.squareup.picasso.Picasso
 
 class DestinationAdapter(
+    context: Context,
     private val destinationViewModel: DestinationViewModel,
     private val addCityCallback: (Destination) -> Unit,
     private val viewActivitiesforCityCallback: (Destination) -> Unit
-) :
-    ListAdapter<Destination, RecyclerView.ViewHolder>(DestinationDiffCallback()) {
+) : ListAdapter<Destination, RecyclerView.ViewHolder>(DestinationDiffCallback()) {
 
     init {
         destinationViewModel.destinations.observeForever { notifyDataSetChanged() }
@@ -29,36 +32,28 @@ class DestinationAdapter(
         (holder as DestinationHolder).bind(getItem(position))
     }
 
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
+    override fun getItemId(position: Int) = position.toLong()
 
-    override fun getItemViewType(position: Int): Int {
-        return position
-    }
+    override fun getItemViewType(position: Int) = position
 
-    override fun getItem(position: Int): Destination {
-        return destinationViewModel.destinations.value!![position]
-    }
+    override fun getItem(position: Int) = destinationViewModel.destinations.value!![position]
 
-    override fun getItemCount(): Int {
-        var size = 0
-        destinationViewModel.destinations.value?.let {
-            size = destinationViewModel.destinations.value!!.size
-        }
-        return size
-    }
+    override fun getItemCount() = destinationViewModel.destinations.value?.size ?: 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding: DestinationItemBinding =
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context), R.layout.destination_item, parent, false
             )
-        binding.addImagebutton.setOnClickListener {
-            addCityCallback(binding.destination!!)
-        }
-        binding.activitiesButton.setOnClickListener {
-            viewActivitiesforCityCallback(binding.destination!!)
+        with(binding) {
+            relativelayoutDestinationListAdd.setOnClickListener { view ->
+                view.startAnimation(buttonClickScaleAnimation)
+                addCityCallback(binding.destination!!)
+            }
+            textviewDestinationListActividades.setOnClickListener { view ->
+                view.startAnimation(buttonClickScaleAnimation)
+                viewActivitiesforCityCallback(binding.destination!!)
+            }
         }
         val viewHolder = DestinationHolder(binding)
         binding.lifecycleOwner = viewHolder
@@ -76,27 +71,38 @@ class DestinationAdapter(
 
         fun bind(item: Destination) {
             binding.apply {
-                destinationNameTextView.text = item.name
+                setImage(item)
+                textviewDestinationListName.text = item.name
                 destination = item
             }
         }
+
+        private fun setImage(destination: Destination) {
+            destination.picture?.let {
+                Picasso.get()
+                    .load(it)
+                    .placeholder(R.drawable.logo)
+                    .error(R.drawable.logo)
+                    .fit()
+                    .into(binding.imageviewDestinationListPicture)
+            }
+        }
+
     }
+
+    private val buttonClickScaleAnimation =
+        AnimationUtils.loadAnimation(context, R.anim.nav_default_pop_enter_anim)
 
 }
 
 private class DestinationDiffCallback : DiffUtil.ItemCallback<Destination>() {
 
-    override fun areItemsTheSame(
-        oldItem: Destination,
-        newItem: Destination
-    ): Boolean {
+    override fun areItemsTheSame(oldItem: Destination, newItem: Destination): Boolean {
         return oldItem.destinationId == newItem.destinationId
     }
 
-    override fun areContentsTheSame(
-        oldItem: Destination,
-        newItem: Destination
-    ): Boolean {
+    override fun areContentsTheSame(oldItem: Destination, newItem: Destination): Boolean {
         return oldItem == newItem
     }
+
 }

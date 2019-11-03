@@ -2,7 +2,11 @@
 <resources>
     <color name="colorPrimary">#007bff</color>
     <color name="colorBlack">#000</color>
+    <color name="colorBlackWithTransparency">#80000000</color>
+    <color name="colorWhite">#fff</color>
     <color name="colorWhiteSmoke">#f5f5f5</color>
+    <color name="colorGray">#AAAAAA</color>
+    <color name="colorGrayBackground">#EEEEEE</color>
     <color name="colorPlaceholder">#636c72</color>
     <color name="colorDarkGreen">#439775</color>
 </resources>

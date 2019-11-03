@@ -22,5 +22,7 @@ data class Destination(
     @ColumnInfo(name = "startDate")
     var startDate: Date? = Date(),
     @ColumnInfo(name = "endDate")
-    var endDate: Date? = Date()
+    var endDate: Date? = Date(),
+    @ColumnInfo(name = "imagen")
+    val picture: String?
 ) : Serializable

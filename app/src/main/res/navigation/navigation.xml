@@ -28,7 +28,6 @@
     <fragment
         android:id="@+id/destinationListFragment"
         android:name="com.android.itrip.fragments.DestinationListFragment"
-        android:label="fragment_destination_list"
         tools:layout="@layout/fragment_destination_list">
         <action
             android:id="@+id/action_destinationListFragment_to_activitiesListFragment"

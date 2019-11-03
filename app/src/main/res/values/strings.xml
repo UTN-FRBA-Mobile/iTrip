@@ -73,8 +73,12 @@
     <string name="travels_no_travels_secondline">Empieza creando uno desde el \'+\'.</string>
 
     <!--Destination Creation-->
-    <string name="destination_creation_from_date">Fecha desde</string>
-    <string name="destination_creation_until_date">Fecha hasta</string>
+    <string name="destination_creation_actividades">Ver actividades</string>
+    <string name="destination_creation_dialog_title">Seleccioná las fechas</string>
+    <string name="destination_creation_dialog_from_date">Fecha desde</string>
+    <string name="destination_creation_dialog_until_date">Fecha hasta</string>
+    <string name="destination_creation_dialog_create">Agregar</string>
+    <string name="destination_creation_dialog_field_error">Completa este dato</string>
 
     <!--My Destinations-->
     <string name="destinations_title">Mis Destinos</string>

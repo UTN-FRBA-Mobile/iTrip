@@ -60,14 +60,18 @@ class DestinationViewModel(
     }
 
     private fun getDestinationsCallback(continentes: List<Continente>) {
-        logger.info("Cantidad de Continentes: " + continentes.size.toString())
         uiScope.launch {
             clear()
             continentes.forEach {
-                logger.info("Continente: " + it.nombre)
                 it.paises.forEach { pais ->
                     pais.ciudades.forEach { ciudad ->
-                        insert(Destination(ciudad.id, ciudad.nombre))
+                        insert(
+                            Destination(
+                                destinationId = ciudad.id,
+                                name = ciudad.nombre,
+                                picture = ciudad.imagen
+                            )
+                        )
                     }
                 }
             }
