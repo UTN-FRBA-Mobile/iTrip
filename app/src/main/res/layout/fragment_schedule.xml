@@ -4,14 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.android.android.fragments.ScheduleFragment">
 
-    <data>
-
-        <import type="java.util.List" />
-
-        <variable
-            name="scheduleViewModel"
-            type="com.android.itrip.viewModels.ScheduleViewModel" />
-    </data>
+    <data />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

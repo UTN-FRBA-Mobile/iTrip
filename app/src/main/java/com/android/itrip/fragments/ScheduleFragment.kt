@@ -17,7 +17,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,12 +25,14 @@ import com.android.itrip.MainActivity
 import com.android.itrip.R
 import com.android.itrip.R.color.colorDarkGreen
 import com.android.itrip.RequestCodes.Companion.ADD_ACTIVITY_CODE
+import com.android.itrip.RequestCodes.Companion.VIEW_ACTIVITY_DETAILS_CODE
 import com.android.itrip.adapters.ActivityType
 import com.android.itrip.adapters.BucketAdapter
 import com.android.itrip.databinding.FragmentScheduleBinding
 import com.android.itrip.models.Actividad
 import com.android.itrip.models.ActividadARealizar
 import com.android.itrip.models.CiudadAVisitar
+import com.android.itrip.viewModels.CiudadAVisitarDate
 import com.android.itrip.viewModels.ScheduleViewModel
 import devs.mulham.horizontalcalendar.HorizontalCalendar
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener
@@ -62,7 +63,6 @@ class ScheduleFragment : Fragment() {
         )
         scheduleViewModel = ScheduleViewModel(ciudadAVisitar)
         setCalendar()
-        binding.scheduleViewModel = scheduleViewModel
         mRecyclerView = binding.myRecyclerView
         mRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireNotNull(activity).application)
@@ -73,12 +73,17 @@ class ScheduleFragment : Fragment() {
         }
         Toast.makeText(
             context,
-            "<= REMOVER   |   DETALLES =>",
+            "<= DETALLES   |   REMOVER =>",
             Toast.LENGTH_SHORT
         ).show()
         setBarTitle()
         binding.lifecycleOwner = this
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.myRecyclerView.adapter?.notifyDataSetChanged()
     }
 
     private fun addActivityToBucket(actividadARealizar: ActividadARealizar) {
@@ -89,21 +94,18 @@ class ScheduleFragment : Fragment() {
 
     private fun goToAddActivity(actividades: List<Actividad>) {
         val intent = Intent(context, ActivitiesActivity::class.java).apply {
+            putExtra("action", ADD_ACTIVITY_CODE)
             putExtras(bundleOf("actividades" to actividades))
         }
         startActivityForResult(intent, ADD_ACTIVITY_CODE)
     }
 
-    //todo cambiar a activity y no fragment
     private fun showActivityDetails(actividadARealizar: ActividadARealizar) {
-        val bundle = bundleOf(
-            "actividad" to actividadARealizar.detalle_actividad
-        )
-        findNavController()
-            .navigate(
-                ScheduleFragmentDirections.actionScheduleFragmentToActivityDetailsFragment().actionId
-                , bundle
-            )
+        val intent = Intent(context, ActivitiesActivity::class.java).apply {
+            putExtra("action", VIEW_ACTIVITY_DETAILS_CODE)
+            putExtras(bundleOf("actividad" to actividadARealizar.detalle_actividad))
+        }
+        startActivity(intent)
     }
 
     private fun setBarTitle() {
@@ -119,6 +121,7 @@ class ScheduleFragment : Fragment() {
                 )
                 .datesNumberOnScreen(5)
                 .build()
+        horizontalCalendar.selectDate(CiudadAVisitarDate.date.value,false)
         horizontalCalendar.calendarListener = object : HorizontalCalendarListener() {
             override fun onDateSelected(date: Calendar, position: Int) {
                 scheduleViewModel.updateDate(date)
@@ -187,11 +190,13 @@ class ScheduleFragment : Fragment() {
                             ItemTouchHelper.RIGHT -> (mRecyclerView.adapter as BucketAdapter).remove(
                                 viewHolder.adapterPosition
                             )
-                            ItemTouchHelper.LEFT -> showActivityDetails(
-                                (mRecyclerView.adapter as BucketAdapter).getItem(
-                                    viewHolder.adapterPosition
+                            ItemTouchHelper.LEFT ->
+                                showActivityDetails(
+                                    (mRecyclerView.adapter as BucketAdapter).getItem(
+                                        viewHolder.adapterPosition
+                                    )
                                 )
-                            )
+
                         }
                     }
                 }
@@ -274,7 +279,6 @@ class ScheduleFragment : Fragment() {
                     drawable.setBounds(deleteLeft, deleteTop, deleteRight, deleteBottom)
                     drawable.draw(c)
                 }
-
 
             }
         val mItemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)

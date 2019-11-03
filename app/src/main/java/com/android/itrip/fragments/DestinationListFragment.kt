@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.itrip.ActivitiesActivity
 import com.android.itrip.MainActivity
 import com.android.itrip.R
+import com.android.itrip.RequestCodes
 import com.android.itrip.adapters.DestinationAdapter
 import com.android.itrip.database.Destination
 import com.android.itrip.database.DestinationDatabase
@@ -86,16 +87,11 @@ class DestinationListFragment : Fragment() {
     }
 
     private fun goToActivities(actividades: List<Actividad>) {
-//        val intent = Intent(context, ActivitiesActivity::class.java).apply {
-//            putExtra("CurrentUser", FirebaseAuth.getInstance().currentUser)
-//            putExtra("actividades", arrayListOf(actividades))
-//        }
-//        startActivityForResult(intent, RESULT_OK)
         val intent = Intent(context, ActivitiesActivity::class.java).apply {
+            putExtra("action", RequestCodes.VIEW_ACTIVITY_LIST_CODE)
             putExtras(bundleOf("actividades" to actividades))
         }
         startActivity(intent)
-//        activity?.finish()
     }
 
     private fun destinationAdded(destination: Destination) {

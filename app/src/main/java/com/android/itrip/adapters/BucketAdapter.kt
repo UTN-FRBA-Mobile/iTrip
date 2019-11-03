@@ -134,7 +134,7 @@ class BucketAdapter(
                 bucketItemConstraintLayout.setOnClickListener {
                     Toast.makeText(
                         it.context,
-                        "<= REMOVER   |   DETALLES =>",
+                        "<= DETALLES   |   REMOVER =>",
                         Toast.LENGTH_SHORT
                     ).show()
                 }

@@ -27,6 +27,8 @@ import java.util.logging.Logger
 interface RequestCodes {
     companion object {
         const val ADD_ACTIVITY_CODE = 106
+        const val VIEW_ACTIVITY_DETAILS_CODE = 110
+        const val VIEW_ACTIVITY_LIST_CODE = 114
     }
 }
 

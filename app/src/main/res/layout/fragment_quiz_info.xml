@@ -4,12 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.android.android.fragments.QuizInfoFragment">
 
-    <data>
-
-        <variable
-            name="quizViewModel"
-            type="com.android.itrip.viewModels.QuizViewModel" />
-    </data>
+    <data />
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -18,6 +18,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.android.itrip.RequestCodes.Companion.VIEW_ACTIVITY_DETAILS_CODE
 import com.android.itrip.databinding.ActivityActivitiesBinding
 import com.android.itrip.databinding.AppBarHeaderBinding
 import com.android.itrip.models.Actividad
@@ -35,6 +36,8 @@ class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener
     private lateinit var navigationView: NavigationView
     private lateinit var navController: NavController
     private lateinit var actividades: List<Actividad>
+    private lateinit var actividad: Actividad
+    private var action = 0
     var source: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,8 +55,14 @@ class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener
 
     private fun readSource() {
         source = intent.getStringExtra("source")
+        action = intent?.extras?.getInt("action") ?: 0
+        intent?.extras?.get("actividad")?.let {
+            actividad = it as Actividad
+        }
         @Suppress("UNCHECKED_CAST")
-        actividades = intent?.extras?.get("actividades") as List<Actividad>
+        intent?.extras?.get("actividades")?.let {
+            actividades = it as List<Actividad>
+        }
     }
 
     private fun bindings() {
@@ -149,9 +158,21 @@ class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener
     }
 
     private fun startActivitiesList() {
-        val navController = findNavController(R.id.navhostfragment_activities)
-        val bundle = bundleOf("actividades" to actividades)
-        navController.setGraph(navController.graph, bundle)
+        val navController: NavController
+        val bundle: Bundle
+        when (action) {
+            VIEW_ACTIVITY_DETAILS_CODE -> {
+                navController = findNavController(R.id.navhostfragment_activities)
+                navController.graph.startDestination = R.id.activityDetailsFragment
+                bundle = bundleOf("actividad" to actividad, "action" to action)
+                navController.setGraph(navController.graph, bundle)
+            }
+            else -> {
+                navController = findNavController(R.id.navhostfragment_activities)
+                bundle = bundleOf("actividades" to actividades)
+                navController.setGraph(navController.graph, bundle)
+            }
+        }
     }
 
     fun finishActivity(actividad: Actividad) {
