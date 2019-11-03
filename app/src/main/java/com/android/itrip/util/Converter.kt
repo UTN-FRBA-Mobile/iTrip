@@ -74,10 +74,8 @@ fun calendarToString(
     return calendarToString(calendar ?: Calendar.getInstance(), null)
 }
 
-fun listOfDestinations(ciudades_a_visitar: List<CiudadAVisitar>?): String {
-    var string = ""
-    ciudades_a_visitar?.forEach {
-        string = string + ", " + it.detalle_ciudad?.nombre
-    }
-    return string.substring(2)
+fun listOfDestinations(ciudades_a_visitar: List<CiudadAVisitar>?): String? {
+    return ciudades_a_visitar
+        ?.map { it.detalle_ciudad?.nombre }
+        ?.joinToString(", ")
 }
