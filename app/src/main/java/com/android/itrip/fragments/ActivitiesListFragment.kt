@@ -19,7 +19,6 @@ import com.android.itrip.adapters.ActivitiesAdapter
 import com.android.itrip.database.ActivityDatabase
 import com.android.itrip.databinding.FragmentActivitiesListBinding
 import com.android.itrip.models.Actividad
-import com.android.itrip.models.MapDestination
 import com.android.itrip.viewModels.ActivitiesViewModel
 import com.android.itrip.viewModels.ActivitiesViewModelFactory
 
@@ -66,17 +65,12 @@ class ActivitiesListFragment : Fragment() {
             layoutManager = LinearLayoutManager(application)
             adapter = ActivitiesAdapter(activitiesViewModel.actividades) { requestPermission() }
         }
-        binding.mapsActivityFloatingActionButton.setOnClickListener { view: View ->
-            val mapDestinations: MutableList<MapDestination> = mutableListOf()
-            activitiesViewModel.actividades.value!!.forEach {
-                mapDestinations.add(MapDestination(it.nombre, it.latitud, it.longitud))
-            }
-            val bundle = bundleOf(
-                "mapDestinations" to mapDestinations
-            )
-            view.findNavController().navigate(
+        binding.mapsActivityFloatingActionButton.setOnClickListener {
+            it.findNavController().navigate(
                 ActivitiesListFragmentDirections.actionActivitiesListFragmentToMapsFragment().actionId,
-                bundle
+                bundleOf(
+                    "actividades" to activitiesViewModel.actividades.value!!
+                )
             )
         }
         binding.lifecycleOwner = this

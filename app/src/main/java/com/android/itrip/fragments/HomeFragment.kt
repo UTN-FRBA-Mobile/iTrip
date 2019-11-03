@@ -35,8 +35,8 @@ class HomeFragment : Fragment() {
     ): View? {
         setBarTitle()
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-        binding.floatingactionbuttonTravelsCreation.setOnClickListener { view: View ->
-            view.findNavController()
+        binding.floatingactionbuttonTravelsCreation.setOnClickListener {
+            it.findNavController()
                 .navigate(actionHomeFragmentToCreateTravelFragment())
         }
         getTravels()

@@ -1,7 +1,6 @@
 package com.android.itrip.fragments
 
 import android.os.Bundle
-import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import com.android.itrip.R
 import com.android.itrip.RequestCodes
 import com.android.itrip.databinding.FragmentActivityDetailsBinding
 import com.android.itrip.models.Actividad
-import com.android.itrip.models.MapDestination
 import com.squareup.picasso.Picasso
 
 
@@ -45,20 +43,21 @@ class ActivityDetailsFragment : Fragment() {
                 .fit()
                 .into(binding.activityImg)
         }
-        binding.activityDescription.movementMethod = ScrollingMovementMethod()
-        binding.locationImageButton.setOnClickListener {
-            val mapDestination = MapDestination(
-                binding.activity!!.nombre,
-                binding.activity!!.latitud,
-                binding.activity!!.longitud
-            )
-            val bundle = bundleOf(
-                "mapDestination" to mapDestination
-            )
+
+        val fragmentManager = activity?.supportFragmentManager
+        val fragmentTransaction = fragmentManager?.beginTransaction()
+        val mapsFragment = MapsFragment()
+        mapsFragment.arguments = bundleOf("actividad" to actividad)
+        fragmentTransaction?.add(R.id.map_fragment, mapsFragment)
+        fragmentTransaction?.commit()
+
+        binding.mapFrameLayout.setOnClickListener {
             it.findNavController()
                 .navigate(
                     ActivityDetailsFragmentDirections.actionActivityDetailsFragmentToMapsFragment().actionId
-                    , bundle
+                    , bundleOf(
+                        "actividad" to actividad
+                    )
                 )
         }
         binding.addActivityFloatingActionButton.apply {
