@@ -145,15 +145,15 @@ class BucketAdapter(
             item: ActividadARealizar,
             addActivityToBucketCallback: (ActividadARealizar) -> Unit
         ) {
-            (binding as BucketEmptyItemBinding).apply {
-                bucketEmptyItemConstraintLayout.layoutParams.height =
-                    bucketEmptyItemConstraintLayout.context.resources.displayMetrics.heightPixels / 9 * item.detalle_actividad!!.duracion
-                bucketEmptyItemConstraintLayout.requestLayout()
-                bucketAddButton.setOnClickListener {
+            (binding as BucketEmptyItemBinding).bucketEmptyItemConstraintLayout.apply {
+                layoutParams.height =
+                    context.resources.displayMetrics.heightPixels / 9 * item.detalle_actividad!!.duracion
+                requestLayout()
+                setOnClickListener {
                     addActivityToBucketCallback(item)
                 }
             }
         }
-
     }
+
 }
