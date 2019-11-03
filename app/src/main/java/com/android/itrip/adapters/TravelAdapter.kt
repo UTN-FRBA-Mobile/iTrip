@@ -2,7 +2,9 @@ package com.android.itrip.adapters
 
 
 import android.view.LayoutInflater
+import android.view.View.GONE
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
@@ -71,7 +73,8 @@ class TravelAdapter(private val deleteCallback: (Viaje) -> Unit) :
             travelAdapter: TravelAdapter
         ) {
             binding.apply {
-                modifyButton.setOnClickListener {
+                travelItem = viaje
+                travelItemCardView.setOnClickListener {
                     it.findNavController()
                         .navigate(
                             HomeFragmentDirections.actionHomeFragmentToTripFragment().actionId,
@@ -80,28 +83,29 @@ class TravelAdapter(private val deleteCallback: (Viaje) -> Unit) :
                             )
                         )
                 }
-                removeButton.setOnClickListener {
-                    travelAdapter.deleteCallback(viaje)
-                }
+//                removeButton.setOnClickListener {
+//                    travelAdapter.deleteCallback(viaje)
+//                }
                 setImage(viaje)
-                destinationName.text = viaje.nombre
-                travelDate.text =
-                    super.itemView.context.getString(
-                        R.string.travels_date,
-                        com.android.itrip.util.calendarToString(viaje.inicio),
-                        com.android.itrip.util.calendarToString(viaje.fin)
-                    )
             }
         }
 
         private fun setImage(viaje: Viaje) {
-            viaje.imagen?.let {
-                Picasso.get()
-                    .load(it)
-                    .placeholder(R.drawable.logo)
-                    .error(R.drawable.logo)
-                    .fit()
-                    .into(binding.travelImg)
+            val imageGalleryCount = binding.imageGalleryConstraintLayout.childCount
+            var imageView: ImageView
+            for (i in 0..imageGalleryCount-1) {
+                imageView = binding.imageGalleryConstraintLayout.getChildAt(i) as ImageView
+                try {
+                    viaje.ciudades_a_visitar[i].detalle_ciudad?.imagen?.let {
+                        Picasso.get()
+                            .load(it)
+                            .fit()
+                            .centerCrop()
+                            .into(imageView)
+                    }
+                } catch (e: Exception) {
+                    imageView.visibility = GONE
+                }
             }
         }
     }

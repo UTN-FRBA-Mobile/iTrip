@@ -4,6 +4,7 @@ package com.android.itrip.util
 
 import android.annotation.SuppressLint
 import com.android.itrip.models.Actividad
+import com.android.itrip.models.CiudadAVisitar
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -71,4 +72,12 @@ fun calendarToString(
     calendar: Calendar?
 ): String {
     return calendarToString(calendar ?: Calendar.getInstance(), null)
+}
+
+fun listOfDestinations(ciudades_a_visitar: List<CiudadAVisitar>?): String {
+    var string = ""
+    ciudades_a_visitar?.forEach {
+        string = string + ", " + it.detalle_ciudad?.nombre
+    }
+    return string.substring(2)
 }

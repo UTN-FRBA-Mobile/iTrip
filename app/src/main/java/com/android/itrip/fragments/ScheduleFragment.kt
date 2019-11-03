@@ -45,7 +45,6 @@ class ScheduleFragment : Fragment() {
     private lateinit var binding: FragmentScheduleBinding
     private lateinit var scheduleViewModel: ScheduleViewModel
     private lateinit var ciudadAVisitar: CiudadAVisitar
-    private lateinit var mRecyclerView: RecyclerView
     private val logger = Logger.getLogger(this::class.java.name)
 
     override fun onCreateView(
@@ -63,13 +62,12 @@ class ScheduleFragment : Fragment() {
         )
         scheduleViewModel = ScheduleViewModel(ciudadAVisitar)
         setCalendar()
-        mRecyclerView = binding.myRecyclerView
-        mRecyclerView.apply {
+        binding.myRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireNotNull(activity).application)
             adapter = BucketAdapter(scheduleViewModel) {
                 addActivityToBucket(it)
             }
-            setUpItemTouchHelper()
+            setUpItemTouchHelper(this)
         }
         Toast.makeText(
             context,
@@ -121,7 +119,7 @@ class ScheduleFragment : Fragment() {
                 )
                 .datesNumberOnScreen(5)
                 .build()
-        horizontalCalendar.selectDate(CiudadAVisitarDate.date.value,false)
+        horizontalCalendar.selectDate(CiudadAVisitarDate.date.value, false)
         horizontalCalendar.calendarListener = object : HorizontalCalendarListener() {
             override fun onDateSelected(date: Calendar, position: Int) {
                 scheduleViewModel.updateDate(date)
@@ -144,7 +142,7 @@ class ScheduleFragment : Fragment() {
      * but whatever you draw will disappear once the swipe is over, and while the items are animating to their new position the recycler view
      * background will be visible. That is rarely an desired effect.
      */
-    private fun setUpItemTouchHelper() {
+    private fun setUpItemTouchHelper(recyclerView: RecyclerView) {
 
         val simpleItemTouchCallback =
             object :
@@ -185,14 +183,14 @@ class ScheduleFragment : Fragment() {
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-                    if ((mRecyclerView.adapter as BucketAdapter).getItemViewType(viewHolder.adapterPosition) == ActivityType.ACTIVITY) {
+                    if ((recyclerView.adapter as BucketAdapter).getItemViewType(viewHolder.adapterPosition) == ActivityType.ACTIVITY) {
                         when (swipeDir) {
-                            ItemTouchHelper.RIGHT -> (mRecyclerView.adapter as BucketAdapter).remove(
+                            ItemTouchHelper.RIGHT -> (recyclerView.adapter as BucketAdapter).remove(
                                 viewHolder.adapterPosition
                             )
                             ItemTouchHelper.LEFT ->
                                 showActivityDetails(
-                                    (mRecyclerView.adapter as BucketAdapter).getItem(
+                                    (recyclerView.adapter as BucketAdapter).getItem(
                                         viewHolder.adapterPosition
                                     )
                                 )
@@ -210,7 +208,7 @@ class ScheduleFragment : Fragment() {
                     actionState: Int,
                     isCurrentlyActive: Boolean
                 ) {
-                    if ((mRecyclerView.adapter as BucketAdapter).getItemViewType(viewHolder.adapterPosition) == ActivityType.ACTIVITY) {
+                    if ((recyclerView.adapter as BucketAdapter).getItemViewType(viewHolder.adapterPosition) == ActivityType.ACTIVITY) {
                         val itemView = viewHolder.itemView
                         if (viewHolder.adapterPosition == -1)
                             return
@@ -282,7 +280,7 @@ class ScheduleFragment : Fragment() {
 
             }
         val mItemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
-        mItemTouchHelper.attachToRecyclerView(mRecyclerView)
+        mItemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
 }

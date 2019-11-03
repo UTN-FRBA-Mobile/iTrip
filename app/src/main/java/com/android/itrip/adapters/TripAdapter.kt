@@ -3,18 +3,15 @@ package com.android.itrip.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.R
 import com.android.itrip.databinding.CitytovisitItemBinding
-import com.android.itrip.fragments.TripFragmentDirections
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.viewModels.TripViewModel
 import com.squareup.picasso.Picasso
@@ -41,7 +38,7 @@ class TripAdapter(
                 LayoutInflater.from(parent.context), R.layout.citytovisit_item, parent, false
             )
         parent.invalidate()
-        val viewHolder = TripHolder(binding, deleteCallback, viewCallback)
+        val viewHolder = TripHolder(binding, viewCallback)
         binding.lifecycleOwner = viewHolder
         return viewHolder
     }
@@ -56,9 +53,12 @@ class TripAdapter(
 
     override fun getItemCount() = tripViewModel.ciudadesAVisitar.value!!.size
 
+    fun remove(adapterPosition: Int) {
+        deleteCallback(getItem(adapterPosition))
+    }
+
     class TripHolder(
         private val binding: CitytovisitItemBinding,
-        private val deleteCallback: (CiudadAVisitar) -> Unit,
         private val viewCallback: (CiudadAVisitar) -> Unit
     ) :
         RecyclerView.ViewHolder(binding.root), LifecycleOwner {
@@ -72,20 +72,8 @@ class TripAdapter(
             binding.apply {
                 this.ciudadAVisitar = ciudadAVisitar
                 setImage(ciudadAVisitar)
-                travelDate.text =
-                    "Desde " + ciudadAVisitar.inicio.time + ", Hasta " + ciudadAVisitar.fin.time
-                viewActivitiesMaterialButton.setOnClickListener {
+                cityToVisitCardView.setOnClickListener {
                     viewCallback(ciudadAVisitar)
-                    val bundle = bundleOf(
-                        "ciudadAVisitar" to ciudadAVisitar
-                    )
-                    it.findNavController().navigate(
-                        TripFragmentDirections.actionTripFragmentToScheduleFragment().actionId,
-                        bundle
-                    )
-                }
-                removeCityToTravelButton.setOnClickListener {
-                    deleteCallback(ciudadAVisitar)
                 }
             }
         }
