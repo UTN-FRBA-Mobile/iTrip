@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.android.itrip.MainActivity
+import com.android.itrip.ActivitiesActivity
 import com.android.itrip.R
 import com.android.itrip.models.MapDestination
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -31,17 +31,16 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         try {
             mapDestination = arguments!!.get("mapDestination") as MapDestination
-            setBarTitle(mapDestination!!.name)
         } catch (e: Exception) {
             logger.info(e.toString())
         }
         try {
             @Suppress("UNCHECKED_CAST")
             mapDestinations = arguments!!.get("mapDestinations") as List<MapDestination>
-            setBarTitle("Mapa")
         } catch (e: Exception) {
             logger.info(e.toString())
         }
+        setBarTitle("Mapa")
         val view = inflater.inflate(R.layout.fragment_maps, container, false)
         (childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment).getMapAsync(this)
         return view
@@ -79,7 +78,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setBarTitle(title: String) {
-        (activity as MainActivity).setActionBarTitle(title)
+        (activity as ActivitiesActivity).setActionBarTitle(title)
     }
 
 }

@@ -7,11 +7,13 @@ import java.util.*
 data class Bucket(
     var ciudadAVisitar: CiudadAVisitar,
     var dia: String,
-    var bucket_inicio: Int
+    var bucket_inicio: Int,
+    var actividad: Actividad
 ) : Serializable {
     constructor(ciudadAVisitar: CiudadAVisitar, dia: Calendar, bucket_inicio: Int) : this(
         ciudadAVisitar,
-        calendarToString(dia,"yyyy-MM-dd"),
-        bucket_inicio
+        calendarToString(dia, "yyyy-MM-dd"),
+        bucket_inicio,
+        Actividad()
     )
 }

@@ -2,8 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-    </data>
+    <data />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/bucket_empty_item_constraintLayout"
@@ -22,7 +21,6 @@
             android:background="@color/colorPrimary">
 
             <ImageButton
-                android:id="@+id/bucket_add_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"

@@ -21,6 +21,7 @@ class ScheduleViewModel(
     var ciudadAVisitar: CiudadAVisitar
 ) : ViewModel() {
     var actividadesARealizar: LiveData<List<ActividadARealizar>>
+    private lateinit var bucket: Bucket
 
     init {
         CiudadAVisitarDate._date.value = CiudadAVisitarDate.date.value ?: ciudadAVisitar.inicio
@@ -30,7 +31,7 @@ class ScheduleViewModel(
 
     private fun setBuckets(date: Calendar): LiveData<List<ActividadARealizar>> {
         val tempList =
-            cleanDuplication(ciudadAVisitar.actividades_a_realizar.filter { it.dia == date })
+            cleanDuplication(date, ciudadAVisitar.actividades_a_realizar.filter { it.dia == date })
         return MutableLiveData<List<ActividadARealizar>>(tempList)
     }
 
@@ -58,6 +59,7 @@ class ScheduleViewModel(
 */
 
     private fun cleanDuplication(
+        date: Calendar,
         list: List<ActividadARealizar>
     ): List<ActividadARealizar> {
         val bucketsTemp: HashMap<Int, ActividadARealizar> = hashMapOf()
@@ -79,7 +81,7 @@ class ScheduleViewModel(
                         mutableList.firstOrNull()?.bucket_inicio?.minus(i) ?: 7 - i
                     bucketsTemp[i] = ActividadARealizar(
                         0L,
-                        Calendar.getInstance(),
+                        date,
                         i,
                         Actividad(0L, "", "", duration)
                     )
@@ -113,13 +115,21 @@ class ScheduleViewModel(
         successCallback: (List<Actividad>) -> Unit,
         failureCallback: () -> Unit
     ) {
-        TravelService.getActivitiesForBucket(Bucket(
+        bucket = Bucket(
             ciudadAVisitar,
             actividadARealizar.dia,
             actividadARealizar.bucket_inicio
-        ),
+        )
+        TravelService.getActivitiesForBucket(bucket,
             { actividadesARealizar -> successCallback(actividadesARealizar) },
             { failureCallback() })
+    }
+
+    fun addActividadToBucket(actividad: Actividad) {
+        bucket.actividad = actividad
+        TravelService.addActivityToBucket(bucket, {
+            updateCiudadAVisitar()
+        }, {})
     }
 
 }

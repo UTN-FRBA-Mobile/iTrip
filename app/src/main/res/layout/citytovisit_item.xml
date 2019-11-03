@@ -10,10 +10,10 @@
         <variable
             name="ciudadAVisitar"
             type="com.android.itrip.models.CiudadAVisitar" />
-
     </data>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cityToVisit_CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
@@ -24,13 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/travel_img"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:src="@drawable/logo"
-                app:layout_constraintBaseline_toBaselineOf="parent" />
-
             <TextView
                 android:id="@+id/destination_name"
                 android:layout_width="match_parent"
@@ -38,54 +31,39 @@
                 android:layout_margin="15dp"
                 android:textColor="#000"
                 android:textSize="30sp"
-                app:layout_constraintTop_toBottomOf="@+id/travel_img"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="@{ciudadAVisitar.detalle_ciudad.nombre}" />
 
-            <ImageView
-                android:layout_width="23dp"
-                android:layout_height="23dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toStartOf="@+id/travel_date"
-                app:layout_constraintTop_toBottomOf="@+id/destination_name"
-                app:srcCompat="@drawable/ic_date_range_black_24dp" />
-
             <TextView
-                android:id="@+id/travel_date"
-                android:layout_width="match_parent"
+                android:id="@+id/startTravelDate_textView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="38dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                android:text="@{`Desde: ` + Converter.calendarToString(ciudadAVisitar.inicio) + `\nHasta: `+Converter.calendarToString(ciudadAVisitar.fin)}"
+                android:layout_margin="15dp"
+                android:drawableStart="@drawable/ic_date_range_black_24dp"
+                android:text="@{Converter.calendarToString(ciudadAVisitar.inicio)}"
                 android:textColor="@color/colorPlaceholder"
                 android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/destination_name" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/removeCityToTravel_Button"
-                style="@style/default_itrip_button"
+            <TextView
+                android:id="@+id/endTravelDate_textView"
                 android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="10dp"
-                android:text="Remover"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/viewActivities_materialButton"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/travel_date" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/viewActivities_materialButton"
-                style="@style/default_itrip_button"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="10dp"
-                android:text="@string/travels_watch"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:drawableStart="@drawable/ic_date_range_black_24dp"
+                android:text="@{Converter.calendarToString(ciudadAVisitar.fin)}"
+                android:textColor="@color/colorPlaceholder"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/removeCityToTravel_Button"
-                app:layout_constraintTop_toBottomOf="@+id/travel_date" />
+                app:layout_constraintTop_toBottomOf="@+id/destination_name" />
+
+            <ImageView
+                android:id="@+id/travel_img"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/logo"
+                app:layout_constraintTop_toBottomOf="@id/startTravelDate_textView" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

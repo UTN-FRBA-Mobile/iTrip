@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.itrip.MainActivity
+import com.android.itrip.ActivitiesActivity
 import com.android.itrip.R
 import com.android.itrip.adapters.ActivitiesAdapter
 import com.android.itrip.database.ActivityDatabase
@@ -66,7 +66,7 @@ class ActivitiesListFragment : Fragment() {
             layoutManager = LinearLayoutManager(application)
             adapter = ActivitiesAdapter(activitiesViewModel.actividades) { requestPermission() }
         }
-        binding.mapsFloatingActionButton.setOnClickListener { view: View ->
+        binding.mapsActivityFloatingActionButton.setOnClickListener { view: View ->
             val mapDestinations: MutableList<MapDestination> = mutableListOf()
             activitiesViewModel.actividades.value!!.forEach {
                 mapDestinations.add(MapDestination(it.nombre, it.latitud, it.longitud))
@@ -89,7 +89,7 @@ class ActivitiesListFragment : Fragment() {
     }
 
     private fun setBarTitle() {
-        (activity as MainActivity).setActionBarTitle("Actividades")
+        (activity as ActivitiesActivity).setActionBarTitle("Actividades")
     }
 
 }

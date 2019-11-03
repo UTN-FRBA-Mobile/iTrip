@@ -5,19 +5,15 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.R
-import com.android.itrip.database.Destination
 import com.android.itrip.databinding.BucketEmptyItemBinding
 import com.android.itrip.databinding.BucketItemBinding
-import com.android.itrip.fragments.ScheduleFragmentDirections
 import com.android.itrip.models.ActividadARealizar
 import com.android.itrip.viewModels.ScheduleViewModel
 
@@ -138,7 +134,7 @@ class BucketAdapter(
                 bucketItemConstraintLayout.setOnClickListener {
                     Toast.makeText(
                         it.context,
-                        "<= REMOVER   |   DETALLES =>",
+                        "<= DETALLES   |   REMOVER =>",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -149,15 +145,15 @@ class BucketAdapter(
             item: ActividadARealizar,
             addActivityToBucketCallback: (ActividadARealizar) -> Unit
         ) {
-            (binding as BucketEmptyItemBinding).apply {
-                bucketEmptyItemConstraintLayout.layoutParams.height =
-                    bucketEmptyItemConstraintLayout.context.resources.displayMetrics.heightPixels / 9 * item.detalle_actividad!!.duracion
-                bucketEmptyItemConstraintLayout.requestLayout()
-                bucketAddButton.setOnClickListener {
+            (binding as BucketEmptyItemBinding).bucketEmptyItemConstraintLayout.apply {
+                layoutParams.height =
+                    context.resources.displayMetrics.heightPixels / 9 * item.detalle_actividad!!.duracion
+                requestLayout()
+                setOnClickListener {
                     addActivityToBucketCallback(item)
                 }
             }
         }
-
     }
+
 }

@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED
@@ -18,6 +17,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.android.itrip.databinding.ActivityQuizBinding
+import com.android.itrip.databinding.AppBarHeaderBinding
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
 import com.google.firebase.auth.FirebaseAuth
@@ -73,7 +73,7 @@ class QuizActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Draw
         drawerLayout.addDrawerListener(drawerToggle)
         // loads all menu actions if source is preferences
         navigationView.menu.clear()
-        navigationView.inflateMenu(R.menu.drawer_menu_quiz)
+        navigationView.inflateMenu(R.menu.drawer_menu_onlyexit)
     }
 
     private fun initNavigation() {
@@ -81,9 +81,10 @@ class QuizActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Draw
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setHomeButtonEnabled(true)
-        val bindingAppBar: ViewDataBinding = DataBindingUtil.inflate(
-            layoutInflater, R.layout.app_bar_header_quiz, navigationView, false
+        val bindingAppBar: AppBarHeaderBinding = DataBindingUtil.inflate(
+            layoutInflater, R.layout.app_bar_header, navigationView, false
         )
+        bindingAppBar.currentUser = FirebaseAuth.getInstance().currentUser
         // set up navigation controller and navigation view bindings
         navController = Navigation.findNavController(this, R.id.navhostfragment_quiz)
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
