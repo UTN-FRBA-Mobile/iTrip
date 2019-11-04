@@ -18,7 +18,9 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.android.itrip.RequestCodes.Companion.ADD_ACTIVITY_CODE
 import com.android.itrip.RequestCodes.Companion.VIEW_ACTIVITY_DETAILS_CODE
+import com.android.itrip.RequestCodes.Companion.VIEW_ACTIVITY_LIST_CODE
 import com.android.itrip.databinding.ActivityActivitiesBinding
 import com.android.itrip.databinding.AppBarHeaderBinding
 import com.android.itrip.models.Actividad
@@ -158,21 +160,21 @@ class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener
     }
 
     private fun startActivitiesList() {
-        val navController: NavController
-        val bundle: Bundle
+        val navController: NavController = findNavController(R.id.navhostfragment_activities)
+        lateinit var bundle: Bundle
         when (action) {
+            ADD_ACTIVITY_CODE -> {
+                bundle = bundleOf("actividades" to actividades, "action" to action)
+            }
             VIEW_ACTIVITY_DETAILS_CODE -> {
-                navController = findNavController(R.id.navhostfragment_activities)
                 navController.graph.startDestination = R.id.activityDetailsFragment
                 bundle = bundleOf("actividad" to actividad, "action" to action)
-                navController.setGraph(navController.graph, bundle)
             }
-            else -> {
-                navController = findNavController(R.id.navhostfragment_activities)
-                bundle = bundleOf("actividades" to actividades)
-                navController.setGraph(navController.graph, bundle)
+            VIEW_ACTIVITY_LIST_CODE -> {
+                bundle = bundleOf("actividades" to actividades, "action" to action)
             }
         }
+        navController.setGraph(navController.graph, bundle)
     }
 
     fun finishActivity(actividad: Actividad) {

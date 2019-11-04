@@ -15,108 +15,136 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#fff">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/activityTitle_textview"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@{activity.nombre}"
-            android:textColor="#000000"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/activity_img"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/activity_img"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activityTitle_textview" />
-
-        <TextView
-            android:id="@+id/activityDate_textview"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:drawableStart="@drawable/ic_date_range_black_24dp"
-            android:text="@{Converter.fromModelDaysToStringDays(activity) + `. ` + Converter.fromModelTimeToStringTime(activity)}"
-            android:textColor="@color/colorPlaceholder"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_img" />
-
-        <FrameLayout
-            android:id="@+id/map_frameLayout"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activityDate_textview">
-
-            <fragment
-                android:id="@+id/map_fragment"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context="com.android.itrip.fragments.MapsFragment"
-                tools:layout="@layout/fragment_maps" />
-        </FrameLayout>
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/activitycategories_textview"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@{`Categorias: ` + Converter.listOfCategories(activity.categorias)}"
-            android:textColor="@color/colorPlaceholder"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/map_frameLayout" />
+                <TextView
+                    android:id="@+id/activityTitle_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{activity.nombre}"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <RatingBar
-            android:id="@+id/activityRating_rating"
+                <ImageView
+                    android:id="@+id/activity_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/activityTitle_textview" />
+
+                <TextView
+                    android:id="@+id/activityDate_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:drawableStart="@drawable/ic_date_range_black_24dp"
+                    android:text="@{Converter.fromModelDaysToStringDays(activity) + `. ` + Converter.fromModelTimeToStringTime(activity)}"
+                    android:textColor="@color/colorPlaceholder"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_img" />
+
+                <FrameLayout
+                    android:id="@+id/map_frameLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/activityDate_textview">
+
+                    <fragment
+                        android:id="@+id/map_fragment"
+                        android:name="com.google.android.gms.maps.SupportMapFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:context="com.android.itrip.fragments.MapsFragment"
+                        tools:layout="@layout/fragment_maps" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/activitycategories_textview"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@{`Categorias: ` + Converter.listOfCategories(activity.categorias)}"
+                    android:textColor="@color/colorPlaceholder"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/map_frameLayout" />
+
+                <RatingBar
+                    android:id="@+id/activityRating_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:rating="@{Converter.fromStringToFloat(activity.calificacion)}"
+                    android:stepSize="0.1"
+                    android:textColor="@color/colorPlaceholder"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/activitycategories_textview" />
+
+                <TextView
+                    android:id="@+id/activityCost_textview"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@{`Costo $` + activity.costo*60}"
+                    android:textColor="@color/colorPlaceholder"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/activityRating_rating" />
+
+
+                <TextView
+                    android:id="@+id/activity_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:paddingBottom="50dp"
+                    android:scrollbars="vertical"
+                    android:text="@{activity.descripcion}"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/activityCost_textview" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/shareActivity_floatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:isIndicator="true"
-            android:numStars="5"
-            android:rating="@{Converter.fromStringToFloat(activity.calificacion)}"
-            android:stepSize="0.1"
-            android:textColor="@color/colorPlaceholder"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activitycategories_textview" />
-
-        <TextView
-            android:id="@+id/activityCost_textview"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@{`Costo $` + activity.costo}"
-            android:textColor="@color/colorPlaceholder"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activityRating_rating" />
-
-
-        <TextView
-            android:id="@+id/activity_description"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="12dp"
-            android:scrollbars="vertical"
-            android:text="@{activity.descripcion}"
-            android:textColor="@color/colorBlack"
-            android:textSize="18sp"
+            android:layout_gravity="end|bottom"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activityCost_textview" />
+            app:layout_constraintEnd_toStartOf="@+id/addActivity_floatingActionButton"
+            app:srcCompat="@drawable/ic_share_white_24dp" />
+
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addActivity_floatingActionButton"
@@ -128,7 +156,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_add_black_24dp" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

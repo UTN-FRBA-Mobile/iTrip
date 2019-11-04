@@ -1,13 +1,7 @@
 package com.android.itrip.adapters
 
-import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.net.Uri
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
@@ -26,8 +20,7 @@ import com.squareup.picasso.Picasso
 
 
 class ActivitiesAdapter(
-    private val _actividades: LiveData<List<Actividad>>,
-    private val requestPermissionCallback: () -> Unit
+    private val _actividades: LiveData<List<Actividad>>
 ) :
     ListAdapter<Actividad, RecyclerView.ViewHolder>(ActivitiesDiffCallback()) {
 
@@ -76,46 +69,9 @@ class ActivitiesAdapter(
                     , bundle
                 )
         }
-/*        binding.shareImagebutton.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(
-                    parent.context, Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                requestPermissionCallback()
-            } else {
-                shareActivity(binding, parent)
-            }
-        }*/
         val viewHolder = ActivitiesHolder(binding)
         binding.lifecycleOwner = viewHolder
         return viewHolder
-    }
-
-    private fun shareActivity(
-        binding: ActivitiesItemBinding,
-        parent: ViewGroup
-    ) {
-        val shareIntent = Intent()
-        val bitmapDrawable: BitmapDrawable =
-            binding.activityImageView.drawable as BitmapDrawable
-        val bitmap1: Bitmap
-        bitmap1 = bitmapDrawable.bitmap
-        val imgBitmapPath =
-            MediaStore.Images.Media.insertImage(
-                parent.context.contentResolver,
-                bitmap1,
-                "title",
-                null
-            )
-        val imgBitmapUri = Uri.parse(imgBitmapPath)
-        shareIntent.action = Intent.ACTION_SEND
-        shareIntent.putExtra(
-            Intent.EXTRA_TEXT,
-            "Realmente necesitamos hacer esto!\n" + binding.actividadModel?.nombre
-        )
-        shareIntent.type = "*/*"
-        shareIntent.putExtra(Intent.EXTRA_STREAM, imgBitmapUri)
-        startActivity(parent.context, Intent.createChooser(shareIntent, "send"), null)
     }
 
     class ActivitiesHolder(

@@ -118,7 +118,7 @@ class BucketAdapter(
             }
         }
 
-        fun bindActivity(
+        private fun bindActivity(
             item: ActividadARealizar,
             position: Int
         ) {
@@ -141,11 +141,11 @@ class BucketAdapter(
             }
         }
 
-        fun bindingEmpty(
+        private fun bindingEmpty(
             item: ActividadARealizar,
             addActivityToBucketCallback: (ActividadARealizar) -> Unit
         ) {
-            (binding as BucketEmptyItemBinding).bucketEmptyItemConstraintLayout.apply {
+            (binding as BucketEmptyItemBinding).bucketEmptyItemImageButton.apply {
                 layoutParams.height =
                     context.resources.displayMetrics.heightPixels / 9 * item.detalle_actividad!!.duracion
                 requestLayout()

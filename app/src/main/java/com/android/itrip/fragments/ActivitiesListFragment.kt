@@ -1,7 +1,6 @@
 package com.android.itrip.fragments
 
 
-import android.Manifest
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +26,7 @@ class ActivitiesListFragment : Fragment() {
 
     lateinit var activitiesViewModel: ActivitiesViewModel
     lateinit var actividades: List<Actividad>
+    var action: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +39,7 @@ class ActivitiesListFragment : Fragment() {
         this.arguments!!.get("actividades")?.let {
             actividades = it as List<Actividad>
         }
+        action = this.arguments?.getInt("action") ?: 0
         val application = requireNotNull(this.activity).application
         val viewModelFactory = ActivitiesViewModelFactory(
             actividades,
@@ -63,7 +64,7 @@ class ActivitiesListFragment : Fragment() {
         })
         binding.myRecyclerView.apply {
             layoutManager = LinearLayoutManager(application)
-            adapter = ActivitiesAdapter(activitiesViewModel.actividades) { requestPermission() }
+            adapter = ActivitiesAdapter(activitiesViewModel.actividades)
         }
         binding.mapsActivityFloatingActionButton.setOnClickListener {
             it.findNavController().navigate(
@@ -76,10 +77,6 @@ class ActivitiesListFragment : Fragment() {
         binding.lifecycleOwner = this
         setBarTitle()
         return binding.root
-    }
-
-    private fun requestPermission() {
-        requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 101)
     }
 
     private fun setBarTitle() {
