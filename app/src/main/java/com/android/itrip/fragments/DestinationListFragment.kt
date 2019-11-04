@@ -12,10 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.itrip.ActivitiesActivity
-import com.android.itrip.MainActivity
-import com.android.itrip.R
-import com.android.itrip.RequestCodes
+import com.android.itrip.*
 import com.android.itrip.adapters.DestinationAdapter
 import com.android.itrip.database.Destination
 import com.android.itrip.database.DestinationDatabase
@@ -96,11 +93,16 @@ class DestinationListFragment : Fragment() {
     }
 
     private fun destinationAdded(destination: Destination) {
-        val spinner = binding.progressbarDestinationListSpinner.apply { visibility = View.VISIBLE }
+        val spinner = binding.progressbarDestinationListSpinner.apply {
+            AppWindowManager.disableScreen(activity!!)
+            visibility = View.VISIBLE
+        }
         destinationsViewModel.addDestination(viaje, destination, {
+            AppWindowManager.enableScreen(activity!!)
             spinner.visibility = View.GONE
             goToTrip()
         }, {
+            AppWindowManager.enableScreen(activity!!)
             spinner.visibility = View.GONE
         })
     }
