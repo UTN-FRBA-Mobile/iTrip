@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <data>
-
-        <variable
-            name="currentUser"
-            type="com.google.firebase.auth.FirebaseUser" />
-    </data>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:id="@+id/app_bar_header"
@@ -22,17 +17,19 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
         <ImageView
-            android:id="@+id/app_bar_header_imageView"
+            android:id="@+id/imageview_app_bar_header_picture"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:src="@drawable/logo" />
+            android:tint="@color/colorWhite"
+            app:srcCompat="@drawable/ic_user_placeholder_24dp"
+            tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/app_bar_header_textView"
+            android:id="@+id/textview_app_bar_header_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
-            android:text="@{currentUser.displayName}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     </LinearLayout>
+
 </layout>

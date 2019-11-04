@@ -21,6 +21,7 @@ import com.android.itrip.databinding.AppBarHeaderBinding
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
 import com.google.firebase.auth.FirebaseAuth
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_quiz.*
 
 interface DrawerLocker {
@@ -84,7 +85,17 @@ class QuizActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Draw
         val bindingAppBar: AppBarHeaderBinding = DataBindingUtil.inflate(
             layoutInflater, R.layout.app_bar_header, navigationView, false
         )
-        bindingAppBar.currentUser = FirebaseAuth.getInstance().currentUser
+        // set up navigation controller and navigation view bindings
+        val user = FirebaseAuth.getInstance().currentUser
+        // load user name
+        bindingAppBar.textviewAppBarHeaderName.text = user?.displayName
+        // load user picture
+        Picasso.get()
+            .load(user?.photoUrl)
+            .placeholder(R.drawable.ic_user_placeholder_24dp)
+            .error(R.drawable.ic_user_placeholder_24dp)
+            .fit()
+            .into(bindingAppBar.imageviewAppBarHeaderPicture)
         // set up navigation controller and navigation view bindings
         navController = Navigation.findNavController(this, R.id.navhostfragment_quiz)
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)

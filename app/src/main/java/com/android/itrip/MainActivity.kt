@@ -21,6 +21,7 @@ import com.android.itrip.services.QuizService
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.squareup.picasso.Picasso
 import java.util.logging.Logger
 
 
@@ -81,8 +82,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val bindingAppBar: AppBarHeaderBinding = DataBindingUtil.inflate(
             layoutInflater, R.layout.app_bar_header, navigationView, false
         )
-        val currentUser = intent.getParcelableExtra<FirebaseUser>("CurrentUser")
-        bindingAppBar.currentUser = currentUser
+        val user = intent.getParcelableExtra<FirebaseUser>("CurrentUser")
+        // load user name
+        bindingAppBar.textviewAppBarHeaderName.text = user.displayName
+        // load user picture
+        Picasso.get()
+            .load(user.photoUrl)
+            .placeholder(R.drawable.ic_user_placeholder_24dp)
+            .error(R.drawable.ic_user_placeholder_24dp)
+            .fit()
+            .into(bindingAppBar.imageviewAppBarHeaderPicture)
         // settea navigation controller y bindings del navigation view
         navController = Navigation.findNavController(this, R.id.navHostFragment)
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
