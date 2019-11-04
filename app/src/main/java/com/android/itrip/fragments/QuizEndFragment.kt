@@ -24,7 +24,7 @@ class QuizEndFragment : Fragment() {
         val binding: FragmentQuizEndBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_quiz_end, container, false
         )
-        binding.materialbuttonQuizEnd.setOnClickListener { view: View -> finishQuiz() }
+        binding.materialbuttonQuizEnd.setOnClickListener { finishQuiz() }
         return binding.root
     }
 

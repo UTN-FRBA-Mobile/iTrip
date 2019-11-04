@@ -31,5 +31,10 @@
         android:id="@+id/mapsFragment"
         android:name="com.android.itrip.fragments.MapsFragment"
         android:label="fragment_maps"
-        tools:layout="@layout/fragment_maps" />
+        tools:layout="@layout/fragment_maps" >
+        <action
+            android:id="@+id/action_mapsFragment_to_activityDetailsFragment"
+            app:destination="@id/activityDetailsFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
 </navigation>

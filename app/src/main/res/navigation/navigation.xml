@@ -36,11 +36,6 @@
         android:name="com.android.itrip.fragments.DestinationListFragment"
         tools:layout="@layout/fragment_destination_list">
         <action
-            android:id="@+id/action_destinationListFragment_to_activitiesListFragment"
-            app:destination="@id/activitiesListFragment"
-            app:enterAnim="@anim/fui_slide_in_right"
-            app:exitAnim="@anim/fui_slide_out_left" />
-        <action
             android:id="@+id/action_destinationListFragment_to_tripFragment"
             app:destination="@id/tripFragment"
             app:enterAnim="@anim/fui_slide_out_left"
@@ -52,18 +47,7 @@
         android:id="@+id/scheduleFragment"
         android:name="com.android.itrip.fragments.ScheduleFragment"
         android:label="ScheduleFragment"
-        tools:layout="@layout/fragment_schedule">
-        <action
-            android:id="@+id/action_scheduleFragment_to_activitiesListFragment"
-            app:destination="@id/activitiesListFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
-        <action
-            android:id="@+id/action_scheduleFragment_to_activityDetailsFragment"
-            app:destination="@id/activityDetailsFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
-    </fragment>
+        tools:layout="@layout/fragment_schedule"/>
     <fragment
         android:id="@+id/tripFragment"
         android:name="com.android.itrip.fragments.TripFragment"

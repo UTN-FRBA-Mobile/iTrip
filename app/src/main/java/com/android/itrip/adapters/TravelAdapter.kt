@@ -3,9 +3,11 @@ package com.android.itrip.adapters
 
 import android.view.LayoutInflater
 import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.os.bundleOf
+import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -91,20 +93,26 @@ class TravelAdapter(private val deleteCallback: (Viaje) -> Unit) :
         }
 
         private fun setImage(viaje: Viaje) {
-            val imageGalleryCount = binding.imageGalleryConstraintLayout.childCount
-            var imageView: ImageView
-            for (i in 0..imageGalleryCount-1) {
-                imageView = binding.imageGalleryConstraintLayout.getChildAt(i) as ImageView
-                try {
-                    viaje.ciudades_a_visitar[i].detalle_ciudad?.imagen?.let {
-                        Picasso.get()
-                            .load(it)
-                            .fit()
-                            .centerCrop()
-                            .into(imageView)
+            if (viaje.ciudades_a_visitar.isEmpty()) {
+                binding.imageGalleryConstraintLayout.children.forEach { it.visibility = GONE }
+                (binding.imageGalleryConstraintLayout.children.first() as ImageView).visibility =
+                    VISIBLE
+            } else {
+                val imageGalleryCount = binding.imageGalleryConstraintLayout.childCount
+                var imageView: ImageView
+                for (i in 0 until imageGalleryCount) {
+                    imageView = binding.imageGalleryConstraintLayout.getChildAt(i) as ImageView
+                    try {
+                        viaje.ciudades_a_visitar[i].detalle_ciudad?.imagen?.let {
+                            Picasso.get()
+                                .load(it)
+                                .fit()
+                                .centerCrop()
+                                .into(imageView)
+                        }
+                    } catch (e: Exception) {
+                        imageView.visibility = GONE
                     }
-                } catch (e: Exception) {
-                    imageView.visibility = GONE
                 }
             }
         }
