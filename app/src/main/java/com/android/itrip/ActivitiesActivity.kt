@@ -25,6 +25,7 @@ import com.android.itrip.models.Actividad
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
 import com.google.firebase.auth.FirebaseAuth
+import com.squareup.picasso.Picasso
 
 
 class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener, DrawerLocker {
@@ -95,7 +96,16 @@ class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener
             layoutInflater, R.layout.app_bar_header, navigationView, false
         )
         // set up navigation controller and navigation view bindings
-        bindingAppBar.currentUser = FirebaseAuth.getInstance().currentUser
+        val user = FirebaseAuth.getInstance().currentUser
+        // load user name
+        bindingAppBar.textviewAppBarHeaderName.text = user?.displayName
+        // load user picture
+        Picasso.get()
+            .load(user?.photoUrl)
+            .placeholder(R.drawable.ic_user_placeholder_24dp)
+            .error(R.drawable.ic_user_placeholder_24dp)
+            .fit()
+            .into(bindingAppBar.imageviewAppBarHeaderPicture)
         navController = Navigation.findNavController(this, R.id.navhostfragment_activities)
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
         NavigationUI.setupWithNavController(navigationView, navController)
