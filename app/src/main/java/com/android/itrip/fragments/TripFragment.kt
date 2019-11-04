@@ -50,11 +50,12 @@ class TripFragment : Fragment() {
     }
 
     private fun getDestinations() {
+        // if travel has no destinations it shows a friendly warning
         if (tripViewModel.viaje.value!!.ciudades_a_visitar.isNullOrEmpty()) {
             binding.linearlayoutDestinationsNoDestinations.visibility = View.VISIBLE
         } else {
             binding.recyclerviewDestinations.apply {
-                layoutManager = LinearLayoutManager(requireNotNull(activity).application)
+                layoutManager = LinearLayoutManager(context)
                 adapter = TripAdapter(tripViewModel,
                     { deleteCityToVisit(it) },
                     { viewCityToVisit(it) })
