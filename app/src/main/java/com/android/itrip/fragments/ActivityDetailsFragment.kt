@@ -126,7 +126,7 @@ class ActivityDetailsFragment : Fragment() {
         shareIntent.action = Intent.ACTION_SEND
         shareIntent.putExtra(
             Intent.EXTRA_TEXT,
-            "Realmente necesitamos hacer esto!\n" + actividad.nombre
+            "Realmente necesitamos hacer esto!\n" + actividad.nombre+"\n"+actividad.descripcion
         )
         shareIntent.type = "*/*"
         shareIntent.putExtra(Intent.EXTRA_STREAM, imgBitmapUri)
