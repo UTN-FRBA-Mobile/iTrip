@@ -23,9 +23,7 @@
         nos ayuda mucho para poder ofrecerte las mejores oportunidades de viaje y asi puedas construir hermosas
         experiencias.
     </string>
-    <string name="quiz_info_description">El siguiente cuestionario es para que podamos conocerte mejor y asi ofrecerte
-        las mejores oportunidades de viajes.
-    </string>
+    <string name="quiz_info_description">Queremos conocerte mejor, por eso te pedimos que completes el siguiente cuestionario.</string>
     <string name="quiz_info_genero">Género</string>
     <string name="quiz_info_otro_genero">Ingresa otro género</string>
     <string name="quiz_info_edad">Edad</string>
