@@ -39,6 +39,12 @@ class DestinationListFragment : Fragment() {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_destination_list, container, false
         )
+        loadViewModel()
+        bindings()
+        return binding.root
+    }
+
+    private fun loadViewModel() {
         val application = requireNotNull(this.activity).application
         val viewModelFactory = DestinationViewModelFactory(
             DestinationDatabase.getInstance(application).destinationDatabaseDao,
@@ -48,9 +54,12 @@ class DestinationListFragment : Fragment() {
         destinationsViewModel = ViewModelProviders
             .of(this, viewModelFactory)
             .get(DestinationViewModel::class.java)
+    }
+
+    private fun bindings() {
         binding.apply {
             recyclerviewDestinationList.apply {
-                layoutManager = LinearLayoutManager(application)
+                layoutManager = LinearLayoutManager(context)
                 adapter = DestinationAdapter(
                     context,
                     destinationsViewModel,
@@ -59,7 +68,6 @@ class DestinationListFragment : Fragment() {
             }
             lifecycleOwner = this@DestinationListFragment
         }
-        return binding.root
     }
 
     private fun setBarTitle() {

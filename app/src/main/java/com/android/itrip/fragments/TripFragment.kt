@@ -19,6 +19,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.itrip.AppWindowManager
 import com.android.itrip.MainActivity
 import com.android.itrip.R
 import com.android.itrip.adapters.TripAdapter
@@ -37,16 +38,30 @@ class TripFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setBarTitle()
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_trip, container, false)
-        arguments!!.getLong("viajeID")
-            .let { tripViewModel = TripViewModel(it) { getDestinations() } }
-        binding.lifecycleOwner = this
+        setBarTitle()
+        loadViewModel()
         return binding.root
     }
 
     private fun setBarTitle() {
         (activity as MainActivity).setActionBarTitle(getString(R.string.destinations_title))
+    }
+
+    private fun loadViewModel() {
+        arguments!!.getLong("viajeID").let {
+            // set a spinner when destinations are being loaded
+            val spinner = binding.progressbarDestinationsListSpinner.apply {
+                AppWindowManager.disableScreen(activity!!)
+                visibility = View.VISIBLE
+            }
+            tripViewModel = TripViewModel(it) {
+                getDestinations()
+                AppWindowManager.enableScreen(activity!!)
+                spinner.visibility = View.GONE
+            }
+        }
+        binding.lifecycleOwner = this
     }
 
     private fun getDestinations() {
@@ -63,7 +78,7 @@ class TripFragment : Fragment() {
             }
             binding.linearlayoutDestinationsNoDestinations.visibility = View.INVISIBLE
         }
-        binding.floatingactionbuttonDestinationCreation.setOnClickListener {
+        binding.floatingactionbuttonDestinationsCreation.setOnClickListener {
             val bundle = bundleOf("viaje" to tripViewModel.viaje.value!!)
             it.findNavController().navigate(
                 TripFragmentDirections.actionTripFragmentToDestinationListFragment().actionId,

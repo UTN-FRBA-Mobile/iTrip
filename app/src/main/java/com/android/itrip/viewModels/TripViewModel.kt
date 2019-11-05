@@ -11,9 +11,7 @@ import com.android.itrip.services.TravelService
 class TripViewModel(viajeID: Long, callback: () -> Unit) : ViewModel() {
 
     private var _viaje = MutableLiveData<Viaje>()
-    val viaje: LiveData<Viaje>
-        get() = _viaje
-
+    val viaje: LiveData<Viaje> get() = _viaje
     var ciudadesAVisitar: LiveData<List<CiudadAVisitar>>
 
     init {
