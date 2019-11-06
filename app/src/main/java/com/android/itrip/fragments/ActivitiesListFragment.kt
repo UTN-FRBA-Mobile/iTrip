@@ -27,7 +27,7 @@ class ActivitiesListFragment : Fragment() {
 
     lateinit var activitiesViewModel: ActivitiesViewModel
     lateinit var actividades: List<Actividad>
-    var action: Int = 0
+    private var action: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

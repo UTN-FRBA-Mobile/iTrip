@@ -24,7 +24,7 @@ class DestinationDialog(
     private val callback: () -> Unit
 ) : Dialog(fragment.context!!) {
 
-    var dialog: AlertDialog
+    private var dialog: AlertDialog
     private var binding: LayoutDestinationDialogBinding = DataBindingUtil
         .inflate(
             LayoutInflater.from(fragment.context),

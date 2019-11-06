@@ -31,10 +31,9 @@ class BucketAdapter(
 ) :
     RecyclerView.Adapter<BucketAdapter.ActivitiesHolder>() {
 
-    private var actividadARealizar: List<ActividadARealizar>
+    private var actividadARealizar = scheduleViewModel.actividadesARealizar.value ?: emptyList()
 
     init {
-        actividadARealizar = scheduleViewModel.actividadesARealizar.value ?: emptyList()
         scheduleViewModel.actividadesARealizar.observeForever {
             replaceItems(it)
         }
@@ -47,7 +46,7 @@ class BucketAdapter(
         }
     }
 
-    fun replaceItems(_activities: List<ActividadARealizar>) {
+    private fun replaceItems(_activities: List<ActividadARealizar>) {
         actividadARealizar = _activities
         notifyDataSetChanged()
     }
@@ -61,7 +60,7 @@ class BucketAdapter(
         )
     }
 
-    fun getItem(position: Int): ActividadARealizar {
+    private fun getItem(position: Int): ActividadARealizar {
         return actividadARealizar[position]
     }
 

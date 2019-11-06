@@ -171,7 +171,6 @@ class ScheduleFragment : Fragment() {
                     }
                 }
 
-
                 override fun onChildDraw(
                     c: Canvas,
                     recyclerView: RecyclerView,

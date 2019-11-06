@@ -35,29 +35,6 @@ class ScheduleViewModel(
         return MutableLiveData<List<ActividadARealizar>>(tempList)
     }
 
-/* DEPRECATED, OLD VERSION OF cleanDuplication
-    private fun createBuckets(list: List<ActividadARealizar>): List<ActividadARealizar> {
-        val bucketsTemp: HashMap<Int, ActividadARealizar> = hashMapOf()
-        bucketsTemp.apply {
-            for (i in 1..6) {
-                this[i] = ActividadARealizar(
-                    0L,
-                    Calendar.getInstance(),
-                    i,
-                    null
-                )
-            }
-            list.forEach {
-                this[it.bucket_inicio] = it
-                repeat(it.detalle_actividad!!.duracion) { counter: Int ->
-                    this[it.bucket_inicio + counter] = it
-                }
-            }
-        }
-        return bucketsTemp.map { it.value }
-    }
-*/
-
     private fun cleanDuplication(
         date: Calendar,
         list: List<ActividadARealizar>
@@ -121,7 +98,7 @@ class ScheduleViewModel(
             actividadARealizar.bucket_inicio
         )
         TravelService.getActivitiesForBucket(bucket,
-            { actividadesARealizar -> successCallback(actividadesARealizar) },
+            { successCallback(it) },
             { failureCallback() })
     }
 

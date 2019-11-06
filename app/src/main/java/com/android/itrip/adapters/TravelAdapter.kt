@@ -13,56 +13,51 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.R
 import com.android.itrip.databinding.TravelItemBinding
 import com.android.itrip.fragments.HomeFragmentDirections
 import com.android.itrip.models.Viaje
+import com.android.itrip.viewModels.HomeViewModel
 import com.squareup.picasso.Picasso
 
 
-class TravelAdapter(private val deleteCallback: (Viaje) -> Unit) :
-    ListAdapter<Viaje, RecyclerView.ViewHolder>(TravelDiffCallback()) {
+class TravelAdapter(homeViewModel: HomeViewModel) :
+    RecyclerView.Adapter<TravelAdapter.TravelHolder>() {
 
-    private var travels = mutableListOf<Viaje>()
+    private var travels: List<Viaje> = homeViewModel.viajes.value ?: emptyList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    init {
+        homeViewModel.viajes.observeForever {
+            replaceItems(it)
+        }
+    }
+
+    override fun onBindViewHolder(holder: TravelHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TravelHolder {
         val binding: TravelItemBinding =
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context), R.layout.travel_item, parent, false
             )
         val viewHolder = TravelHolder(binding)
         binding.lifecycleOwner = viewHolder
+        parent.invalidate()
         return viewHolder
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as TravelHolder).bind(getItem(position))
     }
 
     override fun getItemId(position: Int) = position.toLong()
 
-    override fun getItem(position: Int) = travels[position]
+    fun getItem(position: Int) = travels[position]
 
     override fun getItemCount() = travels.size
 
-    fun replaceItems(_travels: List<Viaje>) {
-        travels = _travels.toMutableList()
+    private fun replaceItems(_travels: List<Viaje>) {
+        travels = _travels
         notifyDataSetChanged()
     }
-
-    fun remove(adapterPosition: Int) {
-        deleteCallback(getItem(adapterPosition))
-    }
-
-    fun deleteItem(travel: Viaje) {
-        travels.remove(travel)
-        notifyDataSetChanged()
-    }
-
-    fun hasTravels() = travels.size != 0
 
     class TravelHolder(
         private val binding: TravelItemBinding
@@ -115,13 +110,5 @@ class TravelAdapter(private val deleteCallback: (Viaje) -> Unit) :
             }
         }
     }
-
-}
-
-private class TravelDiffCallback : DiffUtil.ItemCallback<Viaje>() {
-
-    override fun areItemsTheSame(oldItem: Viaje, newItem: Viaje) = oldItem.id == newItem.id
-
-    override fun areContentsTheSame(oldItem: Viaje, newItem: Viaje) = oldItem == newItem
 
 }

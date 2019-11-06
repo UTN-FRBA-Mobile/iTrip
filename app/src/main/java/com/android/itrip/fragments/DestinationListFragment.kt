@@ -26,7 +26,7 @@ import com.android.itrip.viewModels.DestinationViewModelFactory
 class DestinationListFragment : Fragment() {
 
     private lateinit var binding: FragmentDestinationListBinding
-    lateinit var destinationsViewModel: DestinationViewModel
+    private lateinit var destinationsViewModel: DestinationViewModel
     private lateinit var viaje: Viaje
 
     override fun onCreateView(

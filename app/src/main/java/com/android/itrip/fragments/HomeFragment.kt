@@ -27,14 +27,16 @@ import com.android.itrip.adapters.TravelAdapter
 import com.android.itrip.databinding.FragmentHomeBinding
 import com.android.itrip.fragments.HomeFragmentDirections.Companion.actionHomeFragmentToCreateTravelFragment
 import com.android.itrip.models.Viaje
-import com.android.itrip.services.TravelService
+import com.android.itrip.services.ApiError
+import com.android.itrip.viewModels.HomeViewModel
 import java.util.logging.Logger
 
 class HomeFragment : Fragment() {
 
     private val logger = Logger.getLogger(this::class.java.name)
-    private var travelAdapter = TravelAdapter { deleteTravel(it) }
+    private lateinit var travelAdapter: TravelAdapter
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var homeViewModel: HomeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +49,7 @@ class HomeFragment : Fragment() {
             it.findNavController()
                 .navigate(actionHomeFragmentToCreateTravelFragment())
         }
-        getTravels()
+        homeViewModel = HomeViewModel({ getTravelsSuccess(it) }, { getTravelsFailure(it) })
         return binding.root
     }
 
@@ -56,25 +58,54 @@ class HomeFragment : Fragment() {
     }
 
     private fun deleteTravel(travel: Viaje) {
-        TravelService.deleteTrip(travel, {
-            travelAdapter.deleteItem(travel)
-            if (!travelAdapter.hasTravels()) {
-                binding.linearlayoutNoTravels.visibility = VISIBLE
-            }
-        }, { error ->
-            val message = if (error.statusCode == 404) {
-                error.data.getString("detail")
-            } else {
-                logger.severe("Failed to delete travel - status: ${error.statusCode} - message: ${error.message}")
-                "Hubo un problema, intente de nuevo"
-            }
-            Toast
-                .makeText(context, message, Toast.LENGTH_SHORT)
-                .show()
-        })
+        homeViewModel.deleteTravel(travel, { deleteTravelSuccess() }, { deleteTravelFailure(it) })
     }
 
-    private fun getTravels() {
+    private fun deleteTravelFailure(error: ApiError) {
+        val message = if (error.statusCode == 404) {
+            error.data.getString("detail")
+        } else {
+            logger.severe("Failed to delete travel - status: ${error.statusCode} - message: ${error.message}")
+            "Hubo un problema, intente de nuevo"
+        }
+        Toast
+            .makeText(context, message, Toast.LENGTH_SHORT)
+            .show()
+    }
+
+    private fun deleteTravelSuccess() {
+        if (!homeViewModel.hasTravels()) {
+            binding.linearlayoutNoTravels.visibility = VISIBLE
+        }
+    }
+
+    private fun getTravelsFailure(error: ApiError) {
+        val message = if (error.statusCode == 400) {
+            error.data.getJSONArray("non_field_errors")[0] as String
+        } else {
+            logger.severe("Failed to get travels - status: ${error.statusCode} - message: ${error.message}")
+            "Hubo un problema, intente de nuevo"
+        }
+        Toast
+            .makeText(context, message, Toast.LENGTH_SHORT)
+            .show()
+    }
+
+    private fun getTravelsSuccess(viajes: List<Viaje>) {
+        if (viajes.isNotEmpty()) {
+            binding.linearlayoutNoTravels.visibility = INVISIBLE
+            try {
+                setRecyclerView(homeViewModel)
+            } catch (e: IllegalArgumentException) {
+                logger.severe(e.toString())
+            }
+        } else {
+            binding.linearlayoutNoTravels.visibility = VISIBLE
+        }
+    }
+
+    private fun setRecyclerView(homeViewModel: HomeViewModel) {
+        travelAdapter = TravelAdapter(homeViewModel)
         binding.recyclerviewTravels.apply {
             layoutManager =
                 LinearLayoutManager(requireNotNull(this@HomeFragment.activity).application)
@@ -82,24 +113,6 @@ class HomeFragment : Fragment() {
             adapter = travelAdapter
             setUpItemTouchHelper(this)
         }
-        TravelService.getTravels({
-            if (it.isNotEmpty()) {
-                binding.linearlayoutNoTravels.visibility = INVISIBLE
-                travelAdapter.replaceItems(it)
-            } else {
-                binding.linearlayoutNoTravels.visibility = VISIBLE
-            }
-        }, { error ->
-            val message = if (error.statusCode == 400) {
-                error.data.getJSONArray("non_field_errors")[0] as String
-            } else {
-                logger.severe("Failed to get travels - status: ${error.statusCode} - message: ${error.message}")
-                "Hubo un problema, intente de nuevo"
-            }
-            Toast
-                .makeText(context, message, Toast.LENGTH_SHORT)
-                .show()
-        })
     }
 
     private fun setUpItemTouchHelper(recyclerView: RecyclerView) {
@@ -136,8 +149,10 @@ class HomeFragment : Fragment() {
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
                     when (swipeDir) {
-                        ItemTouchHelper.RIGHT -> (recyclerView.adapter as TravelAdapter).remove(
-                            viewHolder.adapterPosition
+                        ItemTouchHelper.RIGHT -> deleteTravel(
+                            (recyclerView.adapter as TravelAdapter).getItem(
+                                viewHolder.adapterPosition
+                            )
                         )
                     }
                 }
