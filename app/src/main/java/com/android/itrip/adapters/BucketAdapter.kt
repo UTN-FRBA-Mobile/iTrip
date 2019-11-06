@@ -4,7 +4,6 @@ package com.android.itrip.adapters
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
@@ -27,7 +26,8 @@ interface ActivityType {
 
 class BucketAdapter(
     private val scheduleViewModel: ScheduleViewModel,
-    private val addActivityToBucketCallback: (ActividadARealizar) -> Unit
+    private val addActivityToBucketCallback: (ActividadARealizar) -> Unit,
+    private val showActivityDetailsCallback: (ActividadARealizar) -> Unit
 ) :
     RecyclerView.Adapter<BucketAdapter.ActivitiesHolder>() {
 
@@ -53,7 +53,12 @@ class BucketAdapter(
     }
 
     override fun onBindViewHolder(holder: ActivitiesHolder, position: Int) {
-        holder.bind(getItem(position), position, addActivityToBucketCallback)
+        holder.bind(
+            getItem(position),
+            position,
+            addActivityToBucketCallback,
+            showActivityDetailsCallback
+        )
     }
 
     fun getItem(position: Int): ActividadARealizar {
@@ -110,17 +115,19 @@ class BucketAdapter(
         fun bind(
             item: ActividadARealizar,
             position: Int,
-            addActivityToBucketCallback: (ActividadARealizar) -> Unit
+            addActivityToBucketCallback: (ActividadARealizar) -> Unit,
+            showActivityDetailsCallback: (ActividadARealizar) -> Unit
         ) {
             when (itemViewType) {
-                ActivityType.ACTIVITY -> bindActivity(item, position)
+                ActivityType.ACTIVITY -> bindActivity(item, position, showActivityDetailsCallback)
                 ActivityType.EMPTY -> bindingEmpty(item, addActivityToBucketCallback)
             }
         }
 
         private fun bindActivity(
             item: ActividadARealizar,
-            position: Int
+            position: Int,
+            showActivityDetailsCallback: (ActividadARealizar) -> Unit
         ) {
             (binding as BucketItemBinding).apply {
                 if (position % 2 == 0)
@@ -131,13 +138,7 @@ class BucketAdapter(
                 bucketItemConstraintLayout.layoutParams.height =
                     bucketItemConstraintLayout.context.resources.displayMetrics.heightPixels / 9 * item.detalle_actividad!!.duracion
                 bucketItemConstraintLayout.requestLayout()
-                bucketItemConstraintLayout.setOnClickListener {
-                    Toast.makeText(
-                        it.context,
-                        "<= DETALLES   |   REMOVER =>",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                bucketItemConstraintLayout.setOnClickListener { showActivityDetailsCallback(item) }
             }
         }
 

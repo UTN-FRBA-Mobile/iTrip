@@ -12,7 +12,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
@@ -23,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.ActivitiesActivity
 import com.android.itrip.MainActivity
 import com.android.itrip.R
-import com.android.itrip.R.color.colorDarkGreen
 import com.android.itrip.RequestCodes.Companion.ADD_ACTIVITY_CODE
 import com.android.itrip.RequestCodes.Companion.VIEW_ACTIVITY_DETAILS_CODE
 import com.android.itrip.adapters.ActivityType
@@ -64,16 +62,11 @@ class ScheduleFragment : Fragment() {
         setCalendar()
         binding.myRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireNotNull(activity).application)
-            adapter = BucketAdapter(scheduleViewModel) {
-                addActivityToBucket(it)
-            }
+            adapter = BucketAdapter(scheduleViewModel,
+                { addActivityToBucket(it) },
+                { showActivityDetails(it) })
             setUpItemTouchHelper(this)
         }
-        Toast.makeText(
-            context,
-            "<= DETALLES   |   REMOVER =>",
-            Toast.LENGTH_SHORT
-        ).show()
         setBarTitle()
         binding.lifecycleOwner = this
         return binding.root
@@ -137,30 +130,17 @@ class ScheduleFragment : Fragment() {
         }
     }
 
-    /**
-     * This is the standard support library way of implementing "swipe to delete" feature. You can do custom drawing in onChildDraw method
-     * but whatever you draw will disappear once the swipe is over, and while the items are animating to their new position the recycler view
-     * background will be visible. That is rarely an desired effect.
-     */
     private fun setUpItemTouchHelper(recyclerView: RecyclerView) {
 
         val simpleItemTouchCallback =
             object :
-                ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)) {
-                var detailsBackground: Drawable? = null
-                var detailsDrawable: Drawable? = null
+                ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
                 var deleteBackground: Drawable? = null
                 var deleteDrawable: Drawable? = null
                 var drawableMargin: Int = 0
                 var initiated: Boolean = false
 
                 private fun init() {
-                    detailsBackground = ColorDrawable(resources.getColor(colorDarkGreen))
-                    detailsDrawable = ContextCompat.getDrawable(
-                        context!!,
-                        R.drawable.ic_info_black_24dp
-                    )
-                    detailsDrawable!!.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
                     deleteBackground = ColorDrawable(Color.RED)
                     deleteDrawable = ContextCompat.getDrawable(
                         context!!,
@@ -184,20 +164,13 @@ class ScheduleFragment : Fragment() {
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
                     if ((recyclerView.adapter as BucketAdapter).getItemViewType(viewHolder.adapterPosition) == ActivityType.ACTIVITY) {
-                        when (swipeDir) {
-                            ItemTouchHelper.RIGHT -> (recyclerView.adapter as BucketAdapter).remove(
+                        if (swipeDir == ItemTouchHelper.RIGHT)
+                            (recyclerView.adapter as BucketAdapter).remove(
                                 viewHolder.adapterPosition
                             )
-                            ItemTouchHelper.LEFT ->
-                                showActivityDetails(
-                                    (recyclerView.adapter as BucketAdapter).getItem(
-                                        viewHolder.adapterPosition
-                                    )
-                                )
-
-                        }
                     }
                 }
+
 
                 override fun onChildDraw(
                     c: Canvas,
@@ -216,8 +189,6 @@ class ScheduleFragment : Fragment() {
                             init()
                         if (dX > 0)
                             swipeRight(itemView, dX, c, deleteDrawable, deleteBackground)
-                        else if (dX < 0)
-                            swipeLeft(itemView, dX, c, detailsDrawable, detailsBackground)
                         super.onChildDraw(
                             c,
                             recyclerView,
@@ -254,31 +225,8 @@ class ScheduleFragment : Fragment() {
                     drawable.draw(c)
                 }
 
-                private fun swipeLeft(
-                    itemView: View,
-                    dX: Float,
-                    c: Canvas,
-                    drawable: Drawable?,
-                    background: Drawable?
-                ) {
-                    background!!.setBounds(
-                        itemView.right + dX.toInt(),
-                        itemView.top,
-                        itemView.right,
-                        itemView.bottom
-                    )
-                    background.draw(c)
-                    val deleteLeft =
-                        itemView.right - drawableMargin - drawable!!.intrinsicWidth
-                    val deleteRight = itemView.right - drawableMargin
-                    val deleteTop =
-                        itemView.top + (itemView.bottom - itemView.top - drawable.intrinsicWidth) / 2
-                    val deleteBottom = deleteTop + drawable.intrinsicWidth
-                    drawable.setBounds(deleteLeft, deleteTop, deleteRight, deleteBottom)
-                    drawable.draw(c)
-                }
-
             }
+
         val mItemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
         mItemTouchHelper.attachToRecyclerView(recyclerView)
     }
