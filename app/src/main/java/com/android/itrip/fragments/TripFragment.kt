@@ -65,6 +65,7 @@ class TripFragment : Fragment() {
     }
 
     private fun getDestinations() {
+        binding.viaje = tripViewModel.viaje.value
         // if travel has no destinations it shows a friendly warning
         if (tripViewModel.viaje.value!!.ciudades_a_visitar.isNullOrEmpty()) {
             binding.linearlayoutDestinationsNoDestinations.visibility = View.VISIBLE
