@@ -39,7 +39,7 @@ class TravelAdapter(private val deleteCallback: (Viaje) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as TravelHolder).bind(getItem(position), this)
+        (holder as TravelHolder).bind(getItem(position))
     }
 
     override fun getItemId(position: Int) = position.toLong()
@@ -51,6 +51,10 @@ class TravelAdapter(private val deleteCallback: (Viaje) -> Unit) :
     fun replaceItems(_travels: List<Viaje>) {
         travels = _travels.toMutableList()
         notifyDataSetChanged()
+    }
+
+    fun remove(adapterPosition: Int) {
+        deleteCallback(getItem(adapterPosition))
     }
 
     fun deleteItem(travel: Viaje) {
@@ -70,10 +74,7 @@ class TravelAdapter(private val deleteCallback: (Viaje) -> Unit) :
             return lifecycleRegistry
         }
 
-        fun bind(
-            viaje: Viaje,
-            travelAdapter: TravelAdapter
-        ) {
+        fun bind(viaje: Viaje) {
             binding.apply {
                 travelItem = viaje
                 travelItemCardView.setOnClickListener {
@@ -85,9 +86,6 @@ class TravelAdapter(private val deleteCallback: (Viaje) -> Unit) :
                             )
                         )
                 }
-//                removeButton.setOnClickListener {
-//                    travelAdapter.deleteCallback(viaje)
-//                }
                 setImage(viaje)
             }
         }
