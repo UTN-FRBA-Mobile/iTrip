@@ -15,7 +15,7 @@
     <string name="drawer_menu_logout">Salir</string>
 
     <!--Quiz-->
-    <string name="quiz_info_title">Completa el cuestionario</string>
+    <string name="quiz_info_title">Completá el cuestionario</string>
     <string name="quiz_info_title_update_preferences">Actualizá tus datos</string>
     <string name="quiz_hobbies_title">¿Cuáles son tus hobbies?</string>
     <string name="quiz_next">Siguiente</string>
@@ -25,7 +25,7 @@
     </string>
     <string name="quiz_info_description">Queremos conocerte mejor, por eso te pedimos que completes el siguiente cuestionario.</string>
     <string name="quiz_info_genero">Género</string>
-    <string name="quiz_info_otro_genero">Ingresa otro género</string>
+    <string name="quiz_info_otro_genero">Ingresá otro género</string>
     <string name="quiz_info_edad">Edad</string>
     <string name="quiz_info_estadocivil">Estado civil</string>
     <string name="quiz_info_estudios">Estudios</string>

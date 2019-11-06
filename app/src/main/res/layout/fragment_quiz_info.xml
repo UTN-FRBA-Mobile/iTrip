@@ -59,7 +59,7 @@
                     app:errorType="empty" />
 
                 <com.emmasuzuki.easyform.EasyTextInputLayout
-                    android:id="@+id/textinputedittext_quiz_info_edad"
+                    android:id="@+id/textinputlayout_quiz_info_edad"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/textinputlayout_quiz_info_genero"
@@ -79,7 +79,7 @@
                     android:id="@+id/textinputlayout_quiz_info_estadocivil"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/textinputedittext_quiz_info_edad"
+                    android:layout_below="@id/textinputlayout_quiz_info_edad"
                     android:layout_marginTop="15dp"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
