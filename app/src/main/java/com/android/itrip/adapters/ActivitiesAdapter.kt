@@ -2,25 +2,23 @@ package com.android.itrip.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.LiveData
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.R
 import com.android.itrip.databinding.ActivitiesItemBinding
-import com.android.itrip.fragments.ActivitiesListFragmentDirections
 import com.android.itrip.models.Actividad
 import com.squareup.picasso.Picasso
 
 
 class ActivitiesAdapter(
-    private val _actividades: LiveData<List<Actividad>>
+    private val _actividades: LiveData<List<Actividad>>,
+    private val activityDetailsCallback: (Actividad) -> Unit
 ) :
     ListAdapter<Actividad, RecyclerView.ViewHolder>(ActivitiesDiffCallback()) {
 
@@ -31,7 +29,7 @@ class ActivitiesAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as ActivitiesHolder).bind(getItem(position))
+        (holder as ActivitiesHolder).bind(getItem(position), activityDetailsCallback)
     }
 
     override fun getItem(position: Int): Actividad {
@@ -59,16 +57,6 @@ class ActivitiesAdapter(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context), R.layout.activities_item, parent, false
             )
-        binding.activityConstraintLayout.setOnClickListener {
-            val bundle = bundleOf(
-                "actividad" to binding.actividadModel!!
-            )
-            it.findNavController()
-                .navigate(
-                    ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailsFragment().actionId
-                    , bundle
-                )
-        }
         val viewHolder = ActivitiesHolder(binding)
         binding.lifecycleOwner = viewHolder
         return viewHolder
@@ -82,9 +70,13 @@ class ActivitiesAdapter(
             return lifecycleRegistry
         }
 
-        fun bind(item: Actividad) {
+        fun bind(
+            item: Actividad,
+            activityDetailsCallback: (Actividad) -> Unit
+        ) {
             binding.apply {
                 actividadModel = item
+                activityConstraintLayout.setOnClickListener { activityDetailsCallback(item) }
                 actividadNameTextView.text = item.nombre
                 item.imagen?.let {
                     Picasso.get()

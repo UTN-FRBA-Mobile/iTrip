@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.itrip.ActivitiesActivity
 import com.android.itrip.R
@@ -26,7 +27,7 @@ class ActivitiesListFragment : Fragment() {
 
     lateinit var activitiesViewModel: ActivitiesViewModel
     lateinit var actividades: List<Actividad>
-    var action: Int = 0
+    private var action: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,7 +65,7 @@ class ActivitiesListFragment : Fragment() {
         })
         binding.myRecyclerView.apply {
             layoutManager = LinearLayoutManager(application)
-            adapter = ActivitiesAdapter(activitiesViewModel.actividades)
+            adapter = ActivitiesAdapter(activitiesViewModel.actividades) { actividadDetails(it) }
         }
         binding.mapsActivityFloatingActionButton.setOnClickListener {
             it.findNavController().navigate(
@@ -77,6 +78,19 @@ class ActivitiesListFragment : Fragment() {
         binding.lifecycleOwner = this
         setBarTitle()
         return binding.root
+    }
+
+    private fun actividadDetails(actividad: Actividad) {
+        val bundle = bundleOf(
+            "actividad" to actividad,
+            "action" to action
+        )
+        findNavController()
+            .navigate(
+                ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailsFragment().actionId
+                , bundle
+            )
+
     }
 
     private fun setBarTitle() {

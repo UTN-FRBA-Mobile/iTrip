@@ -25,7 +25,6 @@ import com.android.itrip.R
 import com.android.itrip.adapters.TripAdapter
 import com.android.itrip.databinding.FragmentTripBinding
 import com.android.itrip.models.CiudadAVisitar
-import com.android.itrip.services.TravelService
 import com.android.itrip.viewModels.TripViewModel
 
 class TripFragment : Fragment() {
@@ -65,6 +64,7 @@ class TripFragment : Fragment() {
     }
 
     private fun getDestinations() {
+        binding.viaje = tripViewModel.viaje.value
         // if travel has no destinations it shows a friendly warning
         if (tripViewModel.viaje.value!!.ciudades_a_visitar.isNullOrEmpty()) {
             binding.linearlayoutDestinationsNoDestinations.visibility = View.VISIBLE
@@ -72,7 +72,7 @@ class TripFragment : Fragment() {
             binding.recyclerviewDestinations.apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = TripAdapter(tripViewModel,
-                    { deleteCityToVisit(it) },
+                    { tripViewModel.deleteCityToVisit(it) },
                     { viewCityToVisit(it) })
                 setUpItemTouchHelper(this)
             }
@@ -95,15 +95,6 @@ class TripFragment : Fragment() {
             TripFragmentDirections.actionTripFragmentToScheduleFragment().actionId,
             bundle
         )
-    }
-
-    private fun deleteCityToVisit(ciudadAVisitar: CiudadAVisitar) {
-        TravelService.deleteDestination(ciudadAVisitar, {
-            tripViewModel.getTravel(null) {
-                getDestinations()
-                binding.recyclerviewDestinations.invalidate()
-            }
-        }, {})
     }
 
     private fun setUpItemTouchHelper(recyclerView: RecyclerView) {

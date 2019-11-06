@@ -4,67 +4,122 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.android.android.fragments.TripFragment">
 
-    <RelativeLayout
+    <data>
+
+        <import type="com.android.itrip.util.Converter" />
+
+        <variable
+            name="viaje"
+            type="com.android.itrip.models.Viaje" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorWhiteSmoke"
-        android:padding="15dp">
+        android:layout_height="match_parent">
 
-        <ProgressBar
-            android:id="@+id/progressbar_destinations_list_spinner"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:elevation="1dp"
-            android:indeterminate="true"
-            android:visibility="gone" />
-
-        <LinearLayout
-            android:id="@+id/linearlayout_destinations_no_destinations"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/viajeTitle_ConstraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="invisible">
+            android:background="@color/colorPrimary"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:contentDescription="@string/app_name"
-                app:srcCompat="@drawable/ic_destination" />
+            <TextView
+                android:id="@+id/viajeNombre_textView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAlignment="center"
+                android:text="@{viaje.nombre}"
+                android:textColor="@color/colorWhite"
+                android:textSize="30sp" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/destinations_no_destinations_firstline"
-                android:textSize="20sp" />
+                android:layout_height="match_parent"
+                android:text="@{Converter.calendarToString(viaje.inicio)}"
+                android:textColor="@color/colorWhite"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viajeNombre_textView" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/destinations_no_destinations_secondline"
-                android:textSize="20sp" />
-        </LinearLayout>
+                android:layout_height="match_parent"
+                android:text="@{Converter.calendarToString(viaje.fin)}"
+                android:textColor="@color/colorWhite"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viajeNombre_textView" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_destinations"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/citytovisit_item" />
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/colorWhiteSmoke"
+            android:padding="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/viajeTitle_ConstraintLayout">
+
+
+            <ProgressBar
+                android:id="@+id/progressbar_destinations_list_spinner"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:elevation="1dp"
+                android:indeterminate="true"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/linearlayout_destinations_no_destinations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="invisible">
+
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/ic_destination" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/destinations_no_destinations_firstline"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/destinations_no_destinations_secondline"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_destinations"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/citytovisit_item" />
+
+        </RelativeLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingactionbutton_destinations_creation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             app:srcCompat="@drawable/ic_add_black_24dp" />
-
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

@@ -30,8 +30,11 @@ fun fromModelDaysToStringDays(actividad: Actividad): String {
         if (disponibilidad_viernes) str.append(", Vie")
         if (disponibilidad_sabado) str.append(", Sab")
         if (disponibilidad_domingo) str.append(", Dom")
-        str.delete(0, 2)
-        str.replace(str.lastIndexOf(", "), str.lastIndexOf(", ") + 1, " y")
+        if(!str.isBlank()){
+            str.delete(0, 2)
+            if(str.contains(", "))
+                str.replace(str.lastIndexOf(", "), str.lastIndexOf(", ") + 1, " y")
+        }
         return str.toString()
     }
 }

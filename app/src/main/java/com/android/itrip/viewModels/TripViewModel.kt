@@ -20,14 +20,17 @@ class TripViewModel(viajeID: Long, callback: () -> Unit) : ViewModel() {
             Transformations.switchMap(viaje) { viaje -> ciudadesAVisitarTransformation(viaje) }
     }
 
-    fun deleteCityToVisit(ciudadAVisitar: CiudadAVisitar, callback: () -> Unit) {
-        TravelService.deleteDestination(ciudadAVisitar, { getTravel(null, callback) }, {})
+    fun deleteCityToVisit(ciudadAVisitar: CiudadAVisitar) {
+        TravelService.deleteDestination(ciudadAVisitar, { getTravel(null) {} }, {})
     }
 
-    fun getTravel(viajeID: Long?, callback: () -> Unit) {
+    private fun getTravel(viajeID: Long?, callback: () -> Unit) {
         TravelService.getTrip(viajeID ?: viaje.value!!.id, {
             _viaje.value = it
-            callback()
+            try {
+                callback()
+            } catch (e: KotlinNullPointerException) {
+            }
         }, {})
     }
 

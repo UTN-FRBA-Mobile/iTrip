@@ -41,7 +41,7 @@ class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener
     private lateinit var actividades: List<Actividad>
     private lateinit var actividad: Actividad
     private var action = 0
-    var source: String? = null
+    private var source: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
