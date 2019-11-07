@@ -51,12 +51,10 @@
     <string name="start">Comenzar</string>
 
     <!--Travel Creation-->
-    <string name="travel_creation_description">Estos son los mínimos datos necesarios para que podamos armar tu
-        próximo viaje!
-    </string>
-    <string name="travel_creation_name">Ponele un nombre a tu viaje</string>
-    <string name="travel_creation_from_date">Fecha desde</string>
-    <string name="travel_creation_until_date">Fecha hasta</string>
+    <string name="travel_creation_description">Ponele un nombre a tu viaje, te ayudará a identificarlo luego. Ingresá tambien las fechas en las que pensás viajar.</string>
+    <string name="travel_creation_name">Nombre del viaje</string>
+    <string name="travel_creation_from_date">Fecha de inicio</string>
+    <string name="travel_creation_until_date">Fecha de fin</string>
     <string name="travel_creation_budget">¿Cuál es tu presupuesto?</string>
     <string name="travel_creation_button">Crear mi Viaje</string>
     <string name="travel_creation_field_error">Completa este dato</string>
@@ -67,8 +65,8 @@
     <string name="travels_title">Mis Viajes</string>
     <string name="travels_watch">Ver</string>
     <string name="travels_date">Desde: %1$s Hasta: %2$s</string>
-    <string name="travels_no_travels_firstline">No tenés aún ningún viaje.</string>
-    <string name="travels_no_travels_secondline">Empieza creando uno desde el \'+\'.</string>
+    <string name="travels_no_travels_firstline">En esta sección vas a ver los viajes que crees. Todavía no tenés ninguno!</string>
+    <string name="travels_no_travels_secondline">¿Qué estás esperando?</string>
 
     <!--Destination Creation-->
     <string name="destination_creation_actividades">Ver actividades</string>
@@ -80,8 +78,8 @@
 
     <!--My Destinations-->
     <string name="destinations_title">Mis Destinos</string>
-    <string name="destinations_no_destinations_firstline">No tenés aún ningún destino.</string>
-    <string name="destinations_no_destinations_secondline">Empieza creando uno desde el \'+\'.</string>
+    <string name="destinations_no_destinations_firstline">Todavía no agregaste destinos a tu viaje.</string>
+    <string name="destinations_no_destinations_secondline">Empieza creando uno clickeando en el \'+\'.</string>
 
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="facebook_application_id" translatable="false">399355764046745</string>

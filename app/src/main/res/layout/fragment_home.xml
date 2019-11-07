@@ -32,12 +32,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/travels_no_travels_firstline"
+                android:textAlignment="center"
                 android:textSize="20sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/travels_no_travels_secondline"
+                android:textAlignment="center"
                 android:textSize="20sp" />
         </LinearLayout>
 
