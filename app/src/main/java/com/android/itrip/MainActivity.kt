@@ -18,9 +18,9 @@ import com.android.itrip.databinding.ActivityMainBinding
 import com.android.itrip.databinding.AppBarHeaderBinding
 import com.android.itrip.services.ApiService
 import com.android.itrip.services.QuizService
+import com.android.itrip.util.CircleTransformation
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.squareup.picasso.Picasso
 import java.util.logging.Logger
 
@@ -82,12 +82,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val bindingAppBar: AppBarHeaderBinding = DataBindingUtil.inflate(
             layoutInflater, R.layout.app_bar_header, navigationView, false
         )
-        val user = intent.getParcelableExtra<FirebaseUser>("CurrentUser")
+        val user = FirebaseAuth.getInstance().currentUser
         // load user name
-        bindingAppBar.textviewAppBarHeaderName.text = user.displayName
+        bindingAppBar.textviewAppBarHeaderName.text = user?.displayName
         // load user picture
         Picasso.get()
-            .load(user.photoUrl)
+            .load(user?.photoUrl)
+            .transform(CircleTransformation())
             .placeholder(R.drawable.ic_user_placeholder_24dp)
             .error(R.drawable.ic_user_placeholder_24dp)
             .fit()

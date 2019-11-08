@@ -24,10 +24,12 @@ import com.android.itrip.RequestCodes.Companion.VIEW_ACTIVITY_LIST_CODE
 import com.android.itrip.databinding.ActivityActivitiesBinding
 import com.android.itrip.databinding.AppBarHeaderBinding
 import com.android.itrip.models.Actividad
+import com.android.itrip.util.CircleTransformation
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.app_bar.view.*
 
 
 class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener, DrawerLocker {
@@ -104,6 +106,7 @@ class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener
         // load user picture
         Picasso.get()
             .load(user?.photoUrl)
+            .transform(CircleTransformation())
             .placeholder(R.drawable.ic_user_placeholder_24dp)
             .error(R.drawable.ic_user_placeholder_24dp)
             .fit()

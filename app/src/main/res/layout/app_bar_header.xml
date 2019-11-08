@@ -20,7 +20,6 @@
             android:id="@+id/imageview_app_bar_header_picture"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:tint="@color/colorWhite"
             app:srcCompat="@drawable/ic_user_placeholder_24dp"
             tools:ignore="ContentDescription" />
 

@@ -18,6 +18,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.android.itrip.databinding.ActivityQuizBinding
 import com.android.itrip.databinding.AppBarHeaderBinding
+import com.android.itrip.util.CircleTransformation
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
 import com.google.firebase.auth.FirebaseAuth
@@ -92,6 +93,7 @@ class QuizActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Draw
         // load user picture
         Picasso.get()
             .load(user?.photoUrl)
+            .transform(CircleTransformation())
             .placeholder(R.drawable.ic_user_placeholder_24dp)
             .error(R.drawable.ic_user_placeholder_24dp)
             .fit()
