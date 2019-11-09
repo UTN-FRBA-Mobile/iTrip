@@ -12,7 +12,6 @@ import android.widget.EditText
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -21,8 +20,6 @@ import com.android.itrip.QuizActivity
 import com.android.itrip.R
 import com.android.itrip.databinding.FragmentQuizInfoBinding
 import com.android.itrip.models.Answer
-import com.android.itrip.models.Quiz
-import com.android.itrip.viewModels.QuizViewModel
 import java.util.logging.Logger
 
 private const val DIALOG_TITLE_GEN = R.string.quiz_info_dialog_title_genero
@@ -33,7 +30,6 @@ private const val DIALOG_TITLE_OCU = R.string.quiz_info_dialog_title_ocupacion
 class QuizInfoFragment : Fragment() {
 
     private val logger = Logger.getLogger(this::class.java.name)
-    private val quizViewModel: QuizViewModel = QuizViewModel()
     private lateinit var binding: FragmentQuizInfoBinding
 
     override fun onCreateView(
@@ -47,6 +43,7 @@ class QuizInfoFragment : Fragment() {
         disableHomeButton()
         bindings()
         setQuizDescription()
+        binding.lifecycleOwner = this
         return binding.root
     }
 
@@ -82,34 +79,63 @@ class QuizInfoFragment : Fragment() {
     private fun bindings() {
         binding.textinputlayoutQuizInfoGenero.editText.apply {
             setFocusableBehavior()
-            setOnClickListener {
-                closeKeyboard(hasFocus = false)
-                setAlertDialog(getString(DIALOG_TITLE_GEN), this, quizViewModel.genero)
+            (activity as QuizActivity).quizViewModel.quiz.genero?.let {
+                setText(it.value)
+                handleOtherGender((activity as QuizActivity).quizViewModel.generos.indexOf(it))
             }
-        }
-        // when on focus changes it closes the keyboard because the other inputs cant be written
-        binding.textinputlayoutQuizInfoEdad.editText.setOnFocusChangeListener { _, hasFocus ->
-            closeKeyboard(hasFocus)
-        }
-        binding.textinputlayoutQuizInfoEstadocivil.editText.apply {
-            setFocusableBehavior()
             setOnClickListener {
                 closeKeyboard(false)
-                setAlertDialog(getString(DIALOG_TITLE_EC), this, quizViewModel.estado_civil)
+                setAlertDialog(
+                    getString(DIALOG_TITLE_GEN),
+                    this,
+                    (activity as QuizActivity).quizViewModel.generos
+                ) { (activity as QuizActivity).quizViewModel.quiz.genero = it }
+            }
+        }
+        binding.textinputlayoutQuizInfoEdad.editText.apply {
+            (activity as QuizActivity).quizViewModel.quiz.edad?.let { setText(it.toString()) }
+            // when on focus changes it closes the keyboard because the other inputs cant be written
+            setOnFocusChangeListener { _, hasFocus ->
+                (activity as QuizActivity).quizViewModel.quiz.edad =
+                    if (text.toString().isBlank()) null else text.toString().toInt()
+                closeKeyboard(hasFocus)
+            }
+        }
+
+        binding.textinputlayoutQuizInfoEstadocivil.editText.apply {
+            setFocusableBehavior()
+            (activity as QuizActivity).quizViewModel.quiz.estado_civil?.let { setText(it.value) }
+            setOnClickListener {
+                closeKeyboard(false)
+                setAlertDialog(
+                    getString(DIALOG_TITLE_EC),
+                    this,
+                    (activity as QuizActivity).quizViewModel.estados_civil
+                ) { (activity as QuizActivity).quizViewModel.quiz.estado_civil = it }
             }
         }
         binding.textinputlayoutQuizInfoEstudios.editText.apply {
             setFocusableBehavior()
+            (activity as QuizActivity).quizViewModel.quiz.nivel_de_estudios?.let { setText(it.value) }
             setOnClickListener {
                 closeKeyboard(false)
-                setAlertDialog(getString(DIALOG_TITLE_EST), this, quizViewModel.nivel_de_estudios)
+                setAlertDialog(
+                    getString(DIALOG_TITLE_EST),
+                    this,
+                    (activity as QuizActivity).quizViewModel.niveles_de_estudio
+                ) { (activity as QuizActivity).quizViewModel.quiz.nivel_de_estudios = it }
             }
         }
         binding.textinputlayoutQuizInfoOcupacion.editText.apply {
             setFocusableBehavior()
+            (activity as QuizActivity).quizViewModel.quiz.ocupacion?.let { setText(it.value) }
             setOnClickListener {
                 closeKeyboard(false)
-                setAlertDialog(getString(DIALOG_TITLE_OCU), this, quizViewModel.ocupacion)
+                setAlertDialog(
+                    getString(DIALOG_TITLE_OCU),
+                    this,
+                    (activity as QuizActivity).quizViewModel.ocupaciones
+                ) { (activity as QuizActivity).quizViewModel.quiz.ocupacion = it }
             }
         }
         binding.floatingactionbuttonQuizInfo.setOnClickListener { view ->
@@ -121,13 +147,19 @@ class QuizInfoFragment : Fragment() {
         }
     }
 
-    private fun setAlertDialog(title: String, input: EditText, elements: List<Answer>) {
+    private fun setAlertDialog(
+        title: String,
+        input: EditText,
+        elements: List<Answer>,
+        choosedAnswerCallback: (Answer) -> Unit
+    ) {
         val builder = AlertDialog.Builder(context!!)
         builder.setTitle(title)
         val items = elements.map { it.value }.toTypedArray()
         builder.setItems(items) { _, option ->
             input.setText(items[option])
             if (title == getString(DIALOG_TITLE_GEN)) handleOtherGender(option)
+            choosedAnswerCallback(elements[option])
         }
         val dialog = builder.create()
         dialog.show()
@@ -138,17 +170,24 @@ class QuizInfoFragment : Fragment() {
             with(binding.textinputlayoutQuizInfoOtrogenero) {
                 visibility = View.VISIBLE
                 editText.setText(" ") // hack (do not remove)
+                (activity as QuizActivity).quizViewModel.quiz.genero_otro?.let { editText.setText(it) }
                 requestFocus()
             }
             binding.textinputlayoutQuizInfoEdad.layoutParams
                 .let { it as RelativeLayout.LayoutParams }
                 .addRule(RelativeLayout.BELOW, R.id.textinputlayout_quiz_info_otrogenero)
         } else {
+            (activity as QuizActivity).quizViewModel.quiz.genero_otro = null
             binding.textinputlayoutQuizInfoOtrogenero.visibility = View.GONE
             binding.textinputlayoutQuizInfoEdad.layoutParams
                 .let { it as RelativeLayout.LayoutParams }
                 .addRule(RelativeLayout.BELOW, R.id.textinputlayout_quiz_info_otrogenero)
             binding.textinputlayoutQuizInfoOtrogenero.editText.setText("<hack>") // hack (do not remove)
+        }
+        binding.textinputlayoutQuizInfoOtrogenero.editText.setOnFocusChangeListener { _, _ ->
+            (activity as QuizActivity).quizViewModel.quiz.genero_otro =
+                if (binding.textinputlayoutQuizInfoOtrogenero.editText.text.toString().isBlank()) null
+                else binding.textinputlayoutQuizInfoOtrogenero.editText.text.toString()
         }
     }
 
@@ -174,25 +213,9 @@ class QuizInfoFragment : Fragment() {
     private fun createQuiz(view: View) {
         binding.form.validate()
         if (binding.form.isValid) {
-            val generoValue = binding.textinputlayoutQuizInfoGenero.editText.text.toString()
-            val otroGeneroValue = binding.textinputlayoutQuizInfoOtrogenero.editText.text.toString()
-            val edadValue = binding.textinputlayoutQuizInfoEdad.editText.text.toString()
-            val ecValue = binding.textinputlayoutQuizInfoEstadocivil.editText.text.toString()
-            val estudiosValue = binding.textinputlayoutQuizInfoEstudios.editText.text.toString()
-            val ocupacionValue = binding.textinputlayoutQuizInfoOcupacion.editText.text.toString()
-
-            val genero = quizViewModel.genero.find { it.value == generoValue }!!.key
-            val otroGenero = if (genero == "0") otroGeneroValue else null
-            val edad = edadValue.toInt()
-            val estadoCivil = quizViewModel.estado_civil.find { it.value == ecValue }!!.key
-            val estudios = quizViewModel.nivel_de_estudios.find { it.value == estudiosValue }!!.key
-            val ocupacion = quizViewModel.ocupacion.find { it.value == ocupacionValue }!!.key
-
-            val quiz = Quiz(genero, otroGenero, edad, estadoCivil, estudios, ocupacion)
             view.findNavController()
                 .navigate(
-                    QuizInfoFragmentDirections.actionQuizInfoFragmentToQuizHobbiesFragment().actionId,
-                    bundleOf("quiz" to quiz)
+                    QuizInfoFragmentDirections.actionQuizInfoFragmentToQuizHobbiesFragment()
                 )
         } else {
             logger.severe("All fields are mandatory")

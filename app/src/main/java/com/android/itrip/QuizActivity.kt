@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
@@ -19,6 +20,7 @@ import androidx.navigation.ui.NavigationUI
 import com.android.itrip.databinding.ActivityQuizBinding
 import com.android.itrip.databinding.AppBarHeaderBinding
 import com.android.itrip.util.CircleTransformation
+import com.android.itrip.viewModels.QuizViewModel
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
 import com.google.firebase.auth.FirebaseAuth
@@ -35,6 +37,7 @@ class QuizActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Draw
     private lateinit var toolbar: Toolbar
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var drawerToggle: ActionBarDrawerToggle
+    lateinit var quizViewModel: QuizViewModel
     private lateinit var navigationView: NavigationView
     private lateinit var navController: NavController
     var source: String? = null
@@ -62,6 +65,7 @@ class QuizActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Draw
         drawerLayout = binding.drawerLayoutQuiz
         toolbar = binding.appBarQuiz as Toolbar
         navigationView = binding.navigationViewQuiz
+        quizViewModel = ViewModelProviders.of(this)[QuizViewModel::class.java]
     }
 
     private fun initDrawer() {

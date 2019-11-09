@@ -16,9 +16,7 @@ import com.android.itrip.QuizActivity
 import com.android.itrip.R
 import com.android.itrip.adapters.HobbiesAdapter
 import com.android.itrip.databinding.FragmentQuizHobbiesBinding
-import com.android.itrip.models.Quiz
 import com.android.itrip.services.QuizService
-import com.android.itrip.viewModels.QuizViewModel
 import java.util.logging.Logger
 
 class QuizHobbiesFragment : Fragment() {
@@ -27,14 +25,12 @@ class QuizHobbiesFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var hobbiesAdapter: HobbiesAdapter
     private lateinit var binding: FragmentQuizHobbiesBinding
-    private lateinit var quiz: Quiz
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         setBarTitle()
-        quiz = arguments?.get("quiz") as Quiz
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_quiz_hobbies, container, false
         )
@@ -52,7 +48,7 @@ class QuizHobbiesFragment : Fragment() {
         recyclerView = binding.recyclerviewQuizHobbies
         recyclerView.layoutManager = LinearLayoutManager(application)
         recyclerView.itemAnimator = DefaultItemAnimator()
-        hobbiesAdapter = HobbiesAdapter(QuizViewModel().hobbies)
+        hobbiesAdapter = HobbiesAdapter((activity as QuizActivity).quizViewModel.hobbies)
         recyclerView.adapter = hobbiesAdapter
         binding.lifecycleOwner = this
         // button
@@ -60,8 +56,8 @@ class QuizHobbiesFragment : Fragment() {
     }
 
     private fun resolveQuiz() {
-        val quizCompleted = quiz.addHobbies(hobbiesAdapter.checkedHobbies.map { it.key })
-        QuizService.postAnswers(quizCompleted, {
+        (activity as QuizActivity).quizViewModel.quiz.hobbies = hobbiesAdapter.checkedHobbies
+        QuizService.postAnswers((activity as QuizActivity).quizViewModel.quiz, {
             // if source is 'preferences' just closes the activity and shows a toast message,
             // otherwise it continues to congrats view
             val activity = activity as QuizActivity

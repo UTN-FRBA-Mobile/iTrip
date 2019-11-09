@@ -1,20 +1,23 @@
 package com.android.itrip.viewModels
 
+import androidx.lifecycle.ViewModel
 import com.android.itrip.models.Answer
+import com.android.itrip.models.Quiz
 
 
-class QuizViewModel {
+class QuizViewModel : ViewModel() {
     val hobbies: List<Answer>
-    val genero: List<Answer>
-    val estado_civil: List<Answer>
-    val nivel_de_estudios: List<Answer>
-    val ocupacion: List<Answer>
+    val generos: List<Answer>
+    val estados_civil: List<Answer>
+    val niveles_de_estudio: List<Answer>
+    val ocupaciones: List<Answer>
+    var quiz: Quiz = Quiz()
 
     init {
-        genero = fillGeneros()
-        estado_civil = fillEstadoCivil()
-        nivel_de_estudios = fillNivelDeEstudios()
-        ocupacion = fillOcupacion()
+        generos = fillGeneros()
+        estados_civil = fillEstadoCivil()
+        niveles_de_estudio = fillNivelDeEstudios()
+        ocupaciones = fillOcupacion()
         hobbies = addHobbies().toList()
     }
 
@@ -87,5 +90,6 @@ class QuizViewModel {
         Answer("VER_PELICULAS_SERIES_TV", "Ver películas/series/tv"),
         Answer("VIDEOJUEGOS", "Videojuegos")
     )
+
 
 }
