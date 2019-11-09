@@ -73,7 +73,7 @@ class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener
     private fun bindings() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_activities)
         drawerLayout = binding.drawerLayoutActivities
-        toolbar = binding.appBarActivities as Toolbar
+        toolbar = binding.appBarActivities.toolbar as Toolbar
         navigationView = binding.navigationViewActivities
     }
 

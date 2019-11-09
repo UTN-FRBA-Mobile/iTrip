@@ -19,6 +19,8 @@ import com.android.itrip.databinding.FragmentCreateTravelBinding
 import com.android.itrip.services.TravelService
 import com.android.itrip.ui.DatePickerFragment
 import com.android.itrip.util.calendarToString
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar.view.*
 import java.util.*
 import java.util.logging.Logger
 
@@ -44,6 +46,8 @@ class CreateTravelFragment : Fragment() {
 
     private fun setBarTitle() {
         (activity as MainActivity).setActionBarTitle(getString(R.string.travels_creation))
+        // show toolbar shadow
+        activity!!.app_bar.view_toolbar_shadow.visibility = View.VISIBLE
     }
 
     private fun bindings() {

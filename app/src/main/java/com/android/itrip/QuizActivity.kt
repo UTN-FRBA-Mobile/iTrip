@@ -24,6 +24,7 @@ import com.google.android.material.navigation.NavigationView.OnNavigationItemSel
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_quiz.*
+import kotlinx.android.synthetic.main.app_bar.view.*
 
 interface DrawerLocker {
     fun setDrawerEnabled(enabled: Boolean)
@@ -60,7 +61,7 @@ class QuizActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Draw
     private fun bindings() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_quiz)
         drawerLayout = binding.drawerLayoutQuiz
-        toolbar = binding.appBarQuiz as Toolbar
+        toolbar = binding.appBarQuiz.toolbar as Toolbar
         navigationView = binding.navigationViewQuiz
     }
 

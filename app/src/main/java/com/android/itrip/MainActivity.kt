@@ -22,6 +22,7 @@ import com.android.itrip.util.CircleTransformation
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.app_bar.view.*
 import java.util.logging.Logger
 
 
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun bindings() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         drawerLayout = binding.drawerLayout
-        toolbar = binding.appBar as Toolbar
+        toolbar = binding.appBar.toolbar as Toolbar
         navigationView = binding.navigationView
     }
 

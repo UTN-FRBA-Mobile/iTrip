@@ -23,6 +23,8 @@ import com.android.itrip.RequestCodes
 import com.android.itrip.databinding.FragmentActivityDetailsBinding
 import com.android.itrip.models.Actividad
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_activities.*
+import kotlinx.android.synthetic.main.app_bar.view.*
 
 
 class ActivityDetailsFragment : Fragment() {
@@ -135,6 +137,8 @@ class ActivityDetailsFragment : Fragment() {
 
     private fun setBarTitle() {
         (activity as ActivitiesActivity).setActionBarTitle("Actividad")
+        // show toolbar shadow
+        activity!!.app_bar_activities.view_toolbar_shadow.visibility = View.VISIBLE
     }
 
 

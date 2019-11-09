@@ -22,6 +22,8 @@ import com.android.itrip.models.Actividad
 import com.android.itrip.models.Viaje
 import com.android.itrip.viewModels.DestinationViewModel
 import com.android.itrip.viewModels.DestinationViewModelFactory
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar.view.*
 
 class DestinationListFragment : Fragment() {
 
@@ -72,6 +74,8 @@ class DestinationListFragment : Fragment() {
 
     private fun setBarTitle() {
         (activity as MainActivity).setActionBarTitle("Seleccioná un destino")
+        // show toolbar shadow
+        activity!!.app_bar.view_toolbar_shadow.visibility = View.VISIBLE
     }
 
     private fun viewActivities(destination: Destination) {

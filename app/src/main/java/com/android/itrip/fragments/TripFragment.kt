@@ -26,6 +26,8 @@ import com.android.itrip.adapters.TripAdapter
 import com.android.itrip.databinding.FragmentTripBinding
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.viewModels.TripViewModel
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar.view.*
 
 class TripFragment : Fragment() {
 
@@ -38,6 +40,8 @@ class TripFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_trip, container, false)
+        // hide toolbar shadow because sub toolbar
+        (activity as MainActivity).app_bar.view_toolbar_shadow.visibility = View.GONE
         setBarTitle()
         loadViewModel()
         return binding.root

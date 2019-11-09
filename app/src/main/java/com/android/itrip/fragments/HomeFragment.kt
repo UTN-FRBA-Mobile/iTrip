@@ -29,6 +29,8 @@ import com.android.itrip.fragments.HomeFragmentDirections.Companion.actionHomeFr
 import com.android.itrip.models.Viaje
 import com.android.itrip.services.ApiError
 import com.android.itrip.viewModels.HomeViewModel
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar.view.*
 import java.util.logging.Logger
 
 class HomeFragment : Fragment() {
@@ -55,6 +57,8 @@ class HomeFragment : Fragment() {
 
     private fun setBarTitle() {
         (activity as MainActivity).setActionBarTitle(getString(R.string.travels_title))
+        // show toolbar shadow
+        activity!!.app_bar.view_toolbar_shadow.visibility = VISIBLE
     }
 
     private fun deleteTravel(travel: Viaje) {

@@ -21,6 +21,9 @@ import com.android.itrip.databinding.FragmentActivitiesListBinding
 import com.android.itrip.models.Actividad
 import com.android.itrip.viewModels.ActivitiesViewModel
 import com.android.itrip.viewModels.ActivitiesViewModelFactory
+import kotlinx.android.synthetic.main.activity_activities.*
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar.view.*
 
 
 class ActivitiesListFragment : Fragment() {
@@ -95,6 +98,8 @@ class ActivitiesListFragment : Fragment() {
 
     private fun setBarTitle() {
         (activity as ActivitiesActivity).setActionBarTitle("Actividades")
+        // show toolbar shadow
+        activity!!.app_bar_activities.view_toolbar_shadow.visibility = View.VISIBLE
     }
 
 }

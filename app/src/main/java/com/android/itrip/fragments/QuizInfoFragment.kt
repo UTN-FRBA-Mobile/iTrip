@@ -23,6 +23,8 @@ import com.android.itrip.databinding.FragmentQuizInfoBinding
 import com.android.itrip.models.Answer
 import com.android.itrip.models.Quiz
 import com.android.itrip.viewModels.QuizViewModel
+import kotlinx.android.synthetic.main.activity_quiz.*
+import kotlinx.android.synthetic.main.app_bar.view.*
 import java.util.logging.Logger
 
 private const val DIALOG_TITLE_GEN = R.string.quiz_info_dialog_title_genero
@@ -59,6 +61,8 @@ class QuizInfoFragment : Fragment() {
             R.string.quiz_info_title
         }
         quiz.setActionBarTitle(getString(title))
+        // show toolbar shadow
+        activity!!.app_bar_quiz.view_toolbar_shadow.visibility = View.VISIBLE
     }
 
     private fun setQuizDescription() {
