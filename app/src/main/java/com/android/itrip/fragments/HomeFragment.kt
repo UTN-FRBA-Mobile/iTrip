@@ -9,8 +9,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
+import android.view.View.*
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -21,6 +20,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.itrip.AppWindowManager
 import com.android.itrip.MainActivity
 import com.android.itrip.R
 import com.android.itrip.adapters.TravelAdapter
@@ -51,7 +51,7 @@ class HomeFragment : Fragment() {
             it.findNavController()
                 .navigate(actionHomeFragmentToCreateTravelFragment())
         }
-        homeViewModel = HomeViewModel({ getTravelsSuccess(it) }, { getTravelsFailure(it) })
+        loadViewModel()
         return binding.root
     }
 
@@ -61,6 +61,22 @@ class HomeFragment : Fragment() {
             // show toolbar shadow
             app_bar.view_toolbar_shadow.visibility = VISIBLE
         }
+    }
+
+    private fun loadViewModel() {
+        // set a spinner when travels are being loaded
+        val spinner = binding.progressbarTravelsListSpinner.apply {
+            AppWindowManager.disableScreen(activity!!)
+            visibility = VISIBLE
+        }
+        homeViewModel = HomeViewModel({
+            getTravelsSuccess(it)
+            spinner.visibility = GONE
+            AppWindowManager.enableScreen(activity!!)
+        }, {
+            getTravelsFailure(it)
+            AppWindowManager.enableScreen(activity!!)
+        })
     }
 
     private fun deleteTravel(travel: Viaje) {
