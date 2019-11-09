@@ -88,7 +88,7 @@ class QuizInfoFragment : Fragment() {
             }
         }
         // when on focus changes it closes the keyboard because the other inputs cant be written
-        binding.textinputlayoutQuizInfoEdad.editText.setOnFocusChangeListener { view, hasFocus ->
+        binding.textinputlayoutQuizInfoEdad.editText.setOnFocusChangeListener { _, hasFocus ->
             closeKeyboard(hasFocus)
         }
         binding.textinputlayoutQuizInfoEstadocivil.editText.apply {

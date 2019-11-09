@@ -2,7 +2,6 @@ package com.android.itrip.fragments
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -27,7 +26,7 @@ import com.squareup.picasso.Picasso
 
 class ActivityDetailsFragment : Fragment() {
 
-    private lateinit var actividad: Actividad
+    private var actividad: Actividad? = null
     private var action = 0
     private lateinit var binding: FragmentActivityDetailsBinding
 
@@ -38,14 +37,10 @@ class ActivityDetailsFragment : Fragment() {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_activity_details, container, false
         )
-        this.arguments!!.get("actividad")?.let {
-            actividad = it as Actividad
-        }
-        this.arguments!!.get("action")?.let {
-            action = it as Int
-        }
+        actividad = arguments?.get("actividad") as Actividad?
+        action = arguments?.getInt("action") ?: 0
         binding.activity = actividad
-        actividad.imagen?.let {
+        actividad?.imagen?.let {
             Picasso.get()
                 .load(it)
                 .placeholder(R.drawable.logo)
@@ -66,7 +61,8 @@ class ActivityDetailsFragment : Fragment() {
                 .navigate(
                     ActivityDetailsFragmentDirections.actionActivityDetailsFragmentToMapsFragment().actionId
                     , bundleOf(
-                        "actividad" to actividad
+                        "actividad" to actividad,
+                        "action" to action
                     )
                 )
         }
@@ -82,7 +78,7 @@ class ActivityDetailsFragment : Fragment() {
         binding.shareActivityFloatingActionButton.setOnClickListener {
             if (ContextCompat.checkSelfPermission(
                     context!!, Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ) != PackageManager.PERMISSION_GRANTED
+                ) != PERMISSION_GRANTED
             ) {
                 requestPermission()
             } else {
@@ -119,14 +115,14 @@ class ActivityDetailsFragment : Fragment() {
             MediaStore.Images.Media.insertImage(
                 context!!.contentResolver,
                 bitmap1,
-                actividad.nombre,
+                actividad?.nombre,
                 null
             )
         val imgBitmapUri = Uri.parse(imgBitmapPath)
         shareIntent.action = Intent.ACTION_SEND
         shareIntent.putExtra(
             Intent.EXTRA_TEXT,
-            "Realmente necesitamos hacer esto!\n" + actividad.nombre+"\n"+actividad.descripcion
+            "Realmente necesitamos hacer esto!\n" + actividad?.nombre+"\n"+actividad?.descripcion
         )
         shareIntent.type = "*/*"
         shareIntent.putExtra(Intent.EXTRA_STREAM, imgBitmapUri)

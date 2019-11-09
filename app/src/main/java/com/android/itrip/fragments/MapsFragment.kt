@@ -19,13 +19,12 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import java.util.logging.Logger
 
 
 class MapsFragment : Fragment(), OnInfoWindowClickListener, OnMapReadyCallback {
     private var actividad: Actividad? = null
     private var actividades: List<Actividad>? = emptyList()
-    private val logger = Logger.getLogger(this::class.java.name)
+    private var action: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,21 +32,18 @@ class MapsFragment : Fragment(), OnInfoWindowClickListener, OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreate(savedInstanceState)
-        try {
-            actividad = arguments!!.get("actividad") as Actividad
-        } catch (e: Exception) {
-            logger.info(e.toString())
-        }
-        try {
-            @Suppress("UNCHECKED_CAST")
-            actividades = arguments!!.get("actividades") as List<Actividad>
-        } catch (e: Exception) {
-            logger.info(e.toString())
-        }
+        getTheArguments()
         setBarTitle("Mapa")
         val view = inflater.inflate(R.layout.fragment_maps, container, false)
         (childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment).getMapAsync(this)
         return view
+    }
+
+    private fun getTheArguments() {
+        actividad = arguments?.get("actividad") as Actividad?
+        @Suppress("UNCHECKED_CAST")
+        actividades = arguments?.get("actividades") as List<Actividad>?
+        action = arguments?.getInt("action") ?: 0
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -100,7 +96,7 @@ class MapsFragment : Fragment(), OnInfoWindowClickListener, OnMapReadyCallback {
     override fun onInfoWindowClick(marker: Marker?) {
         findNavController().navigate(
             MapsFragmentDirections.actionMapsFragmentToActivityDetailsFragment().actionId,
-            bundleOf("actividad" to (marker?.tag as Actividad))
+            bundleOf("actividad" to (marker?.tag as Actividad), "action" to action)
         )
     }
 

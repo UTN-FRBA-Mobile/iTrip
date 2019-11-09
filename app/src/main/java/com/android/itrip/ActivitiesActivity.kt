@@ -29,7 +29,6 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.app_bar.view.*
 
 
 class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener, DrawerLocker {
@@ -40,8 +39,8 @@ class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener
     private lateinit var drawerToggle: ActionBarDrawerToggle
     private lateinit var navigationView: NavigationView
     private lateinit var navController: NavController
-    private lateinit var actividades: List<Actividad>
-    private lateinit var actividad: Actividad
+    private var actividades: List<Actividad>? = emptyList()
+    private var actividad: Actividad? = null
     private var action = 0
     private var source: String? = null
 
@@ -61,13 +60,9 @@ class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener
     private fun readSource() {
         source = intent.getStringExtra("source")
         action = intent?.extras?.getInt("action") ?: 0
-        intent?.extras?.get("actividad")?.let {
-            actividad = it as Actividad
-        }
+        actividad = intent?.extras?.get("actividad") as Actividad?
         @Suppress("UNCHECKED_CAST")
-        intent?.extras?.get("actividades")?.let {
-            actividades = it as List<Actividad>
-        }
+        actividades = intent?.extras?.get("actividades") as List<Actividad>?
     }
 
     private fun bindings() {
@@ -190,7 +185,7 @@ class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener
         navController.setGraph(navController.graph, bundle)
     }
 
-    fun finishActivity(actividad: Actividad) {
+    fun finishActivity(actividad: Actividad?) {
         val returnIntent = Intent()
         returnIntent.putExtra("actividad", actividad)
         setResult(Activity.RESULT_OK, returnIntent)

@@ -17,7 +17,6 @@ class ActivitiesViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 
-    private val logger = Logger.getLogger(this::class.java.name)
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
     val actividades: LiveData<List<Actividad>>

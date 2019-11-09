@@ -35,7 +35,6 @@ import com.android.itrip.viewModels.ScheduleViewModel
 import devs.mulham.horizontalcalendar.HorizontalCalendar
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener
 import java.util.*
-import java.util.logging.Logger
 
 
 class ScheduleFragment : Fragment() {
@@ -43,18 +42,13 @@ class ScheduleFragment : Fragment() {
     private lateinit var binding: FragmentScheduleBinding
     private lateinit var scheduleViewModel: ScheduleViewModel
     private lateinit var ciudadAVisitar: CiudadAVisitar
-    private val logger = Logger.getLogger(this::class.java.name)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        try {
-            ciudadAVisitar = this.arguments!!.get("ciudadAVisitar") as CiudadAVisitar
-        } catch (e: Exception) {
-            logger.info(e.toString())
-        }
+        ciudadAVisitar = arguments?.get("ciudadAVisitar") as CiudadAVisitar
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_schedule, container, false
         )

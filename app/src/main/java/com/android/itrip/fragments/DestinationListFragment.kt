@@ -35,7 +35,7 @@ class DestinationListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         setBarTitle()
-        viaje = this.arguments!!.get("viaje") as Viaje
+        viaje = arguments?.get("viaje") as Viaje
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_destination_list, container, false
         )

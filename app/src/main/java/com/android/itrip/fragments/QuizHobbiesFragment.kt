@@ -34,7 +34,7 @@ class QuizHobbiesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         setBarTitle()
-        quiz = arguments!!.get("quiz") as Quiz
+        quiz = arguments?.get("quiz") as Quiz
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_quiz_hobbies, container, false
         )
