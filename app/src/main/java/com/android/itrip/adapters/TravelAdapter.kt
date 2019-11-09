@@ -48,20 +48,10 @@ class TravelAdapter(homeViewModel: HomeViewModel) :
 
     override fun getItemCount() = travels.size
 
-    private fun replaceItems(_travels: List<Viaje>) {
-        travels = _travels.toMutableList()
-        notifyDataSetChanged()
-    }
-
-    fun removeItem(_travels: Viaje) {
-        val position = travels.indexOf(_travels)
-        travels.remove(_travels)
+    fun removeItem(travel: Viaje) {
+        val position = travels.indexOf(travel)
+        travels.remove(travel)
         notifyItemRemoved(position)
-    }
-
-    private fun addItem(_travels: Viaje) {
-        travels.add(_travels)
-        notifyItemInserted(travels.size)
     }
 
     class TravelHolder(

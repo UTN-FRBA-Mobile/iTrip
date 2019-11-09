@@ -36,11 +36,9 @@
         android:name="com.android.itrip.fragments.DestinationListFragment"
         tools:layout="@layout/fragment_destination_list">
         <action
-            android:id="@+id/action_destinationListFragment_to_tripFragment"
-            app:destination="@id/tripFragment"
-            app:enterAnim="@anim/fui_slide_out_left"
-            app:exitAnim="@anim/fui_slide_in_right"
-            app:popUpTo="@+id/homeFragment"
+            android:id="@+id/action_destinationListFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment"
+            app:popUpTo="@+id/tripFragment"
             app:popUpToInclusive="false" />
     </fragment>
     <fragment

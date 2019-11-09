@@ -118,7 +118,7 @@ class HomeFragment : Fragment() {
         if (viajes.isNotEmpty()) {
             binding.linearlayoutNoTravels.visibility = INVISIBLE
             try {
-                setRecyclerView(homeViewModel)
+                setRecyclerView()
             } catch (e: IllegalArgumentException) {
                 logger.severe(e.toString())
             }
@@ -127,7 +127,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setRecyclerView(homeViewModel: HomeViewModel) {
+    private fun setRecyclerView() {
         travelAdapter = TravelAdapter(homeViewModel)
         binding.recyclerviewTravels.apply {
             layoutManager =

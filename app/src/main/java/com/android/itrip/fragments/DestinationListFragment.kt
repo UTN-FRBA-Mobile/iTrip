@@ -19,6 +19,7 @@ import com.android.itrip.database.DestinationDatabase
 import com.android.itrip.databinding.FragmentDestinationListBinding
 import com.android.itrip.dialogs.DestinationDialog
 import com.android.itrip.models.Actividad
+import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.models.Viaje
 import com.android.itrip.viewModels.DestinationViewModel
 import com.android.itrip.viewModels.DestinationViewModelFactory
@@ -92,11 +93,11 @@ class DestinationListFragment : Fragment() {
         startActivity(intent)
     }
 
-    private fun goToTrip() {
+    private fun goToTrip(ciudadAVisitar: CiudadAVisitar) {
         view!!.findNavController()
             .navigate(
-                DestinationListFragmentDirections.actionDestinationListFragmentToTripFragment().actionId,
-                bundleOf("viajeID" to viaje.id)
+                DestinationListFragmentDirections.actionDestinationListFragmentToScheduleFragment().actionId,
+                bundleOf("ciudadAVisitar" to ciudadAVisitar)
             )
     }
 
@@ -114,7 +115,7 @@ class DestinationListFragment : Fragment() {
         destinationsViewModel.addDestination(viaje, destination, {
             AppWindowManager.enableScreen(activity!!)
             spinner.visibility = View.GONE
-            goToTrip()
+            goToTrip(it)
         }, {
             AppWindowManager.enableScreen(activity!!)
             spinner.visibility = View.GONE

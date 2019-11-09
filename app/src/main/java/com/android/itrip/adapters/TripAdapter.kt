@@ -7,54 +7,47 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.R
 import com.android.itrip.databinding.CitytovisitItemBinding
 import com.android.itrip.models.CiudadAVisitar
-import com.android.itrip.viewModels.TripViewModel
 import com.squareup.picasso.Picasso
 
 
 class TripAdapter(
-    private val tripViewModel: TripViewModel,
-    private val deleteCallback: (CiudadAVisitar) -> Unit,
+    _ciudadesAVisitar: List<CiudadAVisitar>?,
     private val viewCallback: (CiudadAVisitar) -> Unit
-) :
-    ListAdapter<CiudadAVisitar, RecyclerView.ViewHolder>(TripDiffCallback()) {
+) : RecyclerView.Adapter<TripAdapter.TripHolder>(){
 
-    init {
-        tripViewModel.ciudadesAVisitar.observeForever {
-            notifyItemRangeRemoved(0, itemCount)
-            notifyDataSetChanged()
-            submitList(it)
-        }
+    private var cities: MutableList<CiudadAVisitar> = _ciudadesAVisitar?.toMutableList() ?: mutableListOf()
+
+    override fun onBindViewHolder(holder: TripHolder, position: Int) {
+        holder.bind(getItem(position))
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TripHolder {
         val binding: CitytovisitItemBinding =
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context), R.layout.citytovisit_item, parent, false
             )
-        parent.invalidate()
         val viewHolder = TripHolder(binding, viewCallback)
         binding.lifecycleOwner = viewHolder
+        parent.invalidate()
         return viewHolder
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as TripHolder).bind(getItem(position))
     }
 
     override fun getItemId(position: Int) = position.toLong()
 
-    override fun getItem(position: Int) = tripViewModel.ciudadesAVisitar.value!![position]
+    fun getItem(position: Int) = cities[position]
 
-    override fun getItemCount() = tripViewModel.ciudadesAVisitar.value!!.size
+    fun isEmpty() = cities.isEmpty()
 
-    fun remove(adapterPosition: Int) {
-        deleteCallback(getItem(adapterPosition))
+    override fun getItemCount() = cities.size
+
+    fun removeItem(ciudadAVisitar: CiudadAVisitar) {
+        val position = cities.indexOf(ciudadAVisitar)
+        cities.remove(ciudadAVisitar)
+        notifyItemRemoved(position)
     }
 
     class TripHolder(
@@ -89,15 +82,5 @@ class TripAdapter(
             }
         }
     }
-
-}
-
-private class TripDiffCallback : DiffUtil.ItemCallback<CiudadAVisitar>() {
-
-    override fun areItemsTheSame(oldItem: CiudadAVisitar, newItem: CiudadAVisitar) =
-        oldItem.id == newItem.id
-
-    override fun areContentsTheSame(oldItem: CiudadAVisitar, newItem: CiudadAVisitar) =
-        oldItem == newItem
 
 }

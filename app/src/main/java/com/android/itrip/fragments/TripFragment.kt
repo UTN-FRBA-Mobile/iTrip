@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
@@ -25,13 +26,17 @@ import com.android.itrip.R
 import com.android.itrip.adapters.TripAdapter
 import com.android.itrip.databinding.FragmentTripBinding
 import com.android.itrip.models.CiudadAVisitar
+import com.android.itrip.services.ApiError
 import com.android.itrip.viewModels.TripViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.view.*
+import java.util.logging.Logger
 
 class TripFragment : Fragment() {
 
+    private val logger = Logger.getLogger(this::class.java.name)
     private lateinit var binding: FragmentTripBinding
+    private lateinit var tripAdapter: TripAdapter
     private lateinit var tripViewModel: TripViewModel
 
     override fun onCreateView(
@@ -60,8 +65,8 @@ class TripFragment : Fragment() {
                 AppWindowManager.disableScreen(activity!!)
                 visibility = View.VISIBLE
             }
-            tripViewModel = TripViewModel(it) {
-                getDestinations()
+            tripViewModel = TripViewModel(it) { ciudadesAVisitar ->
+                getDestinations(ciudadesAVisitar)
                 AppWindowManager.enableScreen(activity!!)
                 spinner.visibility = View.GONE
             }
@@ -69,37 +74,61 @@ class TripFragment : Fragment() {
         binding.lifecycleOwner = this
     }
 
-    private fun getDestinations() {
-        binding.viaje = tripViewModel.viaje.value
+    private fun getDestinations(ciudadesAVisitar: List<CiudadAVisitar>) {
+        binding.viaje = tripViewModel.viaje
         // if travel has no destinations it shows a friendly warning
-        if (tripViewModel.viaje.value!!.ciudades_a_visitar.isNullOrEmpty()) {
+        if (ciudadesAVisitar.isNullOrEmpty()) {
             binding.linearlayoutDestinationsNoDestinations.visibility = View.VISIBLE
         } else {
+            tripAdapter = TripAdapter(ciudadesAVisitar) { viewCityToVisit(it) }
             binding.recyclerviewDestinations.apply {
-                layoutManager = LinearLayoutManager(context)
-                adapter = TripAdapter(tripViewModel,
-                    { tripViewModel.deleteCityToVisit(it) },
-                    { viewCityToVisit(it) })
+                layoutManager =
+                    LinearLayoutManager(requireNotNull(this@TripFragment.activity).application)
+                adapter = tripAdapter
                 setUpItemTouchHelper(this)
             }
             binding.linearlayoutDestinationsNoDestinations.visibility = View.INVISIBLE
         }
         binding.floatingactionbuttonDestinationsCreation.setOnClickListener {
-            val bundle = bundleOf("viaje" to tripViewModel.viaje.value!!)
             it.findNavController().navigate(
                 TripFragmentDirections.actionTripFragmentToDestinationListFragment().actionId,
-                bundle
+                bundleOf("viaje" to tripViewModel.viaje)
             )
         }
     }
 
+    private fun deleteCityToVisit(ciudadAVisitar: CiudadAVisitar) {
+        tripViewModel.deleteCityToVisit(
+            ciudadAVisitar,
+            { deleteCityToVisitSuccess(ciudadAVisitar) },
+            { deleteCityToVisitFailure(it) })
+    }
+
+    private fun deleteCityToVisitSuccess(ciudadAVisitar: CiudadAVisitar) {
+        tripAdapter.removeItem(ciudadAVisitar)
+        if (tripAdapter.isEmpty()) {
+            binding.linearlayoutDestinationsNoDestinations.visibility = View.VISIBLE
+        }
+    }
+
+    private fun deleteCityToVisitFailure(error: ApiError) {
+        val message = if (error.statusCode == 404) {
+            error.data.getString("detail")
+        } else {
+            logger.severe("Failed to delete city - status: ${error.statusCode} - message: ${error.message}")
+            "Hubo un problema, intente de nuevo"
+        }
+        Toast
+            .makeText(context, message, Toast.LENGTH_SHORT)
+            .show()
+    }
+
     private fun viewCityToVisit(ciudadAVisitar: CiudadAVisitar) {
-        val bundle = bundleOf(
-            "ciudadAVisitar" to ciudadAVisitar
-        )
         findNavController().navigate(
             TripFragmentDirections.actionTripFragmentToScheduleFragment().actionId,
-            bundle
+            bundleOf(
+                "ciudadAVisitar" to ciudadAVisitar
+            )
         )
     }
 
@@ -137,8 +166,10 @@ class TripFragment : Fragment() {
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
                     when (swipeDir) {
-                        ItemTouchHelper.RIGHT -> (recyclerView.adapter as TripAdapter).remove(
-                            viewHolder.adapterPosition
+                        ItemTouchHelper.RIGHT -> deleteCityToVisit(
+                            (recyclerView.adapter as TripAdapter).getItem(
+                                viewHolder.adapterPosition
+                            )
                         )
                     }
                 }
