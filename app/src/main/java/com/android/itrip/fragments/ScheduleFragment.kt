@@ -34,6 +34,8 @@ import com.android.itrip.viewModels.CiudadAVisitarDate
 import com.android.itrip.viewModels.ScheduleViewModel
 import devs.mulham.horizontalcalendar.HorizontalCalendar
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar.view.*
 import java.util.*
 
 
@@ -47,7 +49,6 @@ class ScheduleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
         ciudadAVisitar = arguments?.get("ciudadAVisitar") as CiudadAVisitar
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_schedule, container, false
@@ -95,6 +96,8 @@ class ScheduleFragment : Fragment() {
 
     private fun setBarTitle() {
         (activity as MainActivity).setActionBarTitle("Itinerario")
+        // hide toolbar shadow because sub toolbar
+        activity!!.app_bar.view_toolbar_shadow.visibility = View.GONE
     }
 
     private fun setCalendar() {

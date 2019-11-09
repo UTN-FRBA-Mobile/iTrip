@@ -13,6 +13,8 @@ import com.android.itrip.QuizActivity
 import com.android.itrip.R
 import com.android.itrip.databinding.FragmentQuizEndBinding
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_quiz.*
+import kotlinx.android.synthetic.main.app_bar.view.*
 
 class QuizEndFragment : Fragment() {
 
@@ -29,7 +31,11 @@ class QuizEndFragment : Fragment() {
     }
 
     private fun setBarTitle() {
-        (activity as QuizActivity).setActionBarTitle(getString(R.string.quiz_end_title))
+        with(activity as QuizActivity) {
+            setActionBarTitle(getString(R.string.quiz_end_title))
+            // show toolbar shadow
+            app_bar_quiz.view_toolbar_shadow.visibility = View.VISIBLE
+        }
     }
 
     private fun finishQuiz() {

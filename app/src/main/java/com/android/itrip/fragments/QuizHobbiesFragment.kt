@@ -17,6 +17,8 @@ import com.android.itrip.R
 import com.android.itrip.adapters.HobbiesAdapter
 import com.android.itrip.databinding.FragmentQuizHobbiesBinding
 import com.android.itrip.services.QuizService
+import kotlinx.android.synthetic.main.activity_quiz.*
+import kotlinx.android.synthetic.main.app_bar.view.*
 import java.util.logging.Logger
 
 class QuizHobbiesFragment : Fragment() {
@@ -39,7 +41,11 @@ class QuizHobbiesFragment : Fragment() {
     }
 
     private fun setBarTitle() {
-        (activity as QuizActivity).setActionBarTitle(getString(R.string.quiz_hobbies_title))
+        with(activity as QuizActivity) {
+            setActionBarTitle(getString(R.string.quiz_hobbies_title))
+            // show toolbar shadow
+            app_bar_quiz.view_toolbar_shadow.visibility = View.VISIBLE
+        }
     }
 
     private fun bindings() {

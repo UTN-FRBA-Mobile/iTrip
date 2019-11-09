@@ -29,6 +29,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.app_bar.view.*
 
 
 class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener, DrawerLocker {
@@ -68,7 +69,7 @@ class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener
     private fun bindings() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_activities)
         drawerLayout = binding.drawerLayoutActivities
-        toolbar = binding.appBarActivities as Toolbar
+        toolbar = binding.appBarActivities.toolbar as Toolbar
         navigationView = binding.navigationViewActivities
     }
 

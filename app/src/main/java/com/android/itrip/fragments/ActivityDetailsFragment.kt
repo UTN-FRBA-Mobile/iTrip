@@ -22,6 +22,8 @@ import com.android.itrip.RequestCodes
 import com.android.itrip.databinding.FragmentActivityDetailsBinding
 import com.android.itrip.models.Actividad
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_activities.*
+import kotlinx.android.synthetic.main.app_bar.view.*
 
 
 class ActivityDetailsFragment : Fragment() {
@@ -122,7 +124,7 @@ class ActivityDetailsFragment : Fragment() {
         shareIntent.action = Intent.ACTION_SEND
         shareIntent.putExtra(
             Intent.EXTRA_TEXT,
-            "Realmente necesitamos hacer esto!\n" + actividad?.nombre+"\n"+actividad?.descripcion
+            "Realmente necesitamos hacer esto!\n" + actividad?.nombre + "\n" + actividad?.descripcion
         )
         shareIntent.type = "*/*"
         shareIntent.putExtra(Intent.EXTRA_STREAM, imgBitmapUri)
@@ -130,7 +132,11 @@ class ActivityDetailsFragment : Fragment() {
     }
 
     private fun setBarTitle() {
-        (activity as ActivitiesActivity).setActionBarTitle("Actividad")
+        with(activity as ActivitiesActivity) {
+            setActionBarTitle("Actividad")
+            // show toolbar shadow
+            app_bar_activities.view_toolbar_shadow.visibility = View.VISIBLE
+        }
     }
 
 

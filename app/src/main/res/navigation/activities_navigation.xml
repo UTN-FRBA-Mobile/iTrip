@@ -9,7 +9,6 @@
     <fragment
         android:id="@+id/activitiesListFragment"
         android:name="com.android.itrip.fragments.ActivitiesListFragment"
-        android:label="ActivitiesListFragment"
         tools:layout="@layout/fragment_activities_list">
         <action
             android:id="@+id/action_activitiesListFragment_to_activityDetailsFragment"
@@ -21,7 +20,6 @@
     <fragment
         android:id="@+id/activityDetailsFragment"
         android:name="com.android.itrip.fragments.ActivityDetailsFragment"
-        android:label="ActivityDetailsFragment"
         tools:layout="@layout/fragment_activity_details">
         <action
             android:id="@+id/action_activityDetailsFragment_to_mapsFragment"
@@ -30,8 +28,7 @@
     <fragment
         android:id="@+id/mapsFragment"
         android:name="com.android.itrip.fragments.MapsFragment"
-        android:label="fragment_maps"
-        tools:layout="@layout/fragment_maps" >
+        tools:layout="@layout/fragment_maps">
         <action
             android:id="@+id/action_mapsFragment_to_activityDetailsFragment"
             app:destination="@id/activityDetailsFragment"

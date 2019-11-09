@@ -26,6 +26,8 @@ import com.android.itrip.adapters.TripAdapter
 import com.android.itrip.databinding.FragmentTripBinding
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.viewModels.TripViewModel
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar.view.*
 
 class TripFragment : Fragment() {
 
@@ -44,7 +46,11 @@ class TripFragment : Fragment() {
     }
 
     private fun setBarTitle() {
-        (activity as MainActivity).setActionBarTitle(getString(R.string.destinations_title))
+        with(activity as MainActivity) {
+            setActionBarTitle(getString(R.string.destinations_title))
+            // hide toolbar shadow because sub toolbar
+            app_bar.view_toolbar_shadow.visibility = View.GONE
+        }
     }
 
     private fun loadViewModel() {

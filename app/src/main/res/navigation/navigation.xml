@@ -46,8 +46,7 @@
     <fragment
         android:id="@+id/scheduleFragment"
         android:name="com.android.itrip.fragments.ScheduleFragment"
-        android:label="ScheduleFragment"
-        tools:layout="@layout/fragment_schedule"/>
+        tools:layout="@layout/fragment_schedule" />
     <fragment
         android:id="@+id/tripFragment"
         android:name="com.android.itrip.fragments.TripFragment"

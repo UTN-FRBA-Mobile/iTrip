@@ -19,6 +19,10 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.activity_activities.*
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar.view.*
+import java.util.logging.Logger
 
 
 class MapsFragment : Fragment(), OnInfoWindowClickListener, OnMapReadyCallback {
@@ -90,7 +94,11 @@ class MapsFragment : Fragment(), OnInfoWindowClickListener, OnMapReadyCallback {
     }
 
     private fun setBarTitle(title: String) {
-        (activity as ActivitiesActivity).setActionBarTitle(title)
+        with(activity as ActivitiesActivity){
+            setActionBarTitle(title)
+            // show toolbar shadow
+            app_bar_activities.view_toolbar_shadow.visibility = View.VISIBLE
+        }
     }
 
     override fun onInfoWindowClick(marker: Marker?) {
