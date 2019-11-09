@@ -54,15 +54,16 @@ class ScheduleViewModel(
                         mutableList.remove(this)
                     }
                 } else {
-                    duration =
-                        mutableList.firstOrNull()?.bucket_inicio?.minus(i) ?: 7 - i
+                    duration = 1
+//                    duration =
+//                        mutableList.firstOrNull()?.bucket_inicio?.minus(i) ?: 7 - i
                     bucketsTemp[i] = ActividadARealizar(
                         0L,
                         date,
                         i,
                         Actividad(0L, "", "", duration)
                     )
-                    j += bucketsTemp[i]!!.detalle_actividad!!.duracion
+//                    j += bucketsTemp[i]!!.detalle_actividad!!.duracion
                 }
             }
         }
