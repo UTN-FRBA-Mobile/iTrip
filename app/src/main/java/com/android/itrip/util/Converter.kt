@@ -30,9 +30,9 @@ fun fromModelDaysToStringDays(actividad: Actividad): String {
         if (disponibilidad_viernes) str.append(", Vie")
         if (disponibilidad_sabado) str.append(", Sab")
         if (disponibilidad_domingo) str.append(", Dom")
-        if(!str.isBlank()){
+        if (!str.isBlank()) {
             str.delete(0, 2)
-            if(str.contains(", "))
+            if (str.contains(", "))
                 str.replace(str.lastIndexOf(", "), str.lastIndexOf(", ") + 1, " y")
         }
         return str.toString()
@@ -52,30 +52,20 @@ fun fromModelTimeToStringTime(actividad: Actividad): String {
     return "Cerrado"
 }
 
-fun fromBucketPositionToTimeOfTheDay(bucketPosition: Int): String {
-    return when (bucketPosition) {
-        0 -> "Mañana"
-        1 -> "Media Mañana"
-        2 -> "Tarde"
-        3 -> "Media Tarde"
-        4 -> "Noche"
-        5 -> "Media Noche"
-        else -> "Libre"
-    }
-}
-
 @SuppressLint("SimpleDateFormat")
 fun calendarToString(
-    calendar: Calendar,
+    calendar: Calendar?,
     format: String?
 ): String {
-    return SimpleDateFormat(format ?: "dd-MM-yy").format(calendar.time)
+    return if (calendar?.time != null) SimpleDateFormat(
+        format ?: "dd-MM-yy"
+    ).format(calendar.time) else ""
 }
 
 fun calendarToString(
     calendar: Calendar?
 ): String {
-    return calendarToString(calendar ?: Calendar.getInstance(), null)
+    return calendarToString(calendar, null)
 }
 
 fun listOfDestinations(ciudades_a_visitar: List<CiudadAVisitar>?): String? {
