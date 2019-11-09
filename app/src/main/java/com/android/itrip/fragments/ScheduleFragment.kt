@@ -30,7 +30,7 @@ import com.android.itrip.databinding.FragmentScheduleBinding
 import com.android.itrip.models.Actividad
 import com.android.itrip.models.ActividadARealizar
 import com.android.itrip.models.CiudadAVisitar
-import com.android.itrip.viewModels.CiudadAVisitarDate
+import com.android.itrip.viewModels.CiudadAVisitarObject
 import com.android.itrip.viewModels.ScheduleViewModel
 import devs.mulham.horizontalcalendar.HorizontalCalendar
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener
@@ -109,7 +109,7 @@ class ScheduleFragment : Fragment() {
                 )
                 .datesNumberOnScreen(5)
                 .build()
-        horizontalCalendar.selectDate(CiudadAVisitarDate.date.value, false)
+        horizontalCalendar.selectDate(CiudadAVisitarObject.date.value, false)
         horizontalCalendar.calendarListener = object : HorizontalCalendarListener() {
             override fun onDateSelected(date: Calendar, position: Int) {
                 scheduleViewModel.updateDate(date)

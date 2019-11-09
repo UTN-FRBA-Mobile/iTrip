@@ -11,7 +11,8 @@ import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.services.TravelService
 import java.util.*
 
-object CiudadAVisitarDate {
+object CiudadAVisitarObject {
+    var ciudadAVisitar: CiudadAVisitar? = null
     var _date = MutableLiveData<Calendar>()
     val date: LiveData<Calendar>
         get() = _date
@@ -24,9 +25,12 @@ class ScheduleViewModel(
     private lateinit var bucket: Bucket
 
     init {
-        CiudadAVisitarDate._date.value = CiudadAVisitarDate.date.value ?: ciudadAVisitar.inicio
+        CiudadAVisitarObject._date.value =
+            if (ciudadAVisitar == CiudadAVisitarObject.ciudadAVisitar)
+                CiudadAVisitarObject.date.value ?: ciudadAVisitar.inicio
+            else ciudadAVisitar.inicio
         actividadesARealizar =
-            Transformations.switchMap(CiudadAVisitarDate.date) { date -> setBuckets(date) }
+            Transformations.switchMap(CiudadAVisitarObject.date) { date -> setBuckets(date) }
     }
 
     private fun setBuckets(date: Calendar): LiveData<List<ActividadARealizar>> {
@@ -72,13 +76,13 @@ class ScheduleViewModel(
 
 
     fun updateDate(date: Calendar) {
-        CiudadAVisitarDate._date.value = date
+        CiudadAVisitarObject._date.value = date
     }
 
     private fun updateCiudadAVisitar() {
         TravelService.get_CityToVisit(ciudadAVisitar, { ciudadAVisitar: CiudadAVisitar ->
             this@ScheduleViewModel.ciudadAVisitar = ciudadAVisitar
-            updateDate(CiudadAVisitarDate.date.value!!)
+            updateDate(CiudadAVisitarObject.date.value!!)
         }, {})
     }
 
