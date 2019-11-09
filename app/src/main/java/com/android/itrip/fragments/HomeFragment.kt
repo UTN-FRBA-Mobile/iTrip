@@ -80,7 +80,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun deleteTravel(travel: Viaje) {
-        homeViewModel.deleteTravel(travel, { deleteTravelSuccess() }, { deleteTravelFailure(it) })
+        homeViewModel.deleteTravel(travel, { deleteTravelSuccess(travel) }, { deleteTravelFailure(it) })
     }
 
     private fun deleteTravelFailure(error: ApiError) {
@@ -95,7 +95,8 @@ class HomeFragment : Fragment() {
             .show()
     }
 
-    private fun deleteTravelSuccess() {
+    private fun deleteTravelSuccess(travel: Viaje) {
+        travelAdapter.removeItem(travel)
         if (!homeViewModel.hasTravels()) {
             binding.linearlayoutNoTravels.visibility = VISIBLE
         }

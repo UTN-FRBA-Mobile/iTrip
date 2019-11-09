@@ -25,13 +25,7 @@ import com.squareup.picasso.Picasso
 class TravelAdapter(homeViewModel: HomeViewModel) :
     RecyclerView.Adapter<TravelAdapter.TravelHolder>() {
 
-    private var travels: List<Viaje> = homeViewModel.viajes.value ?: emptyList()
-
-    init {
-        homeViewModel.viajes.observeForever {
-            replaceItems(it)
-        }
-    }
+    private var travels: MutableList<Viaje> = homeViewModel.viajes.value?.toMutableList() ?: mutableListOf()
 
     override fun onBindViewHolder(holder: TravelHolder, position: Int) {
         holder.bind(getItem(position))
@@ -55,8 +49,19 @@ class TravelAdapter(homeViewModel: HomeViewModel) :
     override fun getItemCount() = travels.size
 
     private fun replaceItems(_travels: List<Viaje>) {
-        travels = _travels
+        travels = _travels.toMutableList()
         notifyDataSetChanged()
+    }
+
+    fun removeItem(_travels: Viaje) {
+        val position = travels.indexOf(_travels)
+        travels.remove(_travels)
+        notifyItemRemoved(position)
+    }
+
+    private fun addItem(_travels: Viaje) {
+        travels.add(_travels)
+        notifyItemInserted(travels.size)
     }
 
     class TravelHolder(

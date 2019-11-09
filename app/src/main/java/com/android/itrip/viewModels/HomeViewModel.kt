@@ -34,7 +34,7 @@ class HomeViewModel(successCallback: (List<Viaje>) -> Unit, failureCallback: (Ap
         deleteTravelFailure: (ApiError) -> Unit
     ) {
         TravelService.deleteTrip(travel, {
-            _viajes.value = _viajes.value?.toMutableList().apply { this?.remove(travel) }?.toList()
+            _viajes.value = _viajes.value?.filter { it != travel }
             deleteTravelSuccess()
         }, { error ->
             deleteTravelFailure(error)
