@@ -67,7 +67,7 @@ class ScheduleViewModel(
                         i,
                         Actividad(0L, "", "", duration)
                     )
-//                    j += bucketsTemp[i]!!.detalle_actividad!!.duracion
+                    j += duration
                 }
             }
         }
