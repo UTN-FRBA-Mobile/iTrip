@@ -31,9 +31,11 @@ class QuizEndFragment : Fragment() {
     }
 
     private fun setBarTitle() {
-        (activity as QuizActivity).setActionBarTitle(getString(R.string.quiz_end_title))
-        // show toolbar shadow
-        activity!!.app_bar_quiz.view_toolbar_shadow.visibility = View.VISIBLE
+        with(activity as QuizActivity) {
+            setActionBarTitle(getString(R.string.quiz_end_title))
+            // show toolbar shadow
+            app_bar_quiz.view_toolbar_shadow.visibility = View.VISIBLE
+        }
     }
 
     private fun finishQuiz() {

@@ -23,6 +23,7 @@ object ApiService : Service() {
 
     private val logger = Logger.getLogger(this::class.java.name)
     private lateinit var queue: VolleySingleton
+    private const val base_api_url = "https://proyecto.brazilsouth.cloudapp.azure.com/rest-api/"
 
     override fun onBind(intent: Intent?): IBinder? {
         TODO("not implemented")
@@ -42,7 +43,7 @@ object ApiService : Service() {
     ) {
         val request =
             object : JsonObjectRequest(
-                Method.POST, AuthenticationService.base_api_url + uri, body,
+                Method.POST, base_api_url + uri, body,
                 Response.Listener { response -> responseHandler(response) },
                 Response.ErrorListener { error -> errorHandler(mapOf(error)) }) {
                 @Throws(AuthFailureError::class)
@@ -68,7 +69,7 @@ object ApiService : Service() {
     ) {
         val request =
             object : JsonObjectRequest(
-                Method.PATCH, AuthenticationService.base_api_url + uri, body,
+                Method.PATCH, base_api_url + uri, body,
                 Response.Listener { response -> responseHandler(response) },
                 Response.ErrorListener { error -> errorHandler(mapOf(error)) }) {
                 @Throws(AuthFailureError::class)
@@ -95,7 +96,7 @@ object ApiService : Service() {
         val request =
             object : StringRequest(
                 Method.DELETE,
-                AuthenticationService.base_api_url + uri,
+                base_api_url + uri,
                 Response.Listener { responseHandler() },
                 Response.ErrorListener { error -> errorHandler(mapOf(error)) }
             ) {
@@ -119,7 +120,7 @@ object ApiService : Service() {
     ) {
         val request =
             object : JsonObjectRequest(
-                Method.GET, AuthenticationService.base_api_url + uri, null,
+                Method.GET, base_api_url + uri, null,
                 Response.Listener { response -> responseHandler(response) },
                 Response.ErrorListener { error -> errorHandler(mapOf(error)) }) {
                 @Throws(AuthFailureError::class)
@@ -142,7 +143,7 @@ object ApiService : Service() {
     ) {
         val request =
             object : JsonArrayRequest(
-                Method.GET, AuthenticationService.base_api_url + uri, null,
+                Method.GET, base_api_url + uri, null,
                 Response.Listener { response -> responseHandler(response) },
                 Response.ErrorListener { error -> errorHandler(mapOf(error)) }) {
                 @Throws(AuthFailureError::class)

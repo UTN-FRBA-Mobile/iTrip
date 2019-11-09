@@ -8,8 +8,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.R
 import com.android.itrip.database.Destination
@@ -22,25 +20,26 @@ class DestinationAdapter(
     private val destinationViewModel: DestinationViewModel,
     private val addCityCallback: (Destination) -> Unit,
     private val viewActivitiesforCityCallback: (Destination) -> Unit
-) : ListAdapter<Destination, RecyclerView.ViewHolder>(DestinationDiffCallback()) {
+) : RecyclerView.Adapter<DestinationAdapter.DestinationHolder>() {
+
+
+    override fun onBindViewHolder(holder: DestinationHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
 
     init {
         destinationViewModel.destinations.observeForever { notifyDataSetChanged() }
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as DestinationHolder).bind(getItem(position))
     }
 
     override fun getItemId(position: Int) = position.toLong()
 
     override fun getItemViewType(position: Int) = position
 
-    override fun getItem(position: Int) = destinationViewModel.destinations.value!![position]
+    private fun getItem(position: Int) = destinationViewModel.destinations.value!![position]
 
     override fun getItemCount() = destinationViewModel.destinations.value?.size ?: 0
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DestinationHolder {
         val binding: DestinationItemBinding =
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context), R.layout.destination_item, parent, false
@@ -91,17 +90,5 @@ class DestinationAdapter(
 
     private val buttonClickScaleAnimation =
         AnimationUtils.loadAnimation(context, R.anim.nav_default_pop_enter_anim)
-
-}
-
-private class DestinationDiffCallback : DiffUtil.ItemCallback<Destination>() {
-
-    override fun areItemsTheSame(oldItem: Destination, newItem: Destination): Boolean {
-        return oldItem.destinationId == newItem.destinationId
-    }
-
-    override fun areContentsTheSame(oldItem: Destination, newItem: Destination): Boolean {
-        return oldItem == newItem
-    }
 
 }

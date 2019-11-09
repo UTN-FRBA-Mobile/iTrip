@@ -56,9 +56,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun setBarTitle() {
-        (activity as MainActivity).setActionBarTitle(getString(R.string.travels_title))
-        // show toolbar shadow
-        activity!!.app_bar.view_toolbar_shadow.visibility = VISIBLE
+        with(activity as MainActivity) {
+            setActionBarTitle(getString(R.string.travels_title))
+            // show toolbar shadow
+            app_bar.view_toolbar_shadow.visibility = VISIBLE
+        }
     }
 
     private fun deleteTravel(travel: Viaje) {

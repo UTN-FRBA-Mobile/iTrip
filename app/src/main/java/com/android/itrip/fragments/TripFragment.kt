@@ -40,15 +40,17 @@ class TripFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_trip, container, false)
-        // hide toolbar shadow because sub toolbar
-        (activity as MainActivity).app_bar.view_toolbar_shadow.visibility = View.GONE
         setBarTitle()
         loadViewModel()
         return binding.root
     }
 
     private fun setBarTitle() {
-        (activity as MainActivity).setActionBarTitle(getString(R.string.destinations_title))
+        with(activity as MainActivity) {
+            setActionBarTitle(getString(R.string.destinations_title))
+            // hide toolbar shadow because sub toolbar
+            app_bar.view_toolbar_shadow.visibility = View.GONE
+        }
     }
 
     private fun loadViewModel() {

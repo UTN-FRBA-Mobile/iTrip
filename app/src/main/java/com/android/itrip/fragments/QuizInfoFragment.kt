@@ -62,7 +62,7 @@ class QuizInfoFragment : Fragment() {
         }
         quiz.setActionBarTitle(getString(title))
         // show toolbar shadow
-        activity!!.app_bar_quiz.view_toolbar_shadow.visibility = View.VISIBLE
+        quiz.app_bar_quiz.view_toolbar_shadow.visibility = View.VISIBLE
     }
 
     private fun setQuizDescription() {
@@ -92,7 +92,7 @@ class QuizInfoFragment : Fragment() {
             }
         }
         // when on focus changes it closes the keyboard because the other inputs cant be written
-        binding.textinputlayoutQuizInfoEdad.editText.setOnFocusChangeListener { view, hasFocus ->
+        binding.textinputlayoutQuizInfoEdad.editText.setOnFocusChangeListener { _, hasFocus ->
             closeKeyboard(hasFocus)
         }
         binding.textinputlayoutQuizInfoEstadocivil.editText.apply {

@@ -6,23 +6,21 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.itrip.R
 import com.android.itrip.databinding.HobbyItemBinding
 import com.android.itrip.models.Answer
 
 class HobbiesAdapter(private val hobbies: List<Answer>) :
-    ListAdapter<Answer, RecyclerView.ViewHolder>(HobbyDiffCallback()) {
+    RecyclerView.Adapter<HobbiesAdapter.HobbyHolder>(){
+
+    override fun onBindViewHolder(holder: HobbyHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
 
     val checkedHobbies = mutableListOf<Answer>()
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as HobbyHolder).bind(getItem(position))
-    }
-
-    override fun getItem(position: Int) = hobbies[position]
+    private fun getItem(position: Int) = hobbies[position]
 
     override fun getItemId(position: Int) = position.toLong()
 
@@ -30,7 +28,7 @@ class HobbiesAdapter(private val hobbies: List<Answer>) :
 
     override fun getItemCount() = hobbies.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HobbyHolder {
         val binding: HobbyItemBinding =
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context), R.layout.hobby_item, parent, false
@@ -65,13 +63,5 @@ class HobbiesAdapter(private val hobbies: List<Answer>) :
             binding.apply { answer = item }
         }
     }
-
-}
-
-private class HobbyDiffCallback : DiffUtil.ItemCallback<Answer>() {
-
-    override fun areItemsTheSame(oldItem: Answer, newItem: Answer) = oldItem.key == newItem.key
-
-    override fun areContentsTheSame(oldItem: Answer, newItem: Answer) = oldItem == newItem
 
 }

@@ -37,7 +37,6 @@ import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.view.*
 import java.util.*
-import java.util.logging.Logger
 
 
 class ScheduleFragment : Fragment() {
@@ -45,20 +44,12 @@ class ScheduleFragment : Fragment() {
     private lateinit var binding: FragmentScheduleBinding
     private lateinit var scheduleViewModel: ScheduleViewModel
     private lateinit var ciudadAVisitar: CiudadAVisitar
-    private val logger = Logger.getLogger(this::class.java.name)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // hide toolbar shadow because sub toolbar
-        activity!!.app_bar.view_toolbar_shadow.visibility = View.GONE
-        logger.severe("LA CONCHA DE TU REPUTISIMA MADRE")
-        try {
-            ciudadAVisitar = this.arguments!!.get("ciudadAVisitar") as CiudadAVisitar
-        } catch (e: Exception) {
-            logger.info(e.toString())
-        }
+        ciudadAVisitar = arguments?.get("ciudadAVisitar") as CiudadAVisitar
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_schedule, container, false
         )
@@ -105,6 +96,8 @@ class ScheduleFragment : Fragment() {
 
     private fun setBarTitle() {
         (activity as MainActivity).setActionBarTitle("Itinerario")
+        // hide toolbar shadow because sub toolbar
+        activity!!.app_bar.view_toolbar_shadow.visibility = View.GONE
     }
 
     private fun setCalendar() {

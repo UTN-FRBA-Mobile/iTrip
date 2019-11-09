@@ -37,7 +37,7 @@ class DestinationListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         setBarTitle()
-        viaje = this.arguments!!.get("viaje") as Viaje
+        viaje = arguments?.get("viaje") as Viaje
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_destination_list, container, false
         )
@@ -73,9 +73,11 @@ class DestinationListFragment : Fragment() {
     }
 
     private fun setBarTitle() {
-        (activity as MainActivity).setActionBarTitle("Seleccioná un destino")
-        // show toolbar shadow
-        activity!!.app_bar.view_toolbar_shadow.visibility = View.VISIBLE
+        with(activity as MainActivity) {
+            setActionBarTitle("Seleccioná un destino")
+            // show toolbar shadow
+            app_bar.view_toolbar_shadow.visibility = View.VISIBLE
+        }
     }
 
     private fun viewActivities(destination: Destination) {

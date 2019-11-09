@@ -45,9 +45,11 @@ class CreateTravelFragment : Fragment() {
     }
 
     private fun setBarTitle() {
-        (activity as MainActivity).setActionBarTitle(getString(R.string.travels_creation))
-        // show toolbar shadow
-        activity!!.app_bar.view_toolbar_shadow.visibility = View.VISIBLE
+        with(activity as MainActivity) {
+            setActionBarTitle(getString(R.string.travels_creation))
+            // show toolbar shadow
+            app_bar.view_toolbar_shadow.visibility = View.VISIBLE
+        }
     }
 
     private fun bindings() {

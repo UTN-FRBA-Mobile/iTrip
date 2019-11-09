@@ -22,14 +22,13 @@ import com.android.itrip.models.Actividad
 import com.android.itrip.viewModels.ActivitiesViewModel
 import com.android.itrip.viewModels.ActivitiesViewModelFactory
 import kotlinx.android.synthetic.main.activity_activities.*
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.view.*
 
 
 class ActivitiesListFragment : Fragment() {
 
-    lateinit var activitiesViewModel: ActivitiesViewModel
-    lateinit var actividades: List<Actividad>
+    private lateinit var activitiesViewModel: ActivitiesViewModel
+    private var actividades: List<Actividad> = emptyList()
     private var action: Int = 0
 
     override fun onCreateView(
@@ -40,10 +39,8 @@ class ActivitiesListFragment : Fragment() {
             inflater, R.layout.fragment_activities_list, container, false
         )
         @Suppress("UNCHECKED_CAST")
-        this.arguments!!.get("actividades")?.let {
-            actividades = it as List<Actividad>
-        }
-        action = this.arguments?.getInt("action") ?: 0
+        actividades = arguments?.get("actividades") as List<Actividad>
+        action = arguments?.getInt("action") ?: 0
         val application = requireNotNull(this.activity).application
         val viewModelFactory = ActivitiesViewModelFactory(
             actividades,
@@ -74,7 +71,8 @@ class ActivitiesListFragment : Fragment() {
             it.findNavController().navigate(
                 ActivitiesListFragmentDirections.actionActivitiesListFragmentToMapsFragment().actionId,
                 bundleOf(
-                    "actividades" to activitiesViewModel.actividades.value!!
+                    "actividades" to activitiesViewModel.actividades.value!!,
+                    "action" to action
                 )
             )
         }
@@ -97,9 +95,11 @@ class ActivitiesListFragment : Fragment() {
     }
 
     private fun setBarTitle() {
-        (activity as ActivitiesActivity).setActionBarTitle("Actividades")
-        // show toolbar shadow
-        activity!!.app_bar_activities.view_toolbar_shadow.visibility = View.VISIBLE
+        with(activity as ActivitiesActivity) {
+            setActionBarTitle("Actividades")
+            // show toolbar shadow
+            app_bar_activities.view_toolbar_shadow.visibility = View.VISIBLE
+        }
     }
 
 }

@@ -15,7 +15,6 @@ object AuthenticationService : Service() {
 
     private var refreshToken: String = ""
     var accessToken: String = ""
-    const val base_api_url = "https://proyecto.brazilsouth.cloudapp.azure.com/rest-api/"
     private val logger = Logger.getLogger(this::class.java.name)
 
 
