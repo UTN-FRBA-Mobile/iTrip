@@ -19,6 +19,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.android.itrip.databinding.ActivityQuizBinding
 import com.android.itrip.databinding.AppBarHeaderBinding
+import com.android.itrip.services.ApiService
 import com.android.itrip.util.CircleTransformation
 import com.android.itrip.viewModels.QuizViewModel
 import com.google.android.material.navigation.NavigationView
@@ -45,6 +46,7 @@ class QuizActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Draw
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ApiService.setContext(this)
         readSource()
         bindings()
         initDrawer()

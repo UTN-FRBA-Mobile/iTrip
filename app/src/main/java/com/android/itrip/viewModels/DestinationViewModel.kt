@@ -8,6 +8,7 @@ import com.android.itrip.database.Destination
 import com.android.itrip.database.DestinationDatabaseDao
 import com.android.itrip.models.*
 import com.android.itrip.services.ApiError
+import com.android.itrip.services.ConnectionService
 import com.android.itrip.services.TravelService
 import kotlinx.coroutines.*
 import java.util.*
@@ -33,16 +34,18 @@ class DestinationViewModel(
     )
 
     init {
-        TravelService.getDestinations({ continentes ->
-            getDestinationsCallback(continentes)
-        }, { error ->
-            logger.severe("Failed to retrieve destinations - status: ${error.statusCode} - message: ${error.message}")
-            val message = "Hubo un problema, intente de nuevo"
-            Toast
-                .makeText(getApplication(), message, Toast.LENGTH_SHORT)
-                .show()
+        if (ConnectionService.isNetworkConnected(application.applicationContext) && ConnectionService.isInternetAvailable()) {
+            TravelService.getDestinations({ continentes ->
+                getDestinationsCallback(continentes)
+            }, { error ->
+                logger.severe("Failed to retrieve destinations - status: ${error.statusCode} - message: ${error.message}")
+                val message = "Hubo un problema, intente de nuevo"
+                Toast
+                    .makeText(getApplication(), message, Toast.LENGTH_SHORT)
+                    .show()
 
-        })
+            })
+        }
         destinations = database.getAll()
     }
 

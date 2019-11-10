@@ -24,6 +24,7 @@ import com.android.itrip.RequestCodes.Companion.VIEW_ACTIVITY_LIST_CODE
 import com.android.itrip.databinding.ActivityActivitiesBinding
 import com.android.itrip.databinding.AppBarHeaderBinding
 import com.android.itrip.models.Actividad
+import com.android.itrip.services.ApiService
 import com.android.itrip.util.CircleTransformation
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
@@ -48,6 +49,7 @@ class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         readSource()
+        ApiService.setContext(this)
         bindings()
         initDrawer()
         initNavigation()
