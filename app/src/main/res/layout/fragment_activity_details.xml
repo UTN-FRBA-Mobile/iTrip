@@ -9,8 +9,8 @@
         <import type="com.android.itrip.util.Converter" />
 
         <variable
-            name="activity"
-            type="com.android.itrip.models.Actividad" />
+            name="activitiesViewModel"
+            type="com.android.itrip.viewModels.ActivitiesViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,7 +33,7 @@
                     android:id="@+id/activityTitle_textview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{activity.nombre}"
+                    android:text="@{activitiesViewModel.actividad.nombre}"
                     android:textColor="#000000"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:drawableStart="@drawable/ic_date_range_black_24dp"
-                    android:text="@{Converter.fromModelDaysToStringDays(activity) + `. ` + Converter.fromModelTimeToStringTime(activity)}"
+                    android:text="@{Converter.fromModelDaysToStringDays(activitiesViewModel.actividad) + `. ` + Converter.fromModelTimeToStringTime(activitiesViewModel.actividad)}"
                     android:textColor="@color/colorPlaceholder"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -79,11 +79,11 @@
                         tools:layout="@layout/fragment_maps" />
                 </FrameLayout>
 
+<!--                    android:text="@{`Categorias: ` + Converter.listOfCategories(activitiesViewModel.categorias)}"-->
                 <TextView
                     android:id="@+id/activitycategories_textview"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@{`Categorias: ` + Converter.listOfCategories(activity.categorias)}"
                     android:textColor="@color/colorPlaceholder"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -96,7 +96,7 @@
                     android:layout_height="wrap_content"
                     android:isIndicator="true"
                     android:numStars="5"
-                    android:rating="@{Converter.fromStringToFloat(activity.calificacion)}"
+                    android:rating="@{Converter.fromStringToFloat(activitiesViewModel.actividad.calificacion)}"
                     android:stepSize="0.1"
                     android:textColor="@color/colorPlaceholder"
                     android:textSize="18sp"
@@ -108,7 +108,7 @@
                     android:id="@+id/activityCost_textview"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@{`Costo $` + activity.costo*60}"
+                    android:text="@{`Costo $` + activitiesViewModel.actividad.costo*60}"
                     android:textColor="@color/colorPlaceholder"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -123,7 +123,7 @@
                     android:layout_margin="12dp"
                     android:paddingBottom="50dp"
                     android:scrollbars="vertical"
-                    android:text="@{activity.descripcion}"
+                    android:text="@{activitiesViewModel.actividad.descripcion}"
                     android:textColor="@color/colorBlack"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"

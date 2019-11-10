@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.itrip.ActivitiesActivity
 import com.android.itrip.R
 import com.android.itrip.adapters.ActivitiesAdapter
-import com.android.itrip.database.ActivityDatabase
+import com.android.itrip.database.ActividadCategoriaDatabase
 import com.android.itrip.databinding.FragmentActivitiesListBinding
 import com.android.itrip.models.Actividad
 import com.android.itrip.viewModels.ActivitiesViewModel
@@ -44,8 +44,8 @@ class ActivitiesListFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val viewModelFactory = ActivitiesViewModelFactory(
             actividades,
-            ActivityDatabase.getInstance(application).activityDatabaseDao,
-            application
+            application,
+            null
         )
         activitiesViewModel =
             ViewModelProviders.of(

@@ -15,12 +15,15 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.android.itrip.ActivitiesActivity
 import com.android.itrip.R
 import com.android.itrip.RequestCodes
 import com.android.itrip.databinding.FragmentActivityDetailsBinding
 import com.android.itrip.models.Actividad
+import com.android.itrip.viewModels.ActivitiesViewModel
+import com.android.itrip.viewModels.ActivitiesViewModelFactory
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_activities.*
 import kotlinx.android.synthetic.main.app_bar.view.*
@@ -31,6 +34,7 @@ class ActivityDetailsFragment : Fragment() {
     private var actividad: Actividad? = null
     private var action = 0
     private lateinit var binding: FragmentActivityDetailsBinding
+    private lateinit var activitiesViewModel: ActivitiesViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +45,20 @@ class ActivityDetailsFragment : Fragment() {
         )
         actividad = arguments?.get("actividad") as Actividad?
         action = arguments?.getInt("action") ?: 0
-        binding.activity = actividad
+        activitiesViewModel =
+            ViewModelProviders.of(
+                this,
+                ActivitiesViewModelFactory(
+                    null,
+                    activity!!.application,
+                    actividad
+                )
+            ).get(ActivitiesViewModel::class.java)
+        binding.activitiesViewModel = activitiesViewModel
+        activitiesViewModel.categorias.observeForever {
+            binding.activitycategoriesTextview.text =
+                "Categorias: " + activitiesViewModel.listOfCategories()
+        }
         actividad?.imagen?.let {
             Picasso.get()
                 .load(it)

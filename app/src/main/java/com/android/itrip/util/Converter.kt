@@ -73,9 +73,3 @@ fun listOfDestinations(ciudades_a_visitar: List<CiudadAVisitar>?): String? {
         ?.map { it.detalle_ciudad?.nombre }
         ?.joinToString(", ")
 }
-
-fun listOfCategories(categorias: List<Categoria>?): String? {
-    return categorias
-        ?.map { it.nombre }
-        ?.joinToString(", ")
-}

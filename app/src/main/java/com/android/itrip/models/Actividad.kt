@@ -7,7 +7,7 @@ import java.io.Serializable
 @TypeConverters(Converters::class)
 @Entity(tableName = "actividades_table")
 data class Actividad(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     var id: Long = 0L,
     @ColumnInfo(name = "nombre")
     var nombre: String = "",
