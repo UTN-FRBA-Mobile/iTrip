@@ -10,7 +10,7 @@ import com.android.itrip.models.Categoria
 
 @Database(
     entities = [Actividad::class, Categoria::class, ActividadCategoria::class],
-    version = 5,
+    version = 1,
     exportSchema = false
 )
 abstract class ActividadCategoriaDatabase : RoomDatabase() {
