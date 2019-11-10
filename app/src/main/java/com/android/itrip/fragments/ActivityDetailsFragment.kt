@@ -35,14 +35,24 @@ class ActivityDetailsFragment : Fragment() {
     private var action = 0
     private lateinit var binding: FragmentActivityDetailsBinding
     private lateinit var activitiesViewModel: ActivitiesViewModel
+    private var isCurrencyDollar = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_activity_details, container, false
-        )
+        binding = DataBindingUtil
+            .inflate(inflater, R.layout.fragment_activity_details, container, false)
+        setBarTitle()
+        bindings()
+        setCost()
+        setCategories()
+        setMap()
+        setDuration()
+        return binding.root
+    }
+
+    private fun bindings() {
         actividad = arguments?.get("actividad") as Actividad?
         action = arguments?.getInt("action") ?: 0
         activitiesViewModel =
@@ -55,10 +65,6 @@ class ActivityDetailsFragment : Fragment() {
                 )
             ).get(ActivitiesViewModel::class.java)
         binding.activitiesViewModel = activitiesViewModel
-        activitiesViewModel.categorias.observeForever {
-            binding.activitycategoriesTextview.text =
-                "Categorias: " + activitiesViewModel.listOfCategories()
-        }
         actividad?.imagen?.let {
             Picasso.get()
                 .load(it)
@@ -67,19 +73,11 @@ class ActivityDetailsFragment : Fragment() {
                 .fit()
                 .into(binding.activityImg)
         }
-
-        val fragmentManager = activity?.supportFragmentManager
-        val fragmentTransaction = fragmentManager?.beginTransaction()
-        val mapsFragment = MapsFragment()
-        mapsFragment.arguments = bundleOf("actividad" to actividad)
-        fragmentTransaction?.add(R.id.map_fragment, mapsFragment)
-        fragmentTransaction?.commit()
-
         binding.mapFrameLayout.setOnClickListener {
             it.findNavController()
                 .navigate(
-                    ActivityDetailsFragmentDirections.actionActivityDetailsFragmentToMapsFragment().actionId
-                    , bundleOf(
+                    ActivityDetailsFragmentDirections.actionActivityDetailsFragmentToMapsFragment().actionId,
+                    bundleOf(
                         "actividad" to actividad,
                         "action" to action
                     )
@@ -104,8 +102,51 @@ class ActivityDetailsFragment : Fragment() {
                 shareActivity()
             }
         }
-        setBarTitle()
-        return binding.root
+        binding.activityCostTextview.setOnClickListener {
+            if (actividad!!.costo != 0) {
+                if (isCurrencyDollar) {
+                    isCurrencyDollar = false
+                    binding.activityCostTextview.text =
+                        getString(R.string.activity_details_cost_pesos, actividad!!.costo * 63)
+                } else {
+                    isCurrencyDollar = true
+                    binding.activityCostTextview.text =
+                        getString(R.string.activity_details_cost_dollar, actividad!!.costo)
+                }
+            }
+        }
+    }
+
+    private fun setCategories() {
+        activitiesViewModel.categorias.observeForever {
+            binding.activitycategoriesTextview.text = activitiesViewModel.listOfCategories()
+        }
+    }
+
+    private fun setCost() {
+        binding.activityCostTextview.text = if (actividad!!.costo != 0) {
+            getString(R.string.activity_details_cost_dollar, actividad!!.costo)
+        } else {
+            getString(R.string.activity_details_cost_free)
+        }
+    }
+
+    private fun setMap() {
+        val fragmentManager = activity?.supportFragmentManager
+        val fragmentTransaction = fragmentManager?.beginTransaction()
+        val mapsFragment = MapsFragment()
+        mapsFragment.arguments = bundleOf("actividad" to actividad)
+        fragmentTransaction?.add(R.id.map_fragment, mapsFragment)
+        fragmentTransaction?.commit()
+    }
+
+    private fun setDuration() {
+        binding.activityAvailabilityDurationTextview.text = when (actividad!!.duracion) {
+            1 -> getString(R.string.activity_details_duration_short)
+            2, 3 -> getString(R.string.activity_details_duration_medium)
+            4, 5 -> getString(R.string.activity_details_duration_large)
+            else -> getString(R.string.activity_details_duration_all_day)
+        }
     }
 
     private fun requestPermission() {
@@ -123,8 +164,7 @@ class ActivityDetailsFragment : Fragment() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    private fun shareActivity(
-    ) {
+    private fun shareActivity() {
         val shareIntent = Intent()
         val bitmapDrawable: BitmapDrawable =
             binding.activityImg.drawable as BitmapDrawable
@@ -155,6 +195,5 @@ class ActivityDetailsFragment : Fragment() {
             app_bar_activities.view_toolbar_shadow.visibility = View.VISIBLE
         }
     }
-
 
 }

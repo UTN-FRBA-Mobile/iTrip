@@ -21,54 +21,103 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#fff"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/activityTitle_textview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{activitiesViewModel.actividad.nombre}"
-                    android:textColor="#000000"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                android:background="#fff">
 
                 <ImageView
                     android:id="@+id/activity_img"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activityTitle_textview" />
+                    tools:ignore="ContentDescription" />
 
-                <TextView
-                    android:id="@+id/activityDate_textview"
+                <RelativeLayout
+                    android:id="@+id/relativelayout_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/activity_img"
                     android:layout_marginTop="15dp"
-                    android:drawableStart="@drawable/ic_date_range_black_24dp"
-                    android:text="@{Converter.fromModelDaysToStringDays(activitiesViewModel.actividad) + `. ` + Converter.fromModelTimeToStringTime(activitiesViewModel.actividad)}"
-                    android:textColor="@color/colorPlaceholder"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_img" />
+                    android:paddingHorizontal="18dp">
+
+                    <TextView
+                        android:id="@+id/activityTitle_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{activitiesViewModel.actividad.nombre}"
+                        android:textColor="#000000"
+                        android:textSize="30sp" />
+
+                    <RatingBar
+                        android:id="@+id/activityRating_rating"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/activityTitle_textview"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        android:rating="@{Converter.fromStringToFloat(activitiesViewModel.actividad.calificacion)}"
+                        android:stepSize="0.1"
+                        android:textColor="@color/colorPlaceholder" />
+
+                    <LinearLayout
+                        android:id="@+id/relativelayout_cost_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/activityRating_rating"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/activityCost_textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorPlaceholder"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/activitycategories_textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorPlaceholder"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/view_divider_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_below="@+id/relativelayout_cost_category"
+                        android:layout_marginTop="25dp"
+                        android:background="@android:color/darker_gray" />
+
+                    <TextView
+                        android:id="@+id/activity_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view_divider_1"
+                        android:layout_marginTop="15dp"
+                        android:justificationMode="inter_word"
+                        android:scrollbars="vertical"
+                        android:text="@{activitiesViewModel.actividad.descripcion}"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+
+                    <View
+                        android:id="@+id/view_divider_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_below="@+id/activity_description"
+                        android:layout_marginTop="15dp"
+                        android:background="@android:color/darker_gray" />
+                </RelativeLayout>
 
                 <FrameLayout
                     android:id="@+id/map_frameLayout"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activityDate_textview">
+                    android:layout_below="@+id/relativelayout_detail"
+                    android:layout_marginTop="15dp">
 
                     <fragment
                         android:id="@+id/map_fragment"
@@ -79,58 +128,87 @@
                         tools:layout="@layout/fragment_maps" />
                 </FrameLayout>
 
-<!--                    android:text="@{`Categorias: ` + Converter.listOfCategories(activitiesViewModel.categorias)}"-->
-                <TextView
-                    android:id="@+id/activitycategories_textview"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPlaceholder"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/map_frameLayout" />
+                <View
+                    android:id="@+id/view_divider_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@+id/map_frameLayout"
+                    android:layout_marginTop="15dp"
+                    android:background="@android:color/darker_gray" />
 
-                <RatingBar
-                    android:id="@+id/activityRating_rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:isIndicator="true"
-                    android:numStars="5"
-                    android:rating="@{Converter.fromStringToFloat(activitiesViewModel.actividad.calificacion)}"
-                    android:stepSize="0.1"
-                    android:textColor="@color/colorPlaceholder"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activitycategories_textview" />
-
-                <TextView
-                    android:id="@+id/activityCost_textview"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@{`Costo $` + activitiesViewModel.actividad.costo*60}"
-                    android:textColor="@color/colorPlaceholder"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activityRating_rating" />
-
-
-                <TextView
-                    android:id="@+id/activity_description"
+                <LinearLayout
+                    android:id="@+id/activityAvailability_linearlayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/view_divider_3"
                     android:layout_margin="12dp"
-                    android:paddingBottom="50dp"
-                    android:scrollbars="vertical"
-                    android:text="@{activitiesViewModel.actividad.descripcion}"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activityCost_textview" />
+                    android:orientation="horizontal">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/activityAvailabilityTitle_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity_details_availability"
+                        android:textColor="#000000"
+                        android:textSize="25sp" />
+
+                    <TextView
+                        android:id="@+id/activityAvailabilityDuration_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="15dp"
+                        android:background="@drawable/shape_oval"
+                        android:padding="5dp"
+                        android:textAllCaps="true"
+                        android:textColor="#007bff"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/activityDate_linearlayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/activityAvailability_linearlayout"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="70dp"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="18dp">
+
+                    <ImageView
+                        android:id="@+id/calendar_imageview"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="5dp"
+                        app:srcCompat="@drawable/ic_date_range_black_24dp"
+                        tools:ignore="ContentDescription" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/activityDate_textview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{Converter.fromModelDaysToStringDays(activitiesViewModel.actividad)}"
+                            android:textColor="@color/colorPlaceholder"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/activityTime_textview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{Converter.fromModelTimeToStringTime(activitiesViewModel.actividad)}"
+                            android:textColor="@color/colorPlaceholder"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
         </ScrollView>
 
@@ -156,6 +234,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_add_black_24dp" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

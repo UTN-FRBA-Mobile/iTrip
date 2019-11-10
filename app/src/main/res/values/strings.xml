@@ -81,6 +81,16 @@
     <string name="destinations_no_destinations_firstline">Todavía no agregaste destinos a tu viaje.</string>
     <string name="destinations_no_destinations_secondline">Empieza creando uno clickeando en el \'+\'.</string>
 
+    <!--Activity details-->
+    <string name="activity_details_cost_dollar">US$ %1$d ·\u0020</string>
+    <string name="activity_details_cost_pesos">ARS %1$d ·\u0020</string>
+    <string name="activity_details_cost_free">Sin costo ·\u0020</string>
+    <string name="activity_details_availability">Disponibilidad</string>
+    <string name="activity_details_duration_short">Duración corta</string>
+    <string name="activity_details_duration_medium">Duración mediana</string>
+    <string name="activity_details_duration_large">Duración larga</string>
+    <string name="activity_details_duration_all_day">Todo el día</string>
+
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="facebook_application_id" translatable="false">399355764046745</string>
     <string name="facebook_login_protocol_scheme" translatable="false">fb399355764046745</string>
