@@ -38,7 +38,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/activity_img"
                     android:layout_marginTop="15dp"
-                    android:paddingHorizontal="18dp">
+                    android:paddingLeft="18dp"
+                    android:paddingRight="18dp">
 
                     <TextView
                         android:id="@+id/activityTitle_textview"
@@ -48,23 +49,38 @@
                         android:textColor="#000000"
                         android:textSize="30sp" />
 
-                    <RatingBar
-                        android:id="@+id/activityRating_rating"
-                        style="?android:attr/ratingBarStyleSmall"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/rating_linearlayout"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/activityTitle_textview"
-                        android:isIndicator="true"
-                        android:numStars="5"
-                        android:rating="@{Converter.fromStringToFloat(activitiesViewModel.actividad.calificacion)}"
-                        android:stepSize="0.1"
-                        android:textColor="@color/colorPlaceholder" />
+                        android:orientation="horizontal">
+
+                        <RatingBar
+                            android:id="@+id/activityRating_rating"
+                            style="?android:attr/ratingBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:isIndicator="true"
+                            android:numStars="5"
+                            android:rating="@{Converter.fromStringToFloat(activitiesViewModel.actividad.calificacion)}"
+                            android:stepSize="0.1"
+                            android:textColor="@color/colorPlaceholder" />
+
+                        <TextView
+                            android:id="@+id/activityRating_textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/relativelayout_cost_category"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/activityRating_rating"
+                        android:layout_below="@+id/rating_linearlayout"
                         android:layout_marginTop="15dp"
                         android:orientation="horizontal">
 
@@ -161,7 +177,7 @@
                         android:background="@drawable/shape_oval"
                         android:padding="5dp"
                         android:textAllCaps="true"
-                        android:textColor="#007bff"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="10sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -174,7 +190,8 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="70dp"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="18dp">
+                    android:paddingLeft="18dp"
+                    android:paddingRight="0dp">
 
                     <ImageView
                         android:id="@+id/calendar_imageview"
@@ -185,27 +202,159 @@
                         tools:ignore="ContentDescription" />
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/activityDate_textview"
-                            android:layout_width="match_parent"
+                        <LinearLayout
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{Converter.fromModelDaysToStringDays(activitiesViewModel.actividad)}"
-                            android:textColor="@color/colorPlaceholder"
-                            android:textSize="18sp" />
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/activityTime_textview"
+                            <TextView
+                                android:id="@+id/activityDateMon_textview"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/shape_oval"
+                                android:paddingLeft="7dp"
+                                android:paddingRight="7dp"
+                                android:text="@string/activity_details_mon_day"
+                                android:textAllCaps="true"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/activityDateTue_textview"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:background="@drawable/shape_oval"
+                                android:paddingLeft="7dp"
+                                android:paddingRight="7dp"
+                                android:text="@string/activity_details_tue_day"
+                                android:textAllCaps="true"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/activityDateWed_textview"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:background="@drawable/shape_oval"
+                                android:paddingLeft="7dp"
+                                android:paddingRight="7dp"
+                                android:text="@string/activity_details_wed_day"
+                                android:textAllCaps="true"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/activityDateThu_textview"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:background="@drawable/shape_oval"
+                                android:paddingLeft="7dp"
+                                android:paddingRight="7dp"
+                                android:text="@string/activity_details_thu_day"
+                                android:textAllCaps="true"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/activityDateFri_textview"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:background="@drawable/shape_oval"
+                                android:paddingLeft="7dp"
+                                android:paddingRight="7dp"
+                                android:text="@string/activity_details_fri_day"
+                                android:textAllCaps="true"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/activityDateSat_textview"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:background="@drawable/shape_oval"
+                                android:paddingLeft="7dp"
+                                android:paddingRight="7dp"
+                                android:text="@string/activity_details_sat_day"
+                                android:textAllCaps="true"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/activityDateSun_textview"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:background="@drawable/shape_oval"
+                                android:paddingLeft="7dp"
+                                android:paddingRight="7dp"
+                                android:text="@string/activity_details_sun_day"
+                                android:textAllCaps="true"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@{Converter.fromModelTimeToStringTime(activitiesViewModel.actividad)}"
-                            android:textColor="@color/colorPlaceholder"
-                            android:textSize="18sp" />
+                            android:layout_marginTop="7dp"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <TextView
+                                android:id="@+id/activityDateMorning_textview"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/shape_oval"
+                                android:paddingTop="2dp"
+                                android:paddingBottom="2dp"
+                                android:text="@string/activity_details_morning_day"
+                                android:textAlignment="center"
+                                android:textAllCaps="true"
+                                android:textColor="#007bff"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/activityDateAfternoon_textview"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/shape_oval"
+                                android:paddingTop="2dp"
+                                android:paddingBottom="2dp"
+                                android:text="@string/activity_details_afternoon_day"
+                                android:textAlignment="center"
+                                android:textAllCaps="true"
+                                android:textColor="#007bff"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/activityDateNight_textview"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/shape_oval"
+                                android:paddingTop="2dp"
+                                android:paddingBottom="2dp"
+                                android:text="@string/activity_details_night_day"
+                                android:textAlignment="center"
+                                android:textAllCaps="true"
+                                android:textColor="#007bff"
+                                android:textSize="15sp" />
+                        </LinearLayout>
                     </LinearLayout>
-
                 </LinearLayout>
 
             </RelativeLayout>

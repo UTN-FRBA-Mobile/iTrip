@@ -87,9 +87,19 @@
     <string name="activity_details_cost_free">Sin costo ·\u0020</string>
     <string name="activity_details_availability">Disponibilidad</string>
     <string name="activity_details_duration_short">Duración corta</string>
-    <string name="activity_details_duration_medium">Duración mediana</string>
+    <string name="activity_details_duration_medium">Duración media</string>
     <string name="activity_details_duration_large">Duración larga</string>
     <string name="activity_details_duration_all_day">Todo el día</string>
+    <string name="activity_details_mon_day">Lun</string>
+    <string name="activity_details_tue_day">Mar</string>
+    <string name="activity_details_wed_day">Mie</string>
+    <string name="activity_details_thu_day">Jue</string>
+    <string name="activity_details_fri_day">Vie</string>
+    <string name="activity_details_sat_day">Sab</string>
+    <string name="activity_details_sun_day">Dom</string>
+    <string name="activity_details_morning_day">Mañana</string>
+    <string name="activity_details_afternoon_day">Tarde</string>
+    <string name="activity_details_night_day">Noche</string>
 
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="facebook_application_id" translatable="false">399355764046745</string>

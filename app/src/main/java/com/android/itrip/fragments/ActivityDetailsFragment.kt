@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -11,7 +12,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.*
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -45,10 +46,12 @@ class ActivityDetailsFragment : Fragment() {
             .inflate(inflater, R.layout.fragment_activity_details, container, false)
         setBarTitle()
         bindings()
+        setRating()
         setCost()
         setCategories()
         setMap()
         setDuration()
+        setDayAndShift()
         return binding.root
     }
 
@@ -68,7 +71,6 @@ class ActivityDetailsFragment : Fragment() {
         actividad?.imagen?.let {
             Picasso.get()
                 .load(it)
-                .placeholder(R.drawable.logo)
                 .error(R.drawable.logo)
                 .fit()
                 .into(binding.activityImg)
@@ -93,7 +95,7 @@ class ActivityDetailsFragment : Fragment() {
             }
         }
         binding.shareActivityFloatingActionButton.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(
+            if (checkSelfPermission(
                     context!!, Manifest.permission.WRITE_EXTERNAL_STORAGE
                 ) != PERMISSION_GRANTED
             ) {
@@ -115,6 +117,10 @@ class ActivityDetailsFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun setRating() {
+        binding.activityRatingTextview.text = actividad!!.calificacion
     }
 
     private fun setCategories() {
@@ -148,6 +154,57 @@ class ActivityDetailsFragment : Fragment() {
             else -> getString(R.string.activity_details_duration_all_day)
         }
     }
+
+    private fun setDayAndShift() {
+        with(actividad!!) {
+            // days
+            if (!disponibilidad_lunes) {
+                binding.activityDateMonTextview.setTextColor(getGrayColor())
+                binding.activityDateMonTextview.background = getDisabledBackground()
+            }
+            if (!disponibilidad_martes) {
+                binding.activityDateTueTextview.setTextColor(getGrayColor())
+                binding.activityDateTueTextview.background = getDisabledBackground()
+            }
+            if (!disponibilidad_miercoles) {
+                binding.activityDateWedTextview.setTextColor(getGrayColor())
+                binding.activityDateWedTextview.background = getDisabledBackground()
+            }
+            if (!disponibilidad_jueves) {
+                binding.activityDateThuTextview.setTextColor(getGrayColor())
+                binding.activityDateThuTextview.background = getDisabledBackground()
+            }
+            if (!disponibilidad_viernes) {
+                binding.activityDateFriTextview.setTextColor(getGrayColor())
+                binding.activityDateFriTextview.background = getDisabledBackground()
+            }
+            if (!disponibilidad_sabado) {
+                binding.activityDateSatTextview.setTextColor(getGrayColor())
+                binding.activityDateSatTextview.background = getDisabledBackground()
+            }
+            if (!disponibilidad_domingo) {
+                binding.activityDateSunTextview.setTextColor(getGrayColor())
+                binding.activityDateSunTextview.background = getDisabledBackground()
+            }
+            // shifts
+            if (!disponibilidad_manana) {
+                binding.activityDateMorningTextview.setTextColor(getGrayColor())
+                binding.activityDateMorningTextview.background = getDisabledBackground()
+            }
+            if (!disponibilidad_tarde) {
+                binding.activityDateAfternoonTextview.setTextColor(getGrayColor())
+                binding.activityDateAfternoonTextview.background = getDisabledBackground()
+            }
+            if (!disponibilidad_noche) {
+                binding.activityDateNightTextview.setTextColor(getGrayColor())
+                binding.activityDateNightTextview.background = getDisabledBackground()
+            }
+        }
+    }
+
+    private fun getGrayColor() = Color.parseColor("#BDBDBD")
+
+    private fun getDisabledBackground() = getDrawable(context!!, R.drawable.shape_oval_disabled)
 
     private fun requestPermission() {
         requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 101)
@@ -185,7 +242,7 @@ class ActivityDetailsFragment : Fragment() {
         )
         shareIntent.type = "*/*"
         shareIntent.putExtra(Intent.EXTRA_STREAM, imgBitmapUri)
-        ContextCompat.startActivity(context!!, Intent.createChooser(shareIntent, "send"), null)
+        startActivity(context!!, Intent.createChooser(shareIntent, "send"), null)
     }
 
     private fun setBarTitle() {
