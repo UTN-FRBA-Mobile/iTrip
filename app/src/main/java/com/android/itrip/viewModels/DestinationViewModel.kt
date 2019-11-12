@@ -1,11 +1,11 @@
 package com.android.itrip.viewModels
 
 import android.app.Application
+import android.content.Context
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.android.itrip.database.Destination
-import com.android.itrip.database.DestinationDatabaseDao
+import com.android.itrip.database.ActividadCategoriaDatabase
 import com.android.itrip.models.*
 import com.android.itrip.services.ApiError
 import com.android.itrip.services.ConnectionService
@@ -16,7 +16,7 @@ import java.util.logging.Logger
 
 
 class DestinationViewModel(
-    val database: DestinationDatabaseDao,
+    val database: ActividadCategoriaDatabase,
     application: Application,
     viaje: Viaje?
 ) : AndroidViewModel(application) {
@@ -24,7 +24,7 @@ class DestinationViewModel(
     private val logger = Logger.getLogger(this::class.java.name)
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-    val destinations: LiveData<List<Destination>>
+    val ciudades: LiveData<List<Ciudad>>
     var ciudadAVisitar: CiudadAVisitar = CiudadAVisitar(
         id = 0,
         inicio = viaje?.inicio ?: Calendar.getInstance(),
@@ -34,7 +34,7 @@ class DestinationViewModel(
     )
 
     init {
-        if (ConnectionService.isNetworkConnected(application.applicationContext) && ConnectionService.isInternetAvailable()) {
+        if (ConnectionService.isNetworkConnected(application.applicationContext)) {
             TravelService.getDestinations({ continentes ->
                 getDestinationsCallback(continentes)
             }, { error ->
@@ -46,7 +46,7 @@ class DestinationViewModel(
 
             })
         }
-        destinations = database.getAll()
+        ciudades = database.ciudadDatabaseDao.getAll()
     }
 
     override fun onCleared() {
@@ -68,41 +68,38 @@ class DestinationViewModel(
             continentes.forEach {
                 it.paises.forEach { pais ->
                     pais.ciudades.forEach { ciudad ->
-                        insert(
-                            Destination(
-                                destinationId = ciudad.id,
-                                name = ciudad.nombre,
-                                picture = ciudad.imagen
-                            )
-                        )
+                        insert(ciudad)
                     }
                 }
             }
         }
     }
 
-    private suspend fun insert(destination: Destination) {
+    private suspend fun insert(ciudad: Ciudad) {
         withContext(Dispatchers.IO) {
-            database.insert(destination)
+            database.ciudadDatabaseDao.insert(ciudad)
+        }
+    }
+
+    private suspend fun insert(actividades: List<Actividad>) {
+        withContext(Dispatchers.IO) {
+            database.activityDatabaseDao.insert(actividades)
         }
     }
 
     private suspend fun clear() {
         withContext(Dispatchers.IO) {
-            database.clear()
+            database.clearAllTables()
         }
     }
 
     fun addDestination(
         viaje: Viaje,
-        destination: Destination,
+        ciudad: Ciudad,
         callback: (CiudadAVisitar) -> Unit,
         callbackError: () -> Unit
     ) {
-        ciudadAVisitar.detalle_ciudad = Ciudad(
-            id = destination.destinationId,
-            nombre = destination.name
-        )
+        ciudadAVisitar.detalle_ciudad = ciudad
         TravelService.postDestination(viaje, ciudadAVisitar, {
             callback(it)
         }, { error ->
@@ -124,11 +121,24 @@ class DestinationViewModel(
     }
 
     fun getActivities(
-        destination: Destination,
+        ciudad: Ciudad,
+        context: Context,
         successCallback: (List<Actividad>) -> Unit,
         failureCallback: (ApiError) -> Unit
     ) {
-        TravelService.getActivities(destination, successCallback, failureCallback)
+        if (ConnectionService.isNetworkConnected(context)) {
+            TravelService.getActivities(ciudad, {
+                it.forEach { actividad ->
+                    actividad.ciudad = ciudad.id
+                }
+                uiScope.launch { insert(it) }
+                successCallback(it)
+            }, failureCallback)
+        } else {
+            successCallback(database.activityDatabaseDao.getActivitiesOfCity(ciudad.id))
+//            successCallback(asd)
+        }
     }
+
 
 }

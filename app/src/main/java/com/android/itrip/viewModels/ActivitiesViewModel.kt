@@ -43,7 +43,6 @@ class ActivitiesViewModel(
 
     private fun getActividadesCallback(actividades: List<Actividad>) {
         uiScope.launch {
-            clear()
             actividades.forEach {
                 insert(it)
             }
@@ -54,18 +53,14 @@ class ActivitiesViewModel(
         withContext(Dispatchers.IO) {
             actividadCategoriaDatabase.apply {
                 activityDatabaseDao.insert(actividad)
-                logger.info("Actividad: " + actividad.nombre)
                 actividad.categorias.forEach {
                     categoryDatabaseDao.insert(it)
-                    logger.info("Categoria: " + it.nombre)
                     actividadCategoriaDatabaseDao.insert(
                         ActividadCategoria(
                             actividadId = actividad.id,
                             categoriaId = it.id
                         )
                     )
-                    logger.info("ActividadId: " + actividad.id)
-                    logger.info("CategoriaId: " + it.id)
                 }
             }
         }

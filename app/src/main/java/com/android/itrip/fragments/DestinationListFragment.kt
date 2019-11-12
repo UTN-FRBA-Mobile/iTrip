@@ -14,11 +14,10 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.itrip.*
 import com.android.itrip.adapters.DestinationAdapter
-import com.android.itrip.database.Destination
-import com.android.itrip.database.DestinationDatabase
 import com.android.itrip.databinding.FragmentDestinationListBinding
 import com.android.itrip.dialogs.DestinationDialog
 import com.android.itrip.models.Actividad
+import com.android.itrip.models.Ciudad
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.models.Viaje
 import com.android.itrip.viewModels.DestinationViewModel
@@ -50,7 +49,6 @@ class DestinationListFragment : Fragment() {
     private fun loadViewModel() {
         val application = requireNotNull(this.activity).application
         val viewModelFactory = DestinationViewModelFactory(
-            DestinationDatabase.getInstance(application).destinationDatabaseDao,
             application,
             viaje
         )
@@ -81,8 +79,8 @@ class DestinationListFragment : Fragment() {
         }
     }
 
-    private fun viewActivities(destination: Destination) {
-        destinationsViewModel.getActivities(destination, { goToActivities(it) }, {})
+    private fun viewActivities(ciudad: Ciudad) {
+        destinationsViewModel.getActivities(ciudad, context!!, { goToActivities(it) }, {})
     }
 
     private fun goToActivities(actividades: List<Actividad>) {
@@ -101,18 +99,18 @@ class DestinationListFragment : Fragment() {
             )
     }
 
-    private fun showDestinationDialog(destination: Destination) {
+    private fun showDestinationDialog(ciudad: Ciudad) {
         DestinationDialog(this, viaje, destinationsViewModel) {
-            destinationAdded(destination)
+            destinationAdded(ciudad)
         }
     }
 
-    private fun destinationAdded(destination: Destination) {
+    private fun destinationAdded(ciudad: Ciudad) {
         val spinner = binding.progressbarDestinationListSpinner.apply {
             AppWindowManager.disableScreen(activity!!)
             visibility = View.VISIBLE
         }
-        destinationsViewModel.addDestination(viaje, destination, {
+        destinationsViewModel.addDestination(viaje, ciudad, {
             AppWindowManager.enableScreen(activity!!)
             spinner.visibility = View.GONE
             goToTrip(it)
