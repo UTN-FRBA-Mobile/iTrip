@@ -10,12 +10,11 @@
             type="com.android.itrip.database.Destination" />
     </data>
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.cardview.widget.CardView
         style="@style/Widget.MaterialComponents.CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:elevation="20dp"
+        android:layout_marginTop="10dp"
         app:cardCornerRadius="20dp">
 
         <RelativeLayout
@@ -79,8 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-                    android:drawableTint="@color/colorPrimary"
+                    android:drawableEnd="@drawable/ic_chevron_right_blue_24dp"
                     android:paddingEnd="5dp"
                     android:text="@string/destination_creation_actividades"
                     android:textColor="@color/colorPrimary" />
@@ -89,6 +87,6 @@
 
         </RelativeLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.cardview.widget.CardView>
 
 </layout>
