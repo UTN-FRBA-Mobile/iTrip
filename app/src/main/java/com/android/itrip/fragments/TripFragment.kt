@@ -82,8 +82,7 @@ class TripFragment : Fragment() {
         } else {
             tripAdapter = TripAdapter(ciudadesAVisitar) { viewCityToVisit(it) }
             binding.recyclerviewDestinations.apply {
-                layoutManager =
-                    LinearLayoutManager(requireNotNull(this@TripFragment.activity).application)
+                layoutManager = LinearLayoutManager(context)
                 adapter = tripAdapter
                 setUpItemTouchHelper(this)
             }
