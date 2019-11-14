@@ -4,68 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.android.android.fragments.ActivitiesListFragment">
 
-    <data>
-
-        <import type="java.util.List" />
-
-        <variable
-            name="activitiesViewModel"
-            type="com.android.itrip.viewModels.ActivitiesViewModel" />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:id="@+id/activities_list_constraintlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWhiteSmoke">
 
-
-        <SearchView
-            android:id="@+id/simpleSearchView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="Search"
-            android:label="@string/app_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:text='@{"Resultados: " + activitiesViewModel.actividades.size}'
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/simpleSearchView" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/my_recycler_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:scrollbars="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
             tools:listitem="@layout/activities_item" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/mapsActivity_floatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:contentDescription="Mapa Actividades"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_pin_drop_white_30dp" />
+    </RelativeLayout>
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

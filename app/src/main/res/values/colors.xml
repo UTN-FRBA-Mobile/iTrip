@@ -6,7 +6,7 @@
     <color name="colorWhite">#fff</color>
     <color name="colorWhiteSmoke">#f5f5f5</color>
     <color name="colorGray">#AAAAAA</color>
+    <color name="colorDarkGray">#505050</color>
     <color name="colorGrayBackground">#EEEEEE</color>
     <color name="colorPlaceholder">#636c72</color>
-    <color name="colorDarkGreen">#439775</color>
 </resources>

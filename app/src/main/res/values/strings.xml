@@ -14,6 +14,9 @@
     <string name="drawer_menu_preferences">Preferencias</string>
     <string name="drawer_menu_logout">Salir</string>
 
+    <!--Search-->
+    <string name="search_toolbar_title">Buscá tu actividad</string>
+
     <!--Quiz-->
     <string name="quiz_info_title">Completá el cuestionario</string>
     <string name="quiz_info_title_update_preferences">Actualizá tus datos</string>
@@ -82,7 +85,7 @@
     <string name="destinations_no_destinations_secondline">Empieza creando uno clickeando en el \'+\'.</string>
 
     <!--Activity details-->
-    <string name="activity_details_cost_dollar">US$ %1$d ·\u0020</string>
+    <string name="activity_details_cost_dollar">USD %1$d ·\u0020</string>
     <string name="activity_details_cost_pesos">ARS %1$d ·\u0020</string>
     <string name="activity_details_cost_free">Sin costo ·\u0020</string>
     <string name="activity_details_availability">Disponibilidad</string>

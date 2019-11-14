@@ -2,10 +2,8 @@ package com.android.itrip.fragments
 
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.SearchView
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -16,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.itrip.ActivitiesActivity
 import com.android.itrip.R
 import com.android.itrip.adapters.ActivitiesAdapter
-import com.android.itrip.database.ActividadCategoriaDatabase
 import com.android.itrip.databinding.FragmentActivitiesListBinding
 import com.android.itrip.models.Actividad
 import com.android.itrip.viewModels.ActivitiesViewModel
@@ -27,6 +24,7 @@ import kotlinx.android.synthetic.main.app_bar.view.*
 
 class ActivitiesListFragment : Fragment() {
 
+    private lateinit var binding: FragmentActivitiesListBinding
     private lateinit var activitiesViewModel: ActivitiesViewModel
     private var actividades: List<Actividad> = emptyList()
     private var action: Int = 0
@@ -35,7 +33,9 @@ class ActivitiesListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentActivitiesListBinding = DataBindingUtil.inflate(
+        setHasOptionsMenu(true) // indicates that fragment has menu (for search view)
+        setBarTitle()
+        binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_activities_list, container, false
         )
         @Suppress("UNCHECKED_CAST")
@@ -51,18 +51,6 @@ class ActivitiesListFragment : Fragment() {
             ViewModelProviders.of(
                 this, viewModelFactory
             ).get(ActivitiesViewModel::class.java)
-        binding.activitiesViewModel = activitiesViewModel
-        binding.simpleSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                activitiesViewModel.updateResults(query!!)
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                activitiesViewModel.updateResults(newText)
-                return true
-            }
-        })
         binding.myRecyclerView.apply {
             layoutManager = LinearLayoutManager(application)
             adapter = ActivitiesAdapter(activitiesViewModel.actividades) { actividadDetails(it) }
@@ -77,7 +65,6 @@ class ActivitiesListFragment : Fragment() {
             )
         }
         binding.lifecycleOwner = this
-        setBarTitle()
         return binding.root
     }
 
@@ -88,10 +75,9 @@ class ActivitiesListFragment : Fragment() {
         )
         findNavController()
             .navigate(
-                ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailsFragment().actionId
-                , bundle
+                ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailsFragment().actionId,
+                bundle
             )
-
     }
 
     private fun setBarTitle() {
@@ -100,6 +86,25 @@ class ActivitiesListFragment : Fragment() {
             // show toolbar shadow
             app_bar_activities.view_toolbar_shadow.visibility = View.VISIBLE
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        // inflate search view in toolbar
+        inflater.inflate(R.menu.search_menu, menu)
+        val searchView = menu.findItem(R.id.searchActivity).actionView as SearchView
+        // add search listener
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                activitiesViewModel.updateResults(query!!)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                activitiesViewModel.updateResults(newText)
+                return true
+            }
+        })
     }
 
 }
