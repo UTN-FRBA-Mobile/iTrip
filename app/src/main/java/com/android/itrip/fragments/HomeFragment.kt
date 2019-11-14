@@ -66,21 +66,24 @@ class HomeFragment : Fragment() {
     private fun loadViewModel() {
         // set a spinner when travels are being loaded
         val spinner = binding.progressbarTravelsListSpinner.apply {
-            AppWindowManager.disableScreen(activity!!)
+            activity?.let { _activity -> AppWindowManager.disableScreen(_activity) }
             visibility = VISIBLE
         }
         homeViewModel = HomeViewModel({
             getTravelsSuccess(it)
             spinner.visibility = GONE
-            AppWindowManager.enableScreen(activity!!)
+            activity?.let { _activity -> AppWindowManager.enableScreen(_activity) }
         }, {
             getTravelsFailure(it)
-            AppWindowManager.enableScreen(activity!!)
+            activity?.let { _activity -> AppWindowManager.enableScreen(_activity) }
         })
     }
 
     private fun deleteTravel(travel: Viaje) {
-        homeViewModel.deleteTravel(travel, { deleteTravelSuccess(travel) }, { deleteTravelFailure(it) })
+        homeViewModel.deleteTravel(
+            travel,
+            { deleteTravelSuccess(travel) },
+            { deleteTravelFailure(it) })
     }
 
     private fun deleteTravelFailure(error: ApiError) {
