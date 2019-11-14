@@ -28,8 +28,8 @@
                 android:id="@+id/viajeNombre_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textAlignment="center"
                 android:text="@{viaje.nombre}"
+                android:textAlignment="center"
                 android:textColor="@color/colorWhite"
                 android:textSize="30sp" />
 
@@ -55,11 +55,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:background="@color/colorWhiteSmoke"
-            android:padding="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/viajeTitle_ConstraintLayout">
-
 
             <ProgressBar
                 android:id="@+id/progressbar_destinations_list_spinner"
@@ -104,6 +102,9 @@
                 android:id="@+id/recyclerview_destinations"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="10dp"
                 tools:listitem="@layout/citytovisit_item" />
 
         </RelativeLayout>
@@ -112,13 +113,12 @@
             android:id="@+id/floatingactionbutton_destinations_creation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="23dp"
-            android:layout_marginBottom="23dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_add_black_24dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
