@@ -79,6 +79,12 @@
     <string name="destination_creation_dialog_create">Agregar</string>
     <string name="destination_creation_dialog_field_error">Completa este dato</string>
 
+    <!--Destination Creation - Progress Bar-->
+    <string name="progressbar_start">Estamos preparando tu viaje…</string>
+    <string name="progressbar_during">Ya casi estamos</string>
+    <string name="progressbar_done">¡Listo!</string>
+    <string name="progressbar_failure">Hubo un problema, no pudimos crear tu viaje pero no te hagás problema podés volver a intentarlo.</string>
+
     <!--My Destinations-->
     <string name="destinations_title">Mis Destinos</string>
     <string name="destinations_no_destinations">Todavía no agregaste destinos a tu viaje. Empezá creando uno clickeando en el \'+\'</string>

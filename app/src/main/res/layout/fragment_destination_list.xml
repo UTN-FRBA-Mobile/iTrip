@@ -4,6 +4,7 @@
     tools:context="com.android.android.fragments.DestinationListFragment">
 
     <RelativeLayout
+        android:id="@+id/relativelayout_destinations_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
