@@ -81,8 +81,7 @@
 
     <!--My Destinations-->
     <string name="destinations_title">Mis Destinos</string>
-    <string name="destinations_no_destinations_firstline">Todavía no agregaste destinos a tu viaje.</string>
-    <string name="destinations_no_destinations_secondline">Empieza creando uno clickeando en el \'+\'.</string>
+    <string name="destinations_no_destinations">Todavía no agregaste destinos a tu viaje. Empezá creando uno clickeando en el \'+\'</string>
 
     <!--Activity details-->
     <string name="activity_details_cost_dollar">USD %1$d ·\u0020</string>
