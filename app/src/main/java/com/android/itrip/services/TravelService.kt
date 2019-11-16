@@ -107,7 +107,7 @@ object TravelService : Service() {
         ApiService.post("viajes/${viaje.id}/add_destination/", json, {
             val data = gson.fromJson(it.toString(), CiudadAVisitarCreator::class.java)
             responseHandler(data.ciudadAVisitar())
-        }, errorHandler, initialTimeoutMs = 20000, retries = 0)
+        }, errorHandler, initialTimeoutMs = 25000, retries = 0)
     }
 
     fun get_CityToVisit(
