@@ -9,6 +9,7 @@ import com.android.itrip.database.ActividadCategoriaDatabase
 import com.android.itrip.models.*
 import com.android.itrip.services.ApiError
 import com.android.itrip.services.ConnectionService
+import com.android.itrip.services.DatabaseService
 import com.android.itrip.services.TravelService
 import kotlinx.coroutines.*
 import java.util.*
@@ -16,7 +17,8 @@ import java.util.logging.Logger
 
 
 class DestinationViewModel(
-    val database: ActividadCategoriaDatabase,
+    private val databaseService: DatabaseService,
+    val database: DestinationDatabaseDao,
     application: Application,
     viaje: Viaje?
 ) : AndroidViewModel(application) {
@@ -101,6 +103,7 @@ class DestinationViewModel(
     ) {
         ciudadAVisitar.detalle_ciudad = ciudad
         TravelService.postDestination(viaje, ciudadAVisitar, {
+            databaseService.insertActividades(it.actividades_a_realizar.map { it.detalle_actividad },it.detalle_ciudad)
             callback(it)
         }, { error ->
             val message = if (error.statusCode == 400) {

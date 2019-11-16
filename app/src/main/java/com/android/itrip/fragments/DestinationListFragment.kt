@@ -1,11 +1,16 @@
 package com.android.itrip.fragments
 
 
+import android.animation.ObjectAnimator.ofInt
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.LinearInterpolator
+import androidx.core.animation.doOnEnd
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -20,10 +25,14 @@ import com.android.itrip.models.Actividad
 import com.android.itrip.models.Ciudad
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.models.Viaje
+import com.android.itrip.services.DatabaseService
 import com.android.itrip.viewModels.DestinationViewModel
 import com.android.itrip.viewModels.DestinationViewModelFactory
+import com.transitionseverywhere.ChangeText
+import com.transitionseverywhere.TransitionManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.view.*
+import kotlinx.android.synthetic.main.progressbar_destination_creation.view.*
 
 class DestinationListFragment : Fragment() {
 
@@ -49,6 +58,8 @@ class DestinationListFragment : Fragment() {
     private fun loadViewModel() {
         val application = requireNotNull(this.activity).application
         val viewModelFactory = DestinationViewModelFactory(
+            DatabaseService(requireContext()),
+            DestinationDatabase.getInstance(application).destinationDatabaseDao,
             application,
             viaje
         )
@@ -83,10 +94,15 @@ class DestinationListFragment : Fragment() {
         destinationsViewModel.getActivities(ciudad, context!!, { goToActivities(it) }, {})
     }
 
-    private fun goToActivities(actividades: List<Actividad>) {
+    private fun goToActivities(actividades: List<Actividad>, ciudad: Ciudad) {
         val intent = Intent(context, ActivitiesActivity::class.java).apply {
             putExtra("action", RequestCodes.VIEW_ACTIVITY_LIST_CODE)
-            putExtras(bundleOf("actividades" to actividades))
+            putExtras(
+                bundleOf(
+                    "actividades" to actividades,
+                    "ciudad" to ciudad
+                )
+            )
         }
         startActivity(intent)
     }
@@ -105,19 +121,69 @@ class DestinationListFragment : Fragment() {
         }
     }
 
-    private fun destinationAdded(ciudad: Ciudad) {
-        val spinner = binding.progressbarDestinationListSpinner.apply {
-            AppWindowManager.disableScreen(activity!!)
-            visibility = View.VISIBLE
+        // disable screen to prevent unwanted clicks
+        AppWindowManager.disableScreen(activity!!)
+        // inflate new view to show the destination creation progress
+        val viewProgress = inflateProgress()
+        val container = viewProgress.transition as ViewGroup
+        val progressBar = viewProgress.progressbar_destination_creation
+        val progressText = viewProgress.textview_progress
+        var showDuringText = true
+        // set up progress objects (main and secondary)
+        val progress = ofInt(progressBar, "progress", 0, 100).apply {
+            duration = 20000 // the same value as the request timeout
+            interpolator = AccelerateInterpolator()
+            start()
+    private fun destinationAdded(destination: Destination) {
         }
-        destinationsViewModel.addDestination(viaje, ciudad, {
-            AppWindowManager.enableScreen(activity!!)
-            spinner.visibility = View.GONE
-            goToTrip(it)
+        val secondaryProgress = ofInt(progressBar, "secondaryProgress", 0, 100).apply {
+            duration = 5000 // minimum wait time
+            interpolator = LinearInterpolator()
+            doOnEnd {
+                // changing text with animation
+                if (showDuringText) {
+                    TransitionManager.beginDelayedTransition(
+                        container,
+                        ChangeText().setChangeBehavior(ChangeText.CHANGE_BEHAVIOR_OUT_IN)
+                    )
+                    progressText.text = getString(R.string.progressbar_during)
+                }
+            }
+            start()
+        }
+        // call "addDestinations"
+        destinationsViewModel.addDestination(viaje, destination, {
+            // if request finishes before max duration be reached then it ends the progress
+            showDuringText = false
+            progress.end()
+            secondaryProgress.end()
+            Handler().postDelayed({
+                // show congrats with animation
+                TransitionManager.beginDelayedTransition(
+                    container,
+                    ChangeText().setChangeBehavior(ChangeText.CHANGE_BEHAVIOR_OUT_IN)
+                )
+                progressText.text = getString(R.string.progressbar_done)
+                // enable screen after processing
+                AppWindowManager.enableScreen(activity!!)
+                // after 1 sec of delay go to destination schedule view
+                Handler().postDelayed({ goToTrip(it) }, 1500)
+            }, 1000)
         }, {
+            progressText.text = getString(R.string.progressbar_failure)
+            progressBar.visibility = View.GONE
+            // enable screen even if request fails
             AppWindowManager.enableScreen(activity!!)
-            spinner.visibility = View.GONE
         })
+    }
+
+    private fun inflateProgress(): ViewGroup {
+        val root = binding.relativelayoutDestinationsList as ViewGroup
+        root.removeAllViews()
+        val progressView =
+            layoutInflater.inflate(R.layout.progressbar_destination_creation, root, false)
+        root.addView(progressView)
+        return root
     }
 
 }

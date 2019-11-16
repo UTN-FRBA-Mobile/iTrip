@@ -75,7 +75,6 @@ class TripAdapter(
             ciudadAVisitar.detalle_ciudad?.imagen?.let {
                 Picasso.get()
                     .load(it)
-                    .placeholder(R.drawable.logo)
                     .error(R.drawable.logo)
                     .fit()
                     .into(binding.travelImg)

@@ -4,6 +4,7 @@
     tools:context="com.android.android.fragments.DestinationListFragment">
 
     <RelativeLayout
+        android:id="@+id/relativelayout_destinations_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -21,9 +22,9 @@
             android:id="@+id/recyclerview_destination_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingHorizontal="5dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
             android:paddingBottom="10dp"
-            android:scrollbars="vertical"
             tools:listitem="@layout/destination_item" />
 
     </RelativeLayout>

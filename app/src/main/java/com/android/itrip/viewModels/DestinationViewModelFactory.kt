@@ -5,8 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.android.itrip.database.ActividadCategoriaDatabase
 import com.android.itrip.models.Viaje
+import com.android.itrip.services.DatabaseService
 
 class DestinationViewModelFactory(
+    private val databaseService: DatabaseService,
+    private val dataSource: DestinationDatabaseDao,
     private val application: Application,
     private val viaje: Viaje?
 ) : ViewModelProvider.Factory {

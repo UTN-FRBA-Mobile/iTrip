@@ -20,9 +20,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_activities.*
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.view.*
-import java.util.logging.Logger
 
 
 class MapsFragment : Fragment(), OnInfoWindowClickListener, OnMapReadyCallback {
@@ -37,7 +35,7 @@ class MapsFragment : Fragment(), OnInfoWindowClickListener, OnMapReadyCallback {
     ): View? {
         super.onCreate(savedInstanceState)
         getTheArguments()
-        setBarTitle("Mapa")
+        setBarTitle()
         val view = inflater.inflate(R.layout.fragment_maps, container, false)
         (childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment).getMapAsync(this)
         return view
@@ -93,9 +91,13 @@ class MapsFragment : Fragment(), OnInfoWindowClickListener, OnMapReadyCallback {
         }
     }
 
-    private fun setBarTitle(title: String) {
-        with(activity as ActivitiesActivity){
-            setActionBarTitle(title)
+    private fun setBarTitle() {
+        with(activity as ActivitiesActivity) {
+            if (actividades != null) {
+                setActionBarTitle("Mapa") // only map title
+            } else {
+                setActionBarTitle("Información")
+            }
             // show toolbar shadow
             app_bar_activities.view_toolbar_shadow.visibility = View.VISIBLE
         }

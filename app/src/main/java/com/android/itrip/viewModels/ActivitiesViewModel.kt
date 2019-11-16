@@ -1,29 +1,21 @@
 package com.android.itrip.viewModels
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import com.android.itrip.database.ActividadCategoriaDatabase
+import androidx.lifecycle.ViewModel
 import com.android.itrip.models.Actividad
-import com.android.itrip.models.ActividadCategoria
 import com.android.itrip.models.Categoria
-import kotlinx.coroutines.*
-import java.util.logging.Logger
+import com.android.itrip.models.Ciudad
+import com.android.itrip.services.DatabaseService
 
 
 class ActivitiesViewModel(
+    private val databaseService: DatabaseService,
+    private val ciudad: Ciudad?,
     _actividades: List<Actividad>?,
-    private val actividadCategoriaDatabase: ActividadCategoriaDatabase,
-    application: Application,
     __actividad: Actividad?
-) : AndroidViewModel(application) {
-
-    private val logger = Logger.getLogger(this::class.java.name)
-
-    private var viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+) : ViewModel() {
     val actividades: LiveData<List<Actividad>>
     val categorias: LiveData<List<Categoria>>
     private var _actividad = MutableLiveData<Actividad>()
@@ -36,44 +28,14 @@ class ActivitiesViewModel(
     init {
         _actividades?.let { getActividadesCallback(_actividades) }
         _actividad.value = __actividad
+        categorias =
+            Transformations.switchMap(actividad) { databaseService.getCategoriasOfActivity(it) }
         _query.value = ""
-        categorias = Transformations.switchMap(actividad) { getCategorias(it) }
         actividades = Transformations.switchMap(query) { updateLiveData(it) }
     }
 
     private fun getActividadesCallback(actividades: List<Actividad>) {
-        uiScope.launch {
-            actividades.forEach {
-                insert(it)
-            }
-        }
-    }
-
-    private suspend fun insert(actividad: Actividad) {
-        withContext(Dispatchers.IO) {
-            actividadCategoriaDatabase.apply {
-                activityDatabaseDao.insert(actividad)
-                actividad.categorias.forEach {
-                    categoryDatabaseDao.insert(it)
-                    actividadCategoriaDatabaseDao.insert(
-                        ActividadCategoria(
-                            actividadId = actividad.id,
-                            categoriaId = it.id
-                        )
-                    )
-                }
-            }
-        }
-    }
-
-    private suspend fun clear() {
-        withContext(Dispatchers.IO) {
-            actividadCategoriaDatabase.apply {
-                actividadCategoriaDatabaseDao.clear()
-                activityDatabaseDao.clear()
-                categoryDatabaseDao.clear()
-            }
-        }
+        databaseService.insertActividades(actividades, ciudad)
     }
 
     fun updateResults(query: String) {
@@ -81,12 +43,7 @@ class ActivitiesViewModel(
     }
 
     private fun updateLiveData(query: String?): LiveData<List<Actividad>>? {
-        return actividadCategoriaDatabase.activityDatabaseDao.getActividadByNombre("$query%")
-    }
-
-    private fun getCategorias(actividad: Actividad?): LiveData<List<Categoria>> {
-        return actividadCategoriaDatabase.actividadCategoriaDatabaseDao
-            .getCategoriasOfActividad(actividad?.id ?: 90L)
+        return databaseService.getActividadByNombre(query, ciudad)
     }
 
     fun listOfCategories(): String? {
@@ -94,6 +51,5 @@ class ActivitiesViewModel(
             ?.map { it.nombre }
             ?.joinToString(", ")
     }
-
 
 }

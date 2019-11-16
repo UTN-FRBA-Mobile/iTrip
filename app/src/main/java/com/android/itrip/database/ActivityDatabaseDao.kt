@@ -10,12 +10,6 @@ interface ActivityDatabaseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(actividad: Actividad)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(actividades: List<Actividad>)
-
-    @Update
-    fun update(actividad: Actividad)
-
     @Query("SELECT * from actividades_table WHERE id = :key")
     fun get(key: Long): Actividad?
 
@@ -25,11 +19,11 @@ interface ActivityDatabaseDao {
     @Query("DELETE FROM actividades_table")
     fun clear()
 
-    @Query("SELECT * FROM actividades_table ORDER BY nombre DESC")
-    fun getAll(): LiveData<List<Actividad>>
-
     @Query("SELECT * FROM actividades_table WHERE nombre LIKE :query ORDER BY nombre ASC")
     fun getActividadByNombre(query: String?): LiveData<List<Actividad>>
+
+    @Query("SELECT * FROM actividades_table WHERE ciudadId = :ciudadId AND nombre LIKE :query ORDER BY nombre ASC")
+    fun getActividadByNombre(query: String?, ciudadId: Long?): LiveData<List<Actividad>>
 
 }
 

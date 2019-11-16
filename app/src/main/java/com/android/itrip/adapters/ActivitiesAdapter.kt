@@ -1,5 +1,6 @@
 package com.android.itrip.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -70,20 +71,23 @@ class ActivitiesAdapter(
             return lifecycleRegistry
         }
 
+        @SuppressLint("SetTextI18n")
         fun bind(
             item: Actividad,
             activityDetailsCallback: (Actividad) -> Unit
         ) {
             binding.apply {
-                actividadModel = item
                 activityConstraintLayout.setOnClickListener { activityDetailsCallback(item) }
                 actividadNameTextView.text = item.nombre
+                activityCostTextview.text =
+                    if (item.costo == 0) "Sin costo" else "USD " + item.costo.toString()
+                activityRatingTextview.text = item.calificacion
                 item.imagen?.let {
                     Picasso.get()
                         .load(it)
-                        .placeholder(R.drawable.logo)
                         .error(R.drawable.logo)
                         .fit()
+                        .centerCrop()
                         .into(activityImageView)
                 }
             }

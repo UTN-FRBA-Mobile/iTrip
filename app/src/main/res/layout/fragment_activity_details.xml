@@ -21,54 +21,125 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#fff"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/activityTitle_textview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{activitiesViewModel.actividad.nombre}"
-                    android:textColor="#000000"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                android:background="@color/colorWhite">
 
                 <ImageView
                     android:id="@+id/activity_img"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activityTitle_textview" />
+                    tools:ignore="ContentDescription"
+                    tools:src="@drawable/logo" />
 
-                <TextView
-                    android:id="@+id/activityDate_textview"
+                <RelativeLayout
+                    android:id="@+id/relativelayout_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/activity_img"
                     android:layout_marginTop="15dp"
-                    android:drawableStart="@drawable/ic_date_range_black_24dp"
-                    android:text="@{Converter.fromModelDaysToStringDays(activitiesViewModel.actividad) + `. ` + Converter.fromModelTimeToStringTime(activitiesViewModel.actividad)}"
-                    android:textColor="@color/colorPlaceholder"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_img" />
+                    android:paddingLeft="18dp"
+                    android:paddingRight="18dp">
+
+                    <TextView
+                        android:id="@+id/activityTitle_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{activitiesViewModel.actividad.nombre}"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="30sp"
+                        tools:text="Lorem Ipsum" />
+
+                    <LinearLayout
+                        android:id="@+id/rating_linearlayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/activityTitle_textview"
+                        android:orientation="horizontal">
+
+                        <RatingBar
+                            android:id="@+id/activityRating_rating"
+                            style="?android:attr/ratingBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:isIndicator="true"
+                            android:numStars="5"
+                            android:rating="@{Converter.fromStringToFloat(activitiesViewModel.actividad.calificacion)}"
+                            android:stepSize="0.1"
+                            android:textColor="@color/colorPlaceholder" />
+
+                        <TextView
+                            android:id="@+id/activityRating_textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp"
+                            tools:text="5.0" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/relativelayout_cost_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/rating_linearlayout"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/activityCost_textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorPlaceholder"
+                            android:textSize="18sp"
+                            tools:text="USD 100 · " />
+
+                        <TextView
+                            android:id="@+id/activitycategories_textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorPlaceholder"
+                            android:textSize="18sp"
+                            tools:text="Lorem Ipsum" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/view_divider_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_below="@+id/relativelayout_cost_category"
+                        android:layout_marginTop="25dp"
+                        android:background="@android:color/darker_gray" />
+
+                    <TextView
+                        android:id="@+id/activity_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view_divider_1"
+                        android:layout_marginTop="15dp"
+                        android:justificationMode="inter_word"
+                        android:scrollbars="vertical"
+                        android:text="@{activitiesViewModel.actividad.descripcion}"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp"
+                        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ullamcorper ante metus, eu mattis arcu semper vel. Aliquam finibus id turpis et pharetra. Suspendisse nibh nibh, tincidunt euismod lectus in, dignissim viverra nisl. Pellentesque tempor eros ipsum, eget condimentum sem aliquet et. " />
+
+                    <View
+                        android:id="@+id/view_divider_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_below="@+id/activity_description"
+                        android:layout_marginTop="15dp"
+                        android:background="@android:color/darker_gray" />
+                </RelativeLayout>
 
                 <FrameLayout
                     android:id="@+id/map_frameLayout"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activityDate_textview">
+                    android:layout_below="@+id/relativelayout_detail"
+                    android:layout_marginTop="15dp">
 
                     <fragment
                         android:id="@+id/map_fragment"
@@ -79,58 +150,218 @@
                         tools:layout="@layout/fragment_maps" />
                 </FrameLayout>
 
-<!--                    android:text="@{`Categorias: ` + Converter.listOfCategories(activitiesViewModel.categorias)}"-->
-                <TextView
-                    android:id="@+id/activitycategories_textview"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPlaceholder"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/map_frameLayout" />
+                <View
+                    android:id="@+id/view_divider_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@+id/map_frameLayout"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="18dp"
+                    android:background="@android:color/darker_gray" />
 
-                <RatingBar
-                    android:id="@+id/activityRating_rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:isIndicator="true"
-                    android:numStars="5"
-                    android:rating="@{Converter.fromStringToFloat(activitiesViewModel.actividad.calificacion)}"
-                    android:stepSize="0.1"
-                    android:textColor="@color/colorPlaceholder"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activitycategories_textview" />
-
-                <TextView
-                    android:id="@+id/activityCost_textview"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@{`Costo $` + activitiesViewModel.actividad.costo*60}"
-                    android:textColor="@color/colorPlaceholder"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activityRating_rating" />
-
-
-                <TextView
-                    android:id="@+id/activity_description"
+                <LinearLayout
+                    android:id="@+id/activityAvailability_linearlayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/view_divider_3"
                     android:layout_margin="12dp"
-                    android:paddingBottom="50dp"
-                    android:scrollbars="vertical"
-                    android:text="@{activitiesViewModel.actividad.descripcion}"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activityCost_textview" />
+                    android:orientation="horizontal">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <ImageView
+                        android:id="@+id/calendar_imageview"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="5dp"
+                        app:srcCompat="@drawable/ic_date_range_black_24dp"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/activityAvailabilityTitle_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity_details_availability"
+                        android:textColor="#000000"
+                        android:textSize="25sp" />
+
+                    <TextView
+                        android:id="@+id/activityAvailabilityDuration_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="15dp"
+                        android:background="@drawable/shape_oval"
+                        android:padding="5dp"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        tools:text="Duracion larga" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/activityDate_linearlayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/activityAvailability_linearlayout"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="70dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="7">
+
+                        <TextView
+                            android:id="@+id/activityDateMon_textview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_oval"
+                            android:text="@string/activity_details_mon_day"
+                            android:textAlignment="center"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/activityDateTue_textview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_oval"
+                            android:text="@string/activity_details_tue_day"
+                            android:textAlignment="center"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/activityDateWed_textview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_oval"
+                            android:text="@string/activity_details_wed_day"
+                            android:textAlignment="center"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/activityDateThu_textview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_oval"
+                            android:text="@string/activity_details_thu_day"
+                            android:textAlignment="center"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/activityDateFri_textview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_oval"
+                            android:text="@string/activity_details_fri_day"
+                            android:textAlignment="center"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/activityDateSat_textview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_oval"
+                            android:text="@string/activity_details_sat_day"
+                            android:textAlignment="center"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/activityDateSun_textview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_oval"
+                            android:text="@string/activity_details_sun_day"
+                            android:textAlignment="center"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:id="@+id/activityDateMorning_textview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_oval"
+                            android:paddingTop="2dp"
+                            android:paddingBottom="2dp"
+                            android:text="@string/activity_details_morning_day"
+                            android:textAlignment="center"
+                            android:textAllCaps="true"
+                            android:textColor="#007bff"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/activityDateAfternoon_textview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_oval"
+                            android:paddingTop="2dp"
+                            android:paddingBottom="2dp"
+                            android:text="@string/activity_details_afternoon_day"
+                            android:textAlignment="center"
+                            android:textAllCaps="true"
+                            android:textColor="#007bff"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/activityDateNight_textview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_oval"
+                            android:paddingTop="2dp"
+                            android:paddingBottom="2dp"
+                            android:text="@string/activity_details_night_day"
+                            android:textAlignment="center"
+                            android:textAllCaps="true"
+                            android:textColor="#007bff"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </RelativeLayout>
 
         </ScrollView>
 
@@ -156,6 +387,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_add_black_24dp" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

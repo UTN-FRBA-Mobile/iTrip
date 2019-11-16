@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/imageview_quiz_end_congrats"
             android:layout_marginTop="30dp"
+            android:justificationMode="inter_word"
             android:text="@string/quiz_end_description"
             android:textSize="18sp" />
 

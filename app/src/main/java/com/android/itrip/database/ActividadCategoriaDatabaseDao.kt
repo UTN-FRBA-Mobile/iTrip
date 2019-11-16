@@ -18,7 +18,7 @@ interface ActividadCategoriaDatabaseDao {
         actividadCategoriaJoin_table.actividadId = :actividadId
         """
     )
-    fun getCategoriasOfActividad(actividadId: Long): LiveData<List<Categoria>>
+    fun getCategoriasOfActividad(actividadId: Long): LiveData<List<Categoria>>?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(actividadCategoria: ActividadCategoria)

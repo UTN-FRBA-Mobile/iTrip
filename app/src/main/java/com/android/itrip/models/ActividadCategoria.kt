@@ -2,17 +2,24 @@ package com.android.itrip.models
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.ForeignKey.CASCADE
 
-@Entity(tableName = "actividadCategoriaJoin_table",
+@Entity(
+    tableName = "actividadCategoriaJoin_table",
     primaryKeys = ["actividadId", "categoriaId"],
     foreignKeys = [
-        ForeignKey(entity = Actividad::class,
+        ForeignKey(
+            onDelete = CASCADE, entity = Actividad::class,
             parentColumns = ["id"],
-            childColumns = ["actividadId"]),
-        ForeignKey(entity = Categoria::class,
+            childColumns = ["actividadId"]
+        ),
+        ForeignKey(
+            onDelete = CASCADE, entity = Categoria::class,
             parentColumns = ["id"],
-            childColumns = ["categoriaId"])
-    ])
+            childColumns = ["categoriaId"]
+        )
+    ]
+)
 data class ActividadCategoria(
     val actividadId: Long,
     val categoriaId: Long

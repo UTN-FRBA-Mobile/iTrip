@@ -32,6 +32,7 @@ object AuthenticationService : Service() {
         ApiService.post(url, json, {
             refreshToken = it.getString("refresh")
             accessToken = it.getString("access")
+            logger.info("Access token: "+ accessToken)
             logger.info(accessToken)
             responseHandler()
         }, errorHandler)

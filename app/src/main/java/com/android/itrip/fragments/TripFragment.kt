@@ -27,6 +27,7 @@ import com.android.itrip.adapters.TripAdapter
 import com.android.itrip.databinding.FragmentTripBinding
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.services.ApiError
+import com.android.itrip.services.DatabaseService
 import com.android.itrip.viewModels.TripViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.view.*
@@ -65,11 +66,12 @@ class TripFragment : Fragment() {
                 AppWindowManager.disableScreen(activity!!)
                 visibility = View.VISIBLE
             }
-            tripViewModel = TripViewModel(it) { ciudadesAVisitar ->
-                getDestinations(ciudadesAVisitar)
-                AppWindowManager.enableScreen(activity!!)
-                spinner.visibility = View.GONE
-            }
+            tripViewModel =
+                TripViewModel(DatabaseService(requireContext()), it) { ciudadesAVisitar ->
+                    getDestinations(ciudadesAVisitar)
+                    AppWindowManager.enableScreen(activity!!)
+                    spinner.visibility = View.GONE
+                }
         }
         binding.lifecycleOwner = this
     }
@@ -82,8 +84,7 @@ class TripFragment : Fragment() {
         } else {
             tripAdapter = TripAdapter(ciudadesAVisitar) { viewCityToVisit(it) }
             binding.recyclerviewDestinations.apply {
-                layoutManager =
-                    LinearLayoutManager(requireNotNull(this@TripFragment.activity).application)
+                layoutManager = LinearLayoutManager(context)
                 adapter = tripAdapter
                 setUpItemTouchHelper(this)
             }

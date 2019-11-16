@@ -7,13 +7,14 @@
         android:id="@+id/linearlayout_no_internet_connection"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:visibility="gone">
 
         <ImageView
             android:id="@+id/imageview_no_internet_connection"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:tint="@color/colorPrimary"
             app:srcCompat="@drawable/ic_no_wifi_24dp"
             tools:ignore="ContentDescription" />
@@ -23,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imageview_no_internet_connection"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
             android:text="@string/app_internet_error"
             android:textSize="20sp" />
@@ -33,7 +34,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_below="@+id/textview_no_internet_connection"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:tint="#636c72"
             app:srcCompat="@drawable/ic_refresh_24dp"
