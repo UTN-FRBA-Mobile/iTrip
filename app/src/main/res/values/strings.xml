@@ -22,10 +22,7 @@
     <string name="quiz_info_title_update_preferences">Actualizá tus datos</string>
     <string name="quiz_hobbies_title">¿Cuáles son tus hobbies?</string>
     <string name="quiz_next">Siguiente</string>
-    <string name="quiz_end_description">Gracias por completar el cuestionario, sabemos que fue un poco largo pero eso
-        nos ayuda mucho para poder ofrecerte las mejores oportunidades de viaje y asi puedas construir hermosas
-        experiencias.
-    </string>
+    <string name="quiz_end_description">¡Gracias por completar nuestro cuestionario! La información que nos diste nos va a ayudar para hacerte las mejores recomendaciones.</string>
     <string name="quiz_info_description">Queremos conocerte mejor, por eso te pedimos que completes el siguiente cuestionario.</string>
     <string name="quiz_info_genero">Género</string>
     <string name="quiz_info_otro_genero">Ingresá otro género</string>
