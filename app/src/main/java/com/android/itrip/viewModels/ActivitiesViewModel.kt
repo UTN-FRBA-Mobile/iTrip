@@ -42,12 +42,11 @@ class ActivitiesViewModel(
         _query.value = query
     }
 
-    private fun updateLiveData(query: String?): LiveData<List<Actividad>>? {
-        return MutableLiveData(
-            _actividades?.apply {
-                this.filter { it.nombre.contains("$query", true) }
-            }!!
-        )
+    private fun updateLiveData(query: String): LiveData<List<Actividad>>? {
+        val filteredActivities = _actividades?.filter {
+            it.nombre.contains(query, true)
+        }
+        return MutableLiveData(filteredActivities)
 //        return databaseService.getActividadByNombre(query, ciudad!!)
     }
 
