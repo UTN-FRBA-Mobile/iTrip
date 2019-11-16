@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -9,28 +10,22 @@
             type="com.android.itrip.models.ActividadARealizar" />
     </data>
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/bucket_item_constraintLayout"
         style="@style/Widget.MaterialComponents.CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="20dp"
+        android:layout_marginTop="5dp"
         app:cardCornerRadius="6dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackground"
             android:padding="20dp"
             android:text="@{actividadARealizar.detalle_actividad.nombre}"
             android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit." />
+    </androidx.cardview.widget.CardView>
 
-    </com.google.android.material.card.MaterialCardView>
 </layout>
