@@ -247,7 +247,7 @@ class ActivityDetailsFragment : Fragment() {
 
     private fun setBarTitle() {
         with(activity as ActivitiesActivity) {
-            setActionBarTitle("Actividad")
+            setActionBarTitle("Información")
             // show toolbar shadow
             app_bar_activities.view_toolbar_shadow.visibility = View.VISIBLE
         }
