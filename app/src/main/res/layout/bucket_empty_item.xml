@@ -1,29 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data />
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/bucket_empty_item_materialCardView"
         style="@style/Widget.MaterialComponents.CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="20dp">
+        android:layout_marginTop="5dp"
+        app:cardBackgroundColor="@color/colorPrimary">
 
-            <ImageButton
-                android:id="@+id/bucketEmptyItem_imageButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_add_black_24dp" />
-    </com.google.android.material.card.MaterialCardView>
+        <ImageButton
+            android:id="@+id/bucketEmptyItem_imageButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            app:srcCompat="@drawable/ic_add_black_24dp"
+            tools:ignore="ContentDescription" />
+    </androidx.cardview.widget.CardView>
+
 </layout>
