@@ -86,7 +86,7 @@ object TravelService : Service() {
         errorHandler: (ApiError) -> Unit
     ) {
         logger.info("getActivities.")
-        ApiService.getArray("""destinos/${destination.destinationId}/actividades/""", {
+        ApiService.getArray("""destinos/${destination.id}/actividades/""", {
             val listType = object : TypeToken<List<Actividad>>() {}.type
             val actividades: List<Actividad> = gson.fromJson(it.toString(), listType)
             responseHandler(actividades)

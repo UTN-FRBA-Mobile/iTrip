@@ -46,5 +46,7 @@ data class Actividad(
     @ColumnInfo(name = "latitud")
     var latitud: String = "",
     @ColumnInfo(name = "longitud")
-    var longitud: String = ""
+    var longitud: String = "",
+    @ColumnInfo(name= "ciudadId")
+    var ciudadId: Long = 0L
 ) : Serializable

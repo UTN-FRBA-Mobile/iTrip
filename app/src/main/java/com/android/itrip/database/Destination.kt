@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
+import com.android.itrip.models.Ciudad
 import com.android.itrip.util.Converters
 import java.io.Serializable
 import java.util.*
@@ -11,8 +12,8 @@ import java.util.*
 @TypeConverters(Converters::class)
 @Entity(tableName = "destination_table")
 data class Destination(
-    @PrimaryKey(autoGenerate = true)
-    var destinationId: Long = 0L,
+    @PrimaryKey
+    var id: Long = 0L,
     @ColumnInfo(name = "name")
     val name: String = "",
     @ColumnInfo(name = "latitude")
@@ -25,4 +26,9 @@ data class Destination(
     var endDate: Date? = Date(),
     @ColumnInfo(name = "imagen")
     val picture: String?
-) : Serializable
+) : Serializable {
+
+    fun toCiudad(): Ciudad {
+        return Ciudad(id, name, "", picture ?: "")
+    }
+}

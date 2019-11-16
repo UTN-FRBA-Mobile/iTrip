@@ -10,7 +10,7 @@ data class ActividadARealizar(
     var id: Long = 0L,
     var dia: Calendar,
     var bucket_inicio: Int,
-    var detalle_actividad: Actividad?
+    var detalle_actividad: Actividad
 ) : Serializable
 
 data class ActividadARealizarCreator(

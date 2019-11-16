@@ -9,6 +9,7 @@ import com.android.itrip.database.DestinationDatabaseDao
 import com.android.itrip.models.*
 import com.android.itrip.services.ApiError
 import com.android.itrip.services.ConnectionService
+import com.android.itrip.services.DatabaseService
 import com.android.itrip.services.TravelService
 import kotlinx.coroutines.*
 import java.util.*
@@ -16,6 +17,7 @@ import java.util.logging.Logger
 
 
 class DestinationViewModel(
+    private val databaseService: DatabaseService,
     val database: DestinationDatabaseDao,
     application: Application,
     viaje: Viaje?
@@ -34,7 +36,7 @@ class DestinationViewModel(
     )
 
     init {
-        if (ConnectionService.isNetworkConnected(application.applicationContext) && ConnectionService.isInternetAvailable()) {
+        if (ConnectionService.isNetworkConnected(application.applicationContext)) {
             TravelService.getDestinations({ continentes ->
                 getDestinationsCallback(continentes)
             }, { error ->
@@ -70,7 +72,7 @@ class DestinationViewModel(
                     pais.ciudades.forEach { ciudad ->
                         insert(
                             Destination(
-                                destinationId = ciudad.id,
+                                id = ciudad.id,
                                 name = ciudad.nombre,
                                 picture = ciudad.imagen
                             )
@@ -100,10 +102,11 @@ class DestinationViewModel(
         callbackError: () -> Unit
     ) {
         ciudadAVisitar.detalle_ciudad = Ciudad(
-            id = destination.destinationId,
+            id = destination.id,
             nombre = destination.name
         )
         TravelService.postDestination(viaje, ciudadAVisitar, {
+            databaseService.insertActividades(it.actividades_a_realizar.map { it.detalle_actividad },it.detalle_ciudad)
             callback(it)
         }, { error ->
             val message = if (error.statusCode == 400) {
@@ -128,7 +131,10 @@ class DestinationViewModel(
         successCallback: (List<Actividad>) -> Unit,
         failureCallback: (ApiError) -> Unit
     ) {
-        TravelService.getActivities(destination, successCallback, failureCallback)
+        TravelService.getActivities(destination, {
+            databaseService.insertActividades(it,destination.toCiudad())
+            successCallback(it)
+        }, failureCallback)
     }
 
 }

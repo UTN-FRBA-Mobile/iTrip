@@ -42,6 +42,7 @@
         <service android:name=".services.TravelService" />
         <service android:name=".services.QuizService" />
         <service android:name=".services.ConnectionService" />
+        <service android:name=".services.DatabaseService" />
 
         <activity android:name=".LogInActivity">
             <intent-filter>

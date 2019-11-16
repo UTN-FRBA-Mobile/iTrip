@@ -8,6 +8,7 @@ import com.android.itrip.models.Actividad
 import com.android.itrip.models.ActividadARealizar
 import com.android.itrip.models.Bucket
 import com.android.itrip.models.CiudadAVisitar
+import com.android.itrip.services.DatabaseService
 import com.android.itrip.services.TravelService
 import java.util.*
 
@@ -19,6 +20,7 @@ object CiudadAVisitarObject {
 }
 
 class ScheduleViewModel(
+    private val databaseService: DatabaseService,
     var ciudadAVisitar: CiudadAVisitar
 ) : ViewModel() {
     var actividadesARealizar: LiveData<List<ActividadARealizar>>
@@ -54,7 +56,7 @@ class ScheduleViewModel(
                 if (tempItem != null) {
                     tempItem.apply {
                         bucketsTemp[i] = this
-                        j += this.detalle_actividad!!.duracion
+                        j += this.detalle_actividad.duracion
                         mutableList.remove(this)
                     }
                 } else {
@@ -81,6 +83,7 @@ class ScheduleViewModel(
 
     private fun updateCiudadAVisitar() {
         TravelService.get_CityToVisit(ciudadAVisitar, { ciudadAVisitar: CiudadAVisitar ->
+            databaseService.insertActividades(ciudadAVisitar.actividades_a_realizar.map { it.detalle_actividad },ciudadAVisitar.detalle_ciudad)
             this@ScheduleViewModel.ciudadAVisitar = ciudadAVisitar
             updateDate(CiudadAVisitarObject.date.value!!)
         }, {})
@@ -103,7 +106,10 @@ class ScheduleViewModel(
             actividadARealizar.bucket_inicio
         )
         TravelService.getActivitiesForBucket(bucket,
-            { successCallback(it) },
+            {
+                databaseService.insertActividades(it,ciudadAVisitar.detalle_ciudad)
+                successCallback(it)
+            },
             { failureCallback() })
     }
 

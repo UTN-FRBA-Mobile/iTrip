@@ -24,8 +24,10 @@ import com.android.itrip.database.DestinationDatabase
 import com.android.itrip.databinding.FragmentDestinationListBinding
 import com.android.itrip.dialogs.DestinationDialog
 import com.android.itrip.models.Actividad
+import com.android.itrip.models.Ciudad
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.models.Viaje
+import com.android.itrip.services.DatabaseService
 import com.android.itrip.viewModels.DestinationViewModel
 import com.android.itrip.viewModels.DestinationViewModelFactory
 import com.transitionseverywhere.ChangeText
@@ -58,6 +60,7 @@ class DestinationListFragment : Fragment() {
     private fun loadViewModel() {
         val application = requireNotNull(this.activity).application
         val viewModelFactory = DestinationViewModelFactory(
+            DatabaseService(requireContext()),
             DestinationDatabase.getInstance(application).destinationDatabaseDao,
             application,
             viaje
@@ -90,13 +93,21 @@ class DestinationListFragment : Fragment() {
     }
 
     private fun viewActivities(destination: Destination) {
-        destinationsViewModel.getActivities(destination, { goToActivities(it) }, {})
+        destinationsViewModel.getActivities(
+            destination,
+            { goToActivities(it, destination.toCiudad()) },
+            {})
     }
 
-    private fun goToActivities(actividades: List<Actividad>) {
+    private fun goToActivities(actividades: List<Actividad>, ciudad: Ciudad) {
         val intent = Intent(context, ActivitiesActivity::class.java).apply {
             putExtra("action", RequestCodes.VIEW_ACTIVITY_LIST_CODE)
-            putExtras(bundleOf("actividades" to actividades))
+            putExtras(
+                bundleOf(
+                    "actividades" to actividades,
+                    "ciudad" to ciudad
+                )
+            )
         }
         startActivity(intent)
     }
