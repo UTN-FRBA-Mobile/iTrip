@@ -13,7 +13,7 @@ import com.android.itrip.services.DatabaseService
 class ActivitiesViewModel(
     private val databaseService: DatabaseService,
     private val ciudad: Ciudad?,
-    _actividades: List<Actividad>?,
+    private val _actividades: List<Actividad>?,
     __actividad: Actividad?
 ) : ViewModel() {
     val actividades: LiveData<List<Actividad>>
@@ -43,7 +43,12 @@ class ActivitiesViewModel(
     }
 
     private fun updateLiveData(query: String?): LiveData<List<Actividad>>? {
-        return databaseService.getActividadByNombre(query, ciudad)
+        return MutableLiveData(
+            _actividades?.apply {
+                this.filter { it.nombre.contains("$query", true) }
+            }!!
+        )
+//        return databaseService.getActividadByNombre(query, ciudad!!)
     }
 
     fun listOfCategories(): String? {

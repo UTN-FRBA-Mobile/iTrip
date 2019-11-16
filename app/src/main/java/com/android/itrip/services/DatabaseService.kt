@@ -5,10 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import androidx.lifecycle.LiveData
-import com.android.itrip.database.ActividadCategoriaDatabase
-import com.android.itrip.database.ActividadCategoriaDatabaseDao
-import com.android.itrip.database.ActivityDatabaseDao
-import com.android.itrip.database.CategoryDatabaseDao
+import com.android.itrip.database.*
 import com.android.itrip.models.*
 import kotlinx.coroutines.*
 
@@ -23,6 +20,8 @@ class DatabaseService(context: Context) : Service() {
         get() = actividadCategoriaDatabase.activityDatabaseDao
     private val categoryDatabaseDao: CategoryDatabaseDao
         get() = actividadCategoriaDatabase.categoryDatabaseDao
+    private val ciudadDatabaseDao: CiudadDatabaseDao
+        get() = actividadCategoriaDatabase.ciudadDatabaseDao
 
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -31,7 +30,7 @@ class DatabaseService(context: Context) : Service() {
 
     private suspend fun insertActividad(actividad: Actividad, ciudad: Ciudad?) {
         withContext(Dispatchers.IO) {
-            actividad.ciudadId = ciudad!!.id
+            actividad.ciudad = ciudad!!.id
             activityDatabaseDao.insert(actividad)
             actividad.categorias.forEach {
                 categoryDatabaseDao.insert(it)
@@ -59,19 +58,14 @@ class DatabaseService(context: Context) : Service() {
         }
     }
 
-    fun getActividadByNombre(query: String?, ciudad: Ciudad?): LiveData<List<Actividad>> {
-        return if (ciudad == null) {
-            activityDatabaseDao.getActividadByNombre("%$query%")
-        } else {
-            activityDatabaseDao.getActividadByNombre("%$query%", ciudad.id)
-        }
+    fun getActividadByNombre(query: String?, ciudad: Ciudad): LiveData<List<Actividad>> {
+        return activityDatabaseDao.getActividadByNombre("%$query%", ciudad.id)
+
     }
 
     fun getCategoriasOfActivity(actividad: Actividad?): LiveData<List<Categoria>>? {
         return if (actividad?.id != null)
-            actividadCategoriaDatabaseDao.getCategoriasOfActividad(
-                actividad.id
-            )
+            actividadCategoriaDatabaseDao.getCategoriasOfActividad(actividad.id)
         else null
     }
 
@@ -87,4 +81,21 @@ class DatabaseService(context: Context) : Service() {
             }
         }
     }
+
+    fun getCiudades(): LiveData<List<Ciudad>> {
+        return ciudadDatabaseDao.getAll()
+    }
+
+    fun insert(ciudad: Ciudad) {
+        uiScope.launch {
+            withContext(Dispatchers.IO) {
+                ciudadDatabaseDao.insert(ciudad)
+            }
+        }
+    }
+
+    fun getActivitiesOfCity(ciudad: Ciudad): List<Actividad> {
+        return activityDatabaseDao.getActivitiesOfCity(ciudad.id)
+    }
+
 }

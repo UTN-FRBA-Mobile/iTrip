@@ -19,14 +19,9 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.itrip.*
 import com.android.itrip.adapters.DestinationAdapter
-import com.android.itrip.database.Destination
-import com.android.itrip.database.DestinationDatabase
 import com.android.itrip.databinding.FragmentDestinationListBinding
 import com.android.itrip.dialogs.DestinationDialog
-import com.android.itrip.models.Actividad
-import com.android.itrip.models.Ciudad
-import com.android.itrip.models.CiudadAVisitar
-import com.android.itrip.models.Viaje
+import com.android.itrip.models.*
 import com.android.itrip.services.DatabaseService
 import com.android.itrip.viewModels.DestinationViewModel
 import com.android.itrip.viewModels.DestinationViewModelFactory
@@ -61,7 +56,6 @@ class DestinationListFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val viewModelFactory = DestinationViewModelFactory(
             DatabaseService(requireContext()),
-            DestinationDatabase.getInstance(application).destinationDatabaseDao,
             application,
             viaje
         )
@@ -92,10 +86,10 @@ class DestinationListFragment : Fragment() {
         }
     }
 
-    private fun viewActivities(destination: Destination) {
+    private fun viewActivities(ciudad: Ciudad) {
         destinationsViewModel.getActivities(
-            destination,
-            { goToActivities(it, destination.toCiudad()) },
+            ciudad, requireContext(),
+            { goToActivities(it, ciudad) },
             {})
     }
 
@@ -120,13 +114,13 @@ class DestinationListFragment : Fragment() {
             )
     }
 
-    private fun showDestinationDialog(destination: Destination) {
+    private fun showDestinationDialog(ciudad: Ciudad) {
         DestinationDialog(this, viaje, destinationsViewModel) {
-            destinationAdded(destination)
+            destinationAdded(ciudad)
         }
     }
 
-    private fun destinationAdded(destination: Destination) {
+    private fun destinationAdded(ciudad: Ciudad) {
         // disable screen to prevent unwanted clicks
         AppWindowManager.disableScreen(activity!!)
         // inflate new view to show the destination creation progress
@@ -157,7 +151,7 @@ class DestinationListFragment : Fragment() {
             start()
         }
         // call "addDestinations"
-        destinationsViewModel.addDestination(viaje, destination, {
+        destinationsViewModel.addDestination(viaje, ciudad, {
             // if request finishes before max duration be reached then it ends the progress
             showDuringText = false
             progress.end()

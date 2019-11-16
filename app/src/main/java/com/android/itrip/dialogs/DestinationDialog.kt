@@ -61,7 +61,7 @@ class DestinationDialog(
                 }
             }
         }
-        binding.imagebuttonDestinationDialogFromDate.setOnClickListener { view ->
+        binding.imagebuttonDestinationDialogFromDate.setOnClickListener {
             showDatePickerDialog(
                 viaje.inicio,
                 binding.textinputlayoutDestinationDialogFromDate.editText
@@ -69,7 +69,7 @@ class DestinationDialog(
                 model.chooseStartDate(calendar)
             }
         }
-        binding.imagebuttonDestinationDialogUntilDate.setOnClickListener { view ->
+        binding.imagebuttonDestinationDialogUntilDate.setOnClickListener {
             showDatePickerDialog(
                 viaje.fin,
                 binding.textinputlayoutDestinationDialogUntilDate.editText
