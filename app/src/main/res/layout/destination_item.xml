@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="destination"
-            type="com.android.itrip.database.Destination" />
+            name="ciudad"
+            type="com.android.itrip.models.Ciudad" />
     </data>
 
     <androidx.cardview.widget.CardView

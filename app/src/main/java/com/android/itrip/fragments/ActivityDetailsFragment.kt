@@ -23,6 +23,7 @@ import com.android.itrip.R
 import com.android.itrip.RequestCodes
 import com.android.itrip.databinding.FragmentActivityDetailsBinding
 import com.android.itrip.models.Actividad
+import com.android.itrip.services.DatabaseService
 import com.android.itrip.viewModels.ActivitiesViewModel
 import com.android.itrip.viewModels.ActivitiesViewModelFactory
 import com.squareup.picasso.Picasso
@@ -62,8 +63,9 @@ class ActivityDetailsFragment : Fragment() {
             ViewModelProviders.of(
                 this,
                 ActivitiesViewModelFactory(
+                    DatabaseService(requireNotNull(context)),
                     null,
-                    activity!!.application,
+                    null,
                     actividad
                 )
             ).get(ActivitiesViewModel::class.java)

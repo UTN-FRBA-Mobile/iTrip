@@ -16,6 +16,8 @@ import com.android.itrip.R
 import com.android.itrip.adapters.ActivitiesAdapter
 import com.android.itrip.databinding.FragmentActivitiesListBinding
 import com.android.itrip.models.Actividad
+import com.android.itrip.models.Ciudad
+import com.android.itrip.services.DatabaseService
 import com.android.itrip.viewModels.ActivitiesViewModel
 import com.android.itrip.viewModels.ActivitiesViewModelFactory
 import kotlinx.android.synthetic.main.activity_activities.*
@@ -43,8 +45,9 @@ class ActivitiesListFragment : Fragment() {
         action = arguments?.getInt("action") ?: 0
         val application = requireNotNull(this.activity).application
         val viewModelFactory = ActivitiesViewModelFactory(
+            DatabaseService(requireContext()),
+            arguments?.get("ciudad") as Ciudad?,
             actividades,
-            application,
             null
         )
         activitiesViewModel =

@@ -3,7 +3,6 @@ package com.android.itrip.services
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import com.android.itrip.database.Destination
 import com.android.itrip.fragments.ViajeData
 import com.android.itrip.models.*
 import com.android.itrip.util.calendarToString
@@ -81,12 +80,12 @@ object TravelService : Service() {
     }
 
     fun getActivities(
-        destination: Destination,
+        ciudad: Ciudad,
         responseHandler: (List<Actividad>) -> Unit,
         errorHandler: (ApiError) -> Unit
     ) {
         logger.info("getActivities.")
-        ApiService.getArray("""destinos/${destination.destinationId}/actividades/""", {
+        ApiService.getArray("""destinos/${ciudad.id}/actividades/""", {
             val listType = object : TypeToken<List<Actividad>>() {}.type
             val actividades: List<Actividad> = gson.fromJson(it.toString(), listType)
             responseHandler(actividades)

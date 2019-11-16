@@ -19,13 +19,10 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.itrip.*
 import com.android.itrip.adapters.DestinationAdapter
-import com.android.itrip.database.Destination
-import com.android.itrip.database.DestinationDatabase
 import com.android.itrip.databinding.FragmentDestinationListBinding
 import com.android.itrip.dialogs.DestinationDialog
-import com.android.itrip.models.Actividad
-import com.android.itrip.models.CiudadAVisitar
-import com.android.itrip.models.Viaje
+import com.android.itrip.models.*
+import com.android.itrip.services.DatabaseService
 import com.android.itrip.viewModels.DestinationViewModel
 import com.android.itrip.viewModels.DestinationViewModelFactory
 import com.transitionseverywhere.ChangeText
@@ -58,7 +55,7 @@ class DestinationListFragment : Fragment() {
     private fun loadViewModel() {
         val application = requireNotNull(this.activity).application
         val viewModelFactory = DestinationViewModelFactory(
-            DestinationDatabase.getInstance(application).destinationDatabaseDao,
+            DatabaseService(requireContext()),
             application,
             viaje
         )
@@ -89,14 +86,22 @@ class DestinationListFragment : Fragment() {
         }
     }
 
-    private fun viewActivities(destination: Destination) {
-        destinationsViewModel.getActivities(destination, { goToActivities(it) }, {})
+    private fun viewActivities(ciudad: Ciudad) {
+        destinationsViewModel.getActivities(
+            ciudad, requireContext(),
+            { goToActivities(it, ciudad) },
+            {})
     }
 
-    private fun goToActivities(actividades: List<Actividad>) {
+    private fun goToActivities(actividades: List<Actividad>, ciudad: Ciudad) {
         val intent = Intent(context, ActivitiesActivity::class.java).apply {
             putExtra("action", RequestCodes.VIEW_ACTIVITY_LIST_CODE)
-            putExtras(bundleOf("actividades" to actividades))
+            putExtras(
+                bundleOf(
+                    "actividades" to actividades,
+                    "ciudad" to ciudad
+                )
+            )
         }
         startActivity(intent)
     }
@@ -109,13 +114,13 @@ class DestinationListFragment : Fragment() {
             )
     }
 
-    private fun showDestinationDialog(destination: Destination) {
+    private fun showDestinationDialog(ciudad: Ciudad) {
         DestinationDialog(this, viaje, destinationsViewModel) {
-            destinationAdded(destination)
+            destinationAdded(ciudad)
         }
     }
 
-    private fun destinationAdded(destination: Destination) {
+    private fun destinationAdded(ciudad: Ciudad) {
         // disable screen to prevent unwanted clicks
         AppWindowManager.disableScreen(activity!!)
         // inflate new view to show the destination creation progress
@@ -146,7 +151,7 @@ class DestinationListFragment : Fragment() {
             start()
         }
         // call "addDestinations"
-        destinationsViewModel.addDestination(viaje, destination, {
+        destinationsViewModel.addDestination(viaje, ciudad, {
             // if request finishes before max duration be reached then it ends the progress
             showDuringText = false
             progress.end()

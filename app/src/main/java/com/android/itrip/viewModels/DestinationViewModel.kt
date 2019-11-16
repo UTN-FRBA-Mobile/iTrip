@@ -1,30 +1,27 @@
 package com.android.itrip.viewModels
 
 import android.app.Application
+import android.content.Context
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.android.itrip.database.Destination
-import com.android.itrip.database.DestinationDatabaseDao
 import com.android.itrip.models.*
 import com.android.itrip.services.ApiError
 import com.android.itrip.services.ConnectionService
+import com.android.itrip.services.DatabaseService
 import com.android.itrip.services.TravelService
-import kotlinx.coroutines.*
 import java.util.*
 import java.util.logging.Logger
 
 
 class DestinationViewModel(
-    val database: DestinationDatabaseDao,
+    private val databaseService: DatabaseService,
     application: Application,
     viaje: Viaje?
 ) : AndroidViewModel(application) {
 
     private val logger = Logger.getLogger(this::class.java.name)
-    private var viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-    val destinations: LiveData<List<Destination>>
+    val ciudades: LiveData<List<Ciudad>>
     var ciudadAVisitar: CiudadAVisitar = CiudadAVisitar(
         id = 0,
         inicio = viaje?.inicio ?: Calendar.getInstance(),
@@ -34,7 +31,7 @@ class DestinationViewModel(
     )
 
     init {
-        if (ConnectionService.isNetworkConnected(application.applicationContext) && ConnectionService.isInternetAvailable()) {
+        if (ConnectionService.isNetworkConnected(application.applicationContext)) {
             TravelService.getDestinations({ continentes ->
                 getDestinationsCallback(continentes)
             }, { error ->
@@ -43,16 +40,11 @@ class DestinationViewModel(
                 Toast
                     .makeText(getApplication(), message, Toast.LENGTH_SHORT)
                     .show()
-
             })
         }
-        destinations = database.getAll()
+        ciudades = databaseService.getCiudades()
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
-    }
 
     fun chooseStartDate(calendar: Calendar) {
         ciudadAVisitar.inicio = calendar
@@ -63,47 +55,27 @@ class DestinationViewModel(
     }
 
     private fun getDestinationsCallback(continentes: List<Continente>) {
-        uiScope.launch {
-            clear()
-            continentes.forEach {
-                it.paises.forEach { pais ->
-                    pais.ciudades.forEach { ciudad ->
-                        insert(
-                            Destination(
-                                destinationId = ciudad.id,
-                                name = ciudad.nombre,
-                                picture = ciudad.imagen
-                            )
-                        )
-                    }
+        continentes.forEach {
+            it.paises.forEach { pais ->
+                pais.ciudades.forEach { ciudad ->
+                    databaseService.insert(ciudad)
                 }
             }
         }
     }
 
-    private suspend fun insert(destination: Destination) {
-        withContext(Dispatchers.IO) {
-            database.insert(destination)
-        }
-    }
-
-    private suspend fun clear() {
-        withContext(Dispatchers.IO) {
-            database.clear()
-        }
-    }
-
     fun addDestination(
         viaje: Viaje,
-        destination: Destination,
+        ciudad: Ciudad,
         callback: (CiudadAVisitar) -> Unit,
         callbackError: () -> Unit
     ) {
-        ciudadAVisitar.detalle_ciudad = Ciudad(
-            id = destination.destinationId,
-            nombre = destination.name
-        )
+        ciudadAVisitar.detalle_ciudad = ciudad
         TravelService.postDestination(viaje, ciudadAVisitar, {
+            databaseService.insertActividades(
+                it.actividades_a_realizar.map { it.detalle_actividad },
+                it.detalle_ciudad
+            )
             callback(it)
         }, { error ->
             val message = if (error.statusCode == 400) {
@@ -124,11 +96,23 @@ class DestinationViewModel(
     }
 
     fun getActivities(
-        destination: Destination,
+        ciudad: Ciudad,
+        context: Context,
         successCallback: (List<Actividad>) -> Unit,
         failureCallback: (ApiError) -> Unit
     ) {
-        TravelService.getActivities(destination, successCallback, failureCallback)
+        if (ConnectionService.isNetworkConnected(context)) {
+            TravelService.getActivities(ciudad, {
+                it.forEach { actividad ->
+                    actividad.ciudad = ciudad.id
+                }
+                databaseService.insertActividades(it, ciudad)
+                successCallback(it)
+            }, failureCallback)
+        } else {
+            successCallback(databaseService.getActivitiesOfCity(ciudad))
+        }
     }
+
 
 }

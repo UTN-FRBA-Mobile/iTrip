@@ -24,6 +24,7 @@ import com.android.itrip.RequestCodes.Companion.VIEW_ACTIVITY_LIST_CODE
 import com.android.itrip.databinding.ActivityActivitiesBinding
 import com.android.itrip.databinding.AppBarHeaderBinding
 import com.android.itrip.models.Actividad
+import com.android.itrip.models.Ciudad
 import com.android.itrip.services.ApiService
 import com.android.itrip.util.CircleTransformation
 import com.google.android.material.navigation.NavigationView
@@ -43,6 +44,7 @@ class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener
     private lateinit var navController: NavController
     private var actividades: List<Actividad>? = emptyList()
     private var actividad: Actividad? = null
+    private var ciudad: Ciudad? = null
     private var action = 0
     private var source: String? = null
 
@@ -64,6 +66,7 @@ class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener
         source = intent.getStringExtra("source")
         action = intent?.extras?.getInt("action") ?: 0
         actividad = intent?.extras?.get("actividad") as Actividad?
+        ciudad = intent.extras?.get("ciudad") as Ciudad?
         @Suppress("UNCHECKED_CAST")
         actividades = intent?.extras?.get("actividades") as List<Actividad>?
     }
@@ -175,14 +178,14 @@ class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener
         lateinit var bundle: Bundle
         when (action) {
             ADD_ACTIVITY_CODE -> {
-                bundle = bundleOf("actividades" to actividades, "action" to action)
+                bundle = bundleOf("actividades" to actividades, "action" to action, "ciudad" to ciudad)
             }
             VIEW_ACTIVITY_DETAILS_CODE -> {
                 navController.graph.startDestination = R.id.activityDetailsFragment
                 bundle = bundleOf("actividad" to actividad, "action" to action)
             }
             VIEW_ACTIVITY_LIST_CODE -> {
-                bundle = bundleOf("actividades" to actividades, "action" to action)
+                bundle = bundleOf("actividades" to actividades, "action" to action, "ciudad" to ciudad)
             }
         }
         navController.setGraph(navController.graph, bundle)

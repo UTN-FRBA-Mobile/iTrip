@@ -31,6 +31,7 @@ import com.android.itrip.databinding.FragmentScheduleBinding
 import com.android.itrip.models.Actividad
 import com.android.itrip.models.ActividadARealizar
 import com.android.itrip.models.CiudadAVisitar
+import com.android.itrip.services.DatabaseService
 import com.android.itrip.viewModels.CiudadAVisitarObject
 import com.android.itrip.viewModels.ScheduleViewModel
 import devs.mulham.horizontalcalendar.HorizontalCalendar
@@ -54,7 +55,7 @@ class ScheduleFragment : Fragment() {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_schedule, container, false
         )
-        scheduleViewModel = ScheduleViewModel(ciudadAVisitar)
+        scheduleViewModel = ScheduleViewModel(DatabaseService(requireContext()), ciudadAVisitar)
         setCalendar()
         binding.myRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireNotNull(activity).application)
@@ -86,6 +87,7 @@ class ScheduleFragment : Fragment() {
     private fun goToAddActivity(actividades: List<Actividad>) {
         val intent = Intent(context, ActivitiesActivity::class.java).apply {
             putExtra("action", ADD_ACTIVITY_CODE)
+            putExtra("ciudad", ciudadAVisitar.detalle_ciudad)
             putExtras(bundleOf("actividades" to actividades))
         }
         startActivityForResult(intent, ADD_ACTIVITY_CODE)
@@ -94,6 +96,7 @@ class ScheduleFragment : Fragment() {
     private fun showActivityDetails(actividadARealizar: ActividadARealizar) {
         val intent = Intent(context, ActivitiesActivity::class.java).apply {
             putExtra("action", VIEW_ACTIVITY_DETAILS_CODE)
+            putExtra("ciudad", ciudadAVisitar.detalle_ciudad)
             putExtras(bundleOf("actividad" to actividadARealizar.detalle_actividad))
         }
         startActivity(intent)

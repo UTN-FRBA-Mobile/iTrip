@@ -46,5 +46,12 @@ data class Actividad(
     @ColumnInfo(name = "latitud")
     var latitud: String = "",
     @ColumnInfo(name = "longitud")
-    var longitud: String = ""
+    var longitud: String = "",
+    @ForeignKey(
+        entity = Ciudad::class,
+        childColumns = ["ciudadId"],
+        parentColumns = ["id"]
+    )
+    @ColumnInfo(name = "ciudadId")
+    var ciudad: Long = 0L
 ) : Serializable
