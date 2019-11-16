@@ -37,16 +37,20 @@
                 tools:ignore="ContentDescription" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:text="@string/travels_no_travels_firstline"
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:text="@string/travels_no_travels_secondline"
                 android:textAlignment="center"
                 android:textSize="20sp" />
