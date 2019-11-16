@@ -80,7 +80,7 @@
     <string name="destination_creation_dialog_field_error">Completa este dato</string>
 
     <!--Destination Creation - Progress Bar-->
-    <string name="progressbar_start">Estamos preparando tu viaje…</string>
+    <string name="progressbar_start">Estamos preparando tu itinerario…</string>
     <string name="progressbar_during">Ya casi estamos</string>
     <string name="progressbar_done">¡Listo!</string>
     <string name="progressbar_failure">Hubo un problema, no pudimos crear tu viaje pero no te hagás problema podés volver a intentarlo.</string>
