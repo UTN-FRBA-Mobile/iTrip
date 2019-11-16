@@ -21,10 +21,7 @@ import com.android.itrip.*
 import com.android.itrip.adapters.DestinationAdapter
 import com.android.itrip.databinding.FragmentDestinationListBinding
 import com.android.itrip.dialogs.DestinationDialog
-import com.android.itrip.models.Actividad
-import com.android.itrip.models.Ciudad
-import com.android.itrip.models.CiudadAVisitar
-import com.android.itrip.models.Viaje
+import com.android.itrip.models.*
 import com.android.itrip.services.DatabaseService
 import com.android.itrip.viewModels.DestinationViewModel
 import com.android.itrip.viewModels.DestinationViewModelFactory
@@ -59,7 +56,6 @@ class DestinationListFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val viewModelFactory = DestinationViewModelFactory(
             DatabaseService(requireContext()),
-            DestinationDatabase.getInstance(application).destinationDatabaseDao,
             application,
             viaje
         )
@@ -91,7 +87,10 @@ class DestinationListFragment : Fragment() {
     }
 
     private fun viewActivities(ciudad: Ciudad) {
-        destinationsViewModel.getActivities(ciudad, context!!, { goToActivities(it) }, {})
+        destinationsViewModel.getActivities(
+            ciudad, requireContext(),
+            { goToActivities(it, ciudad) },
+            {})
     }
 
     private fun goToActivities(actividades: List<Actividad>, ciudad: Ciudad) {
@@ -121,6 +120,7 @@ class DestinationListFragment : Fragment() {
         }
     }
 
+    private fun destinationAdded(ciudad: Ciudad) {
         // disable screen to prevent unwanted clicks
         AppWindowManager.disableScreen(activity!!)
         // inflate new view to show the destination creation progress
@@ -134,7 +134,6 @@ class DestinationListFragment : Fragment() {
             duration = 20000 // the same value as the request timeout
             interpolator = AccelerateInterpolator()
             start()
-    private fun destinationAdded(destination: Destination) {
         }
         val secondaryProgress = ofInt(progressBar, "secondaryProgress", 0, 100).apply {
             duration = 5000 // minimum wait time
@@ -152,7 +151,7 @@ class DestinationListFragment : Fragment() {
             start()
         }
         // call "addDestinations"
-        destinationsViewModel.addDestination(viaje, destination, {
+        destinationsViewModel.addDestination(viaje, ciudad, {
             // if request finishes before max duration be reached then it ends the progress
             showDuringText = false
             progress.end()

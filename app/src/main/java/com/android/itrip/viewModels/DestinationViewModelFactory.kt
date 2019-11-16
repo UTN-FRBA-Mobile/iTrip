@@ -9,7 +9,6 @@ import com.android.itrip.services.DatabaseService
 
 class DestinationViewModelFactory(
     private val databaseService: DatabaseService,
-    private val dataSource: DestinationDatabaseDao,
     private val application: Application,
     private val viaje: Viaje?
 ) : ViewModelProvider.Factory {
@@ -18,7 +17,7 @@ class DestinationViewModelFactory(
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DestinationViewModel::class.java)) {
             return DestinationViewModel(
-                ActividadCategoriaDatabase.getInstance(application), application, viaje
+                databaseService, application, viaje
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

@@ -23,7 +23,6 @@ class DestinationAdapter(
     private val viewActivitiesforCityCallback: (Ciudad) -> Unit
 ) : RecyclerView.Adapter<DestinationAdapter.DestinationHolder>() {
 
-
     override fun onBindViewHolder(holder: DestinationHolder, position: Int) {
         holder.bind(
             getItem(position),
@@ -86,13 +85,11 @@ class DestinationAdapter(
         }
 
         private fun setImage(ciudad: Ciudad) {
-            ciudad.imagen.apply {
-                Picasso.get()
-                    .load(this)
-                    .error(R.drawable.logo)
-                    .fit()
-                    .into(binding.imageviewDestinationListPicture)
-            }
+            Picasso.get()
+                .load(ciudad.imagen)
+                .error(R.drawable.logo)
+                .fit()
+                .into(binding.imageviewDestinationListPicture)
         }
 
     }

@@ -10,11 +10,8 @@ import com.android.itrip.models.Ciudad
 @Dao
 interface CiudadDatabaseDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(ciudad: Ciudad)
-
-    @Query("SELECT * from ciudad_table WHERE id = :key")
-    fun get(key: Long): Ciudad?
 
     @Query("DELETE FROM ciudad_table")
     fun clear()
