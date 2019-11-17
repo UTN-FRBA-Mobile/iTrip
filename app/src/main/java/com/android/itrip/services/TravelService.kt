@@ -1,8 +1,9 @@
 package com.android.itrip.services
 
-import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.android.itrip.fragments.ViajeData
 import com.android.itrip.models.*
 import com.android.itrip.util.calendarToString
@@ -22,13 +23,18 @@ object TravelService : ApiService() {
     }
 
     fun getDestinations(
-        responseHandler: (List<Continente>) -> Unit,
+        responseHandler: (LiveData<List<Ciudad>>) -> Unit,
         errorHandler: (ApiError) -> Unit
     ) {
         getArray("destinos/", {
             val listType = object : TypeToken<List<Continente>>() {}.type
             val continentes: List<Continente> = gson.fromJson(it.toString(), listType)
-            responseHandler(continentes)
+            val ciudades = continentes.flatMap { continente ->
+                continente.paises.flatMap { pais ->
+                    pais.ciudades
+                }
+            }
+            responseHandler(MutableLiveData(ciudades))
         }, errorHandler)
     }
 

@@ -5,11 +5,11 @@ import android.content.Context
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.android.itrip.models.*
-import com.android.itrip.services.ApiError
-import com.android.itrip.services.ConnectionService
-import com.android.itrip.services.DatabaseService
-import com.android.itrip.services.TravelService
+import com.android.itrip.models.Actividad
+import com.android.itrip.models.Ciudad
+import com.android.itrip.models.CiudadAVisitar
+import com.android.itrip.models.Viaje
+import com.android.itrip.services.*
 import java.util.*
 import java.util.logging.Logger
 
@@ -31,20 +31,8 @@ class DestinationViewModel(
     )
 
     init {
-        if (ConnectionService.isNetworkConnected(application.applicationContext)) {
-            TravelService.getDestinations({ continentes ->
-                getDestinationsCallback(continentes)
-            }, { error ->
-                logger.severe("Failed to retrieve destinations - status: ${error.statusCode} - message: ${error.message}")
-                val message = "Hubo un problema, intente de nuevo"
-                Toast
-                    .makeText(getApplication(), message, Toast.LENGTH_SHORT)
-                    .show()
-            })
-        }
-        ciudades = databaseService.getCiudades()
+        ciudades = StorageService(application).getCiudades()
     }
-
 
     fun chooseStartDate(calendar: Calendar) {
         ciudadAVisitar.inicio = calendar
@@ -52,16 +40,6 @@ class DestinationViewModel(
 
     fun chooseEndDate(calendar: Calendar) {
         ciudadAVisitar.fin = calendar
-    }
-
-    private fun getDestinationsCallback(continentes: List<Continente>) {
-        continentes.forEach {
-            it.paises.forEach { pais ->
-                pais.ciudades.forEach { ciudad ->
-                    databaseService.insert(ciudad)
-                }
-            }
-        }
     }
 
     fun addDestination(
@@ -113,6 +91,5 @@ class DestinationViewModel(
             successCallback(databaseService.getActivitiesOfCity(ciudad))
         }
     }
-
 
 }

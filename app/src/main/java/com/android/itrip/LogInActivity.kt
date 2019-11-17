@@ -8,7 +8,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.android.itrip.databinding.ActivityLoginBinding
-import com.android.itrip.services.*
+import com.android.itrip.services.ApiError
+import com.android.itrip.services.AuthenticationService
+import com.android.itrip.services.QuizService
+import com.android.itrip.services.TravelService
 import com.android.itrip.util.NukeSSLCerts
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes

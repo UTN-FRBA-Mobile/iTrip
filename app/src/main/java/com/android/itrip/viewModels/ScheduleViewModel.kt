@@ -83,7 +83,10 @@ class ScheduleViewModel(
 
     private fun updateCiudadAVisitar() {
         TravelService.get_CityToVisit(ciudadAVisitar, { ciudadAVisitar: CiudadAVisitar ->
-            databaseService.insertActividades(ciudadAVisitar.actividades_a_realizar.map { it.detalle_actividad },ciudadAVisitar.detalle_ciudad)
+            databaseService.insertActividades(
+                ciudadAVisitar.actividades_a_realizar.map { it.detalle_actividad },
+                ciudadAVisitar.detalle_ciudad
+            )
             this@ScheduleViewModel.ciudadAVisitar = ciudadAVisitar
             updateDate(CiudadAVisitarObject.date.value!!)
         }, {})
@@ -107,7 +110,7 @@ class ScheduleViewModel(
         )
         TravelService.getActivitiesForBucket(bucket,
             {
-                databaseService.insertActividades(it,ciudadAVisitar.detalle_ciudad)
+                databaseService.insertActividades(it, ciudadAVisitar.detalle_ciudad)
                 successCallback(it)
             },
             { failureCallback() })

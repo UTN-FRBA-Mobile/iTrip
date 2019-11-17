@@ -7,7 +7,11 @@ import com.android.itrip.services.ApiError
 import com.android.itrip.services.DatabaseService
 import com.android.itrip.services.TravelService
 
-class TripViewModel(private val databaseService: DatabaseService, viajeID: Long, callback: (List<CiudadAVisitar>) -> Unit) : ViewModel() {
+class TripViewModel(
+    private val databaseService: DatabaseService,
+    viajeID: Long,
+    callback: (List<CiudadAVisitar>) -> Unit
+) : ViewModel() {
 
     private lateinit var _viaje: Viaje
     val viaje: Viaje get() = _viaje

@@ -12,7 +12,7 @@ import com.android.itrip.databinding.HobbyItemBinding
 import com.android.itrip.models.Answer
 
 class HobbiesAdapter(private val hobbies: List<Answer>) :
-    RecyclerView.Adapter<HobbiesAdapter.HobbyHolder>(){
+    RecyclerView.Adapter<HobbiesAdapter.HobbyHolder>() {
 
     override fun onBindViewHolder(holder: HobbyHolder, position: Int) {
         holder.bind(getItem(position))

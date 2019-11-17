@@ -1,10 +1,8 @@
 package com.android.itrip.services
 
-import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import com.android.itrip.models.Quiz
-import com.android.itrip.models.QuizApiModel
 import com.google.gson.Gson
 import org.json.JSONObject
 

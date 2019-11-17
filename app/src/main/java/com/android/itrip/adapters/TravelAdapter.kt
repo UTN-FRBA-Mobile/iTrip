@@ -25,7 +25,8 @@ import com.squareup.picasso.Picasso
 class TravelAdapter(homeViewModel: HomeViewModel) :
     RecyclerView.Adapter<TravelAdapter.TravelHolder>() {
 
-    private var travels: MutableList<Viaje> = homeViewModel.viajes.value?.toMutableList() ?: mutableListOf()
+    private var travels: MutableList<Viaje> =
+        homeViewModel.viajes.value?.toMutableList() ?: mutableListOf()
 
     override fun onBindViewHolder(holder: TravelHolder, position: Int) {
         holder.bind(getItem(position))
