@@ -9,7 +9,7 @@ import com.google.gson.Gson
 import org.json.JSONObject
 
 
-object QuizService : Service() {
+object QuizService : ApiService() {
 
     private val gson = Gson()
 
@@ -19,7 +19,7 @@ object QuizService : Service() {
 
     fun getResolution(responseHandler: (Boolean) -> Unit, errorHandler: (ApiError) -> Unit) {
         val url = "questions/verify"
-        ApiService.get(url, {
+        get(url, {
             responseHandler(it.getBoolean("respondidas"))
         }, errorHandler)
     }
@@ -27,7 +27,7 @@ object QuizService : Service() {
     fun postAnswers(quiz: Quiz, responseHandler: () -> Unit, errorHandler: (ApiError) -> Unit) {
         val url = "questions/"
         val json = JSONObject(gson.toJson(quiz.toQuizApiModel()))
-        ApiService.post(url, json, {
+        post(url, json, {
             responseHandler()
         }, errorHandler)
     }

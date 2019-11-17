@@ -19,11 +19,11 @@ import java.util.logging.Logger
 
 data class ApiError(val statusCode: Int, val message: String? = null, val data: JSONObject)
 
-object ApiService : Service() {
+abstract class ApiService : Service() {
 
     private val logger = Logger.getLogger(this::class.java.name)
     private lateinit var queue: VolleySingleton
-    private const val base_api_url = "https://proyecto.brazilsouth.cloudapp.azure.com/rest-api/"
+    private val base_api_url = "https://proyecto.brazilsouth.cloudapp.azure.com/rest-api/"
 
     override fun onBind(intent: Intent?): IBinder? {
         TODO("not implemented")

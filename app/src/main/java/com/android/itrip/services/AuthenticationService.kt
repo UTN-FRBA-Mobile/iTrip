@@ -1,6 +1,5 @@
 package com.android.itrip.services
 
-import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import com.google.android.gms.tasks.Task
@@ -11,7 +10,7 @@ import org.json.JSONObject
 import java.util.logging.Logger
 
 
-object AuthenticationService : Service() {
+object AuthenticationService : ApiService() {
 
     private var refreshToken: String = ""
     var accessToken: String = ""
@@ -29,10 +28,10 @@ object AuthenticationService : Service() {
     ) {
         val url = "firebase/"
         val json = JSONObject().put("token", paramToken)
-        ApiService.post(url, json, {
+        post(url, json, {
             refreshToken = it.getString("refresh")
             accessToken = it.getString("access")
-            logger.info("Access token: "+ accessToken)
+            logger.info("Access token: " + accessToken)
             logger.info(accessToken)
             responseHandler()
         }, errorHandler)

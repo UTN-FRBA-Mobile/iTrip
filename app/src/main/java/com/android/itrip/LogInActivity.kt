@@ -8,16 +8,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.android.itrip.databinding.ActivityLoginBinding
-import com.android.itrip.services.ApiError
-import com.android.itrip.services.ApiService
-import com.android.itrip.services.AuthenticationService
+import com.android.itrip.services.*
 import com.android.itrip.util.NukeSSLCerts
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import java.util.logging.Logger
-
 
 class LogInActivity : AppCompatActivity() {
 
@@ -33,7 +30,9 @@ class LogInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         NukeSSLCerts().nuke()
-        ApiService.setContext(this)
+        AuthenticationService.setContext(this)
+        QuizService.setContext(this)
+        TravelService.setContext(this)
         val auth = FirebaseAuth.getInstance()
         if (auth.currentUser != null) {
             AuthenticationService.verifyUser(

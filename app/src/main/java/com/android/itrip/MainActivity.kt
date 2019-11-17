@@ -16,8 +16,9 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.android.itrip.databinding.ActivityMainBinding
 import com.android.itrip.databinding.AppBarHeaderBinding
-import com.android.itrip.services.ApiService
+import com.android.itrip.services.AuthenticationService
 import com.android.itrip.services.QuizService
+import com.android.itrip.services.TravelService
 import com.android.itrip.util.CircleTransformation
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -46,7 +47,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApiService.setContext(this)
+        AuthenticationService.setContext(this)
+        QuizService.setContext(this)
+        TravelService.setContext(this)
         bindings()
         initDrawer()
         initNavigation()
