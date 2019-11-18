@@ -69,7 +69,7 @@ class HomeFragment : Fragment() {
             activity?.let { _activity -> AppWindowManager.disableScreen(_activity) }
             visibility = VISIBLE
         }
-        homeViewModel = HomeViewModel({
+        homeViewModel = HomeViewModel(requireContext(),{
             getTravelsSuccess(it)
             spinner.visibility = GONE
             activity?.let { _activity -> AppWindowManager.enableScreen(_activity) }

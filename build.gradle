@@ -9,6 +9,7 @@ buildscript {
         version_lifecycle_extensions = "2.0.0"
         version_material = "1.0.0"
         version_room = "2.0.0"
+        version_dagger = "2.25.2"
     }
     repositories {
         google()

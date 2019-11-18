@@ -67,7 +67,11 @@ class TripFragment : Fragment() {
                 visibility = View.VISIBLE
             }
             tripViewModel =
-                TripViewModel(DatabaseService(requireContext()), it) { ciudadesAVisitar ->
+                TripViewModel(
+                    requireContext(),
+                    DatabaseService(requireContext()),
+                    it
+                ) { ciudadesAVisitar ->
                     getDestinations(ciudadesAVisitar)
                     AppWindowManager.enableScreen(activity!!)
                     spinner.visibility = View.GONE

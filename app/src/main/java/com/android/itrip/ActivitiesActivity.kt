@@ -25,9 +25,6 @@ import com.android.itrip.databinding.ActivityActivitiesBinding
 import com.android.itrip.databinding.AppBarHeaderBinding
 import com.android.itrip.models.Actividad
 import com.android.itrip.models.Ciudad
-import com.android.itrip.services.AuthenticationService
-import com.android.itrip.services.QuizService
-import com.android.itrip.services.TravelService
 import com.android.itrip.util.CircleTransformation
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
@@ -53,9 +50,6 @@ class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         readSource()
-        AuthenticationService.setContext(this)
-        QuizService.setContext(this)
-        TravelService.setContext(this)
         bindings()
         initDrawer()
         initNavigation()

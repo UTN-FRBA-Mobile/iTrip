@@ -21,6 +21,7 @@ class DestinationViewModel(
 ) : AndroidViewModel(application) {
 
     private val logger = Logger.getLogger(this::class.java.name)
+    private val travelService = TravelService(application)
     val ciudades: LiveData<List<Ciudad>>
     var ciudadAVisitar: CiudadAVisitar = CiudadAVisitar(
         id = 0,
@@ -49,7 +50,7 @@ class DestinationViewModel(
         callbackError: () -> Unit
     ) {
         ciudadAVisitar.detalle_ciudad = ciudad
-        TravelService.postDestination(viaje, ciudadAVisitar, {
+        travelService.postDestination(viaje, ciudadAVisitar, {
             databaseService.insertActividades(
                 it.actividades_a_realizar.map { it.detalle_actividad },
                 it.detalle_ciudad
@@ -80,7 +81,7 @@ class DestinationViewModel(
         failureCallback: (ApiError) -> Unit
     ) {
         if (ConnectionService.isNetworkConnected(context)) {
-            TravelService.getActivities(ciudad, {
+            travelService.getActivities(ciudad, {
                 it.forEach { actividad ->
                     actividad.ciudad = ciudad.id
                 }

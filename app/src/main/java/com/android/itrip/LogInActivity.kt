@@ -10,8 +10,6 @@ import androidx.databinding.DataBindingUtil
 import com.android.itrip.databinding.ActivityLoginBinding
 import com.android.itrip.services.ApiError
 import com.android.itrip.services.AuthenticationService
-import com.android.itrip.services.QuizService
-import com.android.itrip.services.TravelService
 import com.android.itrip.util.NukeSSLCerts
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
@@ -22,6 +20,7 @@ import java.util.logging.Logger
 class LogInActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    private val authenticationService by lazy { AuthenticationService(applicationContext) }
     private val logger = Logger.getLogger(this::class.java.name)
     private val RC_SIGN_IN = 123
     private var providers = listOf(
@@ -33,12 +32,9 @@ class LogInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         NukeSSLCerts().nuke()
-        AuthenticationService.setContext(this)
-        QuizService.setContext(this)
-        TravelService.setContext(this)
         val auth = FirebaseAuth.getInstance()
         if (auth.currentUser != null) {
-            AuthenticationService.verifyUser(
+            authenticationService.verifyUser(
                 FirebaseAuth.getInstance().currentUser,
                 { userVerifiedCallback() },
                 { error -> handleError(error) })
@@ -63,7 +59,7 @@ class LogInActivity : AppCompatActivity() {
         if (requestCode == RC_SIGN_IN) {
             val response = IdpResponse.fromResultIntent(data)
             if (resultCode == RESULT_OK) {
-                AuthenticationService.verifyUser(
+                authenticationService.verifyUser(
                     FirebaseAuth.getInstance().currentUser,
                     { userVerifiedCallback() },
                     { error -> handleError(error) })

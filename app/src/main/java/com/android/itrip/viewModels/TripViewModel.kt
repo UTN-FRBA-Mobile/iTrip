@@ -1,5 +1,6 @@
 package com.android.itrip.viewModels
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.models.Viaje
@@ -8,6 +9,7 @@ import com.android.itrip.services.DatabaseService
 import com.android.itrip.services.TravelService
 
 class TripViewModel(
+    context: Context,
     private val databaseService: DatabaseService,
     viajeID: Long,
     callback: (List<CiudadAVisitar>) -> Unit
@@ -15,6 +17,7 @@ class TripViewModel(
 
     private lateinit var _viaje: Viaje
     val viaje: Viaje get() = _viaje
+    private val travelService = TravelService(context)
 
     init {
         getTravel(viajeID, callback)
@@ -25,14 +28,14 @@ class TripViewModel(
         deleteCityToTravelSuccess: () -> Unit,
         deleteCityToTravelFailure: (ApiError) -> Unit
     ) {
-        TravelService.deleteDestination(
+        travelService.deleteDestination(
             ciudadAVisitar,
             { deleteCityToTravelSuccess() },
             { error -> deleteCityToTravelFailure(error) })
     }
 
     private fun getTravel(viajeID: Long?, callback: (List<CiudadAVisitar>) -> Unit) {
-        TravelService.getTrip(viajeID ?: viaje.id, {
+        travelService.getTrip(viajeID ?: viaje.id, {
             _viaje = it
             try {
                 databaseService.insertActividadesDeCiudadAVisitar(it.ciudades_a_visitar)

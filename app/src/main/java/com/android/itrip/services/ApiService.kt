@@ -16,21 +16,18 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.logging.Logger
+import javax.inject.Inject
 
 data class ApiError(val statusCode: Int, val message: String? = null, val data: JSONObject)
 
-abstract class ApiService : Service() {
+abstract class ApiService @Inject constructor(context: Context) : Service() {
 
     private val logger = Logger.getLogger(this::class.java.name)
-    private lateinit var queue: VolleySingleton
+    private val queue = VolleySingleton(context)
     private val base_api_url = "https://proyecto.brazilsouth.cloudapp.azure.com/rest-api/"
 
     override fun onBind(intent: Intent?): IBinder? {
         TODO("not implemented")
-    }
-
-    fun setContext(context: Context) {
-        queue = VolleySingleton.getInstance(context)
     }
 
     fun post(

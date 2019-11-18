@@ -16,9 +16,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.android.itrip.databinding.ActivityMainBinding
 import com.android.itrip.databinding.AppBarHeaderBinding
-import com.android.itrip.services.AuthenticationService
 import com.android.itrip.services.QuizService
-import com.android.itrip.services.TravelService
 import com.android.itrip.util.CircleTransformation
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -47,9 +45,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AuthenticationService.setContext(this)
-        QuizService.setContext(this)
-        TravelService.setContext(this)
         bindings()
         initDrawer()
         initNavigation()
@@ -162,7 +157,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun isQuizAnswered() {
-        QuizService.getResolution({ answered ->
+        QuizService(applicationContext).getResolution({ answered ->
             if (!answered) {
                 val intent = Intent(this, QuizActivity::class.java)
                 startActivity(intent)

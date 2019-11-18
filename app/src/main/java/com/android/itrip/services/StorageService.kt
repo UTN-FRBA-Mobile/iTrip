@@ -11,11 +11,8 @@ class StorageService(context: Context) {
 
     private val logger = Logger.getLogger(this::class.java.name)
     private val databaseService = DatabaseService(context)
-    private val travelService = TravelService
+    private val travelService = TravelService(context)
 
-    init {
-        travelService.setContext(context)
-    }
 
     fun getCiudades(): MediatorLiveData<List<Ciudad>> {
         val databaseData = databaseService.getCiudades()

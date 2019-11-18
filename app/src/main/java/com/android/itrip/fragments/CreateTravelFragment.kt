@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -16,9 +15,9 @@ import androidx.navigation.findNavController
 import com.android.itrip.MainActivity
 import com.android.itrip.R
 import com.android.itrip.databinding.FragmentCreateTravelBinding
-import com.android.itrip.services.TravelService
 import com.android.itrip.ui.DatePickerFragment
 import com.android.itrip.util.calendarToString
+import com.android.itrip.viewModels.CreateTravelViewMovel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.view.*
 import java.util.*
@@ -31,6 +30,7 @@ class CreateTravelFragment : Fragment() {
     private val logger = Logger.getLogger(this::class.java.name)
     private lateinit var binding: FragmentCreateTravelBinding
     private var minDate: Calendar = Calendar.getInstance()
+    private val createTravelViewModel = CreateTravelViewMovel(activity!!.application)
     private var maxDate: Calendar? = null
 
     override fun onCreateView(
@@ -143,24 +143,14 @@ class CreateTravelFragment : Fragment() {
                 inicio = calendarToString(minDate, "yyyy-MM-dd"),
                 fin = calendarToString(maxDate!!, "yyyy-MM-dd")
             )
-            TravelService.createTrip(request, {
+            createTravelViewModel.createTrip(request){
                 val bundle = bundleOf("viajeID" to it.id)
                 view.findNavController()
                     .navigate(
                         CreateTravelFragmentDirections.actionCreateTravelFragmentToTripFragment().actionId,
                         bundle
                     )
-            }, { error ->
-                val message = if (error.statusCode == 400) {
-                    error.data.getJSONArray("non_field_errors")[0] as String
-                } else {
-                    logger.severe("Failed to post new travel - status: ${error.statusCode} - message: ${error.message}")
-                    "Hubo un problema, intente de nuevo"
-                }
-                Toast
-                    .makeText(context, message, Toast.LENGTH_SHORT)
-                    .show()
-            })
+            }
         } else {
             logger.severe("All fields are mandatory")
         }

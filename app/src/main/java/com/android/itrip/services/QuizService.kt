@@ -1,13 +1,15 @@
 package com.android.itrip.services
 
+import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import com.android.itrip.models.Quiz
 import com.google.gson.Gson
 import org.json.JSONObject
+import javax.inject.Inject
 
 
-object QuizService : ApiService() {
+class QuizService @Inject constructor(context: Context): ApiService(context) {
 
     private val gson = Gson()
 

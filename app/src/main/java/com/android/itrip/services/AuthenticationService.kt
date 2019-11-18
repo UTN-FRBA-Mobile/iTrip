@@ -1,5 +1,6 @@
 package com.android.itrip.services
 
+import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import com.google.android.gms.tasks.Task
@@ -8,14 +9,16 @@ import com.google.firebase.auth.GetTokenResult
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.logging.Logger
+import javax.inject.Inject
 
+class AuthenticationService @Inject constructor(context: Context) : ApiService(context) {
 
-object AuthenticationService : ApiService() {
+    companion object {
+        var refreshToken = ""
+        var accessToken = ""
+    }
 
-    private var refreshToken: String = ""
-    var accessToken: String = ""
     private val logger = Logger.getLogger(this::class.java.name)
-
 
     override fun onBind(intent: Intent?): IBinder? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

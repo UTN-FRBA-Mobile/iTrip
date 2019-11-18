@@ -135,7 +135,7 @@ class BucketAdapter(
                     bucketItemConstraintLayout.setBackgroundColor(Color.WHITE)
                 actividadARealizar = item
                 bucketItemConstraintLayout.layoutParams.height =
-                    bucketItemConstraintLayout.context.resources.displayMetrics.heightPixels / 9 * item.detalle_actividad!!.duracion
+                    bucketItemConstraintLayout.context.resources.displayMetrics.heightPixels / 9 * item.detalle_actividad.duracion
                 bucketItemConstraintLayout.requestLayout()
                 bucketItemConstraintLayout.setOnClickListener { showActivityDetailsCallback(item) }
             }
@@ -147,7 +147,7 @@ class BucketAdapter(
         ) {
             (binding as BucketEmptyItemBinding).bucketEmptyItemImageButton.apply {
                 layoutParams.height =
-                    context.resources.displayMetrics.heightPixels / 9 * item.detalle_actividad!!.duracion
+                    context.resources.displayMetrics.heightPixels / 9 * item.detalle_actividad.duracion
                 requestLayout()
                 setOnClickListener {
                     addActivityToBucketCallback(item)

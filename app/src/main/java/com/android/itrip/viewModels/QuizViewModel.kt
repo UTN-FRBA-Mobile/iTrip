@@ -1,11 +1,15 @@
 package com.android.itrip.viewModels
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import com.android.itrip.models.Answer
 import com.android.itrip.models.Quiz
+import com.android.itrip.services.ApiError
+import com.android.itrip.services.QuizService
 
 
-class QuizViewModel : ViewModel() {
+class QuizViewModel(application: Application) : AndroidViewModel(application) {
+    private val quizService = QuizService(application.applicationContext)
     val hobbies: List<Answer>
     val generos: List<Answer>
     val estados_civil: List<Answer>
@@ -91,5 +95,12 @@ class QuizViewModel : ViewModel() {
         Answer("VIDEOJUEGOS", "Videojuegos")
     )
 
+    fun postAnswers(postAnswerSuccess: () -> Unit?, errorHandler: (ApiError) -> Unit) {
+        quizService.postAnswers(quiz, {
+            postAnswerSuccess()
+        }, {
+            errorHandler(it)
+        })
+    }
 
 }

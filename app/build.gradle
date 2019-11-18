@@ -77,6 +77,11 @@ dependencies {
     // Find the latest Facebook SDK releases here: https://goo.gl/Ce5L94
     implementation 'com.facebook.android:facebook-android-sdk:5.5.1'
 
+    api "com.google.dagger:dagger:$version_dagger"
+    api "com.google.dagger:dagger-android:$version_dagger"
+    annotationProcessor "com.google.dagger:dagger-compiler:$version_dagger"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$version_dagger"
+
     // Others
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'com.squareup.picasso:picasso:2.71828'

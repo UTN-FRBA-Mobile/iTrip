@@ -47,7 +47,6 @@ class ActivitiesViewModel(
             it.nombre.contains(query, true)
         }?.sortedBy { it.nombre }
         return MutableLiveData(filteredActivities)
-//        return databaseService.getActividadByNombre(query, ciudad!!)
     }
 
     fun listOfCategories(): String? {

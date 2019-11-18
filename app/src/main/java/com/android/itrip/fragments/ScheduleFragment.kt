@@ -55,7 +55,7 @@ class ScheduleFragment : Fragment() {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_schedule, container, false
         )
-        scheduleViewModel = ScheduleViewModel(DatabaseService(requireContext()), ciudadAVisitar)
+        scheduleViewModel = ScheduleViewModel(requireContext(),DatabaseService(requireContext()), ciudadAVisitar)
         setCalendar()
         binding.myRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireNotNull(activity).application)

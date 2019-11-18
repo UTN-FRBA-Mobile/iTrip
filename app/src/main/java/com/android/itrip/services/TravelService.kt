@@ -1,5 +1,6 @@
 package com.android.itrip.services
 
+import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import androidx.lifecycle.LiveData
@@ -11,9 +12,10 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
 import java.util.logging.Logger
+import javax.inject.Inject
 
 
-object TravelService : ApiService() {
+class TravelService @Inject constructor(context: Context): ApiService(context) {
 
     private val logger = Logger.getLogger(this::class.java.name)
     private val gson = Gson()

@@ -1,5 +1,6 @@
 package com.android.itrip.viewModels
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -20,11 +21,13 @@ object CiudadAVisitarObject {
 }
 
 class ScheduleViewModel(
+    context: Context,
     private val databaseService: DatabaseService,
     var ciudadAVisitar: CiudadAVisitar
 ) : ViewModel() {
     var actividadesARealizar: LiveData<List<ActividadARealizar>>
     private lateinit var bucket: Bucket
+    private val travelService = TravelService(context)
 
     init {
         CiudadAVisitarObject._date.value =
@@ -82,7 +85,7 @@ class ScheduleViewModel(
     }
 
     private fun updateCiudadAVisitar() {
-        TravelService.get_CityToVisit(ciudadAVisitar, { ciudadAVisitar: CiudadAVisitar ->
+        travelService.get_CityToVisit(ciudadAVisitar, { ciudadAVisitar: CiudadAVisitar ->
             databaseService.insertActividades(
                 ciudadAVisitar.actividades_a_realizar.map { it.detalle_actividad },
                 ciudadAVisitar.detalle_ciudad
@@ -93,7 +96,7 @@ class ScheduleViewModel(
     }
 
     fun deleteToDoActivity(item: ActividadARealizar) {
-        TravelService.deleteToDoActivity(item, {
+        travelService.deleteToDoActivity(item, {
             updateCiudadAVisitar()
         }, {})
     }
@@ -108,7 +111,7 @@ class ScheduleViewModel(
             actividadARealizar.dia,
             actividadARealizar.bucket_inicio
         )
-        TravelService.getActivitiesForBucket(bucket,
+        travelService.getActivitiesForBucket(bucket,
             {
                 databaseService.insertActividades(it, ciudadAVisitar.detalle_ciudad)
                 successCallback(it)
@@ -118,7 +121,7 @@ class ScheduleViewModel(
 
     fun addActividadToBucket(actividad: Actividad) {
         bucket.actividad = actividad
-        TravelService.addActivityToBucket(bucket, {
+        travelService.addActivityToBucket(bucket, {
             updateCiudadAVisitar()
         }, {})
     }
