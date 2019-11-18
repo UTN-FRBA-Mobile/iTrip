@@ -12,18 +12,17 @@ import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import com.android.itrip.MainActivity
+import com.android.itrip.activities.MainActivity
 import com.android.itrip.R
 import com.android.itrip.databinding.FragmentCreateTravelBinding
 import com.android.itrip.ui.DatePickerFragment
+import com.android.itrip.util.ViajeData
 import com.android.itrip.util.calendarToString
 import com.android.itrip.viewModels.CreateTravelViewMovel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.view.*
 import java.util.*
 import java.util.logging.Logger
-
-data class ViajeData(val nombre: String, var inicio: String, var fin: String)
 
 class CreateTravelFragment : Fragment() {
 

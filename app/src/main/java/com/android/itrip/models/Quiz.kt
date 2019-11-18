@@ -1,5 +1,6 @@
 package com.android.itrip.models
 
+import com.android.itrip.apiModels.QuizApiModel
 import java.io.Serializable
 
 data class Quiz(
@@ -24,13 +25,3 @@ data class Quiz(
             hobbies.map { it.key })
     }
 }
-
-data class QuizApiModel(
-    var genero: String?,
-    var genero_otro: String? = null,
-    var edad: Int?,
-    var estado_civil: String?,
-    var nivel_de_estudios: String?,
-    var ocupacion: String?,
-    var hobbies: List<String> = listOf()
-) : Serializable

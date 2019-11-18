@@ -14,15 +14,8 @@ import com.android.itrip.R
 import com.android.itrip.databinding.BucketEmptyItemBinding
 import com.android.itrip.databinding.BucketItemBinding
 import com.android.itrip.models.ActividadARealizar
+import com.android.itrip.util.ActivityType
 import com.android.itrip.viewModels.ScheduleViewModel
-
-
-interface ActivityType {
-    companion object {
-        const val EMPTY = 0
-        const val ACTIVITY = 1
-    }
-}
 
 class BucketAdapter(
     private val scheduleViewModel: ScheduleViewModel,

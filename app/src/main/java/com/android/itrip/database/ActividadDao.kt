@@ -8,7 +8,7 @@ import androidx.room.Query
 import com.android.itrip.models.Actividad
 
 @Dao
-interface ActivityDatabaseDao {
+interface ActividadDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(actividad: Actividad)

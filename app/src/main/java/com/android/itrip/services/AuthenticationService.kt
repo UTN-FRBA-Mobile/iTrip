@@ -1,5 +1,6 @@
 package com.android.itrip.services
 
+import com.android.itrip.util.ApiError
 import com.android.itrip.util.VolleyClient
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseUser

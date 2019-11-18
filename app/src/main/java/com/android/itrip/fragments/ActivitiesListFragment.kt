@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.itrip.ActivitiesActivity
+import com.android.itrip.activities.ActivitiesActivity
 import com.android.itrip.R
 import com.android.itrip.adapters.ActivitiesAdapter
 import com.android.itrip.databinding.FragmentActivitiesListBinding

@@ -2,7 +2,6 @@ package com.android.itrip.viewModels
 
 import android.app.Application
 import android.content.Context
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.android.itrip.dependencyInjection.ContextModule
@@ -11,10 +10,11 @@ import com.android.itrip.models.Actividad
 import com.android.itrip.models.Ciudad
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.models.Viaje
-import com.android.itrip.services.ApiError
 import com.android.itrip.services.ConnectionService
 import com.android.itrip.services.StorageService
 import com.android.itrip.services.TravelService
+import com.android.itrip.util.ApiError
+import com.android.itrip.util.Toaster
 import java.util.*
 import java.util.logging.Logger
 import javax.inject.Inject
@@ -30,6 +30,8 @@ class DestinationViewModel(
     lateinit var travelService: TravelService
     @Inject
     lateinit var storageService: StorageService
+    @Inject
+    lateinit var toaster: Toaster
     val ciudades: LiveData<List<Ciudad>>
     var ciudadAVisitar: CiudadAVisitar = CiudadAVisitar(
         id = 0,
@@ -77,9 +79,7 @@ class DestinationViewModel(
                     "Hubo un problema, intente de nuevo"
                 }
             }
-            Toast
-                .makeText(getApplication(), message, Toast.LENGTH_LONG)
-                .show()
+            toaster.shortToastMessage(message)
             callbackError()
         })
     }

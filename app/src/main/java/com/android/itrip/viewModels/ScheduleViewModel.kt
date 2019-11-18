@@ -13,23 +13,10 @@ import com.android.itrip.models.Bucket
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.services.DatabaseService
 import com.android.itrip.services.TravelService
+import com.android.itrip.util.CiudadAVisitarObject
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.List
-import kotlin.collections.MutableList
-import kotlin.collections.filter
-import kotlin.collections.firstOrNull
-import kotlin.collections.hashMapOf
-import kotlin.collections.map
 import kotlin.collections.set
-import kotlin.collections.toMutableList
-
-object CiudadAVisitarObject {
-    var ciudadAVisitar: CiudadAVisitar? = null
-    var _date = MutableLiveData<Calendar>()
-    val date: LiveData<Calendar>
-        get() = _date
-}
 
 class ScheduleViewModel(
     application: Application,

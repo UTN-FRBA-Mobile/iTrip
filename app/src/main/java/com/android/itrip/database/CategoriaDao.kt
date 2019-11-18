@@ -7,7 +7,7 @@ import androidx.room.Query
 import com.android.itrip.models.Categoria
 
 @Dao
-interface CategoryDatabaseDao {
+interface CategoriaDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(categoria: Categoria)

@@ -15,8 +15,6 @@ class DatePickerFragment(
 ) : DialogFragment(),
     DatePickerDialog.OnDateSetListener {
 
-    constructor(callback: (Calendar) -> Unit) : this(callback, null, null, null)
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val c = startDate ?: Calendar.getInstance()
         val datePickerDialog = DatePickerDialog(

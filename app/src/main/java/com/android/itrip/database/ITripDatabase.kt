@@ -14,23 +14,23 @@ import com.android.itrip.models.Ciudad
     version = 2,
     exportSchema = false
 )
-abstract class ActividadCategoriaDatabase : RoomDatabase() {
-    abstract val actividadCategoriaDatabaseDao: ActividadCategoriaDatabaseDao
-    abstract val categoryDatabaseDao: CategoryDatabaseDao
-    abstract val activityDatabaseDao: ActivityDatabaseDao
-    abstract val ciudadDatabaseDao: CiudadDatabaseDao
+abstract class ITripDatabase : RoomDatabase() {
+    abstract val actividadCategoriaDao: ActividadCategoriaDao
+    abstract val categoriaDao: CategoriaDao
+    abstract val actividadDao: ActividadDao
+    abstract val ciudadDao: CiudadDao
 
     companion object {
         @Volatile
-        private var INSTANCE: ActividadCategoriaDatabase? = null
+        private var INSTANCE: ITripDatabase? = null
 
-        fun getInstance(context: Context): ActividadCategoriaDatabase {
+        fun getInstance(context: Context): ITripDatabase {
             synchronized(this) {
                 var instance = INSTANCE
                 if (instance == null) {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
-                        ActividadCategoriaDatabase::class.java,
+                        ITripDatabase::class.java,
                         "actividades_database"
                     ).allowMainThreadQueries()
                         .fallbackToDestructiveMigration()

@@ -1,12 +1,13 @@
 package com.android.itrip.dependencyInjection
 
-import com.android.itrip.LogInActivity
-import com.android.itrip.MainActivity
-import com.android.itrip.QuizActivity
+import com.android.itrip.activities.LogInActivity
+import com.android.itrip.activities.MainActivity
+import com.android.itrip.activities.QuizActivity
 import com.android.itrip.services.AuthenticationService
 import com.android.itrip.services.DatabaseService
 import com.android.itrip.services.StorageService
 import com.android.itrip.services.TravelService
+import com.android.itrip.util.Toaster
 import com.android.itrip.util.VolleyClient
 import com.android.itrip.viewModels.*
 import dagger.Component
@@ -16,6 +17,7 @@ import dagger.Component
 interface ApiComponent {
 
     fun getVolleyClient(): VolleyClient
+    fun getToaster(): Toaster
     fun getAuthenticationService(): AuthenticationService
     fun getQuizService(): AuthenticationService
     fun getTravelService(): TravelService

@@ -8,7 +8,7 @@ import androidx.room.Query
 import com.android.itrip.models.Ciudad
 
 @Dao
-interface CiudadDatabaseDao {
+interface CiudadDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(ciudad: Ciudad)

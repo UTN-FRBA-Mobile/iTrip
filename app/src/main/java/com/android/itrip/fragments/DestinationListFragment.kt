@@ -18,6 +18,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.itrip.*
+import com.android.itrip.activities.ActivitiesActivity
+import com.android.itrip.activities.AppWindowManager
+import com.android.itrip.activities.MainActivity
 import com.android.itrip.adapters.DestinationAdapter
 import com.android.itrip.databinding.FragmentDestinationListBinding
 import com.android.itrip.dialogs.DestinationDialog
@@ -25,6 +28,7 @@ import com.android.itrip.models.Actividad
 import com.android.itrip.models.Ciudad
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.models.Viaje
+import com.android.itrip.util.RequestCodes
 import com.android.itrip.viewModels.DestinationViewModel
 import com.android.itrip.viewModels.DestinationViewModelFactory
 import com.transitionseverywhere.ChangeText

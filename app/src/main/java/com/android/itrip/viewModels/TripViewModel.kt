@@ -6,9 +6,9 @@ import com.android.itrip.dependencyInjection.ContextModule
 import com.android.itrip.dependencyInjection.DaggerApiComponent
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.models.Viaje
-import com.android.itrip.services.ApiError
 import com.android.itrip.services.DatabaseService
 import com.android.itrip.services.TravelService
+import com.android.itrip.util.ApiError
 import javax.inject.Inject
 
 class TripViewModel(

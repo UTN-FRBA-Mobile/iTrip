@@ -1,4 +1,4 @@
-package com.android.itrip
+package com.android.itrip.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -18,14 +18,14 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
-import com.android.itrip.RequestCodes.Companion.ADD_ACTIVITY_CODE
-import com.android.itrip.RequestCodes.Companion.VIEW_ACTIVITY_DETAILS_CODE
-import com.android.itrip.RequestCodes.Companion.VIEW_ACTIVITY_LIST_CODE
+import com.android.itrip.R
 import com.android.itrip.databinding.ActivityActivitiesBinding
 import com.android.itrip.databinding.AppBarHeaderBinding
 import com.android.itrip.models.Actividad
 import com.android.itrip.models.Ciudad
 import com.android.itrip.util.CircleTransformation
+import com.android.itrip.util.DrawerLocker
+import com.android.itrip.util.RequestCodes
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
 import com.google.firebase.auth.FirebaseAuth
@@ -70,7 +70,9 @@ class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener
     }
 
     private fun bindings() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_activities)
+        binding = DataBindingUtil.setContentView(this,
+            R.layout.activity_activities
+        )
         drawerLayout = binding.drawerLayoutActivities
         toolbar = binding.appBarActivities.toolbar as Toolbar
         navigationView = binding.navigationViewActivities
@@ -110,7 +112,9 @@ class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener
             .error(R.drawable.ic_user_placeholder_24dp)
             .fit()
             .into(bindingAppBar.imageviewAppBarHeaderPicture)
-        navController = Navigation.findNavController(this, R.id.navhostfragment_activities)
+        navController = Navigation.findNavController(this,
+            R.id.navhostfragment_activities
+        )
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
         NavigationUI.setupWithNavController(navigationView, navController)
         navigationView.addHeaderView(bindingAppBar.root)
@@ -175,15 +179,16 @@ class ActivitiesActivity : AppCompatActivity(), OnNavigationItemSelectedListener
         val navController: NavController = findNavController(R.id.navhostfragment_activities)
         lateinit var bundle: Bundle
         when (action) {
-            ADD_ACTIVITY_CODE -> {
+            RequestCodes.ADD_ACTIVITY_CODE -> {
                 bundle =
                     bundleOf("actividades" to actividades, "action" to action, "ciudad" to ciudad)
             }
-            VIEW_ACTIVITY_DETAILS_CODE -> {
-                navController.graph.startDestination = R.id.activityDetailsFragment
+            RequestCodes.VIEW_ACTIVITY_DETAILS_CODE -> {
+                navController.graph.startDestination =
+                    R.id.activityDetailsFragment
                 bundle = bundleOf("actividad" to actividad, "action" to action)
             }
-            VIEW_ACTIVITY_LIST_CODE -> {
+            RequestCodes.VIEW_ACTIVITY_LIST_CODE -> {
                 bundle =
                     bundleOf("actividades" to actividades, "action" to action, "ciudad" to ciudad)
             }

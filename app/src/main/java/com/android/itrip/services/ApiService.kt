@@ -3,6 +3,7 @@ package com.android.itrip.services
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import com.android.itrip.util.ApiError
 import com.android.itrip.util.VolleyClient
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
@@ -16,8 +17,6 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.logging.Logger
-
-data class ApiError(val statusCode: Int, val message: String? = null, val data: JSONObject)
 
 abstract class ApiService constructor(private val queue: VolleyClient) : Service() {
 

@@ -45,24 +45,24 @@
         <service android:name=".services.DatabaseService" />
         <service android:name=".services.StorageService" />
 
-        <activity android:name=".LogInActivity">
+        <activity android:name=".activities.LogInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:parentActivityName=".LogInActivity"
+            android:name=".activities.MainActivity"
+            android:parentActivityName=".activities.LogInActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".QuizActivity"
+            android:name=".activities.QuizActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ActivitiesActivity"
-            android:parentActivityName=".LogInActivity"
+            android:name=".activities.ActivitiesActivity"
+            android:parentActivityName=".activities.LogInActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
     </application>

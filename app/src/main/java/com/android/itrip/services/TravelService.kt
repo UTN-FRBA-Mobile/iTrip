@@ -2,8 +2,12 @@ package com.android.itrip.services
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.android.itrip.fragments.ViajeData
+import com.android.itrip.apiModels.CiudadAVisitarApiModel
+import com.android.itrip.apiModels.Continente
+import com.android.itrip.apiModels.ViajeApiModel
 import com.android.itrip.models.*
+import com.android.itrip.util.ApiError
+import com.android.itrip.util.ViajeData
 import com.android.itrip.util.VolleyClient
 import com.android.itrip.util.calendarToString
 import com.google.gson.reflect.TypeToken
@@ -34,9 +38,9 @@ class TravelService @Inject constructor(queue: VolleyClient) : ApiService(queue)
         errorHandler: (ApiError) -> Unit
     ) {
         getArray("viajes/", {
-            val viajesCreator: List<ViajeCreator> =
-                gson.fromJson(it.toString(), object : TypeToken<List<ViajeCreator>>() {}.type)
-            responseHandler(viajesCreator.map { it.viaje() })
+            val viajesApiModel: List<ViajeApiModel> =
+                gson.fromJson(it.toString(), object : TypeToken<List<ViajeApiModel>>() {}.type)
+            responseHandler(viajesApiModel.map { it.viaje() })
         }, errorHandler)
     }
 
@@ -47,8 +51,8 @@ class TravelService @Inject constructor(queue: VolleyClient) : ApiService(queue)
     ) {
         logger.info("getTrip.")
         get("viajes/$id", {
-            val viajeCreator: ViajeCreator = gson.fromJson(it.toString(), ViajeCreator::class.java)
-            val viaje: Viaje = viajeCreator.viaje()
+            val viajeApiModel: ViajeApiModel = gson.fromJson(it.toString(), ViajeApiModel::class.java)
+            val viaje: Viaje = viajeApiModel.viaje()
             responseHandler(viaje)
         }, errorHandler)
     }
@@ -60,8 +64,8 @@ class TravelService @Inject constructor(queue: VolleyClient) : ApiService(queue)
     ) {
         val json = JSONObject(gson.toJson(body))
         post("viajes/", json, {
-            val viajeCreator: ViajeCreator = gson.fromJson(it.toString(), ViajeCreator::class.java)
-            responseHandler(viajeCreator.viaje())
+            val viajeApiModel: ViajeApiModel = gson.fromJson(it.toString(), ViajeApiModel::class.java)
+            responseHandler(viajeApiModel.viaje())
         }, errorHandler)
     }
 
@@ -101,7 +105,7 @@ class TravelService @Inject constructor(queue: VolleyClient) : ApiService(queue)
             put("fin", calendarToString(destination.fin, "yyyy-MM-dd"))
         }
         post("viajes/${viaje.id}/add_destination/", json, {
-            val data = gson.fromJson(it.toString(), CiudadAVisitarCreator::class.java)
+            val data = gson.fromJson(it.toString(), CiudadAVisitarApiModel::class.java)
             responseHandler(data.ciudadAVisitar())
         }, errorHandler, initialTimeoutMs = 25000, retries = 0)
     }
@@ -113,9 +117,9 @@ class TravelService @Inject constructor(queue: VolleyClient) : ApiService(queue)
     ) {
         logger.info("get_CityToVisit.")
         get("""ciudad-a-visitar/${ciudad_a_visitarParam.id}/""", {
-            val ciudadAVisitarCreator: CiudadAVisitarCreator =
-                gson.fromJson(it.toString(), CiudadAVisitarCreator::class.java)
-            val ciudad_a_visitar: CiudadAVisitar = ciudadAVisitarCreator.ciudadAVisitar()
+            val ciudadAVisitarApiModel: CiudadAVisitarApiModel =
+                gson.fromJson(it.toString(), CiudadAVisitarApiModel::class.java)
+            val ciudad_a_visitar: CiudadAVisitar = ciudadAVisitarApiModel.ciudadAVisitar()
             responseHandler(ciudad_a_visitar)
         }, errorHandler)
     }

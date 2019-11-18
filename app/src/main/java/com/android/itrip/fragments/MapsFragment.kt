@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.android.itrip.ActivitiesActivity
+import com.android.itrip.activities.ActivitiesActivity
 import com.android.itrip.R
 import com.android.itrip.models.Actividad
 import com.google.android.gms.maps.CameraUpdateFactory

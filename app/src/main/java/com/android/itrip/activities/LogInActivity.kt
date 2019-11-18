@@ -1,18 +1,19 @@
-package com.android.itrip
+package com.android.itrip.activities
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.android.itrip.R
 import com.android.itrip.databinding.ActivityLoginBinding
 import com.android.itrip.dependencyInjection.ContextModule
 import com.android.itrip.dependencyInjection.DaggerApiComponent
-import com.android.itrip.services.ApiError
 import com.android.itrip.services.AuthenticationService
+import com.android.itrip.util.ApiError
 import com.android.itrip.util.NukeSSLCerts
+import com.android.itrip.util.Toaster
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
@@ -25,6 +26,8 @@ class LogInActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     @Inject
     lateinit var authenticationService: AuthenticationService
+    @Inject
+    lateinit var toaster: Toaster
     private val logger = Logger.getLogger(this::class.java.name)
     private val RC_SIGN_IN = 123
     private var providers = listOf(
@@ -74,12 +77,9 @@ class LogInActivity : AppCompatActivity() {
             } else {
                 when {
                     response == null -> finish() // force to finish in this activity
-                    response.error?.errorCode == ErrorCodes.NO_NETWORK -> Toast.makeText(
-                        this,
-                        "No hay conexión a Internet",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    else -> Toast.makeText(this, response.error?.message, Toast.LENGTH_LONG).show()
+                    response.error?.errorCode == ErrorCodes.NO_NETWORK ->
+                        toaster.longToastMessage("No hay conexión a Internet")
+                    else -> toaster.longToastMessage(response.error?.message)
                 }
             }
         }

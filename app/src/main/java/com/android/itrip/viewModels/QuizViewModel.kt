@@ -6,8 +6,8 @@ import com.android.itrip.dependencyInjection.ContextModule
 import com.android.itrip.dependencyInjection.DaggerApiComponent
 import com.android.itrip.models.Answer
 import com.android.itrip.models.Quiz
-import com.android.itrip.services.ApiError
 import com.android.itrip.services.QuizService
+import com.android.itrip.util.ApiError
 import javax.inject.Inject
 
 

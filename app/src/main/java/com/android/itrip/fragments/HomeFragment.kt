@@ -20,14 +20,14 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.itrip.AppWindowManager
-import com.android.itrip.MainActivity
+import com.android.itrip.activities.AppWindowManager
+import com.android.itrip.activities.MainActivity
 import com.android.itrip.R
 import com.android.itrip.adapters.TravelAdapter
 import com.android.itrip.databinding.FragmentHomeBinding
 import com.android.itrip.fragments.HomeFragmentDirections.Companion.actionHomeFragmentToCreateTravelFragment
 import com.android.itrip.models.Viaje
-import com.android.itrip.services.ApiError
+import com.android.itrip.util.ApiError
 import com.android.itrip.viewModels.HomeViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.view.*

@@ -1,6 +1,7 @@
 package com.android.itrip.services
 
 import com.android.itrip.models.Quiz
+import com.android.itrip.util.ApiError
 import com.android.itrip.util.VolleyClient
 import org.json.JSONObject
 import javax.inject.Inject

@@ -9,7 +9,7 @@ import com.android.itrip.models.ActividadCategoria
 import com.android.itrip.models.Categoria
 
 @Dao
-interface ActividadCategoriaDatabaseDao {
+interface ActividadCategoriaDao {
 
     @Query(
         """
