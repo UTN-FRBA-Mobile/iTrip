@@ -43,6 +43,7 @@
         <service android:name=".services.QuizService" />
         <service android:name=".services.ConnectionService" />
         <service android:name=".services.DatabaseService" />
+        <service android:name=".services.StorageService" />
 
         <activity android:name=".LogInActivity">
             <intent-filter>

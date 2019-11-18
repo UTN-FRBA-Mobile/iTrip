@@ -1,28 +1,17 @@
 package com.android.itrip.services
 
 import android.content.Context
-import android.content.Intent
-import android.os.IBinder
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.android.itrip.fragments.ViajeData
 import com.android.itrip.models.*
 import com.android.itrip.util.calendarToString
-import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
-import java.util.logging.Logger
 import javax.inject.Inject
 
 
-class TravelService @Inject constructor(context: Context): ApiService(context) {
-
-    private val logger = Logger.getLogger(this::class.java.name)
-    private val gson = Gson()
-
-    override fun onBind(intent: Intent?): IBinder? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+class TravelService @Inject constructor(context: Context) : ApiService(context) {
 
     fun getDestinations(
         responseHandler: (LiveData<List<Ciudad>>) -> Unit,

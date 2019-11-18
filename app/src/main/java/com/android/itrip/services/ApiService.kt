@@ -12,6 +12,7 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
+import com.google.gson.Gson
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -22,7 +23,8 @@ data class ApiError(val statusCode: Int, val message: String? = null, val data: 
 
 abstract class ApiService @Inject constructor(context: Context) : Service() {
 
-    private val logger = Logger.getLogger(this::class.java.name)
+    protected val logger = Logger.getLogger(this::class.java.name)
+    protected val gson = Gson()
     private val queue = VolleySingleton(context)
     private val base_api_url = "https://proyecto.brazilsouth.cloudapp.azure.com/rest-api/"
 

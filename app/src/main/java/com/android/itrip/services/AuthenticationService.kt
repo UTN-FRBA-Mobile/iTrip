@@ -1,27 +1,20 @@
 package com.android.itrip.services
 
 import android.content.Context
-import android.content.Intent
-import android.os.IBinder
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GetTokenResult
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.logging.Logger
 import javax.inject.Inject
 
 class AuthenticationService @Inject constructor(context: Context) : ApiService(context) {
 
     companion object {
         var refreshToken = ""
+            private set
         var accessToken = ""
-    }
-
-    private val logger = Logger.getLogger(this::class.java.name)
-
-    override fun onBind(intent: Intent?): IBinder? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            private set
     }
 
     private fun validateFirebaseToken(
@@ -34,8 +27,6 @@ class AuthenticationService @Inject constructor(context: Context) : ApiService(c
         post(url, json, {
             refreshToken = it.getString("refresh")
             accessToken = it.getString("access")
-            logger.info("Access token: " + accessToken)
-            logger.info(accessToken)
             responseHandler()
         }, errorHandler)
     }
