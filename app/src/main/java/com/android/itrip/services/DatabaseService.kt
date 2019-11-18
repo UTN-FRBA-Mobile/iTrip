@@ -8,8 +8,11 @@ import androidx.lifecycle.LiveData
 import com.android.itrip.database.*
 import com.android.itrip.models.*
 import kotlinx.coroutines.*
+import javax.inject.Inject
+import javax.inject.Named
 
-class DatabaseService(context: Context) : Service() {
+class DatabaseService @Inject constructor(@Named("ApplicationContext") context: Context) :
+    Service() {
     private var serviceJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + serviceJob)
     private val actividadCategoriaDatabase: ActividadCategoriaDatabase =

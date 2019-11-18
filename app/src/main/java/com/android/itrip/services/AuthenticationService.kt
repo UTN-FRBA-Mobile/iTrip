@@ -1,6 +1,6 @@
 package com.android.itrip.services
 
-import android.content.Context
+import com.android.itrip.util.VolleyClient
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GetTokenResult
@@ -8,7 +8,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import javax.inject.Inject
 
-class AuthenticationService @Inject constructor(context: Context) : ApiService(context) {
+class AuthenticationService @Inject constructor(queue: VolleyClient) : ApiService(queue) {
 
     companion object {
         var refreshToken = ""

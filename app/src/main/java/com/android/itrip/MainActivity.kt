@@ -16,6 +16,8 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.android.itrip.databinding.ActivityMainBinding
 import com.android.itrip.databinding.AppBarHeaderBinding
+import com.android.itrip.dependencyInjection.ContextModule
+import com.android.itrip.dependencyInjection.DaggerApiComponent
 import com.android.itrip.services.QuizService
 import com.android.itrip.util.CircleTransformation
 import com.google.android.material.navigation.NavigationView
@@ -23,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.app_bar.view.*
 import java.util.logging.Logger
+import javax.inject.Inject
 
 
 interface RequestCodes {
@@ -42,8 +45,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var drawerToggle: ActionBarDrawerToggle
     private lateinit var navigationView: NavigationView
     private lateinit var navController: NavController
+    @Inject
+    lateinit var quizService: QuizService
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        DaggerApiComponent.builder().contextModule(ContextModule(applicationContext)).build()
+            .injectMainActivity(this)
         super.onCreate(savedInstanceState)
         bindings()
         initDrawer()
@@ -157,7 +164,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun isQuizAnswered() {
-        QuizService(applicationContext).getResolution({ answered ->
+        quizService.getResolution({ answered ->
             if (!answered) {
                 val intent = Intent(this, QuizActivity::class.java)
                 startActivity(intent)

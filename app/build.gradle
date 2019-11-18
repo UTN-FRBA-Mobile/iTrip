@@ -80,7 +80,8 @@ dependencies {
     api "com.google.dagger:dagger:$version_dagger"
     api "com.google.dagger:dagger-android:$version_dagger"
     annotationProcessor "com.google.dagger:dagger-compiler:$version_dagger"
-    annotationProcessor "com.google.dagger:dagger-android-processor:$version_dagger"
+    kapt "com.google.dagger:dagger-android-processor:$version_dagger"
+    kapt "com.google.dagger:dagger-compiler:$version_dagger"
 
     // Others
     implementation 'com.android.volley:volley:1.1.1'

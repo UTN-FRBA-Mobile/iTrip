@@ -1,7 +1,6 @@
 package com.android.itrip.services
 
 import android.app.Service
-import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import com.android.itrip.util.VolleyClient
@@ -17,15 +16,13 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.logging.Logger
-import javax.inject.Inject
 
 data class ApiError(val statusCode: Int, val message: String? = null, val data: JSONObject)
 
-abstract class ApiService @Inject constructor(context: Context) : Service() {
+abstract class ApiService constructor(private val queue: VolleyClient) : Service() {
 
     protected val logger = Logger.getLogger(this::class.java.name)
     protected val gson = Gson()
-    private val queue = VolleyClient(context)
     private val base_api_url = "https://proyecto.brazilsouth.cloudapp.azure.com/rest-api/"
 
     override fun onBind(intent: Intent?): IBinder? {

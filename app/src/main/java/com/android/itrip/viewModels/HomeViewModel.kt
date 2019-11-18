@@ -1,24 +1,32 @@
 package com.android.itrip.viewModels
 
-import android.content.Context
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.android.itrip.dependencyInjection.ContextModule
+import com.android.itrip.dependencyInjection.DaggerApiComponent
 import com.android.itrip.models.Viaje
 import com.android.itrip.services.ApiError
 import com.android.itrip.services.TravelService
+import javax.inject.Inject
 
 class HomeViewModel(
-    context: Context, successCallback: (List<Viaje>) -> Unit, failureCallback: (ApiError) -> Unit
+    application: Application,
+    successCallback: (List<Viaje>) -> Unit,
+    failureCallback: (ApiError) -> Unit
 ) :
-    ViewModel() {
+    AndroidViewModel(application) {
 
     private var _viajes = MutableLiveData<List<Viaje>>()
-    private val travelService = TravelService(context)
+    @Inject
+    lateinit var travelService: TravelService
     val viajes: LiveData<List<Viaje>>
         get() = _viajes
 
     init {
+        DaggerApiComponent.builder().contextModule(ContextModule(getApplication())).build()
+            .injectHomeViewModel(this)
         getTravels(successCallback, failureCallback)
     }
 

@@ -30,7 +30,7 @@ class CreateTravelFragment : Fragment() {
     private val logger = Logger.getLogger(this::class.java.name)
     private lateinit var binding: FragmentCreateTravelBinding
     private var minDate: Calendar = Calendar.getInstance()
-    private val createTravelViewModel = CreateTravelViewMovel(activity!!.application)
+    private val createTravelViewModel by lazy { CreateTravelViewMovel(requireActivity().application) }
     private var maxDate: Calendar? = null
 
     override fun onCreateView(
@@ -143,7 +143,7 @@ class CreateTravelFragment : Fragment() {
                 inicio = calendarToString(minDate, "yyyy-MM-dd"),
                 fin = calendarToString(maxDate!!, "yyyy-MM-dd")
             )
-            createTravelViewModel.createTrip(request){
+            createTravelViewModel.createTrip(request) {
                 val bundle = bundleOf("viajeID" to it.id)
                 view.findNavController()
                     .navigate(

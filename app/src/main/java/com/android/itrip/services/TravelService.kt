@@ -1,17 +1,17 @@
 package com.android.itrip.services
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.android.itrip.fragments.ViajeData
 import com.android.itrip.models.*
+import com.android.itrip.util.VolleyClient
 import com.android.itrip.util.calendarToString
 import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
 import javax.inject.Inject
 
 
-class TravelService @Inject constructor(context: Context) : ApiService(context) {
+class TravelService @Inject constructor(queue: VolleyClient) : ApiService(queue) {
 
     fun getDestinations(
         responseHandler: (LiveData<List<Ciudad>>) -> Unit,

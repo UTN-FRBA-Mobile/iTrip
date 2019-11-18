@@ -17,7 +17,6 @@ import com.android.itrip.adapters.ActivitiesAdapter
 import com.android.itrip.databinding.FragmentActivitiesListBinding
 import com.android.itrip.models.Actividad
 import com.android.itrip.models.Ciudad
-import com.android.itrip.services.DatabaseService
 import com.android.itrip.viewModels.ActivitiesViewModel
 import com.android.itrip.viewModels.ActivitiesViewModelFactory
 import kotlinx.android.synthetic.main.activity_activities.*
@@ -43,19 +42,18 @@ class ActivitiesListFragment : Fragment() {
         @Suppress("UNCHECKED_CAST")
         actividades = arguments?.get("actividades") as List<Actividad>
         action = arguments?.getInt("action") ?: 0
-        val application = requireNotNull(this.activity).application
         val viewModelFactory = ActivitiesViewModelFactory(
-            DatabaseService(requireContext()),
-            arguments?.get("ciudad") as Ciudad?,
-            actividades,
-            null
+            requireActivity().application,
+            ciudad = arguments?.get("ciudad") as Ciudad?,
+            actividades = actividades,
+            actividad = null
         )
         activitiesViewModel =
             ViewModelProviders.of(
                 this, viewModelFactory
             ).get(ActivitiesViewModel::class.java)
         binding.myRecyclerView.apply {
-            layoutManager = LinearLayoutManager(application)
+            layoutManager = LinearLayoutManager(requireActivity().application)
             adapter = ActivitiesAdapter(activitiesViewModel.actividades) { actividadDetails(it) }
         }
         binding.mapsActivityFloatingActionButton.setOnClickListener {

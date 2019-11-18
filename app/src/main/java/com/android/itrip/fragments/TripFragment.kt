@@ -27,7 +27,6 @@ import com.android.itrip.adapters.TripAdapter
 import com.android.itrip.databinding.FragmentTripBinding
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.services.ApiError
-import com.android.itrip.services.DatabaseService
 import com.android.itrip.viewModels.TripViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.view.*
@@ -68,8 +67,7 @@ class TripFragment : Fragment() {
             }
             tripViewModel =
                 TripViewModel(
-                    requireContext(),
-                    DatabaseService(requireContext()),
+                    requireActivity().application,
                     it
                 ) { ciudadesAVisitar ->
                     getDestinations(ciudadesAVisitar)

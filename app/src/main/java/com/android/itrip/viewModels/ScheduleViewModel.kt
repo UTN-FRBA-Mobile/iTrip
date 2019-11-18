@@ -1,10 +1,12 @@
 package com.android.itrip.viewModels
 
-import android.content.Context
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import com.android.itrip.dependencyInjection.ContextModule
+import com.android.itrip.dependencyInjection.DaggerApiComponent
 import com.android.itrip.models.Actividad
 import com.android.itrip.models.ActividadARealizar
 import com.android.itrip.models.Bucket
@@ -12,6 +14,15 @@ import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.services.DatabaseService
 import com.android.itrip.services.TravelService
 import java.util.*
+import javax.inject.Inject
+import kotlin.collections.List
+import kotlin.collections.MutableList
+import kotlin.collections.filter
+import kotlin.collections.firstOrNull
+import kotlin.collections.hashMapOf
+import kotlin.collections.map
+import kotlin.collections.set
+import kotlin.collections.toMutableList
 
 object CiudadAVisitarObject {
     var ciudadAVisitar: CiudadAVisitar? = null
@@ -21,15 +32,19 @@ object CiudadAVisitarObject {
 }
 
 class ScheduleViewModel(
-    context: Context,
-    private val databaseService: DatabaseService,
+    application: Application,
     var ciudadAVisitar: CiudadAVisitar
-) : ViewModel() {
+) : AndroidViewModel(application) {
     var actividadesARealizar: LiveData<List<ActividadARealizar>>
     private lateinit var bucket: Bucket
-    private val travelService = TravelService(context)
+    @Inject
+    lateinit var travelService: TravelService
+    @Inject
+    lateinit var databaseService: DatabaseService
 
     init {
+        DaggerApiComponent.builder().contextModule(ContextModule(getApplication())).build()
+            .injectScheduleViewModel(this)
         CiudadAVisitarObject._date.value =
             if (ciudadAVisitar == CiudadAVisitarObject.ciudadAVisitar)
                 CiudadAVisitarObject.date.value ?: ciudadAVisitar.inicio

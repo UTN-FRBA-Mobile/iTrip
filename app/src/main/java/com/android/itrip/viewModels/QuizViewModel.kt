@@ -2,14 +2,18 @@ package com.android.itrip.viewModels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import com.android.itrip.dependencyInjection.ContextModule
+import com.android.itrip.dependencyInjection.DaggerApiComponent
 import com.android.itrip.models.Answer
 import com.android.itrip.models.Quiz
 import com.android.itrip.services.ApiError
 import com.android.itrip.services.QuizService
+import javax.inject.Inject
 
 
 class QuizViewModel(application: Application) : AndroidViewModel(application) {
-    private val quizService = QuizService(application.applicationContext)
+    @Inject
+    lateinit var quizService: QuizService
     val hobbies: List<Answer>
     val generos: List<Answer>
     val estados_civil: List<Answer>
@@ -18,6 +22,8 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
     var quiz: Quiz = Quiz()
 
     init {
+        DaggerApiComponent.builder().contextModule(ContextModule(getApplication())).build()
+            .injectQuizViewModel(this)
         generos = fillGeneros()
         estados_civil = fillEstadoCivil()
         niveles_de_estudio = fillNivelDeEstudios()

@@ -31,7 +31,6 @@ import com.android.itrip.databinding.FragmentScheduleBinding
 import com.android.itrip.models.Actividad
 import com.android.itrip.models.ActividadARealizar
 import com.android.itrip.models.CiudadAVisitar
-import com.android.itrip.services.DatabaseService
 import com.android.itrip.viewModels.CiudadAVisitarObject
 import com.android.itrip.viewModels.ScheduleViewModel
 import devs.mulham.horizontalcalendar.HorizontalCalendar
@@ -55,7 +54,7 @@ class ScheduleFragment : Fragment() {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_schedule, container, false
         )
-        scheduleViewModel = ScheduleViewModel(requireContext(),DatabaseService(requireContext()), ciudadAVisitar)
+        scheduleViewModel = ScheduleViewModel(requireActivity().application, ciudadAVisitar)
         setCalendar()
         binding.myRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireNotNull(activity).application)

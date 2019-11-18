@@ -5,23 +5,31 @@ import android.content.Context
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import com.android.itrip.dependencyInjection.ContextModule
+import com.android.itrip.dependencyInjection.DaggerApiComponent
 import com.android.itrip.models.Actividad
 import com.android.itrip.models.Ciudad
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.models.Viaje
-import com.android.itrip.services.*
+import com.android.itrip.services.ApiError
+import com.android.itrip.services.ConnectionService
+import com.android.itrip.services.StorageService
+import com.android.itrip.services.TravelService
 import java.util.*
 import java.util.logging.Logger
+import javax.inject.Inject
 
 
 class DestinationViewModel(
-    private val databaseService: DatabaseService,
     application: Application,
     viaje: Viaje?
 ) : AndroidViewModel(application) {
 
     private val logger = Logger.getLogger(this::class.java.name)
-    private val travelService = TravelService(application)
+    @Inject
+    lateinit var travelService: TravelService
+    @Inject
+    lateinit var storageService: StorageService
     val ciudades: LiveData<List<Ciudad>>
     var ciudadAVisitar: CiudadAVisitar = CiudadAVisitar(
         id = 0,
@@ -32,7 +40,9 @@ class DestinationViewModel(
     )
 
     init {
-        ciudades = StorageService(application).getCiudades()
+        DaggerApiComponent.builder().contextModule(ContextModule(getApplication())).build()
+            .injectDestinationViewModel(this)
+        ciudades = storageService.getCiudades()
     }
 
     fun chooseStartDate(calendar: Calendar) {
@@ -51,7 +61,7 @@ class DestinationViewModel(
     ) {
         ciudadAVisitar.detalle_ciudad = ciudad
         travelService.postDestination(viaje, ciudadAVisitar, {
-            databaseService.insertActividades(
+            storageService.insertActividades(
                 it.actividades_a_realizar.map { it.detalle_actividad },
                 it.detalle_ciudad
             )
@@ -85,11 +95,11 @@ class DestinationViewModel(
                 it.forEach { actividad ->
                     actividad.ciudad = ciudad.id
                 }
-                databaseService.insertActividades(it, ciudad)
+                storageService.insertActividades(it, ciudad)
                 successCallback(it)
             }, failureCallback)
         } else {
-            successCallback(databaseService.getActivitiesOfCity(ciudad))
+            successCallback(storageService.getActivitiesOfCity(ciudad))
         }
     }
 

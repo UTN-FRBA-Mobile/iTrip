@@ -1,25 +1,32 @@
 package com.android.itrip.viewModels
 
-import android.content.Context
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import com.android.itrip.dependencyInjection.ContextModule
+import com.android.itrip.dependencyInjection.DaggerApiComponent
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.models.Viaje
 import com.android.itrip.services.ApiError
 import com.android.itrip.services.DatabaseService
 import com.android.itrip.services.TravelService
+import javax.inject.Inject
 
 class TripViewModel(
-    context: Context,
-    private val databaseService: DatabaseService,
+    application: Application,
     viajeID: Long,
     callback: (List<CiudadAVisitar>) -> Unit
-) : ViewModel() {
+) : AndroidViewModel(application) {
 
     private lateinit var _viaje: Viaje
     val viaje: Viaje get() = _viaje
-    private val travelService = TravelService(context)
+    @Inject
+    lateinit var travelService: TravelService
+    @Inject
+    lateinit var databaseService: DatabaseService
 
     init {
+        DaggerApiComponent.builder().contextModule(ContextModule(getApplication())).build()
+            .injectTripViewModel(this)
         getTravel(viajeID, callback)
     }
 

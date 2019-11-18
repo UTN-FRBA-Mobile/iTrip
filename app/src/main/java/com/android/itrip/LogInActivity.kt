@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.android.itrip.databinding.ActivityLoginBinding
+import com.android.itrip.dependencyInjection.ContextModule
+import com.android.itrip.dependencyInjection.DaggerApiComponent
 import com.android.itrip.services.ApiError
 import com.android.itrip.services.AuthenticationService
 import com.android.itrip.util.NukeSSLCerts
@@ -16,11 +18,13 @@ import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import java.util.logging.Logger
+import javax.inject.Inject
 
 class LogInActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private val authenticationService by lazy { AuthenticationService(applicationContext) }
+    @Inject
+    lateinit var authenticationService: AuthenticationService
     private val logger = Logger.getLogger(this::class.java.name)
     private val RC_SIGN_IN = 123
     private var providers = listOf(
@@ -29,6 +33,8 @@ class LogInActivity : AppCompatActivity() {
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        DaggerApiComponent.builder().contextModule(ContextModule(applicationContext)).build()
+            .injectLogInActivity(this)
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         NukeSSLCerts().nuke()

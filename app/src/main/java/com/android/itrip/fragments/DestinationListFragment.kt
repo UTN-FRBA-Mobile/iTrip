@@ -25,7 +25,6 @@ import com.android.itrip.models.Actividad
 import com.android.itrip.models.Ciudad
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.models.Viaje
-import com.android.itrip.services.DatabaseService
 import com.android.itrip.viewModels.DestinationViewModel
 import com.android.itrip.viewModels.DestinationViewModelFactory
 import com.transitionseverywhere.ChangeText
@@ -58,7 +57,6 @@ class DestinationListFragment : Fragment() {
     private fun loadViewModel() {
         val application = requireNotNull(this.activity).application
         val viewModelFactory = DestinationViewModelFactory(
-            DatabaseService(requireContext()),
             application,
             viaje
         )
