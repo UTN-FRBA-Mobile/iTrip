@@ -4,7 +4,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
-import com.android.itrip.util.VolleySingleton
+import com.android.itrip.util.VolleyClient
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.TimeoutError
@@ -25,7 +25,7 @@ abstract class ApiService @Inject constructor(context: Context) : Service() {
 
     protected val logger = Logger.getLogger(this::class.java.name)
     protected val gson = Gson()
-    private val queue = VolleySingleton(context)
+    private val queue = VolleyClient(context)
     private val base_api_url = "https://proyecto.brazilsouth.cloudapp.azure.com/rest-api/"
 
     override fun onBind(intent: Intent?): IBinder? {

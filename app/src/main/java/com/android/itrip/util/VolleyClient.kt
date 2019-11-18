@@ -9,7 +9,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import javax.inject.Inject
 
-class VolleySingleton @Inject constructor(context: Context) {
+class VolleyClient @Inject constructor(context: Context) {
 
     private val requestQueue: RequestQueue = Volley.newRequestQueue(context.applicationContext)
 
