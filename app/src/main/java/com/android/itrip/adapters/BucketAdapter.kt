@@ -1,7 +1,6 @@
 package com.android.itrip.adapters
 
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -16,6 +15,7 @@ import com.android.itrip.databinding.BucketItemBinding
 import com.android.itrip.models.ActividadARealizar
 import com.android.itrip.util.ActivityType
 import com.android.itrip.viewModels.ScheduleViewModel
+import com.squareup.picasso.Picasso
 
 class BucketAdapter(
     private val scheduleViewModel: ScheduleViewModel,
@@ -122,14 +122,26 @@ class BucketAdapter(
             showActivityDetailsCallback: (ActividadARealizar) -> Unit
         ) {
             (binding as BucketItemBinding).apply {
-                if (position % 2 == 0)
-                    bucketItemConstraintLayout.setBackgroundColor(Color.LTGRAY)
-                else
-                    bucketItemConstraintLayout.setBackgroundColor(Color.WHITE)
+                //                if (position % 2 == 0)
+//                    bucketItemConstraintLayout.setBackgroundColor(Color.LTGRAY)
+//                else
+//                    bucketItemConstraintLayout.setBackgroundColor(Color.WHITE)
                 actividadARealizar = item
-                bucketItemConstraintLayout.layoutParams.height =
-                    bucketItemConstraintLayout.context.resources.displayMetrics.heightPixels / 9 * item.detalle_actividad.duracion
-                bucketItemConstraintLayout.requestLayout()
+                var height =
+                    bucketItemConstraintLayout.context.resources.displayMetrics.heightPixels / 8 * item.detalle_actividad.duracion
+                if (item.detalle_actividad.duracion>1) height += 10 * item.detalle_actividad.duracion
+//                bucketItemConstraintLayout.layoutParams.height = height
+//                bucketItemConstraintLayout.requestLayout()
+                bucketItemImageView.layoutParams.height = height
+                bucketItemImageView.requestLayout()
+                item.detalle_actividad.imagen?.let {
+                    Picasso.get()
+                        .load(it)
+                        .resize(bucketItemConstraintLayout.width, height)
+                        .onlyScaleDown()
+                        .centerCrop()
+                        .into(bucketItemImageView)
+                }
                 bucketItemConstraintLayout.setOnClickListener { showActivityDetailsCallback(item) }
             }
         }
@@ -140,7 +152,7 @@ class BucketAdapter(
         ) {
             (binding as BucketEmptyItemBinding).bucketEmptyItemImageButton.apply {
                 layoutParams.height =
-                    context.resources.displayMetrics.heightPixels / 9 * item.detalle_actividad.duracion
+                    context.resources.displayMetrics.heightPixels / 8 * item.detalle_actividad.duracion
                 requestLayout()
                 setOnClickListener {
                     addActivityToBucketCallback(item)

@@ -60,11 +60,6 @@ class DatabaseService @Inject constructor(@Named("ApplicationContext") context: 
         }
     }
 
-    fun getActividadByNombre(query: String?, ciudad: Ciudad): LiveData<List<Actividad>> {
-        return actividadDao.getActividadByNombre("%$query%", ciudad.id)
-
-    }
-
     fun getCategoriasOfActivity(actividad: Actividad?): LiveData<List<Categoria>>? {
         return if (actividad?.id != null)
             actividadCategoriaDao.getCategoriasOfActividad(actividad.id)
@@ -98,6 +93,10 @@ class DatabaseService @Inject constructor(@Named("ApplicationContext") context: 
 
     fun getActivitiesOfCity(ciudad: Ciudad): List<Actividad> {
         return actividadDao.getActivitiesOfCity(ciudad.id)
+    }
+
+    fun getActivitiesOfCity2(ciudad: Ciudad): LiveData<List<Actividad>> {
+        return actividadDao.getActivitiesOfCity2(ciudad.id)
     }
 
 }

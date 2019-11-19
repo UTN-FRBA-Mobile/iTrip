@@ -90,6 +90,7 @@ class DestinationViewModel(
         successCallback: (List<Actividad>) -> Unit,
         failureCallback: (ApiError) -> Unit
     ) {
+
         if (ConnectionService.isNetworkConnected(context)) {
             travelService.getActivities(ciudad, {
                 it.forEach { actividad ->
@@ -101,6 +102,10 @@ class DestinationViewModel(
         } else {
             successCallback(storageService.getActivitiesOfCity(ciudad))
         }
+    }
+
+    fun getActivitiesLiveData(ciudad: Ciudad) : LiveData<List<Actividad>>{
+        return storageService.getActivitiesOfCity2(ciudad)
     }
 
 }

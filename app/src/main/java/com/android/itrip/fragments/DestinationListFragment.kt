@@ -14,10 +14,11 @@ import androidx.core.animation.doOnEnd
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.itrip.*
+import com.android.itrip.R
 import com.android.itrip.activities.ActivitiesActivity
 import com.android.itrip.activities.AppWindowManager
 import com.android.itrip.activities.MainActivity
@@ -92,18 +93,15 @@ class DestinationListFragment : Fragment() {
     }
 
     private fun viewActivities(ciudad: Ciudad) {
-        destinationsViewModel.getActivities(
-            ciudad, requireContext(),
-            { goToActivities(it, ciudad) },
-            {})
+        goToActivities(destinationsViewModel.getActivitiesLiveData(ciudad), ciudad)
     }
 
-    private fun goToActivities(actividades: List<Actividad>, ciudad: Ciudad) {
+    private fun goToActivities(actividades: LiveData<List<Actividad>>, ciudad: Ciudad) {
         val intent = Intent(context, ActivitiesActivity::class.java).apply {
             putExtra("action", RequestCodes.VIEW_ACTIVITY_LIST_CODE)
             putExtras(
                 bundleOf(
-                    "actividades" to actividades,
+                    "actividades" to actividades.value,
                     "ciudad" to ciudad
                 )
             )

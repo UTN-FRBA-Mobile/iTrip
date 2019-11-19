@@ -93,6 +93,19 @@ class TravelService @Inject constructor(queue: VolleyClient) : ApiService(queue)
         }, errorHandler)
     }
 
+    fun getActivities2(
+        ciudad: Ciudad,
+        responseHandler: (LiveData<List<Actividad>>) -> Unit,
+        errorHandler: (ApiError) -> Unit
+    ) {
+        logger.info("getActivities.")
+        getArray("""destinos/${ciudad.id}/actividades/""", {
+            val listType = object : TypeToken<List<Actividad>>() {}.type
+            val actividades: List<Actividad> = gson.fromJson(it.toString(), listType)
+            responseHandler(MutableLiveData(actividades))
+        }, errorHandler)
+    }
+
     fun postDestination(
         viaje: Viaje,
         destination: CiudadAVisitar,

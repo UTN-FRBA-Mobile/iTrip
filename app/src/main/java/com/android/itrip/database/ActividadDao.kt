@@ -16,6 +16,9 @@ interface ActividadDao {
     @Query("SELECT * from actividades_table WHERE ciudadId = :cityId")
     fun getActivitiesOfCity(cityId: Long): List<Actividad>
 
+    @Query("SELECT * from actividades_table WHERE ciudadId = :cityId")
+    fun getActivitiesOfCity2(cityId: Long): LiveData<List<Actividad>>
+
     @Query("DELETE FROM actividades_table")
     fun clear()
 

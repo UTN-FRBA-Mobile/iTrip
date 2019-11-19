@@ -42,8 +42,7 @@ class StorageService @Inject constructor(
             callback(it)
         }, { error ->
             logger.severe("Failed to retrieve destinations - status: ${error.statusCode} - message: ${error.message}")
-            val message = "Hubo un problema, intente de nuevo"
-            toaster.shortToastMessage(message)
+            toaster.shortToastMessage("Hubo un problema, intente de nuevo")
         })
     }
 
@@ -57,6 +56,33 @@ class StorageService @Inject constructor(
 
     fun getActivitiesOfCity(ciudad: Ciudad): List<Actividad> {
         return databaseService.getActivitiesOfCity(ciudad)
+    }
+
+    fun getActivitiesOfCity2(ciudad: Ciudad): MediatorLiveData<List<Actividad>> {
+        val databaseData = databaseService.getActivitiesOfCity2(ciudad)
+        val mediatorLiveData = MediatorLiveData<List<Actividad>>()
+        mediatorLiveData.addSource(databaseData) { actividades ->
+            mediatorLiveData.value = actividades
+        }
+        getActivitiesOfCityApi(ciudad) {
+            mediatorLiveData.addSource(it) { actividades ->
+                insertActividades(actividades, ciudad)
+                mediatorLiveData.value = actividades
+            }
+        }
+        return mediatorLiveData
+    }
+
+    private fun getActivitiesOfCityApi(
+        ciudad: Ciudad,
+        callback: (LiveData<List<Actividad>>) -> Unit
+    ) {
+        travelService.getActivities2(ciudad, {
+            callback(it)
+        }, { error ->
+            logger.severe("Failed to retrieve destinations - status: ${error.statusCode} - message: ${error.message}")
+            toaster.shortToastMessage("Hubo un problema, intente de nuevo")
+        })
     }
 
 }
