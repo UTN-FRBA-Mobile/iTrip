@@ -47,7 +47,6 @@ class BucketAdapter(
     override fun onBindViewHolder(holder: ActivitiesHolder, position: Int) {
         holder.bind(
             getItem(position),
-            position,
             addActivityToBucketCallback,
             showActivityDetailsCallback
         )
@@ -106,41 +105,50 @@ class BucketAdapter(
 
         fun bind(
             item: ActividadARealizar,
-            position: Int,
             addActivityToBucketCallback: (ActividadARealizar) -> Unit,
             showActivityDetailsCallback: (ActividadARealizar) -> Unit
         ) {
             when (itemViewType) {
-                ActivityType.ACTIVITY -> bindActivity(item, position, showActivityDetailsCallback)
+                ActivityType.ACTIVITY -> bindActivity(item, showActivityDetailsCallback)
                 ActivityType.EMPTY -> bindingEmpty(item, addActivityToBucketCallback)
             }
         }
 
         private fun bindActivity(
             item: ActividadARealizar,
-            position: Int,
             showActivityDetailsCallback: (ActividadARealizar) -> Unit
         ) {
             (binding as BucketItemBinding).apply {
-                //                if (position % 2 == 0)
-//                    bucketItemConstraintLayout.setBackgroundColor(Color.LTGRAY)
-//                else
-//                    bucketItemConstraintLayout.setBackgroundColor(Color.WHITE)
                 actividadARealizar = item
                 var height =
                     bucketItemConstraintLayout.context.resources.displayMetrics.heightPixels / 8 * item.detalle_actividad.duracion
-                if (item.detalle_actividad.duracion>1) height += 10 * item.detalle_actividad.duracion
-//                bucketItemConstraintLayout.layoutParams.height = height
-//                bucketItemConstraintLayout.requestLayout()
-                bucketItemImageView.layoutParams.height = height
-                bucketItemImageView.requestLayout()
-                item.detalle_actividad.imagen?.let {
-                    Picasso.get()
-                        .load(it)
-                        .resize(bucketItemConstraintLayout.width, height)
-                        .onlyScaleDown()
-                        .centerCrop()
-                        .into(bucketItemImageView)
+                if (item.detalle_actividad.duracion > 1) {
+                    height += 8 * item.detalle_actividad.duracion
+                    bucketItemImageView.layoutParams.height = height
+                    bucketItemImageView.requestLayout()
+                    item.detalle_actividad.imagen?.let {
+                        Picasso.get()
+                            .load(it)
+                            .resize(
+                                bucketItemConstraintLayout.context.resources.displayMetrics.widthPixels,
+                                height + item.detalle_actividad.duracion * 15
+                            )
+                            .centerCrop()
+                            .into(bucketItemImageView)
+                    }
+                } else {
+                    bucketItemImageView.layoutParams.height = height
+                    bucketItemImageView.requestLayout()
+                    item.detalle_actividad.imagen?.let {
+                        Picasso.get()
+                            .load(it)
+                            .resize(
+                                bucketItemConstraintLayout.context.resources.displayMetrics.widthPixels,
+                                height + 10
+                            )
+                            .centerCrop()
+                            .into(bucketItemImageView)
+                    }
                 }
                 bucketItemConstraintLayout.setOnClickListener { showActivityDetailsCallback(item) }
             }
