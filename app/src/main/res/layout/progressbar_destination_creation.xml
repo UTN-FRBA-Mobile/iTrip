@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:text="@string/progressbar_start"
             android:textAlignment="center"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
         <ProgressBar
             android:id="@+id/progressbar_destination_creation"
