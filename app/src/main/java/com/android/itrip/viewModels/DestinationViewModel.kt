@@ -68,7 +68,7 @@ class DestinationViewModel(
         viaje: Viaje,
         ciudad: Ciudad,
         callback: (CiudadAVisitar) -> Unit,
-        callbackError: () -> Unit
+        callbackError: (String) -> Unit
     ) {
         ciudadAVisitar.detalle_ciudad = ciudad
         TravelService.postDestination(viaje, ciudadAVisitar, {
@@ -88,10 +88,7 @@ class DestinationViewModel(
                     "Hubo un problema, intente de nuevo"
                 }
             }
-            Toast
-                .makeText(getApplication(), message, Toast.LENGTH_LONG)
-                .show()
-            callbackError()
+            callbackError(message)
         })
     }
 
