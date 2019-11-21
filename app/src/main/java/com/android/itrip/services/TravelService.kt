@@ -37,9 +37,15 @@ class TravelService @Inject constructor(queue: VolleyClient) : ApiService(queue)
         errorHandler: (ApiError) -> Unit
     ) {
         getArray("viajes/", {
+            logger.info(it.toString())
             val viajesApiModel: List<ViajeApiModel> =
                 gson.fromJson(it.toString(), object : TypeToken<List<ViajeApiModel>>() {}.type)
-            responseHandler(viajesApiModel.map { it.viaje() })
+            viajesApiModel.forEach { viajeApiModel ->
+                logger.info("IMAGEN: " + viajeApiModel.imagen)
+            }
+            responseHandler(viajesApiModel.map { viajeApiModel ->
+                viajeApiModel.viaje()
+            })
         }, errorHandler)
     }
 
@@ -50,7 +56,8 @@ class TravelService @Inject constructor(queue: VolleyClient) : ApiService(queue)
     ) {
         logger.info("getTrip.")
         get("viajes/$id", {
-            val viajeApiModel: ViajeApiModel = gson.fromJson(it.toString(), ViajeApiModel::class.java)
+            val viajeApiModel: ViajeApiModel =
+                gson.fromJson(it.toString(), ViajeApiModel::class.java)
             val viaje: Viaje = viajeApiModel.viaje()
             responseHandler(viaje)
         }, errorHandler)
@@ -62,8 +69,10 @@ class TravelService @Inject constructor(queue: VolleyClient) : ApiService(queue)
         errorHandler: (ApiError) -> Unit
     ) {
         val json = JSONObject(gson.toJson(body))
+        logger.info(json.toString())
         post("viajes/", json, {
-            val viajeApiModel: ViajeApiModel = gson.fromJson(it.toString(), ViajeApiModel::class.java)
+            val viajeApiModel: ViajeApiModel =
+                gson.fromJson(it.toString(), ViajeApiModel::class.java)
             responseHandler(viajeApiModel.viaje())
         }, errorHandler)
     }

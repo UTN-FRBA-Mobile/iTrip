@@ -91,7 +91,7 @@ class DestinationDialog(
     ) {
         val datePickerFragment = DatePickerFragment(
             callback = { calendar ->
-                textView.text = calendarToString(calendar)
+                textView.text = calendarToString(calendar, "dd/MM/yyyy")
                 callback(calendar)
             },
             minDate = viaje.inicio,

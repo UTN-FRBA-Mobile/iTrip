@@ -15,12 +15,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import com.android.itrip.util.DrawerLocker
-import com.android.itrip.activities.QuizActivity
 import com.android.itrip.R
+import com.android.itrip.activities.QuizActivity
 import com.android.itrip.databinding.FragmentQuizInfoBinding
 import com.android.itrip.models.Answer
 import com.android.itrip.util.Constants
+import com.android.itrip.util.DrawerLocker
 import kotlinx.android.synthetic.main.activity_quiz.*
 import kotlinx.android.synthetic.main.app_bar.view.*
 import java.util.logging.Logger

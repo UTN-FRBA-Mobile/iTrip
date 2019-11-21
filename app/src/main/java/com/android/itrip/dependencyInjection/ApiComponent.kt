@@ -3,6 +3,7 @@ package com.android.itrip.dependencyInjection
 import com.android.itrip.activities.LogInActivity
 import com.android.itrip.activities.MainActivity
 import com.android.itrip.activities.QuizActivity
+import com.android.itrip.fragments.CreateTravelFragment
 import com.android.itrip.services.AuthenticationService
 import com.android.itrip.services.DatabaseService
 import com.android.itrip.services.StorageService
@@ -35,6 +36,8 @@ interface ApiComponent {
     fun injectQuizViewModel(viewModel: QuizViewModel)
     fun injectScheduleViewModel(viewModel: ScheduleViewModel)
     fun injectTripViewModel(viewModel: TripViewModel)
+
+    fun injectCreateTravelFragment(createTravelFragment: CreateTravelFragment)
 
     fun injectStorageService(storageService: StorageService)
 }

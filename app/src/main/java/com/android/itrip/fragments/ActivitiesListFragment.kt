@@ -1,23 +1,27 @@
 package com.android.itrip.fragments
 
 
+import android.hardware.Sensor
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.itrip.activities.ActivitiesActivity
 import com.android.itrip.R
+import com.android.itrip.activities.ActivitiesActivity
 import com.android.itrip.adapters.ActivitiesAdapter
 import com.android.itrip.databinding.FragmentActivitiesListBinding
 import com.android.itrip.models.Actividad
 import com.android.itrip.models.Ciudad
+import com.android.itrip.util.RequestCodes.Companion.ADD_ACTIVITY_CODE
+import com.android.itrip.util.ShakeDetector
 import com.android.itrip.viewModels.ActivitiesViewModel
 import com.android.itrip.viewModels.ActivitiesViewModelFactory
 import kotlinx.android.synthetic.main.activity_activities.*
@@ -30,6 +34,10 @@ class ActivitiesListFragment : Fragment() {
     private lateinit var activitiesViewModel: ActivitiesViewModel
     private var actividades: List<Actividad> = emptyList()
     private var action: Int = 0
+    // The following are used for the shake detection
+    private var mSensorManager: SensorManager? = null
+    private var mAccelerometer: Sensor? = null
+    private var mShakeDetector: ShakeDetector? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,8 +75,43 @@ class ActivitiesListFragment : Fragment() {
                 )
             )
         }
+        if (action == ADD_ACTIVITY_CODE) configShake()
         binding.lifecycleOwner = this
         return binding.root
+    }
+
+    private fun configShake() {
+        // ShakeDetector initialization
+        // ShakeDetector initialization
+        mSensorManager =
+            getSystemService<SensorManager>(requireContext(), SensorManager::class.java)
+        mAccelerometer = mSensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        mShakeDetector = ShakeDetector()
+        mShakeDetector!!.setOnShakeListener {
+            /*
+                         * The following method, "handleShakeEvent(count):" is a stub //
+                         * method you would use to setup whatever you want done once the
+                         * device has been shook.
+                         */
+            //            handleShakeEvent(count)
+            (activity as ActivitiesActivity).finishActivity(activitiesViewModel.getRandomActivity())
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Add the following line to register the Session Manager Listener onResume
+        if (action == ADD_ACTIVITY_CODE) mSensorManager!!.registerListener(
+            mShakeDetector,
+            mAccelerometer,
+            SensorManager.SENSOR_DELAY_UI
+        )
+    }
+
+    override fun onPause() {
+        // Add the following line to unregister the Sensor Manager onPause
+        if (action == ADD_ACTIVITY_CODE) mSensorManager!!.unregisterListener(mShakeDetector)
+        super.onPause()
     }
 
     private fun actividadDetails(actividad: Actividad) {

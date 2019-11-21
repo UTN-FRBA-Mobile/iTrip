@@ -8,9 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.android.itrip.R
 import com.android.itrip.activities.MainActivity
 import com.android.itrip.activities.QuizActivity
-import com.android.itrip.R
 import com.android.itrip.databinding.FragmentQuizEndBinding
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_quiz.*

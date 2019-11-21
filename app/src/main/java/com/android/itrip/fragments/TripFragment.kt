@@ -20,9 +20,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.itrip.R
 import com.android.itrip.activities.AppWindowManager
 import com.android.itrip.activities.MainActivity
-import com.android.itrip.R
 import com.android.itrip.adapters.TripAdapter
 import com.android.itrip.databinding.FragmentTripBinding
 import com.android.itrip.models.CiudadAVisitar

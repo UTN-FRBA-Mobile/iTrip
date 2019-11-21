@@ -7,7 +7,7 @@ import javax.inject.Named
 
 class Toaster @Inject constructor(@Named("ApplicationContext") context: Context) {
 
-    private val toast: Toast = Toast.makeText(context,"",Toast.LENGTH_SHORT)
+    private val toast: Toast = Toast.makeText(context, "", Toast.LENGTH_SHORT)
 
     fun shortToastMessage(message: String?) {
         toast.setText(message)

@@ -104,7 +104,7 @@ class DestinationViewModel(
         }
     }
 
-    fun getActivitiesLiveData(ciudad: Ciudad) : LiveData<List<Actividad>>{
+    fun getActivitiesLiveData(ciudad: Ciudad): LiveData<List<Actividad>> {
         return storageService.getActivitiesOfCity2(ciudad)
     }
 

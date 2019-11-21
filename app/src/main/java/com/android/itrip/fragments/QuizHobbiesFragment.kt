@@ -12,8 +12,8 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.itrip.activities.QuizActivity
 import com.android.itrip.R
+import com.android.itrip.activities.QuizActivity
 import com.android.itrip.adapters.HobbiesAdapter
 import com.android.itrip.databinding.FragmentQuizHobbiesBinding
 import kotlinx.android.synthetic.main.activity_quiz.*

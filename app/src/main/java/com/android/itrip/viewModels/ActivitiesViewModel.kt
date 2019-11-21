@@ -64,4 +64,8 @@ class ActivitiesViewModel(
             ?.joinToString(", ")
     }
 
+    fun getRandomActivity(): Actividad {
+        return actividades.value!!.random()
+    }
+
 }

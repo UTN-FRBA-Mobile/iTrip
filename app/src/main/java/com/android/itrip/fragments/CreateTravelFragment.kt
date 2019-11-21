@@ -1,7 +1,10 @@
 package com.android.itrip.fragments
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -13,19 +16,22 @@ import android.widget.EditText
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.android.itrip.R
 import com.android.itrip.activities.MainActivity
 import com.android.itrip.databinding.FragmentCreateTravelBinding
+import com.android.itrip.dependencyInjection.ContextModule
+import com.android.itrip.dependencyInjection.DaggerApiComponent
 import com.android.itrip.ui.DatePickerFragment
 import com.android.itrip.util.RequestCodes.Companion.REQUEST_IMAGE_GET
+import com.android.itrip.util.Toaster
 import com.android.itrip.util.calendarToString
 import com.android.itrip.viewModels.CreateTravelViewMovel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.view.*
 import java.util.*
 import java.util.logging.Logger
+import javax.inject.Inject
 
 
 class CreateTravelFragment : Fragment() {
@@ -33,11 +39,15 @@ class CreateTravelFragment : Fragment() {
     private val logger = Logger.getLogger(this::class.java.name)
     private lateinit var binding: FragmentCreateTravelBinding
     private val createTravelViewModel by lazy { CreateTravelViewMovel(requireActivity().application) }
+    @Inject
+    lateinit var toaster: Toaster
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        DaggerApiComponent.builder().contextModule(ContextModule(requireContext())).build()
+            .injectCreateTravelFragment(this)
         setBarTitle()
         binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_create_travel, container, false)
@@ -107,7 +117,7 @@ class CreateTravelFragment : Fragment() {
         val chooserIntent = Intent.createChooser(getPickerIntent, "Selecciona una Imagen").apply {
             putExtra(
                 Intent.EXTRA_INITIAL_INTENTS,
-                arrayOf(takePictureIntent,getGalleryPhotoIntent)
+                arrayOf(takePictureIntent, getGalleryPhotoIntent)
             )
         }
         if (chooserIntent.resolveActivity(requireActivity().packageManager) != null)
@@ -165,7 +175,8 @@ class CreateTravelFragment : Fragment() {
     private fun createTravel() {
         binding.form.validate()
         if (binding.form.isValid) {
-            createTravelViewModel.viaje.nombre = binding.textinputlayoutTravelName.editText.text.toString()
+            createTravelViewModel.viaje.nombre =
+                binding.textinputlayoutTravelName.editText.text.toString()
             createTravelViewModel.createTrip {
                 val bundle = bundleOf("viajeID" to it.id)
                 findNavController()
@@ -176,6 +187,17 @@ class CreateTravelFragment : Fragment() {
             }
         } else {
             logger.severe("All fields are mandatory")
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_IMAGE_GET && resultCode == Activity.RESULT_OK) {
+            val thumbnail: Bitmap? = data?.getParcelableExtra("data")
+            val fullPhotoUri: Uri? = data?.data
+            toaster.shortToastMessage(fullPhotoUri.toString())
+            binding.travelPhoto.setImageURI(fullPhotoUri)
+            createTravelViewModel.viaje.imagen = fullPhotoUri.toString()
         }
     }
 

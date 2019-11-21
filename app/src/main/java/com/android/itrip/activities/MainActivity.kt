@@ -1,11 +1,8 @@
 package com.android.itrip.activities
 
 
-import android.app.Activity
 import android.content.Intent
 import android.content.res.Configuration
-import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -24,7 +21,6 @@ import com.android.itrip.dependencyInjection.ContextModule
 import com.android.itrip.dependencyInjection.DaggerApiComponent
 import com.android.itrip.services.QuizService
 import com.android.itrip.util.CircleTransformation
-import com.android.itrip.util.RequestCodes.Companion.REQUEST_IMAGE_GET
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
@@ -169,15 +165,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }, { error ->
             logger.severe("Failed to retrieve quiz result - status: ${error.statusCode} - message: ${error.message}")
         })
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        packageManager
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_IMAGE_GET && resultCode == Activity.RESULT_OK) {
-            val thumbnail: Bitmap? = data?.getParcelableExtra("data")
-            val fullPhotoUri: Uri? = data?.data
-        }
     }
 
 }

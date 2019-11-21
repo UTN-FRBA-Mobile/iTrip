@@ -102,7 +102,8 @@ class QuizActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Draw
             .fit()
             .into(bindingAppBar.imageviewAppBarHeaderPicture)
         // set up navigation controller and navigation view bindings
-        navController = Navigation.findNavController(this,
+        navController = Navigation.findNavController(
+            this,
             R.id.navhostfragment_quiz
         )
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)

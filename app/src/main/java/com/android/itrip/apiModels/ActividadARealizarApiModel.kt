@@ -23,6 +23,7 @@ data class ActividadARealizarApiModel(
             detalle_actividad
         )
     }
+
     constructor(actividadARealizar: ActividadARealizar) : this(
         actividadARealizar.id,
         calendarToString(actividadARealizar.dia, "yyyy-MM-dd"),

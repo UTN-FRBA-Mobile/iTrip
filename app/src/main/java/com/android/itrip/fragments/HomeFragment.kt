@@ -20,9 +20,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.itrip.R
 import com.android.itrip.activities.AppWindowManager
 import com.android.itrip.activities.MainActivity
-import com.android.itrip.R
 import com.android.itrip.adapters.TravelAdapter
 import com.android.itrip.databinding.FragmentHomeBinding
 import com.android.itrip.fragments.HomeFragmentDirections.Companion.actionHomeFragmentToCreateTravelFragment
