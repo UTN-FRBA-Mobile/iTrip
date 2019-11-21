@@ -7,7 +7,6 @@ import com.android.itrip.apiModels.Continente
 import com.android.itrip.apiModels.ViajeApiModel
 import com.android.itrip.models.*
 import com.android.itrip.util.ApiError
-import com.android.itrip.util.ViajeData
 import com.android.itrip.util.VolleyClient
 import com.android.itrip.util.calendarToString
 import com.google.gson.reflect.TypeToken
@@ -58,7 +57,7 @@ class TravelService @Inject constructor(queue: VolleyClient) : ApiService(queue)
     }
 
     fun createTrip(
-        body: ViajeData,
+        body: ViajeApiModel,
         responseHandler: (Viaje) -> Unit,
         errorHandler: (ApiError) -> Unit
     ) {

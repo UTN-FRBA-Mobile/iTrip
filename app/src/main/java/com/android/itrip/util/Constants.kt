@@ -21,8 +21,6 @@ object Constants {
     const val DIALOG_TITLE_GEN = R.string.quiz_info_dialog_title_genero
 }
 
-data class ViajeData(val nombre: String, var inicio: String, var fin: String)
-
 data class ApiError(val statusCode: Int, val message: String? = null, val data: JSONObject)
 
 
@@ -42,5 +40,6 @@ interface RequestCodes {
         const val ADD_ACTIVITY_CODE = 106
         const val VIEW_ACTIVITY_DETAILS_CODE = 110
         const val VIEW_ACTIVITY_LIST_CODE = 114
+        const val REQUEST_IMAGE_GET = 202
     }
 }

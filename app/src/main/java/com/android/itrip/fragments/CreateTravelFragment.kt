@@ -1,8 +1,10 @@
 package com.android.itrip.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +14,12 @@ import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import com.android.itrip.activities.MainActivity
+import androidx.navigation.fragment.findNavController
 import com.android.itrip.R
+import com.android.itrip.activities.MainActivity
 import com.android.itrip.databinding.FragmentCreateTravelBinding
 import com.android.itrip.ui.DatePickerFragment
-import com.android.itrip.util.ViajeData
+import com.android.itrip.util.RequestCodes.Companion.REQUEST_IMAGE_GET
 import com.android.itrip.util.calendarToString
 import com.android.itrip.viewModels.CreateTravelViewMovel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -24,13 +27,12 @@ import kotlinx.android.synthetic.main.app_bar.view.*
 import java.util.*
 import java.util.logging.Logger
 
+
 class CreateTravelFragment : Fragment() {
 
     private val logger = Logger.getLogger(this::class.java.name)
     private lateinit var binding: FragmentCreateTravelBinding
-    private var minDate: Calendar = Calendar.getInstance()
     private val createTravelViewModel by lazy { CreateTravelViewMovel(requireActivity().application) }
-    private var maxDate: Calendar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -83,9 +85,35 @@ class CreateTravelFragment : Fragment() {
                 closeKeyboard(false) // force to close keyboard
                 setUntilDate()
             }
-            createTravel.setOnClickListener { view -> createTravel(view) }
+            createTravel.setOnClickListener { createTravel() }
+
+            binding.addPicture.setOnClickListener {
+                selectImage()
+            }
+
         }
     }
+
+    private fun selectImage() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+            //                        putExtra(MediaStore.EXTRA_OUTPUT, Uri.withAppendedPath("".toUri(), ""))
+        }
+        val getGalleryPhotoIntent = Intent(Intent.ACTION_GET_CONTENT).apply {
+            type = "image/*"
+        }
+        val getPickerIntent = Intent(Intent.ACTION_PICK).apply {
+            setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
+        }
+        val chooserIntent = Intent.createChooser(getPickerIntent, "Selecciona una Imagen").apply {
+            putExtra(
+                Intent.EXTRA_INITIAL_INTENTS,
+                arrayOf(takePictureIntent,getGalleryPhotoIntent)
+            )
+        }
+        if (chooserIntent.resolveActivity(requireActivity().packageManager) != null)
+            startActivityForResult(chooserIntent, REQUEST_IMAGE_GET)
+    }
+
 
     private fun EditText.setFocusableBehavior() {
         // set common behavior for open dialog from EditText components
@@ -97,14 +125,14 @@ class CreateTravelFragment : Fragment() {
     private fun setFromDate() {
         val newFragment = DatePickerFragment(
             callback = { calendar ->
-                minDate = calendar
+                createTravelViewModel.viaje.inicio = calendar
                 binding.textinputlayoutTravelFromDate.editText.setText(
-                    calendarToString(minDate, "yyyy-MM-dd")
+                    calendarToString(calendar, "dd/MM/yyyy")
                 )
             },
             minDate = Calendar.getInstance(),
-            maxDate = maxDate,
-            startDate = minDate
+            maxDate = createTravelViewModel.viaje.fin,
+            startDate = createTravelViewModel.viaje.inicio
         )
         fragmentManager?.let { newFragment.show(it, "datePicker") }
     }
@@ -112,14 +140,14 @@ class CreateTravelFragment : Fragment() {
     private fun setUntilDate() {
         val newFragment = DatePickerFragment(
             callback = { calendar ->
-                maxDate = calendar
+                createTravelViewModel.viaje.fin = calendar
                 binding.textinputlayoutTravelUntilDate.editText.setText(
-                    calendarToString(maxDate!!, "yyyy-MM-dd")
+                    calendarToString(calendar, "dd/MM/yyyy")
                 )
             },
-            minDate = minDate,
+            minDate = createTravelViewModel.viaje.inicio,
             maxDate = null,
-            startDate = maxDate
+            startDate = createTravelViewModel.viaje.fin
         )
         fragmentManager?.let { newFragment.show(it, "datePicker") }
     }
@@ -134,17 +162,13 @@ class CreateTravelFragment : Fragment() {
         }
     }
 
-    private fun createTravel(view: View) {
+    private fun createTravel() {
         binding.form.validate()
         if (binding.form.isValid) {
-            val request = ViajeData(
-                nombre = binding.textinputlayoutTravelName.editText.text.toString(),
-                inicio = calendarToString(minDate, "yyyy-MM-dd"),
-                fin = calendarToString(maxDate!!, "yyyy-MM-dd")
-            )
-            createTravelViewModel.createTrip(request) {
+            createTravelViewModel.viaje.nombre = binding.textinputlayoutTravelName.editText.text.toString()
+            createTravelViewModel.createTrip {
                 val bundle = bundleOf("viajeID" to it.id)
-                view.findNavController()
+                findNavController()
                     .navigate(
                         CreateTravelFragmentDirections.actionCreateTravelFragmentToTripFragment().actionId,
                         bundle

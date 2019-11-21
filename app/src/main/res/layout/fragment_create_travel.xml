@@ -93,6 +93,16 @@
             </RelativeLayout>
 
             <Button
+                android:id="@+id/addPicture"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@id/relativelayout_travel_until_date"
+                android:background="@color/colorPrimary"
+                android:text="Agregar Imagen"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+
+            <Button
                 android:id="@+id/createTravel"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"

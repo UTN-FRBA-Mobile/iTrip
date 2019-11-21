@@ -93,15 +93,32 @@ class DestinationListFragment : Fragment() {
     }
 
     private fun viewActivities(ciudad: Ciudad) {
-        goToActivities(destinationsViewModel.getActivitiesLiveData(ciudad), ciudad)
+        destinationsViewModel.getActivities(
+            ciudad, requireContext(),
+            { goToActivities(it, ciudad) },
+            {})
+//        goToActivities2(destinationsViewModel.getActivitiesLiveData(ciudad), ciudad)
     }
 
-    private fun goToActivities(actividades: LiveData<List<Actividad>>, ciudad: Ciudad) {
+    private fun goToActivities(actividades: List<Actividad>, ciudad: Ciudad) {
         val intent = Intent(context, ActivitiesActivity::class.java).apply {
             putExtra("action", RequestCodes.VIEW_ACTIVITY_LIST_CODE)
             putExtras(
                 bundleOf(
-                    "actividades" to actividades.value,
+                    "actividades" to actividades,
+                    "ciudad" to ciudad
+                )
+            )
+        }
+        startActivity(intent)
+    }
+
+    private fun goToActivities2(actividades: LiveData<List<Actividad>>, ciudad: Ciudad) {
+        val intent = Intent(context, ActivitiesActivity::class.java).apply {
+            putExtra("action", RequestCodes.VIEW_ACTIVITY_LIST_CODE)
+            putExtras(
+                bundleOf(
+                    "actividadesLiveData" to actividades,
                     "ciudad" to ciudad
                 )
             )

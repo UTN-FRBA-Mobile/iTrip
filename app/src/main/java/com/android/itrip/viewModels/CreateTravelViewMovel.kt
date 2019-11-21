@@ -2,17 +2,19 @@ package com.android.itrip.viewModels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import com.android.itrip.apiModels.ViajeApiModel
 import com.android.itrip.dependencyInjection.ContextModule
 import com.android.itrip.dependencyInjection.DaggerApiComponent
 import com.android.itrip.models.Viaje
 import com.android.itrip.services.TravelService
 import com.android.itrip.util.Toaster
-import com.android.itrip.util.ViajeData
+import java.util.*
 import java.util.logging.Logger
 import javax.inject.Inject
 
 class CreateTravelViewMovel(application: Application) : AndroidViewModel(application) {
 
+    var viaje: Viaje = Viaje(null, null, Calendar.getInstance(), null, null)
     @Inject
     lateinit var travelService: TravelService
     @Inject
@@ -25,10 +27,9 @@ class CreateTravelViewMovel(application: Application) : AndroidViewModel(applica
     }
 
     fun createTrip(
-        request: ViajeData,
         createTripSucces: (Viaje) -> Unit
     ) {
-        travelService.createTrip(request, {
+        travelService.createTrip(ViajeApiModel(viaje), {
             createTripSucces(it)
         }, { error ->
             val message = if (error.statusCode == 400) {

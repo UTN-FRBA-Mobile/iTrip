@@ -7,6 +7,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -41,6 +42,7 @@ class ActivitiesListFragment : Fragment() {
         )
         @Suppress("UNCHECKED_CAST")
         actividades = arguments?.get("actividades") as List<Actividad>
+//        actividades = (arguments?.get("actividadesLiveData") as LiveData<List<Actividad>>).value!!
         action = arguments?.getInt("action") ?: 0
         val viewModelFactory = ActivitiesViewModelFactory(
             requireActivity().application,

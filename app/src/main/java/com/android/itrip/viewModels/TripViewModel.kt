@@ -42,7 +42,7 @@ class TripViewModel(
     }
 
     private fun getTravel(viajeID: Long?, callback: (List<CiudadAVisitar>) -> Unit) {
-        travelService.getTrip(viajeID ?: viaje.id, {
+        travelService.getTrip(viajeID ?: viaje.id!!, {
             _viaje = it
             try {
                 databaseService.insertActividadesDeCiudadAVisitar(it.ciudades_a_visitar)
