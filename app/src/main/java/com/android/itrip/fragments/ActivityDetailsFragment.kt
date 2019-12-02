@@ -18,12 +18,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
-import com.android.itrip.ActivitiesActivity
 import com.android.itrip.R
-import com.android.itrip.RequestCodes
+import com.android.itrip.activities.ActivitiesActivity
 import com.android.itrip.databinding.FragmentActivityDetailsBinding
 import com.android.itrip.models.Actividad
-import com.android.itrip.services.DatabaseService
+import com.android.itrip.util.RequestCodes
 import com.android.itrip.viewModels.ActivitiesViewModel
 import com.android.itrip.viewModels.ActivitiesViewModelFactory
 import com.squareup.picasso.Picasso
@@ -63,7 +62,7 @@ class ActivityDetailsFragment : Fragment() {
             ViewModelProviders.of(
                 this,
                 ActivitiesViewModelFactory(
-                    DatabaseService(requireNotNull(context)),
+                    requireActivity().application,
                     null,
                     null,
                     actividad

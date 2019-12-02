@@ -1,4 +1,4 @@
-package com.android.itrip
+package com.android.itrip.activities
 
 import android.content.Intent
 import android.content.res.Configuration
@@ -17,10 +17,11 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.android.itrip.R
 import com.android.itrip.databinding.ActivityQuizBinding
 import com.android.itrip.databinding.AppBarHeaderBinding
-import com.android.itrip.services.ApiService
 import com.android.itrip.util.CircleTransformation
+import com.android.itrip.util.DrawerLocker
 import com.android.itrip.viewModels.QuizViewModel
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
@@ -28,10 +29,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_quiz.*
 import kotlinx.android.synthetic.main.app_bar.view.*
-
-interface DrawerLocker {
-    fun setDrawerEnabled(enabled: Boolean)
-}
 
 class QuizActivity : AppCompatActivity(), OnNavigationItemSelectedListener, DrawerLocker {
 
@@ -46,7 +43,6 @@ class QuizActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Draw
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApiService.setContext(this)
         readSource()
         bindings()
         initDrawer()
@@ -106,7 +102,10 @@ class QuizActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Draw
             .fit()
             .into(bindingAppBar.imageviewAppBarHeaderPicture)
         // set up navigation controller and navigation view bindings
-        navController = Navigation.findNavController(this, R.id.navhostfragment_quiz)
+        navController = Navigation.findNavController(
+            this,
+            R.id.navhostfragment_quiz
+        )
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
         NavigationUI.setupWithNavController(navigationView, navController)
         navigationView.addHeaderView(bindingAppBar.root)

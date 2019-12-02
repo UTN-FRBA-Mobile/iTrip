@@ -15,19 +15,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import com.android.itrip.DrawerLocker
-import com.android.itrip.QuizActivity
 import com.android.itrip.R
+import com.android.itrip.activities.QuizActivity
 import com.android.itrip.databinding.FragmentQuizInfoBinding
 import com.android.itrip.models.Answer
+import com.android.itrip.util.Constants
+import com.android.itrip.util.DrawerLocker
 import kotlinx.android.synthetic.main.activity_quiz.*
 import kotlinx.android.synthetic.main.app_bar.view.*
 import java.util.logging.Logger
-
-private const val DIALOG_TITLE_GEN = R.string.quiz_info_dialog_title_genero
-private const val DIALOG_TITLE_EC = R.string.quiz_info_dialog_title_estadocivil
-private const val DIALOG_TITLE_EST = R.string.quiz_info_dialog_title_estudios
-private const val DIALOG_TITLE_OCU = R.string.quiz_info_dialog_title_ocupacion
 
 class QuizInfoFragment : Fragment() {
 
@@ -90,7 +86,7 @@ class QuizInfoFragment : Fragment() {
             setOnClickListener {
                 closeKeyboard(false)
                 setAlertDialog(
-                    getString(DIALOG_TITLE_GEN),
+                    getString(Constants.DIALOG_TITLE_GEN),
                     this,
                     (activity as QuizActivity).quizViewModel.generos
                 ) { (activity as QuizActivity).quizViewModel.quiz.genero = it }
@@ -112,7 +108,7 @@ class QuizInfoFragment : Fragment() {
             setOnClickListener {
                 closeKeyboard(false)
                 setAlertDialog(
-                    getString(DIALOG_TITLE_EC),
+                    getString(Constants.DIALOG_TITLE_EC),
                     this,
                     (activity as QuizActivity).quizViewModel.estados_civil
                 ) { (activity as QuizActivity).quizViewModel.quiz.estado_civil = it }
@@ -124,7 +120,7 @@ class QuizInfoFragment : Fragment() {
             setOnClickListener {
                 closeKeyboard(false)
                 setAlertDialog(
-                    getString(DIALOG_TITLE_EST),
+                    getString(Constants.DIALOG_TITLE_EST),
                     this,
                     (activity as QuizActivity).quizViewModel.niveles_de_estudio
                 ) { (activity as QuizActivity).quizViewModel.quiz.nivel_de_estudios = it }
@@ -136,7 +132,7 @@ class QuizInfoFragment : Fragment() {
             setOnClickListener {
                 closeKeyboard(false)
                 setAlertDialog(
-                    getString(DIALOG_TITLE_OCU),
+                    getString(Constants.DIALOG_TITLE_OCU),
                     this,
                     (activity as QuizActivity).quizViewModel.ocupaciones
                 ) { (activity as QuizActivity).quizViewModel.quiz.ocupacion = it }
@@ -162,7 +158,7 @@ class QuizInfoFragment : Fragment() {
         val items = elements.map { it.value }.toTypedArray()
         builder.setItems(items) { _, option ->
             input.setText(items[option])
-            if (title == getString(DIALOG_TITLE_GEN)) handleOtherGender(option)
+            if (title == getString(Constants.DIALOG_TITLE_GEN)) handleOtherGender(option)
             choosedAnswerCallback(elements[option])
         }
         val dialog = builder.create()

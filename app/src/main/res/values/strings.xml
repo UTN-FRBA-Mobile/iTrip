@@ -111,5 +111,7 @@
     <string name="facebook_login_protocol_scheme" translatable="false">fb399355764046745</string>
     <string name="com_facebook_loginview_logged_in_using_facebook_f1gender">Logged in using Facebook</string>
     <string name="base_api_url">https://proyecto.brazilsouth.cloudapp.azure.com/rest-api/</string>
+    <string name="image_of_City">Imagen de la Ciudad</string>
+    <string name="city_image">Imagen Ciudad</string>
 
 </resources>

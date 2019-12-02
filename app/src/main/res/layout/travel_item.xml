@@ -76,7 +76,8 @@
                     app:layout_constraintEnd_toStartOf="@id/travel_img2"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_destination" />
+                    app:srcCompat="@drawable/ic_destination"
+                    android:contentDescription="@string/city_image" />
 
                 <ImageView
                     android:id="@+id/travel_img4"
@@ -86,6 +87,7 @@
                     app:layout_constraintEnd_toStartOf="@id/travel_img3"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/travel_img"
+                    android:contentDescription="@string/city_image"
                     app:srcCompat="@drawable/ic_destination" />
 
                 <ImageView
@@ -95,6 +97,7 @@
                     app:layout_constraintBottom_toTopOf="@+id/travel_img3"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/travel_img"
+                    android:contentDescription="@string/city_image"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_destination" />
 
@@ -104,6 +107,7 @@
                     android:layout_height="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    android:contentDescription="@string/city_image"
                     app:layout_constraintStart_toEndOf="@id/travel_img"
                     app:layout_constraintTop_toBottomOf="@+id/travel_img2"
                     app:srcCompat="@drawable/ic_destination" />

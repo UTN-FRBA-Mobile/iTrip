@@ -1,33 +1,26 @@
 package com.android.itrip.services
 
-import android.app.Service
-import android.content.Intent
-import android.os.IBinder
+import com.android.itrip.apiModels.QuizApiModel
 import com.android.itrip.models.Quiz
-import com.android.itrip.models.QuizApiModel
-import com.google.gson.Gson
+import com.android.itrip.util.ApiError
+import com.android.itrip.util.VolleyClient
 import org.json.JSONObject
+import javax.inject.Inject
 
 
-object QuizService : Service() {
-
-    private val gson = Gson()
-
-    override fun onBind(intent: Intent?): IBinder? {
-        TODO("not implemented")
-    }
+class QuizService @Inject constructor(queue: VolleyClient) : ApiService(queue) {
 
     fun getResolution(responseHandler: (Boolean) -> Unit, errorHandler: (ApiError) -> Unit) {
         val url = "questions/verify"
-        ApiService.get(url, {
+        get(url, {
             responseHandler(it.getBoolean("respondidas"))
         }, errorHandler)
     }
 
     fun postAnswers(quiz: Quiz, responseHandler: () -> Unit, errorHandler: (ApiError) -> Unit) {
         val url = "questions/"
-        val json = JSONObject(gson.toJson(quiz.toQuizApiModel()))
-        ApiService.post(url, json, {
+        val json = JSONObject(gson.toJson(QuizApiModel(quiz)))
+        post(url, json, {
             responseHandler()
         }, errorHandler)
     }

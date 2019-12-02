@@ -1,32 +1,37 @@
 package com.android.itrip.viewModels
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import com.android.itrip.dependencyInjection.ContextModule
+import com.android.itrip.dependencyInjection.DaggerApiComponent
 import com.android.itrip.models.Actividad
 import com.android.itrip.models.ActividadARealizar
 import com.android.itrip.models.Bucket
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.services.DatabaseService
 import com.android.itrip.services.TravelService
+import com.android.itrip.util.CiudadAVisitarObject
 import java.util.*
-
-object CiudadAVisitarObject {
-    var ciudadAVisitar: CiudadAVisitar? = null
-    var _date = MutableLiveData<Calendar>()
-    val date: LiveData<Calendar>
-        get() = _date
-}
+import javax.inject.Inject
+import kotlin.collections.set
 
 class ScheduleViewModel(
-    private val databaseService: DatabaseService,
+    application: Application,
     var ciudadAVisitar: CiudadAVisitar
-) : ViewModel() {
+) : AndroidViewModel(application) {
     var actividadesARealizar: LiveData<List<ActividadARealizar>>
     private lateinit var bucket: Bucket
+    @Inject
+    lateinit var travelService: TravelService
+    @Inject
+    lateinit var databaseService: DatabaseService
 
     init {
+        DaggerApiComponent.builder().contextModule(ContextModule(getApplication())).build()
+            .injectScheduleViewModel(this)
         CiudadAVisitarObject._date.value =
             if (ciudadAVisitar == CiudadAVisitarObject.ciudadAVisitar)
                 CiudadAVisitarObject.date.value ?: ciudadAVisitar.inicio
@@ -82,15 +87,18 @@ class ScheduleViewModel(
     }
 
     private fun updateCiudadAVisitar() {
-        TravelService.get_CityToVisit(ciudadAVisitar, { ciudadAVisitar: CiudadAVisitar ->
-            databaseService.insertActividades(ciudadAVisitar.actividades_a_realizar.map { it.detalle_actividad },ciudadAVisitar.detalle_ciudad)
+        travelService.get_CityToVisit(ciudadAVisitar, { ciudadAVisitar: CiudadAVisitar ->
+            databaseService.insertActividades(
+                ciudadAVisitar.actividades_a_realizar.map { it.detalle_actividad },
+                ciudadAVisitar.detalle_ciudad
+            )
             this@ScheduleViewModel.ciudadAVisitar = ciudadAVisitar
             updateDate(CiudadAVisitarObject.date.value!!)
         }, {})
     }
 
     fun deleteToDoActivity(item: ActividadARealizar) {
-        TravelService.deleteToDoActivity(item, {
+        travelService.deleteToDoActivity(item, {
             updateCiudadAVisitar()
         }, {})
     }
@@ -105,9 +113,9 @@ class ScheduleViewModel(
             actividadARealizar.dia,
             actividadARealizar.bucket_inicio
         )
-        TravelService.getActivitiesForBucket(bucket,
+        travelService.getActivitiesForBucket(bucket,
             {
-                databaseService.insertActividades(it,ciudadAVisitar.detalle_ciudad)
+                databaseService.insertActividades(it, ciudadAVisitar.detalle_ciudad)
                 successCallback(it)
             },
             { failureCallback() })
@@ -115,7 +123,7 @@ class ScheduleViewModel(
 
     fun addActividadToBucket(actividad: Actividad) {
         bucket.actividad = actividad
-        TravelService.addActivityToBucket(bucket, {
+        travelService.addActivityToBucket(bucket, {
             updateCiudadAVisitar()
         }, {})
     }

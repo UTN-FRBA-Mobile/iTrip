@@ -17,9 +17,10 @@ import com.squareup.picasso.Picasso
 class TripAdapter(
     _ciudadesAVisitar: List<CiudadAVisitar>?,
     private val viewCallback: (CiudadAVisitar) -> Unit
-) : RecyclerView.Adapter<TripAdapter.TripHolder>(){
+) : RecyclerView.Adapter<TripAdapter.TripHolder>() {
 
-    private var cities: MutableList<CiudadAVisitar> = _ciudadesAVisitar?.toMutableList() ?: mutableListOf()
+    private var cities: MutableList<CiudadAVisitar> =
+        _ciudadesAVisitar?.toMutableList() ?: mutableListOf()
 
     override fun onBindViewHolder(holder: TripHolder, position: Int) {
         holder.bind(getItem(position))

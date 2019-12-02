@@ -20,14 +20,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.itrip.AppWindowManager
-import com.android.itrip.MainActivity
 import com.android.itrip.R
+import com.android.itrip.activities.AppWindowManager
+import com.android.itrip.activities.MainActivity
 import com.android.itrip.adapters.TripAdapter
 import com.android.itrip.databinding.FragmentTripBinding
 import com.android.itrip.models.CiudadAVisitar
-import com.android.itrip.services.ApiError
-import com.android.itrip.services.DatabaseService
+import com.android.itrip.util.ApiError
 import com.android.itrip.viewModels.TripViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.view.*
@@ -67,7 +66,10 @@ class TripFragment : Fragment() {
                 visibility = View.VISIBLE
             }
             tripViewModel =
-                TripViewModel(DatabaseService(requireContext()), it) { ciudadesAVisitar ->
+                TripViewModel(
+                    requireActivity().application,
+                    it
+                ) { ciudadesAVisitar ->
                     getDestinations(ciudadesAVisitar)
                     AppWindowManager.enableScreen(activity!!)
                     spinner.visibility = View.GONE

@@ -4,7 +4,6 @@ package com.android.itrip.util
 
 import android.annotation.SuppressLint
 import com.android.itrip.models.Actividad
-import com.android.itrip.models.Categoria
 import com.android.itrip.models.CiudadAVisitar
 import java.text.SimpleDateFormat
 import java.util.*

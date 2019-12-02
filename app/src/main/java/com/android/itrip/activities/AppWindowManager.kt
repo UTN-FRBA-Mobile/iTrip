@@ -1,4 +1,4 @@
-package com.android.itrip
+package com.android.itrip.activities
 
 import android.app.Activity
 import android.view.WindowManager

@@ -7,22 +7,12 @@ import com.android.volley.DefaultRetryPolicy.DEFAULT_MAX_RETRIES
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
+import javax.inject.Inject
+import javax.inject.Named
 
-class VolleySingleton constructor(context: Context) {
+class VolleyClient @Inject constructor(@Named("ApplicationContext") context: Context) {
 
-    companion object {
-        @Volatile
-        private var INSTANCE: VolleySingleton? = null
-
-        fun getInstance(context: Context) =
-            INSTANCE ?: synchronized(this) {
-                INSTANCE ?: VolleySingleton(context).also {
-                    INSTANCE = it
-                }
-            }
-    }
-
-    private val requestQueue: RequestQueue by lazy { Volley.newRequestQueue(context.applicationContext) }
+    private val requestQueue: RequestQueue = Volley.newRequestQueue(context.applicationContext)
 
     fun <T> addToRequestQueue(
         request: Request<T>,
@@ -35,10 +25,6 @@ class VolleySingleton constructor(context: Context) {
             DEFAULT_BACKOFF_MULT
         )
         requestQueue.add(request)
-    }
-
-    fun cancelAll() {
-        requestQueue.cancelAll { true }
     }
 
 }

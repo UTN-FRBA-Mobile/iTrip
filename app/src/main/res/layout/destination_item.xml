@@ -35,6 +35,7 @@
                 android:layout_above="@+id/relativelayout_destination_list_buttons"
                 android:background="@color/colorBlackWithTransparency"
                 android:paddingStart="5dp"
+                android:paddingEnd="5dp"
                 android:textColor="@color/colorWhite" />
 
             <RelativeLayout
@@ -80,8 +81,10 @@
                     android:layout_centerVertical="true"
                     android:drawableEnd="@drawable/ic_chevron_right_blue_24dp"
                     android:paddingEnd="5dp"
+                    android:paddingStart="5dp"
                     android:text="@string/destination_creation_actividades"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/colorPrimary"
+                    tools:ignore="RelativeOverlap" />
 
             </RelativeLayout>
 

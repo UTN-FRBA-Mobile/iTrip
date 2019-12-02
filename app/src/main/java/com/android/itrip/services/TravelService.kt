@@ -1,34 +1,34 @@
 package com.android.itrip.services
 
-import android.app.Service
-import android.content.Intent
-import android.os.IBinder
-import com.android.itrip.fragments.ViajeData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.android.itrip.apiModels.CiudadAVisitarApiModel
+import com.android.itrip.apiModels.Continente
+import com.android.itrip.apiModels.ViajeApiModel
 import com.android.itrip.models.*
+import com.android.itrip.util.ApiError
+import com.android.itrip.util.VolleyClient
 import com.android.itrip.util.calendarToString
-import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
-import java.util.logging.Logger
+import javax.inject.Inject
 
 
-object TravelService : Service() {
-
-    private val logger = Logger.getLogger(this::class.java.name)
-    private val gson = Gson()
-
-    override fun onBind(intent: Intent?): IBinder? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+class TravelService @Inject constructor(queue: VolleyClient) : ApiService(queue) {
 
     fun getDestinations(
-        responseHandler: (List<Continente>) -> Unit,
+        responseHandler: (LiveData<List<Ciudad>>) -> Unit,
         errorHandler: (ApiError) -> Unit
     ) {
-        ApiService.getArray("destinos/", {
+        getArray("destinos/", {
             val listType = object : TypeToken<List<Continente>>() {}.type
             val continentes: List<Continente> = gson.fromJson(it.toString(), listType)
-            responseHandler(continentes)
+            val ciudades = continentes.flatMap { continente ->
+                continente.paises.flatMap { pais ->
+                    pais.ciudades
+                }
+            }
+            responseHandler(MutableLiveData(ciudades))
         }, errorHandler)
     }
 
@@ -36,10 +36,16 @@ object TravelService : Service() {
         responseHandler: (List<Viaje>) -> Unit,
         errorHandler: (ApiError) -> Unit
     ) {
-        ApiService.getArray("viajes/", {
-            val viajesCreator: List<ViajeCreator> =
-                gson.fromJson(it.toString(), object : TypeToken<List<ViajeCreator>>() {}.type)
-            responseHandler(viajesCreator.map { it.viaje() })
+        getArray("viajes/", {
+            logger.info(it.toString())
+            val viajesApiModel: List<ViajeApiModel> =
+                gson.fromJson(it.toString(), object : TypeToken<List<ViajeApiModel>>() {}.type)
+            viajesApiModel.forEach { viajeApiModel ->
+                logger.info("IMAGEN: " + viajeApiModel.imagen)
+            }
+            responseHandler(viajesApiModel.map { viajeApiModel ->
+                viajeApiModel.viaje()
+            })
         }, errorHandler)
     }
 
@@ -49,22 +55,25 @@ object TravelService : Service() {
         errorHandler: (ApiError) -> Unit
     ) {
         logger.info("getTrip.")
-        ApiService.get("viajes/$id", {
-            val viajeCreator: ViajeCreator = gson.fromJson(it.toString(), ViajeCreator::class.java)
-            val viaje: Viaje = viajeCreator.viaje()
+        get("viajes/$id", {
+            val viajeApiModel: ViajeApiModel =
+                gson.fromJson(it.toString(), ViajeApiModel::class.java)
+            val viaje: Viaje = viajeApiModel.viaje()
             responseHandler(viaje)
         }, errorHandler)
     }
 
     fun createTrip(
-        body: ViajeData,
+        body: ViajeApiModel,
         responseHandler: (Viaje) -> Unit,
         errorHandler: (ApiError) -> Unit
     ) {
         val json = JSONObject(gson.toJson(body))
-        ApiService.post("viajes/", json, {
-            val viajeCreator: ViajeCreator = gson.fromJson(it.toString(), ViajeCreator::class.java)
-            responseHandler(viajeCreator.viaje())
+        logger.info(json.toString())
+        post("viajes/", json, {
+            val viajeApiModel: ViajeApiModel =
+                gson.fromJson(it.toString(), ViajeApiModel::class.java)
+            responseHandler(viajeApiModel.viaje())
         }, errorHandler)
     }
 
@@ -74,7 +83,7 @@ object TravelService : Service() {
         errorHandler: (ApiError) -> Unit
     ) {
         logger.info("deleteTrip.")
-        ApiService.delete("""viajes/${viajeParam.id}/""", {
+        delete("""viajes/${viajeParam.id}/""", {
             responseHandler()
         }, errorHandler)
     }
@@ -85,10 +94,23 @@ object TravelService : Service() {
         errorHandler: (ApiError) -> Unit
     ) {
         logger.info("getActivities.")
-        ApiService.getArray("""destinos/${ciudad.id}/actividades/""", {
+        getArray("""destinos/${ciudad.id}/actividades/""", {
             val listType = object : TypeToken<List<Actividad>>() {}.type
             val actividades: List<Actividad> = gson.fromJson(it.toString(), listType)
             responseHandler(actividades)
+        }, errorHandler)
+    }
+
+    fun getActivities2(
+        ciudad: Ciudad,
+        responseHandler: (LiveData<List<Actividad>>) -> Unit,
+        errorHandler: (ApiError) -> Unit
+    ) {
+        logger.info("getActivities.")
+        getArray("""destinos/${ciudad.id}/actividades/""", {
+            val listType = object : TypeToken<List<Actividad>>() {}.type
+            val actividades: List<Actividad> = gson.fromJson(it.toString(), listType)
+            responseHandler(MutableLiveData(actividades))
         }, errorHandler)
     }
 
@@ -103,8 +125,8 @@ object TravelService : Service() {
             put("inicio", calendarToString(destination.inicio, "yyyy-MM-dd"))
             put("fin", calendarToString(destination.fin, "yyyy-MM-dd"))
         }
-        ApiService.post("viajes/${viaje.id}/add_destination/", json, {
-            val data = gson.fromJson(it.toString(), CiudadAVisitarCreator::class.java)
+        post("viajes/${viaje.id}/add_destination/", json, {
+            val data = gson.fromJson(it.toString(), CiudadAVisitarApiModel::class.java)
             responseHandler(data.ciudadAVisitar())
         }, errorHandler, initialTimeoutMs = 25000, retries = 0)
     }
@@ -115,10 +137,10 @@ object TravelService : Service() {
         errorHandler: (ApiError) -> Unit
     ) {
         logger.info("get_CityToVisit.")
-        ApiService.get("""ciudad-a-visitar/${ciudad_a_visitarParam.id}/""", {
-            val ciudadAVisitarCreator: CiudadAVisitarCreator =
-                gson.fromJson(it.toString(), CiudadAVisitarCreator::class.java)
-            val ciudad_a_visitar: CiudadAVisitar = ciudadAVisitarCreator.ciudadAVisitar()
+        get("""ciudad-a-visitar/${ciudad_a_visitarParam.id}/""", {
+            val ciudadAVisitarApiModel: CiudadAVisitarApiModel =
+                gson.fromJson(it.toString(), CiudadAVisitarApiModel::class.java)
+            val ciudad_a_visitar: CiudadAVisitar = ciudadAVisitarApiModel.ciudadAVisitar()
             responseHandler(ciudad_a_visitar)
         }, errorHandler)
     }
@@ -129,7 +151,7 @@ object TravelService : Service() {
         errorHandler: (ApiError) -> Unit
     ) {
         logger.info("deleteDestination.")
-        ApiService.delete("""ciudad-a-visitar/${ciudad_a_visitarParam.id}/""", {
+        delete("""ciudad-a-visitar/${ciudad_a_visitarParam.id}/""", {
             responseHandler()
         }, errorHandler)
     }
@@ -140,7 +162,7 @@ object TravelService : Service() {
         errorHandler: (ApiError) -> Unit
     ) {
         logger.info("deleteDestination.")
-        ApiService.delete("""actividad-a-realizar/${actividadARealizar.id}/""", {
+        delete("""actividad-a-realizar/${actividadARealizar.id}/""", {
             responseHandler()
         }, errorHandler)
     }
@@ -153,7 +175,7 @@ object TravelService : Service() {
         logger.info("getActivitiesForBucket.")
         val url =
             """ciudad-a-visitar/${bucket.ciudadAVisitar.id}/posibles-actividades/?dia=${bucket.dia}&bucket_inicio=${bucket.bucket_inicio}"""
-        ApiService.getArray(
+        getArray(
             url,
             {
                 val listType = object : TypeToken<List<Actividad>>() {}.type
@@ -177,7 +199,7 @@ object TravelService : Service() {
             put("dia", bucket.dia)
             put("bucket_inicio", bucket.bucket_inicio)
         }
-        ApiService.post(url, json, {
+        post(url, json, {
             responseHandler()
         }, errorHandler)
     }

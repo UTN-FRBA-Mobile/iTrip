@@ -1,11 +1,19 @@
 package com.android.itrip.viewModels
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import com.android.itrip.dependencyInjection.ContextModule
+import com.android.itrip.dependencyInjection.DaggerApiComponent
 import com.android.itrip.models.Answer
 import com.android.itrip.models.Quiz
+import com.android.itrip.services.QuizService
+import com.android.itrip.util.ApiError
+import javax.inject.Inject
 
 
-class QuizViewModel : ViewModel() {
+class QuizViewModel(application: Application) : AndroidViewModel(application) {
+    @Inject
+    lateinit var quizService: QuizService
     val hobbies: List<Answer>
     val generos: List<Answer>
     val estados_civil: List<Answer>
@@ -14,6 +22,8 @@ class QuizViewModel : ViewModel() {
     var quiz: Quiz = Quiz()
 
     init {
+        DaggerApiComponent.builder().contextModule(ContextModule(getApplication())).build()
+            .injectQuizViewModel(this)
         generos = fillGeneros()
         estados_civil = fillEstadoCivil()
         niveles_de_estudio = fillNivelDeEstudios()
@@ -91,5 +101,12 @@ class QuizViewModel : ViewModel() {
         Answer("VIDEOJUEGOS", "Videojuegos")
     )
 
+    fun postAnswers(postAnswerSuccess: () -> Unit?, errorHandler: (ApiError) -> Unit) {
+        quizService.postAnswers(quiz, {
+            postAnswerSuccess()
+        }, {
+            errorHandler(it)
+        })
+    }
 
 }

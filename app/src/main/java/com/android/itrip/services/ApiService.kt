@@ -1,10 +1,10 @@
 package com.android.itrip.services
 
 import android.app.Service
-import android.content.Context
 import android.content.Intent
 import android.os.IBinder
-import com.android.itrip.util.VolleySingleton
+import com.android.itrip.util.ApiError
+import com.android.itrip.util.VolleyClient
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.TimeoutError
@@ -12,25 +12,20 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
+import com.google.gson.Gson
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.logging.Logger
 
-data class ApiError(val statusCode: Int, val message: String? = null, val data: JSONObject)
+abstract class ApiService constructor(private val queue: VolleyClient) : Service() {
 
-object ApiService : Service() {
-
-    private val logger = Logger.getLogger(this::class.java.name)
-    private lateinit var queue: VolleySingleton
-    private const val base_api_url = "https://proyecto.brazilsouth.cloudapp.azure.com/rest-api/"
+    protected val logger = Logger.getLogger(this::class.java.name)
+    protected val gson = Gson()
+    private val base_api_url = "https://proyecto.brazilsouth.cloudapp.azure.com/rest-api/"
 
     override fun onBind(intent: Intent?): IBinder? {
         TODO("not implemented")
-    }
-
-    fun setContext(context: Context) {
-        queue = VolleySingleton.getInstance(context)
     }
 
     fun post(

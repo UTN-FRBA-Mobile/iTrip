@@ -195,7 +195,7 @@
                         android:padding="5dp"
                         android:textAllCaps="true"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="10sp"
+                        android:textSize="12sp"
                         android:textStyle="bold"
                         tools:text="Duracion larga" />
                 </LinearLayout>

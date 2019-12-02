@@ -12,11 +12,10 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.itrip.QuizActivity
 import com.android.itrip.R
+import com.android.itrip.activities.QuizActivity
 import com.android.itrip.adapters.HobbiesAdapter
 import com.android.itrip.databinding.FragmentQuizHobbiesBinding
-import com.android.itrip.services.QuizService
 import kotlinx.android.synthetic.main.activity_quiz.*
 import kotlinx.android.synthetic.main.app_bar.view.*
 import java.util.logging.Logger
@@ -63,7 +62,7 @@ class QuizHobbiesFragment : Fragment() {
 
     private fun resolveQuiz() {
         (activity as QuizActivity).quizViewModel.quiz.hobbies = hobbiesAdapter.checkedHobbies
-        QuizService.postAnswers((activity as QuizActivity).quizViewModel.quiz, {
+        (activity as QuizActivity).quizViewModel.postAnswers({
             // if source is 'preferences' just closes the activity and shows a toast message,
             // otherwise it continues to congrats view
             val activity = activity as QuizActivity
@@ -76,12 +75,13 @@ class QuizHobbiesFragment : Fragment() {
                 view?.findNavController()
                     ?.navigate(QuizHobbiesFragmentDirections.actionQuizHobbiesFragmentToQuizEndFragment())
             }
-        }, { error ->
+        }) { error ->
             logger.severe("Failed to post quiz answers - status: ${error.statusCode} - message: ${error.message}")
             Toast
                 .makeText(context, "Hubo un problema, intente de nuevo", Toast.LENGTH_SHORT)
                 .show()
-        })
+        }
+
     }
 
 }

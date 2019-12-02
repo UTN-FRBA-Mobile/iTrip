@@ -14,10 +14,14 @@ import androidx.core.animation.doOnEnd
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.itrip.*
+import com.android.itrip.R
+import com.android.itrip.activities.ActivitiesActivity
+import com.android.itrip.activities.AppWindowManager
+import com.android.itrip.activities.MainActivity
 import com.android.itrip.adapters.DestinationAdapter
 import com.android.itrip.databinding.FragmentDestinationListBinding
 import com.android.itrip.dialogs.DestinationDialog
@@ -25,7 +29,7 @@ import com.android.itrip.models.Actividad
 import com.android.itrip.models.Ciudad
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.models.Viaje
-import com.android.itrip.services.DatabaseService
+import com.android.itrip.util.RequestCodes
 import com.android.itrip.viewModels.DestinationViewModel
 import com.android.itrip.viewModels.DestinationViewModelFactory
 import com.transitionseverywhere.ChangeText
@@ -58,7 +62,6 @@ class DestinationListFragment : Fragment() {
     private fun loadViewModel() {
         val application = requireNotNull(this.activity).application
         val viewModelFactory = DestinationViewModelFactory(
-            DatabaseService(requireContext()),
             application,
             viaje
         )
@@ -94,6 +97,7 @@ class DestinationListFragment : Fragment() {
             ciudad, requireContext(),
             { goToActivities(it, ciudad) },
             {})
+//        goToActivities2(destinationsViewModel.getActivitiesLiveData(ciudad), ciudad)
     }
 
     private fun goToActivities(actividades: List<Actividad>, ciudad: Ciudad) {
@@ -102,6 +106,19 @@ class DestinationListFragment : Fragment() {
             putExtras(
                 bundleOf(
                     "actividades" to actividades,
+                    "ciudad" to ciudad
+                )
+            )
+        }
+        startActivity(intent)
+    }
+
+    private fun goToActivities2(actividades: LiveData<List<Actividad>>, ciudad: Ciudad) {
+        val intent = Intent(context, ActivitiesActivity::class.java).apply {
+            putExtra("action", RequestCodes.VIEW_ACTIVITY_LIST_CODE)
+            putExtras(
+                bundleOf(
+                    "actividadesLiveData" to actividades,
                     "ciudad" to ciudad
                 )
             )
@@ -171,9 +188,8 @@ class DestinationListFragment : Fragment() {
                 // after 1 sec of delay go to destination schedule view
                 Handler().postDelayed({ goToTrip(it) }, 1500)
             }, 1000)
-        }, { message ->
-            showDuringText = false
-            progressText.text = message
+        }, {
+            progressText.text = getString(R.string.progressbar_failure)
             progressBar.visibility = View.GONE
             // enable screen even if request fails
             AppWindowManager.enableScreen(activity!!)

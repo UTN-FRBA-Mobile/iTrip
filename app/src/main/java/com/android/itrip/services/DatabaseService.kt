@@ -8,20 +8,22 @@ import androidx.lifecycle.LiveData
 import com.android.itrip.database.*
 import com.android.itrip.models.*
 import kotlinx.coroutines.*
+import javax.inject.Inject
+import javax.inject.Named
 
-class DatabaseService(context: Context) : Service() {
+class DatabaseService @Inject constructor(@Named("ApplicationContext") context: Context) :
+    Service() {
     private var serviceJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + serviceJob)
-    private val actividadCategoriaDatabase: ActividadCategoriaDatabase =
-        ActividadCategoriaDatabase.getInstance(context)
-    private val actividadCategoriaDatabaseDao: ActividadCategoriaDatabaseDao
-        get() = actividadCategoriaDatabase.actividadCategoriaDatabaseDao
-    private val activityDatabaseDao: ActivityDatabaseDao
-        get() = actividadCategoriaDatabase.activityDatabaseDao
-    private val categoryDatabaseDao: CategoryDatabaseDao
-        get() = actividadCategoriaDatabase.categoryDatabaseDao
-    private val ciudadDatabaseDao: CiudadDatabaseDao
-        get() = actividadCategoriaDatabase.ciudadDatabaseDao
+    private val iTripDatabase: ITripDatabase = ITripDatabase.getInstance(context)
+    private val actividadCategoriaDao: ActividadCategoriaDao
+        get() = iTripDatabase.actividadCategoriaDao
+    private val actividadDao: ActividadDao
+        get() = iTripDatabase.actividadDao
+    private val categoriaDao: CategoriaDao
+        get() = iTripDatabase.categoriaDao
+    private val ciudadDao: CiudadDao
+        get() = iTripDatabase.ciudadDao
 
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -31,10 +33,10 @@ class DatabaseService(context: Context) : Service() {
     private suspend fun insertActividad(actividad: Actividad, ciudad: Ciudad?) {
         withContext(Dispatchers.IO) {
             actividad.ciudad = ciudad!!.id
-            activityDatabaseDao.insert(actividad)
+            actividadDao.insert(actividad)
             actividad.categorias.forEach {
-                categoryDatabaseDao.insert(it)
-                actividadCategoriaDatabaseDao.insert(
+                categoriaDao.insert(it)
+                actividadCategoriaDao.insert(
                     ActividadCategoria(
                         actividadId = actividad.id,
                         categoriaId = it.id
@@ -46,7 +48,7 @@ class DatabaseService(context: Context) : Service() {
 
     suspend fun clearActividadCategoriaDatabase() {
         withContext(Dispatchers.IO) {
-            actividadCategoriaDatabase.clearAllTables()
+            iTripDatabase.clearAllTables()
         }
     }
 
@@ -58,14 +60,9 @@ class DatabaseService(context: Context) : Service() {
         }
     }
 
-    fun getActividadByNombre(query: String?, ciudad: Ciudad): LiveData<List<Actividad>> {
-        return activityDatabaseDao.getActividadByNombre("%$query%", ciudad.id)
-
-    }
-
     fun getCategoriasOfActivity(actividad: Actividad?): LiveData<List<Categoria>>? {
         return if (actividad?.id != null)
-            actividadCategoriaDatabaseDao.getCategoriasOfActividad(actividad.id)
+            actividadCategoriaDao.getCategoriasOfActividad(actividad.id)
         else null
     }
 
@@ -83,19 +80,23 @@ class DatabaseService(context: Context) : Service() {
     }
 
     fun getCiudades(): LiveData<List<Ciudad>> {
-        return ciudadDatabaseDao.getAll()
+        return ciudadDao.getAll()
     }
 
     fun insert(ciudad: Ciudad) {
         uiScope.launch {
             withContext(Dispatchers.IO) {
-                ciudadDatabaseDao.insert(ciudad)
+                ciudadDao.insert(ciudad)
             }
         }
     }
 
     fun getActivitiesOfCity(ciudad: Ciudad): List<Actividad> {
-        return activityDatabaseDao.getActivitiesOfCity(ciudad.id)
+        return actividadDao.getActivitiesOfCity(ciudad.id)
+    }
+
+    fun getActivitiesOfCity2(ciudad: Ciudad): LiveData<List<Actividad>> {
+        return actividadDao.getActivitiesOfCity2(ciudad.id)
     }
 
 }

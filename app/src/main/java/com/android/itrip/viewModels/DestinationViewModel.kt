@@ -2,25 +2,36 @@ package com.android.itrip.viewModels
 
 import android.app.Application
 import android.content.Context
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.android.itrip.models.*
-import com.android.itrip.services.ApiError
+import com.android.itrip.dependencyInjection.ContextModule
+import com.android.itrip.dependencyInjection.DaggerApiComponent
+import com.android.itrip.models.Actividad
+import com.android.itrip.models.Ciudad
+import com.android.itrip.models.CiudadAVisitar
+import com.android.itrip.models.Viaje
 import com.android.itrip.services.ConnectionService
-import com.android.itrip.services.DatabaseService
+import com.android.itrip.services.StorageService
 import com.android.itrip.services.TravelService
+import com.android.itrip.util.ApiError
+import com.android.itrip.util.Toaster
 import java.util.*
 import java.util.logging.Logger
+import javax.inject.Inject
 
 
 class DestinationViewModel(
-    private val databaseService: DatabaseService,
     application: Application,
     viaje: Viaje?
 ) : AndroidViewModel(application) {
 
     private val logger = Logger.getLogger(this::class.java.name)
+    @Inject
+    lateinit var travelService: TravelService
+    @Inject
+    lateinit var storageService: StorageService
+    @Inject
+    lateinit var toaster: Toaster
     val ciudades: LiveData<List<Ciudad>>
     var ciudadAVisitar: CiudadAVisitar = CiudadAVisitar(
         id = 0,
@@ -31,20 +42,10 @@ class DestinationViewModel(
     )
 
     init {
-        if (ConnectionService.isNetworkConnected(application.applicationContext)) {
-            TravelService.getDestinations({ continentes ->
-                getDestinationsCallback(continentes)
-            }, { error ->
-                logger.severe("Failed to retrieve destinations - status: ${error.statusCode} - message: ${error.message}")
-                val message = "Hubo un problema, intente de nuevo"
-                Toast
-                    .makeText(getApplication(), message, Toast.LENGTH_SHORT)
-                    .show()
-            })
-        }
-        ciudades = databaseService.getCiudades()
+        DaggerApiComponent.builder().contextModule(ContextModule(getApplication())).build()
+            .injectDestinationViewModel(this)
+        ciudades = storageService.getCiudades()
     }
-
 
     fun chooseStartDate(calendar: Calendar) {
         ciudadAVisitar.inicio = calendar
@@ -54,25 +55,15 @@ class DestinationViewModel(
         ciudadAVisitar.fin = calendar
     }
 
-    private fun getDestinationsCallback(continentes: List<Continente>) {
-        continentes.forEach {
-            it.paises.forEach { pais ->
-                pais.ciudades.forEach { ciudad ->
-                    databaseService.insert(ciudad)
-                }
-            }
-        }
-    }
-
     fun addDestination(
         viaje: Viaje,
         ciudad: Ciudad,
         callback: (CiudadAVisitar) -> Unit,
-        callbackError: (String) -> Unit
+        callbackError: () -> Unit
     ) {
         ciudadAVisitar.detalle_ciudad = ciudad
-        TravelService.postDestination(viaje, ciudadAVisitar, {
-            databaseService.insertActividades(
+        travelService.postDestination(viaje, ciudadAVisitar, {
+            storageService.insertActividades(
                 it.actividades_a_realizar.map { it.detalle_actividad },
                 it.detalle_ciudad
             )
@@ -88,7 +79,8 @@ class DestinationViewModel(
                     "Hubo un problema, intente de nuevo"
                 }
             }
-            callbackError(message)
+            toaster.shortToastMessage(message)
+            callbackError()
         })
     }
 
@@ -98,18 +90,22 @@ class DestinationViewModel(
         successCallback: (List<Actividad>) -> Unit,
         failureCallback: (ApiError) -> Unit
     ) {
+
         if (ConnectionService.isNetworkConnected(context)) {
-            TravelService.getActivities(ciudad, {
+            travelService.getActivities(ciudad, {
                 it.forEach { actividad ->
                     actividad.ciudad = ciudad.id
                 }
-                databaseService.insertActividades(it, ciudad)
+                storageService.insertActividades(it, ciudad)
                 successCallback(it)
             }, failureCallback)
         } else {
-            successCallback(databaseService.getActivitiesOfCity(ciudad))
+            successCallback(storageService.getActivitiesOfCity(ciudad))
         }
     }
 
+    fun getActivitiesLiveData(ciudad: Ciudad): LiveData<List<Actividad>> {
+        return storageService.getActivitiesOfCity2(ciudad)
+    }
 
 }

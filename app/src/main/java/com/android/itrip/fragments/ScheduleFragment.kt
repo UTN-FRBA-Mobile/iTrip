@@ -20,19 +20,17 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.itrip.ActivitiesActivity
-import com.android.itrip.MainActivity
 import com.android.itrip.R
-import com.android.itrip.RequestCodes.Companion.ADD_ACTIVITY_CODE
-import com.android.itrip.RequestCodes.Companion.VIEW_ACTIVITY_DETAILS_CODE
-import com.android.itrip.adapters.ActivityType
+import com.android.itrip.activities.ActivitiesActivity
+import com.android.itrip.activities.MainActivity
 import com.android.itrip.adapters.BucketAdapter
 import com.android.itrip.databinding.FragmentScheduleBinding
 import com.android.itrip.models.Actividad
 import com.android.itrip.models.ActividadARealizar
 import com.android.itrip.models.CiudadAVisitar
-import com.android.itrip.services.DatabaseService
-import com.android.itrip.viewModels.CiudadAVisitarObject
+import com.android.itrip.util.ActivityType
+import com.android.itrip.util.CiudadAVisitarObject
+import com.android.itrip.util.RequestCodes
 import com.android.itrip.viewModels.ScheduleViewModel
 import devs.mulham.horizontalcalendar.HorizontalCalendar
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener
@@ -55,7 +53,7 @@ class ScheduleFragment : Fragment() {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_schedule, container, false
         )
-        scheduleViewModel = ScheduleViewModel(DatabaseService(requireContext()), ciudadAVisitar)
+        scheduleViewModel = ScheduleViewModel(requireActivity().application, ciudadAVisitar)
         setCalendar()
         binding.myRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireNotNull(activity).application)
@@ -86,16 +84,16 @@ class ScheduleFragment : Fragment() {
 
     private fun goToAddActivity(actividades: List<Actividad>) {
         val intent = Intent(context, ActivitiesActivity::class.java).apply {
-            putExtra("action", ADD_ACTIVITY_CODE)
+            putExtra("action", RequestCodes.ADD_ACTIVITY_CODE)
             putExtra("ciudad", ciudadAVisitar.detalle_ciudad)
             putExtras(bundleOf("actividades" to actividades))
         }
-        startActivityForResult(intent, ADD_ACTIVITY_CODE)
+        startActivityForResult(intent, RequestCodes.ADD_ACTIVITY_CODE)
     }
 
     private fun showActivityDetails(actividadARealizar: ActividadARealizar) {
         val intent = Intent(context, ActivitiesActivity::class.java).apply {
-            putExtra("action", VIEW_ACTIVITY_DETAILS_CODE)
+            putExtra("action", RequestCodes.VIEW_ACTIVITY_DETAILS_CODE)
             putExtra("ciudad", ciudadAVisitar.detalle_ciudad)
             putExtras(bundleOf("actividad" to actividadARealizar.detalle_actividad))
         }
@@ -127,7 +125,7 @@ class ScheduleFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == ADD_ACTIVITY_CODE) {
+        if (requestCode == RequestCodes.ADD_ACTIVITY_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 val actividad: Actividad = data?.extras?.get("actividad") as Actividad
                 scheduleViewModel.addActividadToBucket(actividad)

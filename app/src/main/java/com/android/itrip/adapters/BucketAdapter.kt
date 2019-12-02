@@ -1,7 +1,6 @@
 package com.android.itrip.adapters
 
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -14,15 +13,9 @@ import com.android.itrip.R
 import com.android.itrip.databinding.BucketEmptyItemBinding
 import com.android.itrip.databinding.BucketItemBinding
 import com.android.itrip.models.ActividadARealizar
+import com.android.itrip.util.ActivityType
 import com.android.itrip.viewModels.ScheduleViewModel
-
-
-interface ActivityType {
-    companion object {
-        const val EMPTY = 0
-        const val ACTIVITY = 1
-    }
-}
+import com.squareup.picasso.Picasso
 
 class BucketAdapter(
     private val scheduleViewModel: ScheduleViewModel,
@@ -54,7 +47,6 @@ class BucketAdapter(
     override fun onBindViewHolder(holder: ActivitiesHolder, position: Int) {
         holder.bind(
             getItem(position),
-            position,
             addActivityToBucketCallback,
             showActivityDetailsCallback
         )
@@ -113,30 +105,51 @@ class BucketAdapter(
 
         fun bind(
             item: ActividadARealizar,
-            position: Int,
             addActivityToBucketCallback: (ActividadARealizar) -> Unit,
             showActivityDetailsCallback: (ActividadARealizar) -> Unit
         ) {
             when (itemViewType) {
-                ActivityType.ACTIVITY -> bindActivity(item, position, showActivityDetailsCallback)
+                ActivityType.ACTIVITY -> bindActivity(item, showActivityDetailsCallback)
                 ActivityType.EMPTY -> bindingEmpty(item, addActivityToBucketCallback)
             }
         }
 
         private fun bindActivity(
             item: ActividadARealizar,
-            position: Int,
             showActivityDetailsCallback: (ActividadARealizar) -> Unit
         ) {
             (binding as BucketItemBinding).apply {
-                if (position % 2 == 0)
-                    bucketItemConstraintLayout.setBackgroundColor(Color.LTGRAY)
-                else
-                    bucketItemConstraintLayout.setBackgroundColor(Color.WHITE)
                 actividadARealizar = item
-                bucketItemConstraintLayout.layoutParams.height =
-                    bucketItemConstraintLayout.context.resources.displayMetrics.heightPixels / 9 * item.detalle_actividad!!.duracion
-                bucketItemConstraintLayout.requestLayout()
+                var height =
+                    bucketItemConstraintLayout.context.resources.displayMetrics.heightPixels / 8 * item.detalle_actividad.duracion
+                if (item.detalle_actividad.duracion > 1) {
+                    height += 8 * item.detalle_actividad.duracion
+                    bucketItemImageView.layoutParams.height = height
+                    bucketItemImageView.requestLayout()
+                    item.detalle_actividad.imagen?.let {
+                        Picasso.get()
+                            .load(it)
+                            .resize(
+                                bucketItemConstraintLayout.context.resources.displayMetrics.widthPixels,
+                                height + item.detalle_actividad.duracion * 15
+                            )
+                            .centerCrop()
+                            .into(bucketItemImageView)
+                    }
+                } else {
+                    bucketItemImageView.layoutParams.height = height
+                    bucketItemImageView.requestLayout()
+                    item.detalle_actividad.imagen?.let {
+                        Picasso.get()
+                            .load(it)
+                            .resize(
+                                bucketItemConstraintLayout.context.resources.displayMetrics.widthPixels,
+                                height + 10
+                            )
+                            .centerCrop()
+                            .into(bucketItemImageView)
+                    }
+                }
                 bucketItemConstraintLayout.setOnClickListener { showActivityDetailsCallback(item) }
             }
         }
@@ -147,7 +160,7 @@ class BucketAdapter(
         ) {
             (binding as BucketEmptyItemBinding).bucketEmptyItemImageButton.apply {
                 layoutParams.height =
-                    context.resources.displayMetrics.heightPixels / 9 * item.detalle_actividad!!.duracion
+                    context.resources.displayMetrics.heightPixels / 8 * item.detalle_actividad.duracion
                 requestLayout()
                 setOnClickListener {
                     addActivityToBucketCallback(item)

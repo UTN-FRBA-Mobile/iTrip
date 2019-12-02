@@ -25,7 +25,8 @@ import com.squareup.picasso.Picasso
 class TravelAdapter(homeViewModel: HomeViewModel) :
     RecyclerView.Adapter<TravelAdapter.TravelHolder>() {
 
-    private var travels: MutableList<Viaje> = homeViewModel.viajes.value?.toMutableList() ?: mutableListOf()
+    private var travels: MutableList<Viaje> =
+        homeViewModel.viajes.value?.toMutableList() ?: mutableListOf()
 
     override fun onBindViewHolder(holder: TravelHolder, position: Int) {
         holder.bind(getItem(position))
@@ -60,6 +61,7 @@ class TravelAdapter(homeViewModel: HomeViewModel) :
         RecyclerView.ViewHolder(binding.root), LifecycleOwner {
         private val lifecycleRegistry = LifecycleRegistry(this)
 
+
         override fun getLifecycle(): Lifecycle {
             return lifecycleRegistry
         }
@@ -81,6 +83,13 @@ class TravelAdapter(homeViewModel: HomeViewModel) :
         }
 
         private fun setImage(viaje: Viaje) {
+//            if (!viaje.imagen.isNullOrBlank()) {
+////                binding.imageGalleryConstraintLayout.children.forEach { it.visibility = GONE }
+////                (binding.imageGalleryConstraintLayout.children.first() as ImageView).apply {
+////                    setImageURI(Uri.parse(viaje.imagen))
+////                    visibility = VISIBLE
+////                }
+//            } else {
             if (viaje.ciudades_a_visitar.isEmpty()) {
                 binding.imageGalleryConstraintLayout.children.forEach { it.visibility = GONE }
                 (binding.imageGalleryConstraintLayout.children.first() as ImageView).visibility =
@@ -103,6 +112,7 @@ class TravelAdapter(homeViewModel: HomeViewModel) :
                     }
                 }
             }
+//            }
         }
     }
 

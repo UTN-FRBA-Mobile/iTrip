@@ -1,25 +1,21 @@
 package com.android.itrip.services
 
-import android.app.Service
-import android.content.Intent
-import android.os.IBinder
+import com.android.itrip.util.ApiError
+import com.android.itrip.util.VolleyClient
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GetTokenResult
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.logging.Logger
+import javax.inject.Inject
 
+class AuthenticationService @Inject constructor(queue: VolleyClient) : ApiService(queue) {
 
-object AuthenticationService : Service() {
-
-    private var refreshToken: String = ""
-    var accessToken: String = ""
-    private val logger = Logger.getLogger(this::class.java.name)
-
-
-    override fun onBind(intent: Intent?): IBinder? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    companion object {
+        var refreshToken = ""
+            private set
+        var accessToken = ""
+            private set
     }
 
     private fun validateFirebaseToken(
@@ -29,11 +25,9 @@ object AuthenticationService : Service() {
     ) {
         val url = "firebase/"
         val json = JSONObject().put("token", paramToken)
-        ApiService.post(url, json, {
+        post(url, json, {
             refreshToken = it.getString("refresh")
             accessToken = it.getString("access")
-            logger.info("Access token: "+ accessToken)
-            logger.info(accessToken)
             responseHandler()
         }, errorHandler)
     }
