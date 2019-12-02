@@ -11,7 +11,7 @@ import com.android.itrip.models.Ciudad
 
 @Database(
     entities = [Actividad::class, Categoria::class, ActividadCategoria::class, Ciudad::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class ITripDatabase : RoomDatabase() {
