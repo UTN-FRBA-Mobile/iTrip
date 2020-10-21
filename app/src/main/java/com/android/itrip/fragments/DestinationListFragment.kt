@@ -29,7 +29,7 @@ import com.android.itrip.models.Actividad
 import com.android.itrip.models.Ciudad
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.models.Viaje
-import com.android.itrip.util.RequestCodes
+import com.android.itrip.services.DatabaseService
 import com.android.itrip.viewModels.DestinationViewModel
 import com.android.itrip.viewModels.DestinationViewModelFactory
 import com.transitionseverywhere.ChangeText

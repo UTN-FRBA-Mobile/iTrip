@@ -79,8 +79,7 @@ class DestinationViewModel(
                     "Hubo un problema, intente de nuevo"
                 }
             }
-            toaster.shortToastMessage(message)
-            callbackError()
+            callbackError(message)
         })
     }
 
