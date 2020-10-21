@@ -59,7 +59,7 @@ class DestinationViewModel(
         viaje: Viaje,
         ciudad: Ciudad,
         callback: (CiudadAVisitar) -> Unit,
-        callbackError: (String) -> Unit
+        callbackError: () -> Unit
     ) {
         ciudadAVisitar.detalle_ciudad = ciudad
         travelService.postDestination(viaje, ciudadAVisitar, {

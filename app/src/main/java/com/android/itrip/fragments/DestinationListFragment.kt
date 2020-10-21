@@ -188,9 +188,8 @@ class DestinationListFragment : Fragment() {
                 // after 1 sec of delay go to destination schedule view
                 Handler().postDelayed({ goToTrip(it) }, 1500)
             }, 1000)
-        }, { message ->
-            showDuringText = false
-            progressText.text = message
+        }, {
+            progressText.text = getString(R.string.progressbar_failure)
             progressBar.visibility = View.GONE
             // enable screen even if request fails
             AppWindowManager.enableScreen(activity!!)
