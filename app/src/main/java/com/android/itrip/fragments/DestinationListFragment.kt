@@ -29,7 +29,7 @@ import com.android.itrip.models.Actividad
 import com.android.itrip.models.Ciudad
 import com.android.itrip.models.CiudadAVisitar
 import com.android.itrip.models.Viaje
-import com.android.itrip.util.RequestCodes
+import com.android.itrip.services.DatabaseService
 import com.android.itrip.viewModels.DestinationViewModel
 import com.android.itrip.viewModels.DestinationViewModelFactory
 import com.transitionseverywhere.ChangeText
@@ -188,8 +188,9 @@ class DestinationListFragment : Fragment() {
                 // after 1 sec of delay go to destination schedule view
                 Handler().postDelayed({ goToTrip(it) }, 1500)
             }, 1000)
-        }, {
-            progressText.text = getString(R.string.progressbar_failure)
+        }, { message ->
+            showDuringText = false
+            progressText.text = message
             progressBar.visibility = View.GONE
             // enable screen even if request fails
             AppWindowManager.enableScreen(activity!!)
